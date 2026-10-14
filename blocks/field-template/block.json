@@ -1,0 +1,51 @@
+{
+  "apiVersion": 3,
+  "title": "Шаблон всех полей",
+  "name": "my-theme/field-template",
+  "category": "tolstenko-general",
+  "icon": "editor-table",
+  "description": "Эталонный пример гутенберг-блока со всеми типами полей: чекбокс, текстовое поле, текстовая область, редактор, изображение и повторитель.",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": true
+  },
+  "attributes": {
+    "enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "text_field": {
+      "type": "string",
+      "default": ""
+    },
+    "textarea_field": {
+      "type": "string",
+      "default": ""
+    },
+    "editor_field": {
+      "type": "string",
+      "default": ""
+    },
+    "image_id": {
+      "type": "number",
+      "default": 0
+    },
+    "post_ids": {
+      "type": "array",
+      "default": []
+    },
+    "single_post_id": {
+      "type": "number",
+      "default": 0
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

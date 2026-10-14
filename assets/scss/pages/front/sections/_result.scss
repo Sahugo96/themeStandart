@@ -1,0 +1,138 @@
+.result {
+  --result-line: var(--beige-line-color, #ebe7df);
+  --result-border: var(--gray-30-color, #dcd7cd);
+
+  &__top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    grid-gap: vw(20px, $mobile);
+    margin-bottom: vw(30px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(24px, $desktop);
+      margin-bottom: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(24px, $desktop_large);
+      margin-bottom: vw(40px, $desktop_large);
+    }
+  }
+
+  &__panel {
+    padding: vw(20px, $mobile);
+    background-color: var(--white-opa-50-color);
+    @media (min-width: $desk) {
+      padding: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(20px, $desktop_large);
+    }
+  }
+
+  // На десктопе Splide уничтожается (см. resultSplideInit.js), список становится сеткой.
+  // !important нужен, чтобы перебить display из splide-core.min.css.
+  &__splide-list {
+    @media (min-width: $desk) {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+    }
+  }
+
+  &__item {
+    padding: vw(20px, $mobile);
+    background-color: var(--white-color);
+    @media (min-width: $desk) {
+      padding: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(20px, $desktop_large);
+    }
+  }
+
+  &__item-head {
+    display: flex;
+    align-items: center;
+    grid-gap: vw(10px, $mobile);
+    padding-bottom: vw(20px, $mobile);
+    border-bottom: 1px solid var(--result-line);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+      padding-bottom: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+      padding-bottom: vw(20px, $desktop_large);
+    }
+  }
+
+  &__item-icon {
+    max-width: vw(24px, $mobile);
+    min-width: vw(24px, $mobile);
+    height: auto;
+    aspect-ratio: 1/1;
+    fill: none;
+    stroke: var(--accent-color);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    @media (min-width: $desk) {
+      max-width: vw(30px, $desktop);
+      min-width: vw(30px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      max-width: vw(30px, $desktop_large);
+      min-width: vw(30px, $desktop_large);
+    }
+  }
+
+  &__item-title {
+    color: var(--main-text-color);
+  }
+
+  &__item-text {
+    margin-top: vw(15px, $mobile);
+    opacity: .65;
+    color: var(--main-text-color);
+    @media (min-width: $desk) {
+      margin-top: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(20px, $desktop_large);
+    }
+  }
+
+  // Точки слайдера (только мобильная версия)
+  .splide__bottom {
+    display: flex;
+    justify-content: center;
+    margin-top: vw(15px, $mobile);
+    @media (min-width: $desk) {
+      display: none;
+    }
+  }
+
+  .splide__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-gap: vw(8px, $mobile);
+  }
+
+  .splide__pagination__page {
+    width: vw(8px, $mobile);
+    height: vw(8px, $mobile);
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background-color: var(--result-border);
+    transition: all 0.3s linear;
+    &.is-active {
+      width: vw(20px, $mobile);
+      background-color: var(--accent-color);
+    }
+  }
+}

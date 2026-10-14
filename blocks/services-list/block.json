@@ -1,0 +1,17 @@
+{
+  "apiVersion": 3,
+  "title": "Список услуг",
+  "name": "my-theme/services-list",
+  "category": "tolstenko-services",
+  "icon": "portfolio",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {},
+  "render": "file:./template.php"
+}

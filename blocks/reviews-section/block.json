@@ -1,0 +1,26 @@
+{
+  "apiVersion": 3,
+  "title": "Отзывы (секция)",
+  "name": "my-theme/reviews-section",
+  "category": "tolstenko-reviews",
+  "icon": "format-quote",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "postIds": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

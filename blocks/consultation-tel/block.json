@@ -1,0 +1,17 @@
+{
+  "apiVersion": 3,
+  "title": "Подходящий вариант",
+  "name": "my-theme/consultation-tel",
+  "category": "tolstenko-general",
+  "icon": "phone",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": true
+  },
+  "attributes": {},
+  "render": "file:./template.php"
+}

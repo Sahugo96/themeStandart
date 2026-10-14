@@ -1,0 +1,17 @@
+{
+  "apiVersion": 3,
+  "title": "Hero услуг",
+  "name": "my-theme/services-hero",
+  "category": "tolstenko-services",
+  "icon": "cover-image",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {},
+  "render": "file:./template.php"
+}

@@ -1,0 +1,18 @@
+{
+  "apiVersion": 3,
+  "title": "Скрытый блок",
+  "name": "my-theme/hidden-block",
+  "category": "tolstenko-general",
+  "icon": "hidden",
+  "description": "SEO-текст, скрытый на сайте от посетителей",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": true
+  },
+  "attributes": {},
+  "render": "file:./template.php"
+}

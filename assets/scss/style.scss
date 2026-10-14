@@ -1,0 +1,90 @@
+@import './common/vars';
+@import './common/fonts';
+@import './functions';
+@import './common/nullstyle';
+@import './common/general';
+
+
+@import './common/header'; // + +
+@import './common/footer'; // + +
+
+//Модули
+// @import './modules/breadcrumb'; // + +
+// @import './modules/socials'; // + +
+@import './modules/border-card'; // + +
+// @import './modules/modal'; // + +
+// @import './modules/video'; // + +
+// @import './modules/more'; // + +
+// @import './modules/tabs'; // + +
+// @import './modules/stats'; // + +
+// @import './modules/header-services-panel'; // + +
+
+@import './modules/redactor'; // +
+@import './modules/splide'; // - +
+@import './modules/form'; // + +
+
+@import './modules/tg-block'; // + +
+@import './modules/blockquote'; // + +
+@import './modules/blog-section-audit-btn'; // + +
+@import './modules/pagination'; // +
+@import './modules/blog-card'; // + +
+@import './modules/service-card'; // + +
+
+@import './modules/filter'; // - +
+@import './modules/anim'; // - +
+@import './modules/blog-section'; // - +
+@import './modules/service-section'; // - +
+
+
+@import './modules/cookie'; // - +
+
+
+
+
+@import './pages/front/sections/hero'; // + +
+
+
+@import './pages/front/sections/compare'; // + -
+@import './pages/front/sections/result'; // + -
+@import './pages/front/sections/why-us'; // + -
+@import './pages/front/sections/infra'; // + -
+@import './pages/front/sections/about'; // + -
+@import './pages/front/sections/guide'; // + -
+@import './pages/front/sections/consult'; // + -
+
+
+@import './pages/front/sections/consultation-tel'; // + +
+@import './pages/front/sections/consultation-tg'; // + +
+@import './pages/front/sections/team'; // + +
+@import './pages/front/sections/partners'; // + +
+@import './pages/front/sections/documents'; // + +
+@import './pages/front/sections/faq'; // + +
+@import './pages/front/sections/reviews'; // + +
+@import './pages/front/sections/consultation-free'; // + +
+
+
+
+
+
+@import './pages/services/sections/services'; // - +
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@import './pages/404/sections/error'; // + +
+
+
+
+
+@import './pages/single-blog/single-blog'; // -
+

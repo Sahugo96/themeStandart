@@ -1,0 +1,26 @@
+{
+  "apiVersion": 3,
+  "title": "Секция статей",
+  "name": "my-theme/blog-section",
+  "category": "tolstenko-blog",
+  "icon": "admin-post",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}

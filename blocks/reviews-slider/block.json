@@ -1,0 +1,26 @@
+{
+  "apiVersion": 3,
+  "title": "Слайдер отзывов",
+  "name": "my-theme/reviews-slider",
+  "category": "tolstenko-reviews",
+  "icon": "slides",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "postIds": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

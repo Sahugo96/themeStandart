@@ -1,0 +1,17 @@
+{
+  "apiVersion": 3,
+  "title": "Документы",
+  "name": "my-theme/documents",
+  "category": "tolstenko-general",
+  "icon": "awards",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": true
+  },
+  "attributes": {},
+  "render": "file:./template.php"
+}

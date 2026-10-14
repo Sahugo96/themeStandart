@@ -1,0 +1,17 @@
+{
+  "apiVersion": 3,
+  "title": "Калькулятор услуг",
+  "name": "my-theme/services-calc",
+  "category": "tolstenko-services",
+  "icon": "calculator",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {},
+  "render": "file:./template.php"
+}

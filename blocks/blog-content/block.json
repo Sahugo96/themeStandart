@@ -1,0 +1,17 @@
+{
+  "apiVersion": 3,
+  "title": "Контент статьи",
+  "name": "my-theme/blog-content",
+  "category": "tolstenko-blog",
+  "icon": "text-page",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {},
+  "render": "file:./template.php"
+}

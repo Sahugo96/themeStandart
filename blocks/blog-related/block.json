@@ -1,0 +1,26 @@
+{
+  "apiVersion": 3,
+  "title": "Похожие статьи",
+  "name": "my-theme/blog-related",
+  "category": "tolstenko-blog",
+  "icon": "admin-post",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "postIds": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

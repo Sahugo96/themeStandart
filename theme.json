@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "layout": {
+      "contentSize": "1280px",
+      "wideSize": "1550px"
+    },
+    "color": {
+      "palette": [
+        { "slug": "white", "color": "#FFFFFF", "name": "White" },
+        { "slug": "black", "color": "#000000", "name": "Black" },
+        { "slug": "gray-5", "color": "#0D0D0D", "name": "Gray 5" },
+        { "slug": "gray-10", "color": "#1A1A1A", "name": "Gray 10" },
+        { "slug": "gray-20", "color": "#343434", "name": "Gray 20" },
+        { "slug": "gray-50", "color": "#7F7F7F", "name": "Gray 50" },
+        { "slug": "gray-90", "color": "#E6E6E6", "name": "Gray 90" },
+        { "slug": "brand-red", "color": "#AE1730", "name": "Brand Red" },
+        { "slug": "brand-red-bright", "color": "#FF2146", "name": "Brand Red Bright" },
+        { "slug": "brand-yellow", "color": "#FACA64", "name": "Brand Yellow" },
+        { "slug": "brand-yellow-dark", "color": "#F7A800", "name": "Brand Yellow Dark" },
+        { "slug": "whatsapp", "color": "#2CB742", "name": "WhatsApp" },
+        { "slug": "telegram", "color": "#2AABEE", "name": "Telegram" }
+      ]
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "fontFamily": "Montserrat, sans-serif",
+          "name": "Montserrat",
+          "slug": "montserrat"
+        }
+      ],
+      "fontSizes": [
+        { "slug": "small", "size": "13px", "name": "Small" },
+        { "slug": "medium", "size": "15px", "name": "Medium" },
+        { "slug": "large", "size": "20px", "name": "Large" },
+        { "slug": "x-large", "size": "25px", "name": "Extra Large" }
+      ]
+    },
+    "spacing": {
+      "units": ["px", "em", "rem", "vw", "%"]
+    }
+  }
+}

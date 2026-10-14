@@ -1,0 +1,85 @@
+.why-us {
+
+  &__items {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: vw(10px, $mobile);
+    padding: vw(10px, $mobile);
+    background-color: var(--dark-bg-plank-color);
+    // margin-bottom: vw(40px, $mobile);
+    @media (min-width: $desk) {
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: vw(20px, $desktop);
+      padding: vw(20px, $desktop);
+      // margin-bottom: vw(100px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+      padding: vw(20px, $desktop_large);
+      // margin-bottom: vw(100px, $desktop_large);
+    }
+  }
+
+  &__item {
+    padding: vw(20px, $mobile);
+    background-color: var(--dark-bg-stoke-color);
+    @media (min-width: $desk) {
+      padding: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(20px, $desktop_large);
+    }
+  }
+
+  &__item-head {
+    display: flex;
+    align-items: center;
+    grid-gap: vw(10px, $mobile);
+    padding-bottom: vw(20px, $mobile);
+    border-bottom: 1px solid var(--badge-color);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+      padding-bottom: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+      padding-bottom: vw(20px, $desktop_large);
+    }
+  }
+
+  &__item-icon {
+    max-width: vw(24px, $mobile);
+    min-width: vw(24px, $mobile);
+    height: auto;
+    aspect-ratio: 1/1;
+    fill: none;
+    stroke: var(--accent-color);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    @media (min-width: $desk) {
+      max-width: vw(30px, $desktop);
+      min-width: vw(30px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      max-width: vw(30px, $desktop_large);
+      min-width: vw(30px, $desktop_large);
+    }
+  }
+
+  &__item-title {
+    color: var(--light-bg-color);
+  }
+
+  &__item-text {
+    margin-top: vw(15px, $mobile);
+    color: var(--light-bg-color);
+    opacity: .65;
+    @media (min-width: $desk) {
+      margin-top: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(20px, $desktop_large);
+    }
+  }
+}

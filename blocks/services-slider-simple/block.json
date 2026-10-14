@@ -1,0 +1,30 @@
+{
+  "apiVersion": 3,
+  "title": "Слайдер услуг (без фильтра)",
+  "name": "my-theme/services-slider-simple",
+  "category": "tolstenko-services",
+  "icon": "slides",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "postIds": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

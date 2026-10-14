@@ -1,0 +1,18 @@
+// Кнопка «Бесплатный аудит» в сайдбаре блога (ведёт в модальное окно).
+// Вынесена из секции бесплатного аудита: использует ту же геометрию кнопки,
+// но существует независимо.
+.blog-section__audit-btn {
+  height: vw(45px, $mobile);
+  font-size: vw(15px, $mobile);
+  letter-spacing: -4%;
+  @media (min-width: $desk) {
+    height: vw(45px, $desktop);
+    max-width: vw(263px, $desktop);
+    font-size: vw(15px, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    height: vw(45px, $desktop_large);
+    max-width: vw(263px, $desktop_large);
+    font-size: vw(15px, $desktop_large);
+  }
+}

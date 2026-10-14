@@ -1,0 +1,258 @@
+.consult {
+  --consult-bg: var(--beige-color, #f2efe8);
+  --consult-gold: var(--gold-color, #b8996a);
+  --consult-dark: var(--dark-color, #1a2027);
+  --consult-text: var(--gray-60-color, #8a8d90);
+  --consult-border: var(--gray-30-color, #e6e0d5);
+  --consult-check: var(--gray-40-color, #bdb8ae);
+
+  margin: 0 vw(10px, $mobile);
+  padding: vw(20px, $mobile);
+  border-radius: vw(24px, $mobile);
+  background-color: var(--consult-bg);
+  @media (min-width: $desk) {
+    margin: 0 vw(30px, $desktop);
+    padding: vw(100px, $desktop) 0;
+    border-radius: vw(40px, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    margin: 0 vw(30px, $desktop_large);
+    padding: vw(100px, $desktop_large) 0;
+    border-radius: vw(40px, $desktop_large);
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(24px, $mobile);
+    @media (min-width: $desk) {
+      display: grid;
+      grid-template-columns: 1fr vw(490px, $desktop);
+      grid-gap: vw(150px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-template-columns: 1fr vw(490px, $desktop_large);
+      grid-gap: vw(150px, $desktop_large);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__title {
+    margin-top: vw(16px, $mobile);
+    color: var(--consult-dark);
+    @media (min-width: $desk) {
+      margin-top: vw(18px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(18px, $desktop_large);
+    }
+  }
+
+  &__title-accent {
+    color: var(--consult-gold);
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(10px, $mobile);
+    margin-top: vw(16px, $mobile);
+    font-size: vw(14px, $mobile);
+    line-height: 1.55;
+    color: var(--consult-text);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+      margin-top: vw(20px, $desktop);
+      font-size: vw(16px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+      margin-top: vw(20px, $desktop_large);
+      font-size: vw(16px, $desktop_large);
+    }
+    a {
+      color: inherit;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(10px, $mobile);
+    width: 100%;
+    margin-top: vw(24px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+      margin-top: auto;
+      padding-top: vw(60px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+      padding-top: vw(60px, $desktop_large);
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(10px, $mobile);
+    margin-bottom: vw(4px, $mobile);
+    @media (min-width: $desk) {
+      flex-direction: row;
+      grid-gap: 0;
+      margin-bottom: vw(6px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-bottom: vw(6px, $desktop_large);
+    }
+  }
+
+  &__input {
+    width: 100%;
+    padding: vw(16px, $mobile) vw(20px, $mobile);
+    border: 1px solid var(--consult-border);
+    border-radius: 999px;
+    font-size: vw(14px, $mobile);
+    line-height: 1.2;
+    color: var(--consult-dark);
+    background-color: var(--white-color);
+    outline: none;
+    transition: border-color 0.3s linear;
+    &::placeholder {
+      color: var(--consult-text);
+    }
+    &:focus {
+      border-color: var(--consult-gold);
+    }
+    @media (min-width: $desk) {
+      padding: vw(16px, $desktop) vw(20px, $desktop);
+      font-size: vw(14px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(16px, $desktop_large) vw(20px, $desktop_large);
+      font-size: vw(14px, $desktop_large);
+    }
+  }
+
+  &__submit {
+    position: relative;
+    flex: none;
+    padding: vw(18px, $mobile) vw(20px, $mobile);
+    border: 0;
+    border-radius: 999px;
+    font-weight: 500;
+    font-size: vw(13px, $mobile);
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--white-color);
+    background-color: var(--consult-gold);
+    cursor: pointer;
+    transition: all 0.3s linear;
+    @media (min-width: $desk) {
+      margin-left: vw(-30px, $desktop);
+      padding: vw(17px, $desktop) vw(20px, $desktop);
+      font-size: vw(14px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-left: vw(-30px, $desktop_large);
+      padding: vw(17px, $desktop_large) vw(20px, $desktop_large);
+      font-size: vw(14px, $desktop_large);
+    }
+    @media (any-hover: hover) {
+      &:hover {
+        background-color: var(--consult-dark);
+      }
+    }
+  }
+
+  &__check {
+    display: flex;
+    align-items: center;
+    grid-gap: vw(8px, $mobile);
+    cursor: pointer;
+    @media (min-width: $desk) {
+      grid-gap: vw(8px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(8px, $desktop_large);
+    }
+  }
+
+  &__check-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__check-box {
+    flex: none;
+    width: vw(14px, $mobile);
+    height: vw(14px, $mobile);
+    border: 1px solid var(--consult-border);
+    border-radius: vw(3px, $mobile);
+    background-color: var(--white-color);
+    transition: all 0.3s linear;
+    @media (min-width: $desk) {
+      width: vw(14px, $desktop);
+      height: vw(14px, $desktop);
+      border-radius: vw(3px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      width: vw(14px, $desktop_large);
+      height: vw(14px, $desktop_large);
+      border-radius: vw(3px, $desktop_large);
+    }
+  }
+
+  &__check-input:checked + &__check-box {
+    border-color: var(--consult-check);
+    background-color: var(--consult-check);
+  }
+
+  &__check-input:focus-visible + &__check-box {
+    outline: 2px solid var(--consult-gold);
+    outline-offset: 2px;
+  }
+
+  &__check-text {
+    font-size: vw(11px, $mobile);
+    line-height: 1.3;
+    color: var(--consult-text);
+    @media (min-width: $desk) {
+      font-size: vw(11px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(11px, $desktop_large);
+    }
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    aspect-ratio: 490/440;
+    border-radius: vw(20px, $mobile);
+    overflow: hidden;
+    @media (min-width: $desk) {
+      border-radius: vw(32px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      border-radius: vw(32px, $desktop_large);
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+  }
+}

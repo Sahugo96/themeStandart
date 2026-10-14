@@ -1,0 +1,17 @@
+{
+  "apiVersion": 3,
+  "title": "Архив блога",
+  "name": "my-theme/blog-archive",
+  "category": "tolstenko-blog",
+  "icon": "admin-post",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {},
+  "render": "file:./template.php"
+}

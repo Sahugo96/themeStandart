@@ -1,0 +1,26 @@
+{
+  "apiVersion": 3,
+  "title": "Архив услуг",
+  "name": "my-theme/service-section",
+  "category": "tolstenko-services",
+  "icon": "admin-page",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}

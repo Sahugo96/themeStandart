@@ -1,0 +1,30 @@
+{
+  "apiVersion": 3,
+  "title": "FAQ Аккордеон",
+  "name": "my-theme/faq",
+  "category": "tolstenko-general",
+  "icon": "list-view",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}
