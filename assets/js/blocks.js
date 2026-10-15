@@ -516,4 +516,144 @@
       return null;
     },
   });
+
+  // Эталонный блок «Шаблон всех полей»: демонстрирует все типы полей.
+  // Атрибуты image_id / post_ids / single_post_id — числовые/массивы id,
+  // поэтому imageField адаптируется под число вручную.
+  function fieldTemplateImageUrl(id) {
+    try {
+      if (id && window.wp && wp.data && wp.data.select) {
+        var att = wp.data.select('core').getEntityRecord('postType', 'attachment', id);
+        if (att && att.source_url) {
+          return att.source_url;
+        }
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  registerBlockType('my-theme/field-template', {
+    apiVersion: 3,
+    title: 'Шаблон всех полей',
+    category: 'tolstenko-general',
+    icon: 'editor-table',
+    edit: function (props) {
+      var attributes = props.attributes;
+      var setAttributes = props.setAttributes;
+      var items = Array.isArray(attributes.items) ? attributes.items : [];
+      var postIds = Array.isArray(attributes.post_ids) ? attributes.post_ids : [];
+      var imageId = parseInt(attributes.image_id, 10) || 0;
+      var postCatalog = (defaults.posts && defaults.posts.blog) || [];
+      var blockProps = useBlockProps({
+        className: 'theme-block theme-block--field-template',
+        style: controls.blockShell(colors.accent),
+      });
+
+      return el(
+        'div',
+        blockProps,
+        controls.blockTitle('Шаблон всех полей', colors.accent),
+        controls.toggleField({
+          label: 'Включить / показывать блок (чекбокс)',
+          help: 'Если выключено — блок не выводится',
+          value: !!attributes.enabled,
+          onChange: function (value) {
+            setAttributes({ enabled: value });
+          },
+        }),
+        controls.textField({
+          label: 'Текстовое поле',
+          value: attributes.text_field || '',
+          onChange: function (value) {
+            setAttributes({ text_field: value });
+          },
+        }),
+        controls.textareaField({
+          label: 'Текстовая область',
+          value: attributes.textarea_field || '',
+          onChange: function (value) {
+            setAttributes({ textarea_field: value });
+          },
+        }),
+        controls.textareaField({
+          label: 'Редактор (HTML / rich text)',
+          help: 'На сайте выводится через wp_kses_post',
+          value: attributes.editor_field || '',
+          onChange: function (value) {
+            setAttributes({ editor_field: value });
+          },
+        }),
+        controls.imageField({
+          label: 'Изображение',
+          value: { id: imageId, url: fieldTemplateImageUrl(imageId), alt: '' },
+          onChange: function (media) {
+            setAttributes({ image_id: media && media.id ? parseInt(media.id, 10) : 0 });
+          },
+        }),
+        controls.repeaterField({
+          label: 'Повторитель',
+          help: items.length ? '' : 'Пусто — берётся из настроек темы',
+          items: items,
+          keyPrefix: 'field-template-item',
+          itemLabel: 'Пункт',
+          addLabel: 'Добавить пункт',
+          createItem: function () {
+            return { title: '', text: '' };
+          },
+          onChange: function (nextItems) {
+            setAttributes({ items: nextItems });
+          },
+          renderItem: function (item, index, updateItem, removeItem) {
+            return el(
+              'div',
+              null,
+              controls.textField({
+                label: 'Заголовок',
+                value: item.title || '',
+                onChange: function (value) {
+                  updateItem(Object.assign({}, item, { title: value }));
+                },
+              }),
+              controls.textareaField({
+                label: 'Текст',
+                value: item.text || '',
+                onChange: function (value) {
+                  updateItem(Object.assign({}, item, { text: value }));
+                },
+              }),
+              el(
+                wp.components.Button,
+                { isDestructive: true, variant: 'secondary', onClick: removeItem },
+                'Удалить'
+              )
+            );
+          },
+        }),
+        controls.postsField({
+          label: 'Множественный выбор записей',
+          help: postIds.length ? 'Порядок — как добавляли записи' : 'Пусто — все записи',
+          postIds: postIds,
+          catalog: postCatalog,
+          placeholder: 'Начните вводить название статьи…',
+          onChange: function (value) {
+            setAttributes({ post_ids: value });
+          },
+        }),
+        controls.textField({
+          label: 'Одна запись (ID)',
+          help: 'ID записи или 0',
+          value: attributes.single_post_id ? String(attributes.single_post_id) : '',
+          onChange: function (value) {
+            setAttributes({ single_post_id: parseInt(value, 10) || 0 });
+          },
+        }),
+        controls.blockHint('Эталонный блок: чекбокс, текст, область, редактор, изображение, повторитель, записи')
+      );
+    },
+    save: function () {
+      return null;
+    },
+  });
+
+
 })(window.wp);
