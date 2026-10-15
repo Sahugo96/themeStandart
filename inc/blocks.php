@@ -53,11 +53,7 @@ function theme_get_block_category_map(): array
         'about'                  => 'tolstenko-general',
         'guide'                  => 'tolstenko-general',
         'consult'                => 'tolstenko-general',
-        'consultation-tel'       => 'tolstenko-general',
-        'consultation-tg'        => 'tolstenko-general',
-        'partners'               => 'tolstenko-general',
         'documents'           => 'tolstenko-general',
-        'team'                   => 'tolstenko-general',
         'faq'                    => 'tolstenko-general',
         'field-template'         => 'tolstenko-general',
         'free-consultation'      => 'tolstenko-general',
@@ -201,10 +197,8 @@ add_filter('render_block', 'theme_wrap_non_theme_blocks_in_container', 10, 2);
 function theme_get_service_single_block_template(): array
 {
     return [
-        ['my-theme/consultation-tel'],
         ['my-theme/faq'],
         ['my-theme/reviews-section'],
-        ['my-theme/free-consultation'],
     ];
 }
 
@@ -215,7 +209,6 @@ function theme_get_blog_single_block_template(): array
         ['my-theme/services-slider-simple'],
         ['my-theme/faq'],
         ['my-theme/blog-related'],
-        ['my-theme/free-consultation'],
     ];
 }
 
@@ -224,7 +217,6 @@ function theme_get_reviews_page_block_template(): array
     return [
         ['my-theme/reviews-section'],
         ['my-theme/faq'],
-        ['my-theme/free-consultation'],
     ];
 }
 
@@ -238,13 +230,10 @@ function theme_get_service_archive_block_template(): array
 {
     return [
         ['my-theme/service-section'],
-        ['my-theme/consultation-tel'],
-        ['my-theme/team'],
         ['my-theme/documents'],
         ['my-theme/reviews-section'],
         ['my-theme/blog-section'],
         ['my-theme/faq'],
-        ['my-theme/free-consultation'],
     ];
 }
 
@@ -258,7 +247,6 @@ function theme_get_blog_archive_block_template(): array
     return [
         ['my-theme/blog-archive'],
         ['my-theme/faq'],
-        ['my-theme/free-consultation'],
     ];
 }
 
@@ -277,16 +265,11 @@ function theme_get_front_page_block_template(): array
         ['my-theme/about'],
         ['my-theme/guide'],
         ['my-theme/consult'],
-        ['my-theme/consultation-tel'],
-        ['my-theme/consultation-tg'],
-        ['my-theme/partners'],
         ['my-theme/documents'],
-        ['my-theme/team'],
         ['my-theme/blog-section'],
         ['my-theme/service-section'],
         ['my-theme/faq'],
         ['my-theme/reviews-section'],
-        ['my-theme/free-consultation'],
     ];
 }
 

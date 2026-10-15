@@ -114,45 +114,6 @@ function tolstenko_block_defaults_schema() {
 			'btn'     => 'Получить консультацию',
 			'btn_url' => '',
 		),
-		'consultation_tg' => array(
-			'title'       => 'Консультация в Telegram',
-			'text'        => 'Быстрые ответы и удобное общение в мессенджере.',
-			'btn_text'    => 'Написать в Telegram',
-			'btn_url'     => '',
-			'text_btn'    => 'Обычно отвечаем в течение 15 минут',
-			'color'       => '#2AABEE',
-			'color_hover' => '#229ED9',
-			'image'       => 0,
-		),
-		'consultation_tel' => array(
-			'title'             => 'Позвоните нам — расскажем всё по телефону',
-			'message'           => 'Здравствуйте! Готовы ответить на ваши вопросы и помочь с выбором.',
-			'position'          => 'Менеджер по работе с клиентами',
-			'btn_tel_text'      => 'Позвонить',
-			'btn_messenger_text'=> 'Написать в Telegram',
-			'btn_messenger_url' => '',
-			'color'             => '#25D366',
-			'color_hover'       => '#1EBE57',
-			'image'             => 0,
-			'phone'             => '',
-		),
-		'consultation_free' => array(
-			'title'          => 'Бесплатная консультация',
-			'text'           => 'Оставьте заявку — перезвоним и ответим на вопросы.',
-			'subtitle'       => 'Заполните форму',
-			'contacts_label' => 'Или свяжитесь с нами:',
-			'image'          => 0,
-			'phone'          => '',
-			'telegram_url'   => '',
-			'whatsapp_url'   => '',
-			'vk_url'         => '',
-		),
-		'partners' => array(
-			'subtitle' => '',
-			'title' => 'Наши партнёры',
-			'text'  => 'Компании, с которыми мы успешно сотрудничаем.',
-			'items' => array(),
-		),
 		'strategy' => array(
 			'section_subtitle' => '',
 			'title'          => 'Стратегия роста',
@@ -173,12 +134,6 @@ function tolstenko_block_defaults_schema() {
 			'telegram_text'  => 'Написать в TG',
 			'image'          => 0,
 			'image_mob'      => 0,
-		),
-		'team_cards' => array(
-			'subtitle' => '',
-			'title' => 'Наша команда',
-			'text'  => 'Специалисты, которые ведут ваши проекты.',
-			'items' => array(),
 		),
 		'author' => array(
 			'name'            => '',
@@ -1129,13 +1084,8 @@ function tolstenko_render_block_defaults_admin_page() {
 			<div class="tolstenko-df-tabs-group-title"><?php esc_html_e( 'Основные блоки', 'tolstenko-theme' ); ?></div>
 			<div class="tolstenko-df-tabs">
 				<button type="button" class="tolstenko-df-tab active" data-panel="main_hero" data-group="main"><?php esc_html_e( 'Главный баннер', 'tolstenko-theme' ); ?></button>
-				<button type="button" class="tolstenko-df-tab" data-panel="consultation_tel" data-group="main"><?php esc_html_e( 'Консультация tel', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="actions" data-group="main"><?php esc_html_e( 'Акции, бонусы', 'tolstenko-theme' ); ?></button>
-				<button type="button" class="tolstenko-df-tab" data-panel="consultation_tg" data-group="main"><?php esc_html_e( 'Консультация TG', 'tolstenko-theme' ); ?></button>
-				<button type="button" class="tolstenko-df-tab" data-panel="team_cards" data-group="main"><?php esc_html_e( 'Команда', 'tolstenko-theme' ); ?></button>
-				<button type="button" class="tolstenko-df-tab" data-panel="partners" data-group="main"><?php esc_html_e( 'Партнёры', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="documents" data-group="main"><?php esc_html_e( 'Документы', 'tolstenko-theme' ); ?></button>
-				<button type="button" class="tolstenko-df-tab" data-panel="consultation_free" data-group="main"><?php esc_html_e( 'Бесплатная консультация', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="faq" data-group="main"><?php esc_html_e( 'FAQ', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="field_template" data-group="main"><?php esc_html_e( 'Шаблон всех полей', 'tolstenko-theme' ); ?></button>
 			</div>
@@ -1352,87 +1302,7 @@ function tolstenko_render_block_defaults_admin_page() {
 			</div>
 		</div>
 
-		<?php
-		$ctg = $all['consultation_tg'] ?? array();
-		$ctel = $all['consultation_tel'] ?? array();
-		$cfree = $all['consultation_free'] ?? array();
-		$ctg_img_id = isset( $ctg['image'] ) ? (int) $ctg['image'] : 0;
-		$ctg_img_url = $ctg_img_id ? wp_get_attachment_image_url( $ctg_img_id, 'medium' ) : '';
-		$ctel_img_id = isset( $ctel['image'] ) ? (int) $ctel['image'] : 0;
-		$ctel_img_url = $ctel_img_id ? wp_get_attachment_image_url( $ctel_img_id, 'medium' ) : '';
-		$cfree_img_id = isset( $cfree['image'] ) ? (int) $cfree['image'] : 0;
-		$cfree_img_url = $cfree_img_id ? wp_get_attachment_image_url( $cfree_img_id, 'medium' ) : '';
-		?>
 
-		<div class="tolstenko-df-panel" data-panel="consultation_tg" data-group="main">
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_tg][title]" value="<?php echo esc_attr( $ctg['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок"></div>
-			<div class="row"><textarea name="tolstenko_block_defaults[consultation_tg][text]" rows="3" placeholder="Текст"><?php echo esc_textarea( $ctg['text'] ?? '' ); ?></textarea></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_tg][btn_text]" value="<?php echo esc_attr( $ctg['btn_text'] ?? '' ); ?>" style="width:100%" placeholder="Текст кнопки"></div>
-			<div class="row"><input type="url" name="tolstenko_block_defaults[consultation_tg][btn_url]" value="<?php echo esc_attr( $ctg['btn_url'] ?? '' ); ?>" style="width:100%" placeholder="Ссылка Telegram"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_tg][text_btn]" value="<?php echo esc_attr( $ctg['text_btn'] ?? '' ); ?>" style="width:100%" placeholder="Подпись под кнопкой"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_tg][color]" value="<?php echo esc_attr( $ctg['color'] ?? '#2AABEE' ); ?>" style="width:48%" placeholder="Цвет кнопки"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_tg][color_hover]" value="<?php echo esc_attr( $ctg['color_hover'] ?? '#229ED9' ); ?>" style="width:48%" placeholder="Цвет hover"></div>
-			<div class="row">
-				<div class="muted"><?php esc_html_e( 'Фото / аватар', 'tolstenko-theme' ); ?></div>
-				<div class="tolstenko-defaults-image-row">
-					<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[consultation_tg][image]" value="<?php echo (int) $ctg_img_id; ?>">
-					<button type="button" class="button tolstenko-defaults-pick-icon"><?php esc_html_e( 'Выбрать изображение', 'tolstenko-theme' ); ?></button>
-					<div class="icon-preview"><?php if ( $ctg_img_url ) : ?><img src="<?php echo esc_url( $ctg_img_url ); ?>" alt=""><?php endif; ?></div>
-				</div>
-			</div>
-		</div>
-
-		<div class="tolstenko-df-panel" data-panel="consultation_tel" data-group="main">
-			<div class="row"><textarea name="tolstenko_block_defaults[consultation_tel][title]" rows="2" placeholder="Заголовок"><?php echo esc_textarea( $ctel['title'] ?? '' ); ?></textarea></div>
-			<div class="row"><textarea name="tolstenko_block_defaults[consultation_tel][message]" rows="3" placeholder="Текст в пузыре"><?php echo esc_textarea( $ctel['message'] ?? '' ); ?></textarea></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_tel][position]" value="<?php echo esc_attr( $ctel['position'] ?? '' ); ?>" style="width:100%" placeholder="Должность / подпись"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_tel][phone]" value="<?php echo esc_attr( $ctel['phone'] ?? '' ); ?>" style="width:100%" placeholder="Телефон (если пусто — из шапки/подвала)"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_tel][btn_tel_text]" value="<?php echo esc_attr( $ctel['btn_tel_text'] ?? '' ); ?>" style="width:100%" placeholder="Текст кнопки звонка"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_tel][btn_messenger_text]" value="<?php echo esc_attr( $ctel['btn_messenger_text'] ?? '' ); ?>" style="width:100%" placeholder="Текст кнопки мессенджера"></div>
-			<div class="row"><input type="url" name="tolstenko_block_defaults[consultation_tel][btn_messenger_url]" value="<?php echo esc_attr( $ctel['btn_messenger_url'] ?? '' ); ?>" style="width:100%" placeholder="Ссылка мессенджера"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_tel][color]" value="<?php echo esc_attr( $ctel['color'] ?? '#25D366' ); ?>" style="width:48%" placeholder="Цвет кнопки мессенджера"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_tel][color_hover]" value="<?php echo esc_attr( $ctel['color_hover'] ?? '#1EBE57' ); ?>" style="width:48%" placeholder="Цвет hover"></div>
-			<div class="row">
-				<div class="muted"><?php esc_html_e( 'Аватар менеджера', 'tolstenko-theme' ); ?></div>
-				<div class="tolstenko-defaults-image-row">
-					<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[consultation_tel][image]" value="<?php echo (int) $ctel_img_id; ?>">
-					<button type="button" class="button tolstenko-defaults-pick-icon"><?php esc_html_e( 'Выбрать изображение', 'tolstenko-theme' ); ?></button>
-					<div class="icon-preview"><?php if ( $ctel_img_url ) : ?><img src="<?php echo esc_url( $ctel_img_url ); ?>" alt=""><?php endif; ?></div>
-				</div>
-			</div>
-		</div>
-
-		<div class="tolstenko-df-panel" data-panel="consultation_free">
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_free][title]" value="<?php echo esc_attr( $cfree['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок"></div>
-			<div class="row"><textarea name="tolstenko_block_defaults[consultation_free][text]" rows="3" placeholder="Текст"><?php echo esc_textarea( $cfree['text'] ?? '' ); ?></textarea></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_free][subtitle]" value="<?php echo esc_attr( $cfree['subtitle'] ?? '' ); ?>" style="width:100%" placeholder="Подзаголовок формы"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_free][contacts_label]" value="<?php echo esc_attr( $cfree['contacts_label'] ?? '' ); ?>" style="width:100%" placeholder="Подпись «Или свяжитесь с нами»"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[consultation_free][phone]" value="<?php echo esc_attr( $cfree['phone'] ?? '' ); ?>" style="width:100%" placeholder="Телефон (если пусто — из шапки/подвала)"></div>
-			<div class="row"><input type="url" name="tolstenko_block_defaults[consultation_free][telegram_url]" value="<?php echo esc_attr( $cfree['telegram_url'] ?? '' ); ?>" style="width:100%" placeholder="Telegram URL"></div>
-			<div class="row"><input type="url" name="tolstenko_block_defaults[consultation_free][whatsapp_url]" value="<?php echo esc_attr( $cfree['whatsapp_url'] ?? '' ); ?>" style="width:100%" placeholder="WhatsApp URL"></div>
-			<div class="row"><input type="url" name="tolstenko_block_defaults[consultation_free][vk_url]" value="<?php echo esc_attr( $cfree['vk_url'] ?? '' ); ?>" style="width:100%" placeholder="VK URL"></div>
-			<div class="row">
-				<div class="muted"><?php esc_html_e( 'Изображение справа', 'tolstenko-theme' ); ?></div>
-				<div class="tolstenko-defaults-image-row">
-					<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[consultation_free][image]" value="<?php echo (int) $cfree_img_id; ?>">
-					<button type="button" class="button tolstenko-defaults-pick-icon"><?php esc_html_e( 'Выбрать изображение', 'tolstenko-theme' ); ?></button>
-					<div class="icon-preview"><?php if ( $cfree_img_url ) : ?><img src="<?php echo esc_url( $cfree_img_url ); ?>" alt=""><?php endif; ?></div>
-				</div>
-			</div>
-		</div>
-
-		<?php
-		$pr = $all['partners'] ?? array();
-		if ( empty( $fa['items'] ) || ! is_array( $fa['items'] ) ) {
-			$fa['items'] = array();
-		}
-		if ( empty( $de['items'] ) || ! is_array( $de['items'] ) ) {
-			$de['items'] = array();
-		}
-		if ( empty( $pr['items'] ) || ! is_array( $pr['items'] ) ) {
-			$pr['items'] = array();
-		}
-		?>
 
 
 		<div class="tolstenko-df-panel" data-panel="case_section" data-group="post_sliders">
@@ -1481,40 +1351,8 @@ function tolstenko_render_block_defaults_admin_page() {
 			<p class="description"><?php esc_html_e( 'Слайдер с фильтром по рубрикам blog_cat. Кнопка всегда ведёт на страницу блога.', 'tolstenko-theme' ); ?></p>
 		</div>
 
-		<div class="tolstenko-df-panel" data-panel="partners" data-group="main">
-			<div class="row"><input type="text" name="tolstenko_block_defaults[partners][subtitle]" value="<?php echo esc_attr( $pr['subtitle'] ?? '' ); ?>" style="width:100%" placeholder="Подзаголовок"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[partners][title]" value="<?php echo esc_attr( $pr['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок"></div>
-			<div class="row"><textarea name="tolstenko_block_defaults[partners][text]" rows="3" placeholder="Текст"><?php echo esc_textarea( $pr['text'] ?? '' ); ?></textarea></div>
-			<div class="row">
-				<div class="muted"><?php esc_html_e( 'Логотипы партнёров', 'tolstenko-theme' ); ?></div>
-				<div data-repeater-list="partners-list">
-					<?php foreach ( (array) $pr['items'] as $idx => $it ) : ?>
-						<?php
-						$it = is_array( $it ) ? $it : array();
-						$img_id = isset( $it['image'] ) ? (int) $it['image'] : 0;
-						$img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'medium' ) : '';
-						?>
-						<div class="repeater-item" data-repeater-item>
-							<div class="cols">
-								<input type="text" name="tolstenko_block_defaults[partners][items][<?php echo (int) $idx; ?>][title]" value="<?php echo esc_attr( $it['title'] ?? '' ); ?>" placeholder="Название / alt">
-								<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[partners][items][<?php echo (int) $idx; ?>][image]" value="<?php echo (int) $img_id; ?>">
-								<button type="button" class="button tolstenko-defaults-pick-icon"><?php esc_html_e( 'Выбрать логотип', 'tolstenko-theme' ); ?></button>
-								<button type="button" class="button move-btn" data-move-up title="Вверх">↑</button>
-								<button type="button" class="button move-btn" data-move-down title="Вниз">↓</button>
-								<button type="button" class="button" data-remove-item><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
-							</div>
-							<div class="icon-preview" style="margin-top:8px;"><?php if ( $img_url ) : ?><img src="<?php echo esc_url( $img_url ); ?>" alt=""><?php endif; ?></div>
-						</div>
-					<?php endforeach; ?>
-				</div>
-				<div class="actions">
-					<button type="button" class="button" data-add-item="partners-list"><?php esc_html_e( 'Добавить партнёра', 'tolstenko-theme' ); ?></button>
-				</div>
-			</div>
-		</div>
 
 		<?php
-		$tmc = $all['team_cards'] ?? array();
 		$faq = $all['faq'] ?? array();
 		$ftpl = $all['field_template'] ?? array();
 		$ftpl_img_id = isset( $ftpl['image'] ) ? (int) $ftpl['image'] : 0;
@@ -1534,42 +1372,6 @@ function tolstenko_render_block_defaults_admin_page() {
 		$faq_foto_url = $faq_foto_id ? wp_get_attachment_image_url( $faq_foto_id, 'medium' ) : '';
 		?>
 
-		<div class="tolstenko-df-panel" data-panel="team_cards" data-group="main">
-			<div class="row"><input type="text" name="tolstenko_block_defaults[team_cards][subtitle]" value="<?php echo esc_attr( $tmc['subtitle'] ?? '' ); ?>" style="width:100%" placeholder="Подзаголовок"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[team_cards][title]" value="<?php echo esc_attr( $tmc['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок"></div>
-			<div class="row"><textarea name="tolstenko_block_defaults[team_cards][text]" rows="2" placeholder="Текст"><?php echo esc_textarea( $tmc['text'] ?? '' ); ?></textarea></div>
-			<div class="row">
-				<div class="muted"><?php esc_html_e( 'Карточки команды (отдельно от CPT «Члены команды»)', 'tolstenko-theme' ); ?></div>
-				<div data-repeater-list="team-cards-list">
-					<?php foreach ( (array) ( $tmc['items'] ?? array() ) as $idx => $it ) : ?>
-						<?php
-						$it = is_array( $it ) ? $it : array();
-						$img_id = isset( $it['image'] ) ? (int) $it['image'] : 0;
-						$img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'medium' ) : '';
-						?>
-						<div class="repeater-item" data-repeater-item>
-							<div class="cols">
-								<input type="text" name="tolstenko_block_defaults[team_cards][items][<?php echo (int) $idx; ?>][name]" value="<?php echo esc_attr( $it['name'] ?? '' ); ?>" placeholder="Имя">
-								<input type="text" name="tolstenko_block_defaults[team_cards][items][<?php echo (int) $idx; ?>][position]" value="<?php echo esc_attr( $it['position'] ?? '' ); ?>" placeholder="Должность">
-								<input type="text" name="tolstenko_block_defaults[team_cards][items][<?php echo (int) $idx; ?>][exp]" value="<?php echo esc_attr( $it['exp'] ?? '' ); ?>" placeholder="Опыт">
-							</div>
-							<div class="row"><textarea name="tolstenko_block_defaults[team_cards][items][<?php echo (int) $idx; ?>][text]" rows="2" placeholder="Описание"><?php echo esc_textarea( $it['text'] ?? '' ); ?></textarea></div>
-							<div class="cols">
-								<input type="text" name="tolstenko_block_defaults[team_cards][items][<?php echo (int) $idx; ?>][btn_text]" value="<?php echo esc_attr( $it['btn_text'] ?? '' ); ?>" placeholder="Текст кнопки">
-								<input type="url" name="tolstenko_block_defaults[team_cards][items][<?php echo (int) $idx; ?>][btn_url]" value="<?php echo esc_attr( $it['btn_url'] ?? '' ); ?>" placeholder="Ссылка кнопки">
-								<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[team_cards][items][<?php echo (int) $idx; ?>][image]" value="<?php echo (int) $img_id; ?>">
-								<button type="button" class="button tolstenko-defaults-pick-icon"><?php esc_html_e( 'Фото', 'tolstenko-theme' ); ?></button>
-								<button type="button" class="button move-btn" data-move-up title="Вверх">↑</button>
-								<button type="button" class="button move-btn" data-move-down title="Вниз">↓</button>
-								<button type="button" class="button" data-remove-item><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
-							</div>
-							<div class="icon-preview" style="margin-top:8px;"><?php if ( $img_url ) : ?><img src="<?php echo esc_url( $img_url ); ?>" alt=""><?php endif; ?></div>
-						</div>
-					<?php endforeach; ?>
-				</div>
-				<div class="actions"><button type="button" class="button" data-add-item="team-cards-list"><?php esc_html_e( 'Добавить карточку', 'tolstenko-theme' ); ?></button></div>
-			</div>
-		</div>
 
 		<div class="tolstenko-df-panel" data-panel="faq">
 			<div class="row"><input type="text" name="tolstenko_block_defaults[faq][subtitle]" value="<?php echo esc_attr( $faq['subtitle'] ?? '' ); ?>" style="width:100%" placeholder="Подзаголовок"></div>
@@ -1910,13 +1712,8 @@ function tolstenko_render_block_defaults_admin_page() {
 
 		var panelGroupMap = {
 			main_hero: 'main',
-			consultation_tel: 'main',
 			actions: 'main',
-			consultation_tg: 'main',
-			team_cards: 'main',
-			partners: 'main',
 			documents: 'main',
-			consultation_free: 'main',
 			faq: 'main',
 			field_template: 'main',
 			case_section: 'post_sliders',
@@ -2043,8 +1840,6 @@ function tolstenko_render_block_defaults_admin_page() {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[reviews][cards][' + idx + '][title]" placeholder="Название (Яндекс, 2ГИС…)" style="flex:1"><input type="url" name="tolstenko_block_defaults[reviews][cards][' + idx + '][url]" placeholder="Ссылка" style="flex:1"><input type="number" min="1" max="5" name="tolstenko_block_defaults[reviews][cards][' + idx + '][rating]" value="5" style="width:80px" title="Рейтинг"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
 				} else if (key === 'documents-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[documents][items][' + idx + '][title]" placeholder="Подпись / alt"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[documents][items][' + idx + '][image]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Выбрать изображение</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview cert-preview" style="margin-top:8px;"></div></div>';
-				} else if (key === 'partners-list') {
-					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[partners][items][' + idx + '][title]" placeholder="Название / alt"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[partners][items][' + idx + '][image]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Выбрать логотип</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview" style="margin-top:8px;"></div></div>';
 				} else if (key === 'actions-list') {
 					var actionOpts = <?php
 					$opt_html = '<option value="0">— Без ссылки —</option>';
@@ -2054,8 +1849,6 @@ function tolstenko_render_block_defaults_admin_page() {
 					echo wp_json_encode( $opt_html );
 					?>;
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[actions][items][' + idx + '][type]" placeholder="Тип / метка"><input type="text" name="tolstenko_block_defaults[actions][items][' + idx + '][title]" placeholder="Заголовок карточки"></div><div class="row"><textarea name="tolstenko_block_defaults[actions][items][' + idx + '][text]" rows="2" placeholder="Текст карточки"></textarea></div><div class="cols"><select name="tolstenko_block_defaults[actions][items][' + idx + '][action_id]" style="min-width:220px">' + actionOpts + '</select><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
-				} else if (key === 'team-cards-list') {
-					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[team_cards][items][' + idx + '][name]" placeholder="Имя"><input type="text" name="tolstenko_block_defaults[team_cards][items][' + idx + '][position]" placeholder="Должность"><input type="text" name="tolstenko_block_defaults[team_cards][items][' + idx + '][exp]" placeholder="Опыт"></div><div class="row"><textarea name="tolstenko_block_defaults[team_cards][items][' + idx + '][text]" rows="2" placeholder="Описание"></textarea></div><div class="cols"><input type="text" name="tolstenko_block_defaults[team_cards][items][' + idx + '][btn_text]" placeholder="Текст кнопки"><input type="url" name="tolstenko_block_defaults[team_cards][items][' + idx + '][btn_url]" placeholder="Ссылка кнопки"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[team_cards][items][' + idx + '][image]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Фото</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview" style="margin-top:8px;"></div></div>';
 				} else if (key === 'faq-list') {
 					var editorId = 'tolstenko_faq_redactor_' + idx + '_' + Date.now();
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[faq][items][' + idx + '][title]" placeholder="Вопрос" style="width:100%"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row tolstenko-faq-editor-wrap"><p class="description" style="margin:0 0 6px;">Ответ</p><textarea id="' + editorId + '" name="tolstenko_block_defaults[faq][items][' + idx + '][redactor]" rows="8" class="wp-editor-area"></textarea></div></div>';
@@ -2384,93 +2177,6 @@ function tolstenko_save_block_defaults_from_request() {
 		'ids'            => tolstenko_sanitize_service_section_ids( $raw['blog_section_filters']['ids'] ?? array() ),
 		'btn_text'       => sanitize_text_field( $raw['blog_section_filters']['btn_text'] ?? '' ),
 	);
-
-	$out['consultation_tg'] = array(
-		'title'       => tolstenko_kses_html( $raw['consultation_tg']['title'] ?? ''  ),
-		'text'        => tolstenko_kses_html( $raw['consultation_tg']['text'] ?? ''  ),
-		'btn_text'    => sanitize_text_field( $raw['consultation_tg']['btn_text'] ?? '' ),
-		'btn_url'     => esc_url_raw( $raw['consultation_tg']['btn_url'] ?? '' ),
-		'text_btn'    => tolstenko_kses_html( $raw['consultation_tg']['text_btn'] ?? ''  ),
-		'color'       => sanitize_hex_color( $raw['consultation_tg']['color'] ?? '' ) ?: sanitize_text_field( $raw['consultation_tg']['color'] ?? '' ),
-		'color_hover' => sanitize_hex_color( $raw['consultation_tg']['color_hover'] ?? '' ) ?: sanitize_text_field( $raw['consultation_tg']['color_hover'] ?? '' ),
-		'image'       => isset( $raw['consultation_tg']['image'] ) ? (int) $raw['consultation_tg']['image'] : 0,
-	);
-
-	$out['consultation_tel'] = array(
-		'title'              => tolstenko_kses_html( $raw['consultation_tel']['title'] ?? '' ),
-		'message'            => tolstenko_kses_html( $raw['consultation_tel']['message'] ?? '' ),
-		'position'           => sanitize_text_field( $raw['consultation_tel']['position'] ?? '' ),
-		'phone'              => sanitize_text_field( $raw['consultation_tel']['phone'] ?? '' ),
-		'btn_tel_text'       => sanitize_text_field( $raw['consultation_tel']['btn_tel_text'] ?? '' ),
-		'btn_messenger_text' => sanitize_text_field( $raw['consultation_tel']['btn_messenger_text'] ?? '' ),
-		'btn_messenger_url'  => esc_url_raw( $raw['consultation_tel']['btn_messenger_url'] ?? '' ),
-		'color'              => sanitize_hex_color( $raw['consultation_tel']['color'] ?? '' ) ?: sanitize_text_field( $raw['consultation_tel']['color'] ?? '' ),
-		'color_hover'        => sanitize_hex_color( $raw['consultation_tel']['color_hover'] ?? '' ) ?: sanitize_text_field( $raw['consultation_tel']['color_hover'] ?? '' ),
-		'image'              => isset( $raw['consultation_tel']['image'] ) ? (int) $raw['consultation_tel']['image'] : 0,
-	);
-
-	$out['consultation_free'] = array(
-		'title'          => tolstenko_kses_html( $raw['consultation_free']['title'] ?? ''  ),
-		'text'           => tolstenko_kses_html( $raw['consultation_free']['text'] ?? ''  ),
-		'subtitle'       => tolstenko_kses_html( $raw['consultation_free']['subtitle'] ?? ''  ),
-		'contacts_label' => tolstenko_kses_html( $raw['consultation_free']['contacts_label'] ?? ''  ),
-		'phone'          => sanitize_text_field( $raw['consultation_free']['phone'] ?? '' ),
-		'telegram_url'   => esc_url_raw( $raw['consultation_free']['telegram_url'] ?? '' ),
-		'whatsapp_url'   => esc_url_raw( $raw['consultation_free']['whatsapp_url'] ?? '' ),
-		'vk_url'         => esc_url_raw( $raw['consultation_free']['vk_url'] ?? '' ),
-		'image'          => isset( $raw['consultation_free']['image'] ) ? (int) $raw['consultation_free']['image'] : 0,
-	);
-
-	$out['partners'] = array(
-		'subtitle' => tolstenko_kses_html( $raw['partners']['subtitle'] ?? '' ),
-		'title' => tolstenko_kses_html( $raw['partners']['title'] ?? ''  ),
-		'text'  => tolstenko_kses_html( $raw['partners']['text'] ?? ''  ),
-		'items' => array(),
-	);
-	if ( isset( $raw['partners']['items'] ) && is_array( $raw['partners']['items'] ) ) {
-		foreach ( $raw['partners']['items'] as $it ) {
-			if ( ! is_array( $it ) ) {
-				continue;
-			}
-			$title = tolstenko_kses_html( $it['title'] ?? ''  );
-			$image = isset( $it['image'] ) ? (int) $it['image'] : 0;
-			if ( $title === '' && $image === 0 ) {
-				continue;
-			}
-			$out['partners']['items'][] = array(
-				'title' => $title,
-				'image' => $image,
-			);
-		}
-	}
-
-	$out['team_cards'] = array(
-		'subtitle' => tolstenko_kses_html( $raw['team_cards']['subtitle'] ?? '' ),
-		'title' => tolstenko_kses_html( $raw['team_cards']['title'] ?? ''  ),
-		'text'  => tolstenko_kses_html( $raw['team_cards']['text'] ?? ''  ),
-		'items' => array(),
-	);
-	if ( isset( $raw['team_cards']['items'] ) && is_array( $raw['team_cards']['items'] ) ) {
-		foreach ( $raw['team_cards']['items'] as $it ) {
-			if ( ! is_array( $it ) ) {
-				continue;
-			}
-			$name = sanitize_text_field( $it['name'] ?? '' );
-			$image = isset( $it['image'] ) ? (int) $it['image'] : 0;
-			if ( $name === '' && $image === 0 ) {
-				continue;
-			}
-			$out['team_cards']['items'][] = array(
-				'name'     => $name,
-				'position' => sanitize_text_field( $it['position'] ?? '' ),
-				'exp'      => sanitize_text_field( $it['exp'] ?? '' ),
-				'text'     => sanitize_textarea_field( $it['text'] ?? '' ),
-				'btn_text' => sanitize_text_field( $it['btn_text'] ?? '' ),
-				'btn_url'  => esc_url_raw( $it['btn_url'] ?? '' ),
-				'image'    => $image,
-			);
-		}
-	}
 
 	$out['faq'] = array(
 		'subtitle'     => tolstenko_kses_html( $raw['faq']['subtitle'] ?? '' ),
