@@ -1,0 +1,42 @@
+{
+  "apiVersion": 3,
+  "title": "Инфраструктура за пределами РФ",
+  "name": "my-theme/infra",
+  "category": "tolstenko-general",
+  "icon": "building",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "title_accent": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

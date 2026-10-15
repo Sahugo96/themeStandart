@@ -46,6 +46,13 @@ function theme_get_block_category_map(): array
     return [
         // Главная / общие секции
         'hero'                   => 'tolstenko-general',
+        'result'                 => 'tolstenko-general',
+        'compare'                => 'tolstenko-general',
+        'why-us'                 => 'tolstenko-general',
+        'infra'                  => 'tolstenko-general',
+        'about'                  => 'tolstenko-general',
+        'guide'                  => 'tolstenko-general',
+        'consult'                => 'tolstenko-general',
         'consultation-tel'       => 'tolstenko-general',
         'consultation-tg'        => 'tolstenko-general',
         'partners'               => 'tolstenko-general',
@@ -263,6 +270,13 @@ function theme_is_blog_archive_page(WP_Post $post): bool
 function theme_get_front_page_block_template(): array
 {
     return [
+        ['my-theme/result'],
+        ['my-theme/compare'],
+        ['my-theme/why-us'],
+        ['my-theme/infra'],
+        ['my-theme/about'],
+        ['my-theme/guide'],
+        ['my-theme/consult'],
         ['my-theme/consultation-tel'],
         ['my-theme/consultation-tg'],
         ['my-theme/partners'],
@@ -622,6 +636,164 @@ function theme_get_section_blocks_editor_config(): array
 {
     return [
         [
+            'name'          => 'my-theme/result',
+            'title'         => 'Что вы получаете',
+            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'color'         => '#2271b1',
+            'fields'        => [
+                ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                [
+                    'attr'       => 'items',
+                    'label'      => 'Пункты',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить пункт',
+                    'itemLabel'  => 'Пункт',
+                    'itemFields' => [
+                        ['key' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                        ['key' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'name'          => 'my-theme/compare',
+            'title'         => 'Сравнение',
+            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'color'         => '#2271b1',
+            'fields'        => [
+                ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Описание', 'type' => 'textarea'],
+                [
+                    'attr'       => 'rows',
+                    'label'      => 'Строки таблицы',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить строку',
+                    'itemLabel'  => 'Строка',
+                    'itemFields' => [
+                        ['key' => 'criterion', 'label' => 'Критерий', 'type' => 'text'],
+                        ['key' => 'self', 'label' => 'Сам', 'type' => 'text'],
+                        ['key' => 'middle', 'label' => 'Через посредника', 'type' => 'text'],
+                        ['key' => 'direct', 'label' => 'Напрямую с нами', 'type' => 'text'],
+                    ],
+                ],
+                ['attr' => 'foot_text', 'label' => 'Текст под таблицей', 'type' => 'textarea'],
+                ['attr' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text'],
+            ],
+        ],
+        [
+            'name'          => 'my-theme/why-us',
+            'title'         => 'Почему именно мы',
+            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'color'         => '#2271b1',
+            'fields'        => [
+                ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
+                [
+                    'attr'       => 'items',
+                    'label'      => 'Пункты',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить пункт',
+                    'itemLabel'  => 'Пункт',
+                    'itemFields' => [
+                        ['key' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                        ['key' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'name'          => 'my-theme/infra',
+            'title'         => 'Инфраструктура за пределами РФ',
+            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'color'         => '#2271b1',
+            'fields'        => [
+                ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Описание', 'type' => 'textarea'],
+                ['attr' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text'],
+                [
+                    'attr'       => 'items',
+                    'label'      => 'Пункты',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить пункт',
+                    'itemLabel'  => 'Пункт',
+                    'itemFields' => [
+                        ['key' => 'text', 'label' => 'Текст', 'type' => 'text'],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'name'          => 'my-theme/about',
+            'title'         => 'Кратко о нас',
+            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'color'         => '#2271b1',
+            'fields'        => [
+                ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                ['attr' => 'image', 'label' => 'Изображение', 'type' => 'image'],
+                [
+                    'attr'       => 'stats',
+                    'label'      => 'Показатели',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить показатель',
+                    'itemLabel'  => 'Показатель',
+                    'itemFields' => [
+                        ['key' => 'num', 'label' => 'Число', 'type' => 'text'],
+                        ['key' => 'label', 'label' => 'Подпись', 'type' => 'text'],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'name'          => 'my-theme/guide',
+            'title'         => 'Подробнее (статья)',
+            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'color'         => '#2271b1',
+            'fields'        => [
+                ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
+                [
+                    'attr'       => 'tags',
+                    'label'      => 'Теги',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить тег',
+                    'itemLabel'  => 'Тег',
+                    'itemFields' => [
+                        ['key' => 'text', 'label' => 'Текст', 'type' => 'text'],
+                    ],
+                ],
+                ['attr' => 'time', 'label' => 'Время чтения', 'type' => 'text'],
+                ['attr' => 'views', 'label' => 'Просмотры', 'type' => 'text'],
+                ['attr' => 'date_label', 'label' => 'Дата', 'type' => 'text'],
+                ['attr' => 'card_title', 'label' => 'Заголовок карточки', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                ['attr' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text'],
+                ['attr' => 'image', 'label' => 'Изображение', 'type' => 'image'],
+            ],
+        ],
+        [
+            'name'          => 'my-theme/consult',
+            'title'         => 'Бесплатная консультация (CTA)',
+            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'color'         => '#2271b1',
+            'fields'        => [
+                ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                ['attr' => 'image', 'label' => 'Изображение', 'type' => 'image'],
+            ],
+        ],
+        [
             'name'          => 'my-theme/service-section',
             'title'         => 'Архив услуг',
             'hint'          => 'Заголовок и текст — из блока или настроек темы. Выводятся все услуги',
@@ -774,6 +946,54 @@ function theme_render_breadcrumb(): void
 
     $rendered = true;
     get_template_part('modules/breadcrumb/breadcrumb');
+}
+
+/**
+ * Мержит дефолты секции с данными из блока.
+ * Заполненные значения перекрывают дефолт; пустые строки/массивы — нет.
+ *
+ * @param array $defaults  Дефолтные данные секции.
+ * @param array $overrides Данные из атрибутов блока.
+ * @return array
+ */
+function theme_section_merge_defaults(array $defaults, array $overrides): array
+{
+    foreach ($overrides as $key => $value) {
+        if (is_array($value)) {
+            if (!empty($value)) {
+                $defaults[$key] = $value;
+            }
+
+            continue;
+        }
+
+        if ($value !== '' && $value !== null) {
+            $defaults[$key] = $value;
+        }
+    }
+
+    return $defaults;
+}
+
+/**
+ * Выводит секцию фронта.
+ *
+ * Если на текущей странице есть соответствующий Gutenberg-блок (my-theme/<slug>),
+ * он уже выведен через the_content — тогда ничего не делаем.
+ * Иначе подставляются дефолты секции (pages/sections/<slug>.php).
+ */
+function theme_render_front_section(string $slug): void
+{
+    $block_name = 'my-theme/' . $slug;
+
+    $post_id = is_front_page() ? theme_get_front_page_id() : (int) get_queried_object_id();
+    $post = $post_id ? get_post($post_id) : null;
+
+    if ($post instanceof WP_Post && has_block($block_name, $post)) {
+        return;
+    }
+
+    get_template_part('pages/sections/' . $slug);
 }
 
 function theme_get_faq_section_data(array $attrs): array

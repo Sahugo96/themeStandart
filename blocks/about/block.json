@@ -1,0 +1,42 @@
+{
+  "apiVersion": 3,
+  "title": "Кратко о нас",
+  "name": "my-theme/about",
+  "category": "tolstenko-general",
+  "icon": "info-outline",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "title_accent": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "stats": {
+      "type": "array",
+      "default": []
+    },
+    "image": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "render": "file:./template.php"
+}

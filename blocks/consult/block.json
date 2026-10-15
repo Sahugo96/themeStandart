@@ -1,0 +1,38 @@
+{
+  "apiVersion": 3,
+  "title": "Бесплатная консультация (CTA)",
+  "name": "my-theme/consult",
+  "category": "tolstenko-general",
+  "icon": "phone",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "title_accent": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "image": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "render": "file:./template.php"
+}

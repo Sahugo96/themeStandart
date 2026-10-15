@@ -1,0 +1,34 @@
+{
+  "apiVersion": 3,
+  "title": "Почему именно мы",
+  "name": "my-theme/why-us",
+  "category": "tolstenko-general",
+  "icon": "yes-alt",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "title_accent": {
+      "type": "string",
+      "default": ""
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

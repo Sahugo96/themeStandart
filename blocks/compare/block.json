@@ -1,0 +1,46 @@
+{
+  "apiVersion": 3,
+  "title": "Сравнение",
+  "name": "my-theme/compare",
+  "category": "tolstenko-general",
+  "icon": "editor-table",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "title_accent": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "rows": {
+      "type": "array",
+      "default": []
+    },
+    "foot_text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_text": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}

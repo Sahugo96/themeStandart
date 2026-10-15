@@ -1,0 +1,62 @@
+{
+  "apiVersion": 3,
+  "title": "Подробнее (статья)",
+  "name": "my-theme/guide",
+  "category": "tolstenko-general",
+  "icon": "book-alt",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "title_accent": {
+      "type": "string",
+      "default": ""
+    },
+    "tags": {
+      "type": "array",
+      "default": []
+    },
+    "time": {
+      "type": "string",
+      "default": ""
+    },
+    "views": {
+      "type": "string",
+      "default": ""
+    },
+    "date_label": {
+      "type": "string",
+      "default": ""
+    },
+    "card_title": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "image": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "render": "file:./template.php"
+}

@@ -1,0 +1,30 @@
+{
+  "apiVersion": 3,
+  "title": "Что вы получаете",
+  "name": "my-theme/result",
+  "category": "tolstenko-general",
+  "icon": "star-filled",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}
