@@ -3,9 +3,11 @@
 defined('ABSPATH') || exit;
 
 $faq_data = theme_get_faq_section_data([
-    'title' => isset($attributes['title']) ? $attributes['title'] : '',
-    'text' => isset($attributes['text']) ? $attributes['text'] : '',
-    'items' => isset($attributes['items']) ? $attributes['items'] : [],
+    'badge'      => isset($attributes['badge']) ? $attributes['badge'] : '',
+    'title'      => isset($attributes['title']) ? $attributes['title'] : '',
+    'items'      => isset($attributes['items']) && is_array($attributes['items']) ? $attributes['items'] : [],
+    'form_title' => isset($attributes['form_title']) ? $attributes['form_title'] : '',
+    'form_text'  => isset($attributes['form_text']) ? $attributes['form_text'] : '',
 ]);
 
 set_query_var('faq_data', $faq_data);

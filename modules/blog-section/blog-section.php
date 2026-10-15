@@ -45,7 +45,7 @@ $section_query = new WP_Query($args_query);
       <h2 class="blog-section__title h2"><?= get_field('blog_section_title', OPTION_ID); ?></h2>
 
       <?php
-      if (get_field('faq_text', OPTION_ID)) {
+      if (get_field('blog_section_text', OPTION_ID)) {
       ?>
         <p class="blog-section__text paragraph-15-15"><?= get_field('blog_section_text', OPTION_ID); ?></p>
       <?php

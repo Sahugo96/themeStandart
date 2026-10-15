@@ -5,18 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function tolstenko_block_defaults_schema() {
 	$schema = array(
-		'main_hero' => array(
-			'title'           => '',
-			'text'            => '',
-			'items'           => array(),
-			'btn_text'        => 'Оставить заявку',
-			'show_promo'      => true,
-			'promo_text'      => '',
-			'present_image'   => 0,
-			'person_name'     => '',
-			'person_position' => '',
-			'image'           => 0,
-		),
 		'reviews' => array(
 			'subtitle'   => '',
 			'title'      => 'Отзывы',
@@ -29,11 +17,6 @@ function tolstenko_block_defaults_schema() {
 			'subtitle' => '',
 			'title' => 'Документы и лицензии',
 			'text'  => 'Документы, подтверждающие качество материалов и работ.',
-			'items' => array(),
-		),
-		'actions' => array(
-			'subtitle' => '',
-			'title' => 'Акции, бонусы, подарки',
 			'items' => array(),
 		),
 		'case_section' => array(
@@ -1083,9 +1066,7 @@ function tolstenko_render_block_defaults_admin_page() {
 		<div class="tolstenko-df-tabs-group is-active" data-group="main">
 			<div class="tolstenko-df-tabs-group-title"><?php esc_html_e( 'Основные блоки', 'tolstenko-theme' ); ?></div>
 			<div class="tolstenko-df-tabs">
-				<button type="button" class="tolstenko-df-tab active" data-panel="main_hero" data-group="main"><?php esc_html_e( 'Главный баннер', 'tolstenko-theme' ); ?></button>
-				<button type="button" class="tolstenko-df-tab" data-panel="actions" data-group="main"><?php esc_html_e( 'Акции, бонусы', 'tolstenko-theme' ); ?></button>
-				<button type="button" class="tolstenko-df-tab" data-panel="documents" data-group="main"><?php esc_html_e( 'Документы', 'tolstenko-theme' ); ?></button>
+				<button type="button" class="tolstenko-df-tab active" data-panel="documents" data-group="main"><?php esc_html_e( 'Документы', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="faq" data-group="main"><?php esc_html_e( 'FAQ', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="field_template" data-group="main"><?php esc_html_e( 'Шаблон всех полей', 'tolstenko-theme' ); ?></button>
 			</div>
@@ -1119,54 +1100,6 @@ function tolstenko_render_block_defaults_admin_page() {
 		</div>
 
 		<div class="tolstenko-df-panels-source">
-		<div class="tolstenko-df-panel active" data-panel="main_hero" data-group="main">
-			<?php
-			$mh         = $all['main_hero'] ?? array();
-			$mh_img     = isset( $mh['image'] ) ? (int) $mh['image'] : 0;
-			$mh_img_url = $mh_img ? wp_get_attachment_image_url( $mh_img, 'medium' ) : '';
-			$mh_present = isset( $mh['present_image'] ) ? (int) $mh['present_image'] : 0;
-			$mh_present_url = $mh_present ? wp_get_attachment_image_url( $mh_present, 'thumbnail' ) : '';
-			?>
-			<div class="row"><textarea name="tolstenko_block_defaults[main_hero][title]" rows="2" style="width:100%" placeholder="Заголовок (HTML)"><?php echo esc_textarea( $mh['title'] ?? '' ); ?></textarea></div>
-			<div class="row"><textarea name="tolstenko_block_defaults[main_hero][text]" rows="3" style="width:100%" placeholder="Текст под заголовком (HTML)"><?php echo esc_textarea( $mh['text'] ?? '' ); ?></textarea></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[main_hero][btn_text]" value="<?php echo esc_attr( $mh['btn_text'] ?? '' ); ?>" style="width:100%" placeholder="Текст кнопки"></div>
-			<div class="row">
-				<label>
-					<input type="checkbox" name="tolstenko_block_defaults[main_hero][show_promo]" value="1" <?php checked( ! empty( $mh['show_promo'] ) ); ?>>
-					<?php esc_html_e( 'Показать промо у кнопки', 'tolstenko-theme' ); ?>
-				</label>
-			</div>
-			<div class="row"><textarea name="tolstenko_block_defaults[main_hero][promo_text]" rows="2" style="width:100%" placeholder="Текст промо у кнопки (HTML)"><?php echo esc_textarea( $mh['promo_text'] ?? '' ); ?></textarea></div>
-			<div class="row tolstenko-defaults-image-row">
-				<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[main_hero][present_image]" value="<?php echo (int) $mh_present; ?>">
-				<button type="button" class="button tolstenko-defaults-pick-icon"><?php esc_html_e( 'Иконка подарка', 'tolstenko-theme' ); ?></button>
-				<span class="icon-preview"><?php echo $mh_present_url ? '<img src="' . esc_url( $mh_present_url ) . '" style="max-height:40px">' : ''; ?></span>
-			</div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[main_hero][person_name]" value="<?php echo esc_attr( $mh['person_name'] ?? '' ); ?>" style="width:100%" placeholder="Имя персоны"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[main_hero][person_position]" value="<?php echo esc_attr( $mh['person_position'] ?? '' ); ?>" style="width:100%" placeholder="Должность"></div>
-			<div class="row tolstenko-defaults-image-row">
-				<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[main_hero][image]" value="<?php echo (int) $mh_img; ?>">
-				<button type="button" class="button tolstenko-defaults-pick-icon"><?php esc_html_e( 'Главное изображение', 'tolstenko-theme' ); ?></button>
-				<span class="icon-preview"><?php echo $mh_img_url ? '<img src="' . esc_url( $mh_img_url ) . '" style="max-height:80px">' : ''; ?></span>
-			</div>
-			<div class="row">
-				<div class="muted"><?php esc_html_e( 'Пункты списка (HTML)', 'tolstenko-theme' ); ?></div>
-				<div data-repeater-list="main-hero-list">
-					<?php foreach ( (array) ( $mh['items'] ?? array() ) as $idx => $txt ) : ?>
-						<?php $item_val = is_string( $txt ) ? $txt : (string) ( $txt['text'] ?? '' ); ?>
-						<div class="repeater-item" data-repeater-item>
-							<div class="cols">
-								<textarea name="tolstenko_block_defaults[main_hero][items][<?php echo (int) $idx; ?>]" rows="2" style="width:100%"><?php echo esc_textarea( $item_val ); ?></textarea>
-								<button type="button" class="button move-btn" data-move-up title="Вверх">↑</button>
-								<button type="button" class="button move-btn" data-move-down title="Вниз">↓</button>
-								<button type="button" class="button" data-remove-item><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
-							</div>
-						</div>
-					<?php endforeach; ?>
-				</div>
-				<button type="button" class="button" data-add-item="main-hero-list"><?php esc_html_e( 'Добавить пункт', 'tolstenko-theme' ); ?></button>
-			</div>
-		</div>
 
 		<div class="tolstenko-df-panel" data-panel="reviews" data-group="post_sliders">
 			<?php
@@ -1255,52 +1188,6 @@ function tolstenko_render_block_defaults_admin_page() {
 			</div>
 		</div>
 
-		<?php
-		$act_slider = $all['actions'] ?? array();
-		$action_posts = get_posts(
-			array(
-				'post_type'      => 'actions',
-				'posts_per_page' => 100,
-				'post_status'    => array( 'publish', 'draft', 'pending', 'private' ),
-				'orderby'        => 'title',
-				'order'          => 'ASC',
-			)
-		);
-		?>
-		<div class="tolstenko-df-panel" data-panel="actions">
-			<div class="row"><input type="text" name="tolstenko_block_defaults[actions][subtitle]" value="<?php echo esc_attr( $act_slider['subtitle'] ?? '' ); ?>" style="width:100%" placeholder="Подзаголовок"></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[actions][title]" value="<?php echo esc_attr( $act_slider['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок секции"></div>
-			<div class="row">
-				<div class="muted"><?php esc_html_e( 'Карточки (до 4). Текст на карточке свой; запись «Акции» — только ссылка.', 'tolstenko-theme' ); ?></div>
-				<div data-repeater-list="actions-list">
-					<?php foreach ( (array) ( $act_slider['items'] ?? array() ) as $idx => $it ) : ?>
-						<?php
-						$it  = is_array( $it ) ? $it : array();
-						$aid = isset( $it['action_id'] ) ? (int) $it['action_id'] : 0;
-						?>
-						<div class="repeater-item" data-repeater-item>
-							<div class="cols">
-								<input type="text" name="tolstenko_block_defaults[actions][items][<?php echo (int) $idx; ?>][type]" value="<?php echo esc_attr( $it['type'] ?? '' ); ?>" placeholder="Тип / метка">
-								<input type="text" name="tolstenko_block_defaults[actions][items][<?php echo (int) $idx; ?>][title]" value="<?php echo esc_attr( $it['title'] ?? '' ); ?>" placeholder="Заголовок карточки">
-							</div>
-							<div class="row"><textarea name="tolstenko_block_defaults[actions][items][<?php echo (int) $idx; ?>][text]" rows="2" placeholder="Текст карточки"><?php echo esc_textarea( $it['text'] ?? '' ); ?></textarea></div>
-							<div class="cols">
-								<select name="tolstenko_block_defaults[actions][items][<?php echo (int) $idx; ?>][action_id]" style="min-width:220px">
-									<option value="0"><?php esc_html_e( '— Без ссылки —', 'tolstenko-theme' ); ?></option>
-									<?php foreach ( $action_posts as $ap ) : ?>
-										<option value="<?php echo (int) $ap->ID; ?>" <?php selected( $aid, (int) $ap->ID ); ?>><?php echo esc_html( get_the_title( $ap ) ); ?></option>
-									<?php endforeach; ?>
-								</select>
-								<button type="button" class="button move-btn" data-move-up title="Вверх">↑</button>
-								<button type="button" class="button move-btn" data-move-down title="Вниз">↓</button>
-								<button type="button" class="button" data-remove-item><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
-							</div>
-						</div>
-					<?php endforeach; ?>
-				</div>
-				<div class="actions"><button type="button" class="button" data-add-item="actions-list"><?php esc_html_e( 'Добавить карточку', 'tolstenko-theme' ); ?></button></div>
-			</div>
-		</div>
 
 
 
@@ -1711,8 +1598,6 @@ function tolstenko_render_block_defaults_admin_page() {
 		if (!root) return;
 
 		var panelGroupMap = {
-			main_hero: 'main',
-			actions: 'main',
 			documents: 'main',
 			faq: 'main',
 			field_template: 'main',
@@ -1834,21 +1719,10 @@ function tolstenko_render_block_defaults_admin_page() {
 				var directItems = list.querySelectorAll('[data-repeater-item]');
 				var idx = directItems.length;
 				var html = '';
-				if (key === 'main-hero-list') {
-					html = '<div class="repeater-item" data-repeater-item><div class="cols"><textarea name="tolstenko_block_defaults[main_hero][items][' + idx + ']" rows="2" style="width:100%"></textarea><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
-				} else if (key === 'reviews-cards-list') {
+				if (key === 'reviews-cards-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[reviews][cards][' + idx + '][title]" placeholder="Название (Яндекс, 2ГИС…)" style="flex:1"><input type="url" name="tolstenko_block_defaults[reviews][cards][' + idx + '][url]" placeholder="Ссылка" style="flex:1"><input type="number" min="1" max="5" name="tolstenko_block_defaults[reviews][cards][' + idx + '][rating]" value="5" style="width:80px" title="Рейтинг"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
 				} else if (key === 'documents-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[documents][items][' + idx + '][title]" placeholder="Подпись / alt"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[documents][items][' + idx + '][image]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Выбрать изображение</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview cert-preview" style="margin-top:8px;"></div></div>';
-				} else if (key === 'actions-list') {
-					var actionOpts = <?php
-					$opt_html = '<option value="0">— Без ссылки —</option>';
-					foreach ( $action_posts as $ap ) {
-						$opt_html .= '<option value="' . (int) $ap->ID . '">' . esc_html( get_the_title( $ap ) ) . '</option>';
-					}
-					echo wp_json_encode( $opt_html );
-					?>;
-					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[actions][items][' + idx + '][type]" placeholder="Тип / метка"><input type="text" name="tolstenko_block_defaults[actions][items][' + idx + '][title]" placeholder="Заголовок карточки"></div><div class="row"><textarea name="tolstenko_block_defaults[actions][items][' + idx + '][text]" rows="2" placeholder="Текст карточки"></textarea></div><div class="cols"><select name="tolstenko_block_defaults[actions][items][' + idx + '][action_id]" style="min-width:220px">' + actionOpts + '</select><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
 				} else if (key === 'faq-list') {
 					var editorId = 'tolstenko_faq_redactor_' + idx + '_' + Date.now();
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[faq][items][' + idx + '][title]" placeholder="Вопрос" style="width:100%"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row tolstenko-faq-editor-wrap"><p class="description" style="margin:0 0 6px;">Ответ</p><textarea id="' + editorId + '" name="tolstenko_block_defaults[faq][items][' + idx + '][redactor]" rows="8" class="wp-editor-area"></textarea></div></div>';
@@ -2030,26 +1904,6 @@ function tolstenko_save_block_defaults_from_request() {
 		$raw = array();
 	}
 
-	$out['main_hero'] = array(
-		'title'           => tolstenko_kses_html( $raw['main_hero']['title'] ?? '' ),
-		'text'            => tolstenko_kses_html( $raw['main_hero']['text'] ?? '' ),
-		'btn_text'        => tolstenko_kses_html( $raw['main_hero']['btn_text'] ?? '' ),
-		'show_promo'      => ! empty( $raw['main_hero']['show_promo'] ),
-		'promo_text'      => tolstenko_kses_html( $raw['main_hero']['promo_text'] ?? '' ),
-		'present_image'   => isset( $raw['main_hero']['present_image'] ) ? (int) $raw['main_hero']['present_image'] : 0,
-		'person_name'     => sanitize_text_field( $raw['main_hero']['person_name'] ?? '' ),
-		'person_position' => sanitize_text_field( $raw['main_hero']['person_position'] ?? '' ),
-		'image'           => isset( $raw['main_hero']['image'] ) ? (int) $raw['main_hero']['image'] : 0,
-		'items'           => array(),
-	);
-	if ( isset( $raw['main_hero']['items'] ) && is_array( $raw['main_hero']['items'] ) ) {
-		foreach ( $raw['main_hero']['items'] as $v ) {
-			$v = trim( (string) $v );
-			if ( $v !== '' ) {
-				$out['main_hero']['items'][] = tolstenko_kses_html( $v );
-			}
-		}
-	}
 
 	$out['reviews'] = array(
 		'subtitle'   => tolstenko_kses_html( $raw['reviews']['subtitle'] ?? '' ),
@@ -2105,37 +1959,6 @@ function tolstenko_save_block_defaults_from_request() {
 		}
 	}
 
-	$out['actions'] = array(
-		'subtitle' => tolstenko_kses_html( $raw['actions']['subtitle'] ?? '' ),
-		'title' => tolstenko_kses_html( $raw['actions']['title'] ?? '' ),
-		'items' => array(),
-	);
-	if ( ! empty( $raw['actions']['items'] ) && is_array( $raw['actions']['items'] ) ) {
-		foreach ( $raw['actions']['items'] as $it ) {
-			if ( ! is_array( $it ) ) {
-				continue;
-			}
-			$type = sanitize_text_field( $it['type'] ?? '' );
-			$t    = tolstenko_kses_html( $it['title'] ?? '' );
-			$text = tolstenko_kses_html( $it['text'] ?? '' );
-			$aid  = isset( $it['action_id'] ) ? (int) $it['action_id'] : 0;
-			if ( $type === '' && $t === '' && $text === '' ) {
-				continue;
-			}
-			if ( $aid > 0 && get_post_type( $aid ) !== 'actions' ) {
-				$aid = 0;
-			}
-			$out['actions']['items'][] = array(
-				'type'      => $type,
-				'title'     => $t,
-				'text'      => $text,
-				'action_id' => $aid,
-			);
-			if ( count( $out['actions']['items'] ) >= 4 ) {
-				break;
-			}
-		}
-	}
 
 
 	$out['case_section'] = array(

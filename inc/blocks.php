@@ -877,12 +877,15 @@ function theme_enqueue_block_editor_assets(): void
     }
 
     $acf_get = function_exists('get_field') ? 'get_field' : null;
+    $editor_post_id = (int) get_queried_object_id();
 
     wp_localize_script('my-theme-blocks', 'themeBlockDefaults', [
         'faq' => [
-            'title' => $acf_get ? ($acf_get('faq_title', OPTION_ID) ?: '') : '',
-            'text'  => $acf_get ? ($acf_get('faq_text', OPTION_ID) ?: '') : '',
-            'items' => $acf_get && is_array($acf_get('faq_items', OPTION_ID)) ? $acf_get('faq_items', OPTION_ID) : [],
+            'badge'      => $acf_get ? ($acf_get('faq_badge', $editor_post_id) ?: '') : '',
+            'title'      => $acf_get ? ($acf_get('faq_title', $editor_post_id) ?: '') : '',
+            'items'      => $acf_get && is_array($acf_get('faq_items', $editor_post_id)) ? $acf_get('faq_items', $editor_post_id) : [],
+            'form_title' => $acf_get ? ($acf_get('faq_form_title', $editor_post_id) ?: '') : '',
+            'form_text'  => $acf_get ? ($acf_get('faq_form_text', $editor_post_id) ?: '') : '',
         ],
         'reviewsSection' => [
             'title'   => $acf_get ? ($acf_get('reviews_title', OPTION_ID) ?: 'Отзывы') : 'Отзывы',
@@ -991,12 +994,30 @@ function theme_render_front_section(string $slug): void
 
 function theme_get_faq_section_data(array $attrs): array
 {
+    $post_id = (int) get_queried_object_id();
+
+    if (!$post_id) {
+        $post_id = (int) get_the_ID();
+    }
+
+    $acf = function (string $field, $fallback = '') use ($post_id) {
+        if (!function_exists('get_field')) {
+            return $fallback;
+        }
+
+        $value = get_field($field, $post_id ?: false);
+
+        return ($value !== null && $value !== false && $value !== '') ? $value : $fallback;
+    };
+
+    $items = !empty($attrs['items']) && is_array($attrs['items']) ? $attrs['items'] : $acf('faq_items', []);
+
     return [
-        'title'     => ($attrs['title'] ?? '') !== '' ? $attrs['title'] : (get_field('faq_title', OPTION_ID) ?: ''),
-        'text'      => ($attrs['text'] ?? '') !== '' ? $attrs['text'] : (get_field('faq_text', OPTION_ID) ?: ''),
-        'items'     => !empty($attrs['items']) ? $attrs['items'] : (get_field('faq_items', OPTION_ID) ?: []),
-        'foto'      => get_field('faq_foto', OPTION_ID),
-        'foto_text' => get_field('faq_foto_text', OPTION_ID) ?: '',
+        'badge'      => (string) (($attrs['badge'] ?? '') !== '' ? $attrs['badge'] : $acf('faq_badge')),
+        'title'      => (string) (($attrs['title'] ?? '') !== '' ? $attrs['title'] : $acf('faq_title')),
+        'items'      => is_array($items) ? $items : [],
+        'form_title' => (string) (($attrs['form_title'] ?? '') !== '' ? $attrs['form_title'] : $acf('faq_form_title')),
+        'form_text'  => (string) (($attrs['form_text'] ?? '') !== '' ? $attrs['form_text'] : $acf('faq_form_text')),
     ];
 }
 

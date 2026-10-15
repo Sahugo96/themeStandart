@@ -13,17 +13,25 @@
     "multiple": true
   },
   "attributes": {
-    "title": {
+    "badge": {
       "type": "string",
       "default": ""
     },
-    "text": {
+    "title": {
       "type": "string",
       "default": ""
     },
     "items": {
       "type": "array",
       "default": []
+    },
+    "form_title": {
+      "type": "string",
+      "default": ""
+    },
+    "form_text": {
+      "type": "string",
+      "default": ""
     }
   },
   "render": "file:./template.php"

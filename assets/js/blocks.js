@@ -286,32 +286,32 @@
         blockProps,
         controls.blockTitle('FAQ', colors.accent),
         controls.textField({
+          label: 'Надзаголовок (бейдж)',
+          help: 'Если пусто — из ACF-поля faq_badge',
+          value: attributes.badge,
+          placeholder: faqDefaults.badge || '',
+          onChange: function (value) {
+            setAttributes({ badge: value });
+          },
+        }),
+        controls.textField({
           label: 'Заголовок',
-          help: 'Если пусто — из страницы настроек',
+          help: 'Если пусто — из ACF-поля faq_title',
           value: attributes.title,
           placeholder: faqDefaults.title || '',
           onChange: function (value) {
             setAttributes({ title: value });
           },
         }),
-        controls.textareaField({
-          label: 'Текст под заголовком',
-          help: 'Если пусто — из страницы настроек',
-          value: attributes.text,
-          placeholder: faqDefaults.text || '',
-          onChange: function (value) {
-            setAttributes({ text: value });
-          },
-        }),
         controls.repeaterField({
           label: 'Вопросы',
-          help: items.length ? '' : 'Если список пуст — используются данные из настроек темы',
+          help: items.length ? '' : 'Если список пуст — берётся из ACF-поля faq_items',
           items: items,
           keyPrefix: 'faq-item',
           itemLabel: 'Вопрос',
           addLabel: 'Добавить вопрос',
           createItem: function () {
-            return { title: '', redactor: '' };
+            return { quest: '', unswer: '' };
           },
           onChange: function (nextItems) {
             setAttributes({ items: nextItems });
@@ -322,16 +322,16 @@
               null,
               controls.textField({
                 label: 'Вопрос ' + (index + 1),
-                value: item.title || '',
+                value: item.quest || '',
                 onChange: function (value) {
-                  updateItem(Object.assign({}, item, { title: value }));
+                  updateItem(Object.assign({}, item, { quest: value }));
                 },
               }),
               controls.textareaField({
                 label: 'Ответ',
-                value: item.redactor || '',
+                value: item.unswer || '',
                 onChange: function (value) {
-                  updateItem(Object.assign({}, item, { redactor: value }));
+                  updateItem(Object.assign({}, item, { unswer: value }));
                 },
               }),
               el(
@@ -344,6 +344,24 @@
                 'Удалить вопрос'
               )
             );
+          },
+        }),
+        controls.textField({
+          label: 'Заголовок формы',
+          help: 'Если пусто — из ACF-поля faq_form_title',
+          value: attributes.form_title,
+          placeholder: faqDefaults.form_title || '',
+          onChange: function (value) {
+            setAttributes({ form_title: value });
+          },
+        }),
+        controls.textField({
+          label: 'Текст формы',
+          help: 'Если пусто — из ACF-поля faq_form_text',
+          value: attributes.form_text,
+          placeholder: faqDefaults.form_text || '',
+          onChange: function (value) {
+            setAttributes({ form_text: value });
           },
         })
       );
