@@ -353,6 +353,28 @@
     },
   });
 
+  registerBlockType('my-theme/documents', {
+    apiVersion: 3,
+    edit: function () {
+      var blockProps = useBlockProps({
+        className: 'theme-block theme-block--documents',
+        style: Object.assign({}, controls.blockShell(colors.accentYellowDark), {
+          padding: '15px',
+          textAlign: 'center',
+        }),
+      });
+
+      return el(
+        'div',
+        blockProps,
+        el('p', { style: { margin: 0, color: colors.textMuted } }, 'Документы (контент из настроек темы)')
+      );
+    },
+    save: function () {
+      return null;
+    },
+  });
+
   registerBlockType('my-theme/hidden-block', {
     apiVersion: 3,
     edit: function () {

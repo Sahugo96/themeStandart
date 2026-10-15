@@ -26,10 +26,6 @@ function theme_get_block_inserter_categories(): array
             'title' => 'TM: Услуги / кейсы',
         ],
         [
-            'slug'  => 'tolstenko-pages',
-            'title' => 'TM: Акции / города / контакты',
-        ],
-        [
             'slug'  => 'tolstenko-reviews',
             'title' => 'TM: Отзывы',
         ],
@@ -45,7 +41,6 @@ function theme_get_block_category_map(): array
 {
     return [
         // Главная / общие секции
-        'hero'                   => 'tolstenko-general',
         'result'                 => 'tolstenko-general',
         'compare'                => 'tolstenko-general',
         'why-us'                 => 'tolstenko-general',
@@ -56,7 +51,6 @@ function theme_get_block_category_map(): array
         'documents'           => 'tolstenko-general',
         'faq'                    => 'tolstenko-general',
         'field-template'         => 'tolstenko-general',
-        'free-consultation'      => 'tolstenko-general',
         'hidden-block'           => 'tolstenko-general',
 
         // Блог
