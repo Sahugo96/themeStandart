@@ -733,6 +733,8 @@
       var items = Array.isArray(attributes.items) ? attributes.items : [];
       var postIds = Array.isArray(attributes.post_ids) ? attributes.post_ids : [];
       var imageId = parseInt(attributes.image_id, 10) || 0;
+      var singlePostId = parseInt(attributes.single_post_id, 10) || 0;
+      var singlePostIds = singlePostId > 0 ? [singlePostId] : [];
       var postCatalog = (defaults.posts && defaults.posts.blog) || [];
       var editorFieldId = 'tolstenko_field_template_editor_' + String(props.clientId || Math.random().toString(36).slice(2)).replace(/[^a-zA-Z0-9_-]/g, '');
       var blockProps = useBlockProps({
@@ -831,12 +833,14 @@
             setAttributes({ post_ids: value });
           },
         }),
-        controls.textField({
-          label: 'Одна запись (ID)',
-          help: 'ID записи или 0',
-          value: attributes.single_post_id ? String(attributes.single_post_id) : '',
-          onChange: function (value) {
-            setAttributes({ single_post_id: parseInt(value, 10) || 0 });
+        controls.singlePostField({
+          label: 'Одна запись',
+          help: singlePostIds.length ? 'Запись выбрана' : 'Пусто — без записи',
+          postIds: singlePostIds,
+          catalog: postCatalog,
+          placeholder: 'Начните вводить название статьи…',
+          onChange: function (ids) {
+            setAttributes({ single_post_id: Array.isArray(ids) && ids.length ? (parseInt(ids[0], 10) || 0) : 0 });
           },
         }),
         controls.blockHint('Эталонный блок: чекбокс, текст, область, редактор, изображение, повторитель, записи')

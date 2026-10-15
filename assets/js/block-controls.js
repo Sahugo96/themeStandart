@@ -330,6 +330,8 @@
       : [];
     var onChange = props.onChange;
     var placeholder = props.placeholder || 'Начните вводить название…';
+    // 0 — без ограничения; 1 — выбор ровно одной записи.
+    var max = parseInt(props.max, 10) > 0 ? parseInt(props.max, 10) : 0;
 
     var queryState = useState('');
     var query = queryState[0];
@@ -345,6 +347,15 @@
     });
 
     function addPost(id) {
+      if (max === 1) {
+        // Одна запись: выбранная заменяется новой.
+        if (postIds[0] !== id) {
+          onChange([id]);
+        }
+        setQuery('');
+        return;
+      }
+
       if (postIds.indexOf(id) === -1) {
         onChange(postIds.concat([id]));
       }
@@ -495,7 +506,9 @@
                   },
                   normalizedQuery
                     ? 'Ничего не найдено'
-                    : (catalog.length ? 'Все записи уже выбраны' : 'Нет опубликованных записей')
+                    : (max === 1 && postIds.length
+                        ? 'Запись выбрана — начните вводить, чтобы заменить'
+                        : (catalog.length ? 'Все записи уже выбраны' : 'Нет опубликованных записей'))
                 )
           )
         : null
@@ -524,6 +537,26 @@
       el(PostsSearchField, {
         catalog: options.catalog,
         postIds: options.postIds,
+        onChange: options.onChange,
+        placeholder: options.placeholder || 'Начните вводить название…',
+      })
+    );
+  }
+
+  /**
+   * Выбор одной записи — та же логика, что postsField, но с лимитом 1.
+   * options.postIds — массив (0 или 1 id), options.onChange получает массив.
+   */
+  function singlePostField(options) {
+    return el(
+      'div',
+      { style: styles.field, onClick: stopBubble },
+      options.label ? el('span', { style: styles.label }, options.label) : null,
+      options.help ? el('span', { style: Object.assign({}, styles.help, { marginBottom: '8px' }) }, options.help) : null,
+      el(PostsSearchField, {
+        catalog: options.catalog,
+        postIds: options.postIds,
+        max: 1,
         onChange: options.onChange,
         placeholder: options.placeholder || 'Начните вводить название…',
       })
@@ -565,6 +598,7 @@
     repeaterField: repeaterField,
     toggleField: toggleField,
     postsField: postsField,
+    singlePostField: singlePostField,
     resolveValue: resolveValue,
     stopBubble: stopBubble,
   };
