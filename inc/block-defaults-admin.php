@@ -1061,9 +1061,7 @@ function tolstenko_render_block_defaults_admin_page() {
 		<div class="tolstenko-df-tabs-group is-active" data-group="main">
 			<div class="tolstenko-df-tabs-group-title"><?php esc_html_e( 'Основные блоки', 'tolstenko-theme' ); ?></div>
 			<div class="tolstenko-df-tabs">
-				<button type="button" class="tolstenko-df-tab active" data-panel="documents" data-group="main"><?php esc_html_e( 'Документы', 'tolstenko-theme' ); ?></button>
-				<button type="button" class="tolstenko-df-tab" data-panel="faq" data-group="main"><?php esc_html_e( 'FAQ', 'tolstenko-theme' ); ?></button>
-				<button type="button" class="tolstenko-df-tab" data-panel="field_template" data-group="main"><?php esc_html_e( 'Шаблон всех полей', 'tolstenko-theme' ); ?></button>
+				<button type="button" class="tolstenko-df-tab active" data-panel="field_template" data-group="main"><?php esc_html_e( 'Шаблон всех полей', 'tolstenko-theme' ); ?></button>
 			</div>
 			<div class="tolstenko-df-group-panels" data-group-panels="main"></div>
 		</div>
@@ -1090,6 +1088,8 @@ function tolstenko_render_block_defaults_admin_page() {
 				<button type="button" class="tolstenko-df-tab" data-panel="about" data-group="landing"><?php esc_html_e( 'Кратко о нас', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="guide" data-group="landing"><?php esc_html_e( 'Подробнее', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="consult" data-group="landing"><?php esc_html_e( 'Начните с бесплатной консультации', 'tolstenko-theme' ); ?></button>
+				<button type="button" class="tolstenko-df-tab" data-panel="documents" data-group="landing"><?php esc_html_e( 'Документы', 'tolstenko-theme' ); ?></button>
+				<button type="button" class="tolstenko-df-tab" data-panel="faq" data-group="landing"><?php esc_html_e( 'FAQ', 'tolstenko-theme' ); ?></button>
 			</div>
 			<div class="tolstenko-df-group-panels" data-group-panels="landing"></div>
 		</div>
@@ -1145,7 +1145,7 @@ function tolstenko_render_block_defaults_admin_page() {
 			</div>
 		</div>
 
-		<div class="tolstenko-df-panel" data-panel="documents" data-group="main">
+		<div class="tolstenko-df-panel" data-panel="documents" data-group="landing">
 			<div class="row"><input type="text" name="tolstenko_block_defaults[documents][subtitle]" value="<?php echo esc_attr( $all['documents']['subtitle'] ?? '' ); ?>" style="width:100%" placeholder="Подзаголовок"></div>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[documents][title]" value="<?php echo esc_attr( $all['documents']['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок"></div>
 			<div class="row"><textarea name="tolstenko_block_defaults[documents][text]" rows="3" placeholder="Текст под заголовком"><?php echo esc_textarea( $all['documents']['text'] ?? '' ); ?></textarea></div>
@@ -1253,7 +1253,7 @@ function tolstenko_render_block_defaults_admin_page() {
 		?>
 
 
-		<div class="tolstenko-df-panel" data-panel="faq">
+		<div class="tolstenko-df-panel" data-panel="faq" data-group="landing">
 			<div class="row"><input type="text" name="tolstenko_block_defaults[faq][badge]" value="<?php echo esc_attr( $faq['badge'] ?? '' ); ?>" style="width:100%" placeholder="Надзаголовок (бейдж)"></div>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[faq][title]" value="<?php echo esc_attr( $faq['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок"></div>
 			<div class="row">
@@ -1579,8 +1579,8 @@ function tolstenko_render_block_defaults_admin_page() {
 		if (!root) return;
 
 		var panelGroupMap = {
-			documents: 'main',
-			faq: 'main',
+			documents: 'landing',
+			faq: 'landing',
 			field_template: 'main',
 			case_section: 'post_sliders',
 			reviews: 'post_sliders',
