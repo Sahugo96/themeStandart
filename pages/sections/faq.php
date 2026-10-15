@@ -75,7 +75,7 @@ $faq_tg_link = trim((string) $cd['telegram']);
 
         <div class="faq__right-info line-13-15">
           <?php
-          if ($foto) {
+          if (!empty($foto['url'])) {
           ?>
             <div class="faq__right-foto">
               <img class="lazyload--js" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="<?= $foto['url']; ?>" data-srcset="<?= $foto['srcset']; ?>" alt="<?= $foto['alt']; ?>" data-sizes="<?= $foto['sizes']; ?>">

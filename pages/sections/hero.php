@@ -71,7 +71,7 @@ $present = $present ? Image::get_image_attrs($present) : null;
       <div class="hero__bottom">
         <a class="hero__btn default-btn default-btn--huge" href="#modal"><?= $btn_text; ?></a>
 
-        <?php if ($btn_text_hide && $present) { ?>
+        <?php if ($btn_text_hide && !empty($present['url'])) { ?>
           <div class="hero__bottom-text line-13-15"><?= $btn_close_text; ?></div>
 
           <img class="hero__bottom-present lazyload--js" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="<?= $present['url']; ?>" data-srcset="<?= $present['srcset']; ?>" alt="<?= $present['alt']; ?>" data-sizes="<?= $present['sizes']; ?>">
@@ -79,7 +79,7 @@ $present = $present ? Image::get_image_attrs($present) : null;
         <?php } ?>
       </div>
 
-      <?php if ($img) { ?>
+      <?php if (!empty($img['url'])) { ?>
         <div class="hero__img">
           <img class="lazyload--js" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="<?= $img['url']; ?>" data-srcset="<?= $img['srcset']; ?>" alt="<?= $img['alt']; ?>" data-sizes="<?= $img['sizes']; ?>">
         </div>

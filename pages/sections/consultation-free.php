@@ -107,7 +107,7 @@ if ($consultation_data) {
 
 
       <div class="consultation-free__img">
-        <?php if ($img) { ?>
+        <?php if (!empty($img['url'])) { ?>
         <img class="lazyload--js" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="<?= $img['url']; ?>" data-srcset="<?= $img['srcset']; ?>" alt="<?= $img['alt']; ?>" data-sizes="<?= $img['sizes']; ?>">
         <?php } ?>
       </div>
