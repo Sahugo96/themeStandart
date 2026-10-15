@@ -29,6 +29,26 @@
       "type": "string",
       "default": ""
     },
+    "contact_label": {
+      "type": "string",
+      "default": ""
+    },
+    "phone": {
+      "type": "string",
+      "default": ""
+    },
+    "input_placeholder": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "consents": {
+      "type": "array",
+      "default": []
+    },
     "image": {
       "type": "object",
       "default": {}

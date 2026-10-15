@@ -466,7 +466,7 @@ function tolstenko_block_defaults_schema() {
 		),
 		'guide' => array(
 			'subtitle' => 'Подробнее',
-			'title' => 'Банковские счета,<span>ВНЖ и компании в ОАЭ</span>',
+			'title' => 'Банковские счета,<span class="guide__title-accent">ВНЖ и компании в ОАЭ</span>',
 			'post_id' => 0,
 		),
 		'consult' => array(

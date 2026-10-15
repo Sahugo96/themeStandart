@@ -5,27 +5,23 @@ defined('ABSPATH') || exit;
 /**
  * Секция «Инфраструктура за пределами РФ».
  *
- * Дефолты подставляются, если соответствующий блок на странице не заполнен.
- * Если блок my-theme/infra заполнен — данные приходят через query var infra_data.
+ * Дефолты — из админки: tolstenko_get_block_defaults('infra')
+ * (таб «Секции лендинга → Для клиентов с капиталом и бизнесом»).
+ * Атрибуты блока имеют приоритет.
  */
 
+$admin = function_exists('tolstenko_get_block_defaults')
+    ? tolstenko_get_block_defaults('infra')
+    : [];
+
 $defaults = [
-    'subtitle'     => 'Для клиентов с капиталом и бизнесом',
-    'title'        => 'Нужна не одна услуга,',
-    'title_accent' => 'а инфраструктура за пределами РФ',
-    'text'         => 'Соберём комплексное решение под перевод и владение активами, международные платежи и структуру бизнеса. Конфиденциально, с персональным менеджером.',
-    'btn_text'     => 'Обсудить конфиденциально',
-    'btn_link'     => ['url' => '#contact', 'title' => 'Обсудить конфиденциально', 'target' => ''],
-    'items'        => [
-        ['text' => 'Регистрация компании за рубежом'],
-        ['text' => 'Международные платежи'],
-        ['text' => 'Ведение и сохранность активов'],
-        ['text' => 'Сопровождение комплаенса'],
-        ['text' => 'Корпоративный счёт'],
-        ['text' => 'Офшорные счета и структуры'],
-        ['text' => 'Налоговое планирование'],
-        ['text' => 'ВНЖ для бенефициаров'],
-    ],
+    'subtitle'     => $admin['badge'] ?? '',
+    'title'        => $admin['title'] ?? '',
+    'title_accent' => $admin['title_accent'] ?? '',
+    'text'         => $admin['text'] ?? '',
+    'btn_text'     => $admin['btn_text'] ?? '',
+    'btn_link'     => ['url' => $admin['btn_url'] ?? '', 'title' => $admin['btn_text'] ?? '', 'target' => ''],
+    'items'        => is_array($admin['items'] ?? null) ? $admin['items'] : [],
 ];
 
 $overrides = get_query_var('infra_data');

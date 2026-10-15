@@ -5,22 +5,33 @@ defined('ABSPATH') || exit;
 /**
  * Секция «Кратко о нас».
  *
- * Дефолты подставляются, если соответствующий блок на странице не заполнен.
- * Если блок my-theme/about заполнен — данные приходят через query var about_data.
+ * Дефолты — из админки: tolstenko_get_block_defaults('about')
+ * (таб «Секции лендинга → Кратко о нас»). Атрибуты блока имеют приоритет.
  */
 
+$admin = function_exists('tolstenko_get_block_defaults')
+    ? tolstenko_get_block_defaults('about')
+    : [];
+
+$admin_stats = is_array($admin['stats'] ?? null) ? $admin['stats'] : [];
+$stats = [];
+foreach ($admin_stats as $stat) {
+    if (!is_array($stat)) {
+        continue;
+    }
+    $stats[] = [
+        'num'   => $stat['num'] ?? '',
+        'label' => isset($stat['label']) ? tolstenko_landing_text($stat['label']) : '',
+    ];
+}
+
 $defaults = [
-    'subtitle'    => 'Кратко о нас',
-    'title'       => 'исполнитель в DIFC',
-    'title_accent' => 'Relocate-World —',
-    'text'        => '<p>Мы — лицензированный провайдер в финансовом центре Дубая (DIFC). Не посредники: работаем на земле, напрямую с банками и фризонами, поэтому предлагаем цену ниже рынка и беремся за сложные случаи.</p><p>За каждым клиентом — персональный координатор и команда, которая ведёт процесс от заявки до результата и остаётся на связи после.</p>',
-    'stats'       => [
-        ['num' => '300+', 'label' => 'клиентов<br>по рекомендациям'],
-        ['num' => '6+', 'label' => 'банков-<br>партнёров'],
-        ['num' => '6502', 'label' => 'лицензия<br>DIFC'],
-        ['num' => '~20', 'label' => 'специалистов<br>в команде'],
-    ],
-    'image'       => ['url' => THEME_PATH . '/assets/img/about.jpg', 'alt' => 'Команда Relocate-World'],
+    'subtitle'     => $admin['badge'] ?? '',
+    'title'        => $admin['title'] ?? '',
+    'title_accent' => $admin['title_accent'] ?? '',
+    'text'         => $admin['text'] ?? '',
+    'stats'        => $stats,
+    'image'        => $admin['image'] ?? 0,
 ];
 
 $overrides = get_query_var('about_data');

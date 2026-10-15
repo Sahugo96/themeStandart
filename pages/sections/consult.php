@@ -5,16 +5,26 @@ defined('ABSPATH') || exit;
 /**
  * Секция «Бесплатная консультация» (consult).
  *
- * Дефолты подставляются, если соответствующий блок на странице не заполнен.
- * Если блок my-theme/consult заполнен — данные приходят через query var consult_data.
+ * Дефолты — из админки: tolstenko_get_block_defaults('consult')
+ * (таб «Секции лендинга → Начните с бесплатной консультации»).
+ * Атрибуты блока имеют приоритет.
  */
 
+$admin = function_exists('tolstenko_get_block_defaults')
+    ? tolstenko_get_block_defaults('consult')
+    : [];
+
 $defaults = [
-    'subtitle'     => 'Начните с бесплатной консультации',
-    'title'        => 'Разбор вашей ситуации<br>и решение',
-    'title_accent' => '— бесплатно',
-    'text'         => '<p>Оставьте номер — перезвоним, зададим пару вопросов и подберём решение под вашу задачу: счёт, ВНЖ или компанию.</p><p>Или напишите нам: <a href="tel:+971554352459">+971 55 435 2459</a></p>',
-    'image'        => ['url' => THEME_PATH . '/assets/img/consult.jpg', 'alt' => 'Консультант Relocate-World'],
+    'subtitle'          => $admin['badge'] ?? '',
+    'title'             => isset($admin['title']) ? tolstenko_landing_text($admin['title']) : '',
+    'title_accent'      => $admin['title_accent'] ?? '',
+    'text'              => $admin['text'] ?? '',
+    'contact_label'     => $admin['contact_label'] ?? '',
+    'phone'             => $admin['phone'] ?? '',
+    'input_placeholder' => $admin['input_placeholder'] ?? '',
+    'btn_text'          => $admin['btn_text'] ?? '',
+    'consents'          => is_array($admin['consents'] ?? null) ? $admin['consents'] : [],
+    'image'             => $admin['image'] ?? 0,
 ];
 
 $overrides = get_query_var('consult_data');
@@ -22,6 +32,9 @@ $overrides = is_array($overrides) ? $overrides : [];
 
 $data = theme_section_merge_defaults($defaults, $overrides);
 
+$consents = isset($data['consents']) && is_array($data['consents']) ? $data['consents'] : [];
+$phone = trim((string) ($data['phone'] ?? ''));
+$phone_href = preg_replace('/[^0-9+]/', '', $phone);
 $image = tolstenko_contact_get_image_attrs($data['image'] ?? null);
 
 if (empty($image['url'])) {
@@ -39,26 +52,27 @@ if (empty($image['url'])) {
           <span><?= $data['title_accent']; ?></span>
         </h2>
         <div class="consult__text">
-          <?= $data['text']; ?>
+          <p><?= $data['text']; ?></p>
+          <?php if ($phone !== '') : ?>
+            <p><?= $data['contact_label']; ?> <a href="tel:<?= esc_attr($phone_href); ?>"><?= esc_html($phone); ?></a></p>
+          <?php endif; ?>
         </div>
 
         <form class="consult__form" action="" method="post">
           <div class="consult__field">
-            <input class="consult__input" type="text" name="contact" placeholder="Ваш телефон или телеграм" autocomplete="tel" required>
-            <button class="consult__submit" type="submit">Получить консультацию</button>
+            <input class="consult__input" type="text" name="contact" placeholder="<?= esc_attr($data['input_placeholder']); ?>" autocomplete="tel" required>
+            <button class="consult__submit" type="submit"><?= $data['btn_text']; ?></button>
           </div>
 
-          <label class="consult__check">
-            <input class="consult__check-input" type="checkbox" name="agree_policy" checked required>
-            <span class="consult__check-box"></span>
-            <span class="consult__check-text">Согласен с <a href="/privacy-policy/" target="_blank">политикой конфиденциальности</a></span>
-          </label>
-
-          <label class="consult__check">
-            <input class="consult__check-input" type="checkbox" name="agree_data" required>
-            <span class="consult__check-box"></span>
-            <span class="consult__check-text">Согласен с <a href="/personal-data/" target="_blank">обработкой данных</a></span>
-          </label>
+          <?php foreach ($consents as $consent_index => $consent) :
+              $consent = is_array($consent) ? $consent : [];
+          ?>
+            <label class="consult__check">
+              <input class="consult__check-input" type="checkbox" name="agree_<?= (int) $consent_index; ?>" <?= $consent_index === 0 ? 'checked' : ''; ?> required>
+              <span class="consult__check-box"></span>
+              <span class="consult__check-text"><?= $consent['text'] ?? ''; ?> <a href="<?= esc_url($consent['link_url'] ?? ''); ?>" target="_blank"><?= $consent['link_text'] ?? ''; ?></a></span>
+            </label>
+          <?php endforeach; ?>
         </form>
       </div>
 

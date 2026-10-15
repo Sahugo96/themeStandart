@@ -5,27 +5,51 @@ defined('ABSPATH') || exit;
 /**
  * Секция «Подробнее» (статья-гид).
  *
- * Дефолты подставляются, если соответствующий блок на странице не заполнен.
- * Если блок my-theme/guide заполнен — данные приходят через query var guide_data.
+ * Дефолты — из админки: tolstenko_get_block_defaults('guide')
+ * (таб «Секции лендинга → Подробнее»): subtitle, title, post_id.
+ * Если выбрана статья (post_id) — карточка собирается из записи,
+ * иначе используются статичные дефолты (перекрываются атрибутами блока).
  */
 
-$defaults = [
-    'subtitle'     => 'Подробнее',
-    'title'        => 'Банковские счета,',
-    'title_accent' => 'ВНЖ и компании в ОАЭ',
-    'tags'         => [
-        ['text' => 'Счета'],
-        ['text' => 'ОАЭ'],
-    ],
-    'time'         => '10 мин',
-    'views'        => '234',
-    'date'         => '2026-07-19',
-    'date_label'   => '19 июля 2026',
-    'card_title'   => 'Почему ОАЭ',
-    'text'         => '<p>Объединённые Арабские Эмираты — одна из самых устойчивых финансовых юрисдикций мира с нулевым личным подоходным налогом и развитой банковской системой под контролем Центрального банка ОАЭ. Резидентский статус открывает доступ к международным сервисам, а компания во фризоне позволяет вести бизнес со 100% иностранным владением.</p><p>Relocate-World помогает пройти этот путь без ошибок: подбираем банк и программу под ваш профиль, готовим документы под требования комплаенса и сопровождаем до результата.</p>',
-    'btn_text'     => 'Читать полностью',
-    'image'        => ['url' => THEME_PATH . '/assets/img/guide.jpg', 'alt' => 'Почему ОАЭ'],
+$admin = function_exists('tolstenko_get_block_defaults')
+    ? tolstenko_get_block_defaults('guide')
+    : [];
+
+$static = [
+    'tags'       => [['text' => 'Счета'], ['text' => 'ОАЭ']],
+    'time'       => '10 мин',
+    'views'      => '234',
+    'date'       => '2026-07-19',
+    'date_label' => '19 июля 2026',
+    'card_title' => 'Почему ОАЭ',
+    'text'       => '<p>Объединённые Арабские Эмираты — одна из самых устойчивых финансовых юрисдикций мира с нулевым личным подоходным налогом и развитой банковской системой под контролем Центрального банка ОАЭ. Резидентский статус открывает доступ к международным сервисам, а компания во фризоне позволяет вести бизнес со 100% иностранным владением.</p><p>Relocate-World помогает пройти этот путь без ошибок: подбираем банк и программу под ваш профиль, готовим документы под требования комплаенса и сопровождаем до результата.</p>',
+    'btn_text'   => 'Читать полностью',
+    'image'      => ['url' => THEME_PATH . '/assets/img/guide.jpg', 'alt' => 'Почему ОАЭ'],
 ];
+
+// Если в админке выбрана статья — берём данные карточки из записи.
+$post_id = (int) ($admin['post_id'] ?? 0);
+if ($post_id > 0 && ($guide_post = get_post($post_id))) {
+    $static['card_title'] = get_the_title($guide_post);
+    $static['date_label'] = get_the_date('j F Y', $guide_post);
+    $static['date']       = get_the_date('Y-m-d', $guide_post);
+
+    $excerpt = get_the_excerpt($guide_post);
+    if (is_string($excerpt) && $excerpt !== '') {
+        $static['text'] = '<p>' . $excerpt . '</p>';
+    }
+
+    $thumb_id = get_post_thumbnail_id($post_id);
+    if ($thumb_id) {
+        $static['image'] = (int) $thumb_id;
+    }
+}
+
+$defaults = array_merge($static, [
+    'subtitle'     => $admin['subtitle'] ?? '',
+    'title'        => $admin['title'] ?? '',
+    'title_accent' => '',
+]);
 
 $overrides = get_query_var('guide_data');
 $overrides = is_array($overrides) ? $overrides : [];
@@ -38,14 +62,17 @@ $image = tolstenko_contact_get_image_attrs($data['image'] ?? null);
 if (empty($image['url'])) {
     $image = ['url' => THEME_PATH . '/assets/img/guide.jpg', 'srcset' => '', 'sizes' => '', 'alt' => 'Почему ОАЭ'];
 }
+
+$title_html = ($data['title_accent'] ?? '') !== ''
+    ? $data['title'] . '<span class="guide__title-accent">' . $data['title_accent'] . '</span>'
+    : $data['title'];
 ?>
 <section class="guide section">
   <div class="container">
     <div class="guide__top">
       <span class="guide__badge"><?= $data['subtitle']; ?></span>
       <h2 class="guide__title">
-        <?= $data['title']; ?>
-        <span class="guide__title-accent"><?= $data['title_accent']; ?></span>
+        <?= $title_html; ?>
       </h2>
     </div>
 

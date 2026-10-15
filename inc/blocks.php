@@ -638,7 +638,7 @@ function theme_get_section_blocks_editor_config(): array
         [
             'name'          => 'my-theme/result',
             'title'         => 'Что вы получаете',
-            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
@@ -659,7 +659,7 @@ function theme_get_section_blocks_editor_config(): array
         [
             'name'          => 'my-theme/compare',
             'title'         => 'Сравнение',
-            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
@@ -686,7 +686,7 @@ function theme_get_section_blocks_editor_config(): array
         [
             'name'          => 'my-theme/why-us',
             'title'         => 'Почему именно мы',
-            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
@@ -708,7 +708,7 @@ function theme_get_section_blocks_editor_config(): array
         [
             'name'          => 'my-theme/infra',
             'title'         => 'Инфраструктура за пределами РФ',
-            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
@@ -731,7 +731,7 @@ function theme_get_section_blocks_editor_config(): array
         [
             'name'          => 'my-theme/about',
             'title'         => 'Кратко о нас',
-            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
@@ -755,7 +755,7 @@ function theme_get_section_blocks_editor_config(): array
         [
             'name'          => 'my-theme/guide',
             'title'         => 'Подробнее (статья)',
-            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
@@ -783,13 +783,29 @@ function theme_get_section_blocks_editor_config(): array
         [
             'name'          => 'my-theme/consult',
             'title'         => 'Бесплатная консультация (CTA)',
-            'hint'          => 'Дефолты секции; заполненные поля перекрывают их',
+            'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
                 ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
                 ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                ['attr' => 'contact_label', 'label' => 'Подпись перед телефоном', 'type' => 'text'],
+                ['attr' => 'phone', 'label' => 'Телефон', 'type' => 'text'],
+                ['attr' => 'input_placeholder', 'label' => 'Плейсхолдер поля', 'type' => 'text'],
+                ['attr' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text'],
+                [
+                    'attr'       => 'consents',
+                    'label'      => 'Согласия',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить согласие',
+                    'itemLabel'  => 'Согласие',
+                    'itemFields' => [
+                        ['key' => 'text', 'label' => 'Текст перед ссылкой', 'type' => 'text'],
+                        ['key' => 'link_text', 'label' => 'Текст ссылки', 'type' => 'text'],
+                        ['key' => 'link_url', 'label' => 'URL ссылки', 'type' => 'text'],
+                    ],
+                ],
                 ['attr' => 'image', 'label' => 'Изображение', 'type' => 'image'],
             ],
         ],

@@ -5,28 +5,43 @@ defined('ABSPATH') || exit;
 /**
  * Секция «Сравнение».
  *
- * Дефолты подставляются, если соответствующий блок на странице не заполнен.
- * Если блок my-theme/compare заполнен — данные приходят через query var compare_data.
+ * Дефолты — из админки: tolstenko_get_block_defaults('compare')
+ * (таб «Секции лендинга → Сравнение»). Атрибуты блока имеют приоритет.
  */
 
+$admin = function_exists('tolstenko_get_block_defaults')
+    ? tolstenko_get_block_defaults('compare')
+    : [];
+
+$admin_rows = is_array($admin['rows'] ?? null) ? $admin['rows'] : [];
+$rows = [];
+foreach ($admin_rows as $row) {
+    if (!is_array($row)) {
+        continue;
+    }
+    $rows[] = [
+        'criterion' => $row['criterion'] ?? '',
+        'self'      => $row['self'] ?? '',
+        'middle'    => $row['mediator'] ?? '',
+        'direct'    => $row['us'] ?? '',
+    ];
+}
+
 $defaults = [
-    'subtitle' => 'Сравнение',
-    'title'    => 'Сам, через посредника',
-    'title_accent' => 'или напрямую с нами',
-    'text'     => 'Мы — исполнитель на земле в DIFC.<br>Посредник из РФ перепродаёт нашу же работу с наценкой.<br>Разница видна по каждому пункту.',
-    'columns'  => ['Критерий', 'Сам', 'Через посредника', 'Напрямую с нами'],
-    'rows'     => [
-        ['criterion' => 'Цена', 'self' => 'Скрытые расходы', 'middle' => '+ наценка посредника', 'direct' => 'Без наценки, от исполнителя'],
-        ['criterion' => 'Кто оформляет', 'self' => 'Вы сами', 'middle' => 'Перепродаёт исполнителю', 'direct' => 'Мы, напрямую'],
-        ['criterion' => 'Доступ к банкам', 'self' => 'Общие условия', 'middle' => 'Через третьи руки', 'direct' => 'Свои банкиры, прямые отношения'],
-        ['criterion' => 'Помощь с комплаенсом', 'self' => 'Разбираетесь сами', 'middle' => 'Обычно не сопровождают', 'direct' => 'Закрываем вопросы комплаенса'],
-        ['criterion' => 'Сопровождение после', 'self' => 'Нет', 'middle' => 'До открытия счёта', 'direct' => 'Дальнейшая поддержка'],
-        ['criterion' => 'Ответственность', 'self' => 'На вас', 'middle' => 'Размыта между звеньями', 'direct' => 'Одна команда по договору'],
-        ['criterion' => 'Скорость и риск отказа', 'self' => 'Медленно, высокий риск', 'middle' => 'Задержки на передаче', 'direct' => 'Быстрее, ниже риск'],
+    'subtitle'     => $admin['badge'] ?? '',
+    'title'        => $admin['title'] ?? '',
+    'title_accent' => $admin['title_accent'] ?? '',
+    'text'         => isset($admin['lead']) ? tolstenko_landing_text($admin['lead']) : '',
+    'columns'      => [
+        $admin['th_criterion'] ?? '',
+        $admin['th_self'] ?? '',
+        $admin['th_mediator'] ?? '',
+        $admin['th_us'] ?? '',
     ],
-    'foot_text' => 'Большинство компаний на рынке — посредники.<br>В итоге всё равно приходят к исполнителю.<br>Так почему бы не сразу к нам?',
-    'btn_text'  => 'Начать сотрудничество',
-    'btn_link'  => ['url' => '#modal', 'title' => 'Начать сотрудничество', 'target' => ''],
+    'rows'         => $rows,
+    'foot_text'    => isset($admin['foot_text']) ? tolstenko_landing_text($admin['foot_text']) : '',
+    'btn_text'     => $admin['btn_text'] ?? '',
+    'btn_link'     => ['url' => $admin['btn_url'] ?? '', 'title' => $admin['btn_text'] ?? '', 'target' => ''],
 ];
 
 $overrides = get_query_var('compare_data');
