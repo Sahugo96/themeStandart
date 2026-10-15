@@ -11,11 +11,14 @@ if (is_array($faq_data) && $faq_data) {
   $section = get_query_var('section');
   if (!$section) return;
 
-  $badge = get_field('faq_badge');
-  $title = get_field('faq_title');
-  $items = get_field('faq_items');
-  $form_title = get_field('faq_form_title');
-  $form_text = get_field('faq_form_text');
+  // Дефолты из админки: «Дефолты блоков → FAQ».
+  $defaults = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('faq') : [];
+
+  $badge = $defaults['badge'] ?? '';
+  $title = $defaults['title'] ?? '';
+  $items = $defaults['items'] ?? [];
+  $form_title = $defaults['form_title'] ?? '';
+  $form_text = $defaults['form_text'] ?? '';
 }
 
 $items = is_array($items ?? null) ? $items : [];

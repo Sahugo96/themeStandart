@@ -3,8 +3,8 @@
 /**
  * FAQ на странице блога.
  *
- * Данные берутся из ACF-полей текущей страницы (faq_badge, faq_title,
- * faq_items, faq_form_title, faq_form_text) — см. inc/acf-faq-fields.php.
+ * Данные берутся из дефолтов админки: «Дефолты блоков → FAQ»
+ * (tolstenko_get_block_defaults('faq')).
  * Рендер общий с блоком my-theme/faq (pages/sections/faq.php).
  */
 

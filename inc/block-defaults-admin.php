@@ -193,25 +193,20 @@ function tolstenko_block_defaults_schema() {
 			),
 		),
 		'faq' => array(
-			'subtitle'   => '',
+			'badge'      => '',
 			'title'      => 'Частые вопросы',
-			'text'       => 'Ответы на популярные вопросы о работе с нами.',
 			'items'      => array(
 				array(
-					'title'    => 'Сколько занимает изготовление?',
-					'redactor' => '<p>Сроки зависят от объёма и сложности задачи. Обычно обсуждаем сроки на консультации.</p>',
+					'quest'  => 'Сколько занимает изготовление?',
+					'unswer' => '<p>Сроки зависят от объёма и сложности задачи. Обычно обсуждаем сроки на консультации.</p>',
 				),
 				array(
-					'title'    => 'Можно ли заказать только дизайн?',
-					'redactor' => '<p>Да, можем выполнить отдельные этапы: дизайн, производство или монтаж.</p>',
+					'quest'  => 'Можно ли заказать только дизайн?',
+					'unswer' => '<p>Да, можем выполнить отдельные этапы: дизайн, производство или монтаж.</p>',
 				),
 			),
 			'form_title' => 'Не нашли ответ на свой вопрос?',
 			'form_text'  => 'Оставьте заявку, и мы свяжемся с вами в ближайшее время, чтобы обсудить детали вашего проекта',
-			'foto'       => 0,
-			'foto_text'  => '',
-			'phone'      => '',
-			'telegram_url' => '',
 		),
 		'result' => array(
 			'badge' => 'Результат',
@@ -972,7 +967,7 @@ function tolstenko_faq_answer_editor( $content, $idx ) {
 		(string) $content,
 		$editor_id,
 		array(
-			'textarea_name' => 'tolstenko_block_defaults[faq][items][' . $idx . '][redactor]',
+			'textarea_name' => 'tolstenko_block_defaults[faq][items][' . $idx . '][unswer]',
 			'textarea_rows' => 8,
 			'media_buttons' => true,
 			'teeny'         => false,
@@ -1255,30 +1250,27 @@ function tolstenko_render_block_defaults_admin_page() {
 				'order'          => 'ASC',
 			)
 		);
-		$faq_foto_id = isset( $faq['foto'] ) ? (int) $faq['foto'] : 0;
-		$faq_foto_url = $faq_foto_id ? wp_get_attachment_image_url( $faq_foto_id, 'medium' ) : '';
 		?>
 
 
 		<div class="tolstenko-df-panel" data-panel="faq">
-			<div class="row"><input type="text" name="tolstenko_block_defaults[faq][subtitle]" value="<?php echo esc_attr( $faq['subtitle'] ?? '' ); ?>" style="width:100%" placeholder="Подзаголовок"></div>
+			<div class="row"><input type="text" name="tolstenko_block_defaults[faq][badge]" value="<?php echo esc_attr( $faq['badge'] ?? '' ); ?>" style="width:100%" placeholder="Надзаголовок (бейдж)"></div>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[faq][title]" value="<?php echo esc_attr( $faq['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок"></div>
-			<div class="row"><textarea name="tolstenko_block_defaults[faq][text]" rows="3" placeholder="Текст под заголовком"><?php echo esc_textarea( $faq['text'] ?? '' ); ?></textarea></div>
 			<div class="row">
 				<div class="muted"><?php esc_html_e( 'Вопросы и ответы', 'tolstenko-theme' ); ?></div>
 				<div data-repeater-list="faq-list">
 					<?php foreach ( (array) ( $faq['items'] ?? array() ) as $idx => $it ) : ?>
-						<?php $it = is_array( $it ) ? $it : array( 'title' => '', 'redactor' => '' ); ?>
+						<?php $it = is_array( $it ) ? $it : array( 'quest' => '', 'unswer' => '' ); ?>
 						<div class="repeater-item" data-repeater-item>
 							<div class="cols">
-								<input type="text" name="tolstenko_block_defaults[faq][items][<?php echo (int) $idx; ?>][title]" value="<?php echo esc_attr( $it['title'] ?? '' ); ?>" placeholder="Вопрос" style="width:100%">
+								<input type="text" name="tolstenko_block_defaults[faq][items][<?php echo (int) $idx; ?>][quest]" value="<?php echo esc_attr( $it['quest'] ?? '' ); ?>" placeholder="Вопрос" style="width:100%">
 								<button type="button" class="button move-btn" data-move-up title="Вверх">↑</button>
 								<button type="button" class="button move-btn" data-move-down title="Вниз">↓</button>
 								<button type="button" class="button" data-remove-item><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
 							</div>
 							<div class="row tolstenko-faq-editor-wrap">
 								<p class="description" style="margin:0 0 6px;"><?php esc_html_e( 'Ответ', 'tolstenko-theme' ); ?></p>
-								<?php tolstenko_faq_answer_editor( (string) ( $it['redactor'] ?? '' ), (int) $idx ); ?>
+								<?php tolstenko_faq_answer_editor( (string) ( $it['unswer'] ?? '' ), (int) $idx ); ?>
 							</div>
 						</div>
 					<?php endforeach; ?>
@@ -1288,18 +1280,7 @@ function tolstenko_render_block_defaults_admin_page() {
 			<hr>
 			<div class="muted"><?php esc_html_e( 'Форма справа', 'tolstenko-theme' ); ?></div>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[faq][form_title]" value="<?php echo esc_attr( $faq['form_title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок формы"></div>
-			<div class="row"><textarea name="tolstenko_block_defaults[faq][form_text]" rows="2" placeholder="Текст формы"><?php echo esc_textarea( $faq['form_text'] ?? '' ); ?></textarea></div>
-			<div class="row">
-				<div class="muted"><?php esc_html_e( 'Фото справа', 'tolstenko-theme' ); ?></div>
-				<div class="tolstenko-defaults-image-row">
-					<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[faq][foto]" value="<?php echo (int) $faq_foto_id; ?>">
-					<button type="button" class="button tolstenko-defaults-pick-icon"><?php esc_html_e( 'Выбрать', 'tolstenko-theme' ); ?></button>
-					<div class="icon-preview"><?php if ( $faq_foto_url ) : ?><img src="<?php echo esc_url( $faq_foto_url ); ?>" alt=""><?php endif; ?></div>
-				</div>
-			</div>
-			<div class="row"><textarea name="tolstenko_block_defaults[faq][foto_text]" rows="2" placeholder="Текст рядом с фото (HTML)"><?php echo esc_textarea( $faq['foto_text'] ?? '' ); ?></textarea></div>
-			<div class="row"><input type="text" name="tolstenko_block_defaults[faq][phone]" value="<?php echo esc_attr( $faq['phone'] ?? '' ); ?>" style="width:100%" placeholder="Телефон (пусто = из шапки)"></div>
-			<div class="row"><input type="url" name="tolstenko_block_defaults[faq][telegram_url]" value="<?php echo esc_attr( $faq['telegram_url'] ?? '' ); ?>" style="width:100%" placeholder="Telegram URL (пусто = из шапки)"></div>
+			<div class="row"><input type="text" name="tolstenko_block_defaults[faq][form_text]" value="<?php echo esc_attr( $faq['form_text'] ?? '' ); ?>" style="width:100%" placeholder="Текст формы"></div>
 		</div>
 
 		<div class="tolstenko-df-panel" data-panel="field_template">
@@ -1725,7 +1706,7 @@ function tolstenko_render_block_defaults_admin_page() {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[documents][items][' + idx + '][title]" placeholder="Подпись / alt"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[documents][items][' + idx + '][image]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Выбрать изображение</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview cert-preview" style="margin-top:8px;"></div></div>';
 				} else if (key === 'faq-list') {
 					var editorId = 'tolstenko_faq_redactor_' + idx + '_' + Date.now();
-					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[faq][items][' + idx + '][title]" placeholder="Вопрос" style="width:100%"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row tolstenko-faq-editor-wrap"><p class="description" style="margin:0 0 6px;">Ответ</p><textarea id="' + editorId + '" name="tolstenko_block_defaults[faq][items][' + idx + '][redactor]" rows="8" class="wp-editor-area"></textarea></div></div>';
+					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[faq][items][' + idx + '][quest]" placeholder="Вопрос" style="width:100%"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row tolstenko-faq-editor-wrap"><p class="description" style="margin:0 0 6px;">Ответ</p><textarea id="' + editorId + '" name="tolstenko_block_defaults[faq][items][' + idx + '][unswer]" rows="8" class="wp-editor-area"></textarea></div></div>';
 					list.insertAdjacentHTML('beforeend', html);
 					if (window.wp && wp.editor && typeof wp.editor.initialize === 'function') {
 						wp.editor.initialize(editorId, {
@@ -2002,30 +1983,25 @@ function tolstenko_save_block_defaults_from_request() {
 	);
 
 	$out['faq'] = array(
-		'subtitle'     => tolstenko_kses_html( $raw['faq']['subtitle'] ?? '' ),
-		'title'        => tolstenko_kses_html( $raw['faq']['title'] ?? ''  ),
-		'text'         => tolstenko_kses_html( $raw['faq']['text'] ?? ''  ),
-		'form_title'   => tolstenko_kses_html( $raw['faq']['form_title'] ?? ''  ),
-		'form_text'    => tolstenko_kses_html( $raw['faq']['form_text'] ?? ''  ),
-		'foto'         => isset( $raw['faq']['foto'] ) ? (int) $raw['faq']['foto'] : 0,
-		'foto_text'    => tolstenko_kses_html( $raw['faq']['foto_text'] ?? '' ),
-		'phone'        => sanitize_text_field( $raw['faq']['phone'] ?? '' ),
-		'telegram_url' => esc_url_raw( $raw['faq']['telegram_url'] ?? '' ),
-		'items'        => array(),
+		'badge'      => tolstenko_kses_html( $raw['faq']['badge'] ?? '' ),
+		'title'      => tolstenko_kses_html( $raw['faq']['title'] ?? ''  ),
+		'form_title' => tolstenko_kses_html( $raw['faq']['form_title'] ?? ''  ),
+		'form_text'  => tolstenko_kses_html( $raw['faq']['form_text'] ?? ''  ),
+		'items'      => array(),
 	);
 	if ( isset( $raw['faq']['items'] ) && is_array( $raw['faq']['items'] ) ) {
 		foreach ( $raw['faq']['items'] as $it ) {
 			if ( ! is_array( $it ) ) {
 				continue;
 			}
-			$q = tolstenko_kses_html( $it['title'] ?? ''  );
-			$a = tolstenko_kses_redactor( $it['redactor'] ?? '' );
+			$q = tolstenko_kses_html( $it['quest'] ?? ''  );
+			$a = tolstenko_kses_redactor( $it['unswer'] ?? '' );
 			if ( $q === '' && trim( wp_strip_all_tags( $a ) ) === '' ) {
 				continue;
 			}
 			$out['faq']['items'][] = array(
-				'title'    => $q,
-				'redactor' => $a,
+				'quest'  => $q,
+				'unswer' => $a,
 			);
 		}
 	}
