@@ -19,6 +19,7 @@
           <div class="partners__list splide__list">
             <?php
             $items = get_field('partners_items', OPTION_ID);
+            $items = is_array($items) ? $items : [];
             foreach ($items as $item) {
               $image = $item['image'];
               $image = Image::get_image_attrs($image);

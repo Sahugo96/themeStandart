@@ -8,6 +8,7 @@
     <div class="services__items">
       <?php
       $items = get_field('services_items');
+      $items = is_array($items) ? $items : [];
       foreach ($items as $item) {
         $ico = $item['ico'];
         $ico = Image::get_image_attrs($ico);
@@ -55,6 +56,7 @@
       <?php
       $active = " active";
       $items = get_field('services_list');
+      $items = is_array($items) ? $items : [];
       $current_anchor = isset($_GET['anchor']) ? '#' . $_GET['anchor'] : '';
 
       foreach ($items as $index => $item) {

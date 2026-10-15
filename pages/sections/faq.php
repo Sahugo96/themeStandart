@@ -19,6 +19,8 @@ if ($faq_data) {
   $foto = Image::get_image_attrs($foto);
 }
 
+$items = is_array($items ?? null) ? $items : [];
+
 $cd = tolstenko_get_contact_data();
 $faq_phone = trim((string) $cd['phone']);
 $faq_phone_href = preg_replace('/[^0-9+]/', '', $faq_phone);

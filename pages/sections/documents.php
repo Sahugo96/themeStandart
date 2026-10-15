@@ -2,6 +2,7 @@
 $title = get_field('documents_title', OPTION_ID);
 $text = get_field('documents_text', OPTION_ID);
 $items = get_field('documents_items', OPTION_ID);
+$items = is_array($items) ? $items : [];
 ?>
 <section class="documents section">
   <div class="container">

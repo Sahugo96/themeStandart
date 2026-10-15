@@ -5,6 +5,7 @@ $items = get_field('faq_items', OPTION_ID);
 $foto = get_field('faq_foto', OPTION_ID);
 $foto_text = get_field('faq_foto_text', OPTION_ID);
 $foto = Image::get_image_attrs($foto);
+$items = is_array($items) ? $items : [];
 $cd = tolstenko_get_contact_data();
 $faq_phone = trim((string) $cd['phone']);
 $faq_phone_href = preg_replace('/[^0-9+]/', '', $faq_phone);

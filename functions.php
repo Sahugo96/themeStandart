@@ -1,6 +1,8 @@
 <?php
-//Глобальные переменные
+// Глобальные переменные
 require_once(dirname(__FILE__) . '/inc/consts.php');
+// Фолбэк ACF (если плагин ACF не активен — не даём сайту упасть)
+require_once(dirname(__FILE__) . '/inc/acf-fallback.php');
 //Подключение стиоей и скриптов
 require_once(dirname(__FILE__) . '/inc/enqueue.php');
 //Базовые настройки
