@@ -10,6 +10,12 @@
   var controls = window.themeBlockControls;
   var colors = controls.colors;
   var defaults = window.themeBlockDefaults || {};
+  var useState = wp.element.useState;
+  var useRef = wp.element.useRef;
+  var useEffect = wp.element.useEffect;
+  var Modal = wp.components && wp.components.Modal;
+  var Button = wp.components && wp.components.Button;
+  var TextareaControl = wp.components && wp.components.TextareaControl;
 
   var HIDDEN_BLOCK_ALLOWED = [
     'core/paragraph',
@@ -517,6 +523,190 @@
     },
   });
 
+  // —— Rich-text редактор (как «Фото + текст» в editor-blocks.js) ——
+  // Превью + модалка с настоящим wp.editor (TinyMCE), как у FAQ.
+  var TOLSTENKO_MCE = {
+    wpautop: true,
+    plugins: 'charmap colorpicker hr lists paste tabfocus textcolor wordpress wpautoresize wpeditimage wpemoji wpgallery wplink wptextpattern',
+    toolbar1: 'formatselect,bold,italic,bullist,numlist,blockquote,alignleft,aligncenter,alignright,link,unlink,wp_adv',
+    toolbar2: 'strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo',
+    height: 320
+  };
+
+  function themeClassicEditor() {
+    if (wp.editor && typeof wp.editor.initialize === 'function') {
+      return wp.editor;
+    }
+    if (wp.oldEditor && typeof wp.oldEditor.initialize === 'function') {
+      return wp.oldEditor;
+    }
+    return null;
+  }
+
+  function stripHtmlPreview(html) {
+    var tmp = document.createElement('div');
+    tmp.innerHTML = String(html || '');
+    var text = (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
+    if (!text) {
+      return 'Пусто — нажмите «Редактировать»';
+    }
+    return text.length > 160 ? (text.slice(0, 160) + '…') : text;
+  }
+
+  function ThemeRichTextField(props) {
+    var id = props.id;
+    var label = props.label || '';
+    var value = props.value || '';
+    var onChange = props.onChange;
+    var openState = useState(false);
+    var open = openState[0];
+    var setOpen = openState[1];
+    var draftRef = useRef(value);
+    var hostRef = useRef(null);
+    var editorLib = themeClassicEditor();
+
+    useEffect(function () {
+      if (!open) return undefined;
+      draftRef.current = value || '';
+      if (!hostRef.current || !id || !editorLib) return undefined;
+
+      var host = hostRef.current;
+      host.innerHTML = '';
+      var ta = document.createElement('textarea');
+      ta.id = id;
+      ta.className = 'wp-editor-area';
+      ta.rows = 12;
+      ta.value = draftRef.current;
+      host.appendChild(ta);
+
+      function mceSettings() {
+        return {
+          tinymce: Object.assign({}, TOLSTENKO_MCE, {
+            setup: function (editor) {
+              editor.on('init', function () {
+                editor.setContent(draftRef.current || '');
+              });
+              editor.on('change keyup Undo Redo', function () {
+                draftRef.current = editor.getContent();
+              });
+            }
+          }),
+          quicktags: true,
+          mediaButtons: true
+        };
+      }
+
+      var timer = window.setTimeout(function () {
+        try { editorLib.remove(id); } catch (e0) {}
+        try {
+          editorLib.initialize(id, mceSettings());
+        } catch (e1) {
+          // Если quicktags недоступны — пробуем без них.
+          try {
+            var fallback = mceSettings();
+            fallback.quicktags = false;
+            editorLib.initialize(id, fallback);
+          } catch (e2) {}
+        }
+      }, 50);
+
+      return function () {
+        window.clearTimeout(timer);
+        if (window.tinymce) {
+          var ed = window.tinymce.get(id);
+          if (ed) {
+            try { draftRef.current = ed.getContent(); } catch (e3) {}
+          }
+        }
+        try { editorLib.remove(id); } catch (e4) {}
+        host.innerHTML = '';
+      };
+    }, [open, id]);
+
+    function readDraft() {
+      var ed = window.tinymce ? window.tinymce.get(id) : null;
+      if (ed) {
+        try { draftRef.current = ed.getContent(); } catch (e5) {}
+        return;
+      }
+      if (hostRef.current) {
+        var ta = hostRef.current.querySelector('textarea');
+        if (ta) {
+          draftRef.current = ta.value;
+        }
+      }
+    }
+
+    function saveAndClose() {
+      readDraft();
+      if (typeof onChange === 'function') {
+        onChange(draftRef.current || '');
+      }
+      setOpen(false);
+    }
+
+    // Если TinyMCE недоступен — обычная текстовая область с HTML.
+    if (!editorLib && TextareaControl) {
+      return el(TextareaControl, {
+        label: (label || 'Редактор') + ' (HTML)',
+        help: 'Визуальный редактор недоступен — введите HTML вручную',
+        value: value,
+        rows: 8,
+        onChange: onChange
+      });
+    }
+
+    return el('div', { className: 'tolstenko-seo-text-editor', style: { margin: '8px 0 12px' } }, [
+      label ? el('p', {
+        key: 'l',
+        style: { margin: '0 0 6px', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', color: '#1e1e1e' }
+      }, label) : null,
+      el('div', {
+        key: 'preview',
+        style: {
+          border: '1px solid #c3c4c7',
+          borderRadius: '2px',
+          background: '#fff',
+          padding: '10px 12px',
+          minHeight: '72px',
+          color: value ? '#1e1e1e' : '#757575',
+          fontSize: '13px',
+          lineHeight: '1.45',
+          marginBottom: '8px'
+        }
+      }, stripHtmlPreview(value)),
+      Button ? el(Button, {
+        key: 'edit',
+        isSecondary: true,
+        isSmall: true,
+        onClick: function () { setOpen(true); }
+      }, 'Редактировать') : null,
+      (open && Modal) ? el(Modal, {
+        key: 'modal',
+        title: label || 'Редактор',
+        onRequestClose: function () { setOpen(false); },
+        style: { maxWidth: '820px', width: '92vw' }
+      }, [
+        el('div', { key: 'host', ref: hostRef, className: 'tolstenko-seo-text-editor-host', style: { minHeight: '360px' } }),
+        el('div', {
+          key: 'actions',
+          style: { display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '16px' }
+        }, [
+          el(Button, {
+            key: 'cancel',
+            isSecondary: true,
+            onClick: function () { setOpen(false); }
+          }, 'Отмена'),
+          el(Button, {
+            key: 'save',
+            isPrimary: true,
+            onClick: saveAndClose
+          }, 'Готово')
+        ])
+      ]) : null
+    ]);
+  }
+
   // Эталонный блок «Шаблон всех полей»: демонстрирует все типы полей.
   // Атрибуты image_id / post_ids / single_post_id — числовые/массивы id,
   // поэтому imageField адаптируется под число вручную.
@@ -544,6 +734,7 @@
       var postIds = Array.isArray(attributes.post_ids) ? attributes.post_ids : [];
       var imageId = parseInt(attributes.image_id, 10) || 0;
       var postCatalog = (defaults.posts && defaults.posts.blog) || [];
+      var editorFieldId = 'tolstenko_field_template_editor_' + String(props.clientId || Math.random().toString(36).slice(2)).replace(/[^a-zA-Z0-9_-]/g, '');
       var blockProps = useBlockProps({
         className: 'theme-block theme-block--field-template',
         style: controls.blockShell(colors.accent),
@@ -575,9 +766,10 @@
             setAttributes({ textarea_field: value });
           },
         }),
-        controls.textareaField({
-          label: 'Редактор (HTML / rich text)',
-          help: 'На сайте выводится через wp_kses_post',
+        el(ThemeRichTextField, {
+          key: 'editor-field',
+          id: editorFieldId,
+          label: 'Редактор (rich text)',
           value: attributes.editor_field || '',
           onChange: function (value) {
             setAttributes({ editor_field: value });

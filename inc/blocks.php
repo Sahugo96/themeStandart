@@ -882,7 +882,7 @@ function theme_enqueue_block_editor_assets(): void
     wp_enqueue_script(
         'my-theme-blocks',
         get_template_directory_uri() . '/assets/js/blocks.js',
-        ['my-theme-block-controls', 'wp-blocks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-data'],
+        ['my-theme-block-controls', 'wp-blocks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-data', 'editor'],
         filemtime($blocks_js),
         true
     );
