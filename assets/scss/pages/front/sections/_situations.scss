@@ -1,0 +1,237 @@
+.situations {
+  --sit-bg: var(--beige-color, #f3f0e9);
+  --sit-gold: var(--gold-color, #b89a68);
+  --sit-dark: var(--dark-color, #1a2027);
+  --sit-text: var(--gray-60-color, #8a8d90);
+  --sit-line: var(--beige-line-color, #f1eee8);
+  --sit-border: var(--gray-30-color, #dcd7cd);
+
+  // Блок с отступом от краёв экрана; слайдер уходит за правый край блока и обрезается им
+  margin: 0 vw(10px, $mobile);
+  padding: vw(30px, $mobile) 0;
+  border-radius: vw(24px, $mobile);
+  background-color: var(--sit-bg);
+  overflow: hidden;
+  @media (min-width: $desk) {
+    margin: 0 vw(30px, $desktop);
+    padding: vw(80px, $desktop) 0 vw(40px, $desktop);
+    border-radius: vw(40px, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    margin: 0 vw(30px, $desktop_large);
+    padding: vw(80px, $desktop_large) 0 vw(40px, $desktop_large);
+    border-radius: vw(40px, $desktop_large);
+  }
+
+  &__top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: vw(24px, $mobile);
+    @media (min-width: $desk) {
+      margin-bottom: vw(42px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-bottom: vw(42px, $desktop_large);
+    }
+  }
+
+  &__badge {
+    padding: vw(8px, $mobile) vw(18px, $mobile);
+    border: 1px solid var(--sit-border);
+    border-radius: 999px;
+    font-size: vw(10px, $mobile);
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--sit-text);
+    @media (min-width: $desk) {
+      padding: vw(8px, $desktop) vw(18px, $desktop);
+      font-size: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(8px, $desktop_large) vw(18px, $desktop_large);
+      font-size: vw(10px, $desktop_large);
+    }
+  }
+
+  &__title {
+    margin-top: vw(20px, $mobile);
+    text-align: center;
+    font-weight: 800;
+    font-size: vw(22px, $mobile);
+    line-height: 1.1;
+    color: var(--sit-dark);
+    @media (min-width: $desk) {
+      margin-top: vw(24px, $desktop);
+      font-size: vw(32px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(24px, $desktop_large);
+      font-size: vw(32px, $desktop_large);
+    }
+  }
+
+  &__title-accent {
+    display: block;
+    color: var(--sit-gold);
+  }
+
+  // Трек не обрезаем на десктопе: следующие слайды «выглядывают» справа
+  &__splide .splide__track {
+    @media (min-width: $desk) {
+      overflow: visible;
+    }
+  }
+
+  &__slide {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(12px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+    }
+  }
+
+  &__card {
+    flex: 1 1 auto;
+    padding: vw(20px, $mobile);
+    border-radius: vw(16px, $mobile);
+    background-color: var(--white-color);
+    @media (min-width: $desk) {
+      padding: vw(20px, $desktop);
+      border-radius: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(20px, $desktop_large);
+      border-radius: vw(20px, $desktop_large);
+    }
+  }
+
+  &__card-head {
+    display: flex;
+    align-items: flex-start;
+    grid-gap: vw(12px, $mobile);
+    padding-bottom: vw(16px, $mobile);
+    border-bottom: 1px solid var(--sit-line);
+    @media (min-width: $desk) {
+      grid-gap: vw(14px, $desktop);
+      padding-bottom: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(14px, $desktop_large);
+      padding-bottom: vw(20px, $desktop_large);
+    }
+  }
+
+  &__card-icon {
+    max-width: vw(30px, $mobile);
+    min-width: vw(30px, $mobile);
+    height: auto;
+    aspect-ratio: 1/1;
+    fill: var(--sit-gold);
+    stroke: none;
+    path {
+      fill: none;
+      stroke: var(--white-color);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    @media (min-width: $desk) {
+      max-width: vw(30px, $desktop);
+      min-width: vw(30px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      max-width: vw(30px, $desktop_large);
+      min-width: vw(30px, $desktop_large);
+    }
+  }
+
+  &__card-title {
+    font-weight: 700;
+    font-size: vw(16px, $mobile);
+    line-height: 1.05;
+    color: var(--sit-dark);
+    @media (min-width: $desk) {
+      font-size: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(20px, $desktop_large);
+    }
+  }
+
+  &__card-text {
+    margin-top: vw(15px, $mobile);
+    font-size: vw(13px, $mobile);
+    line-height: 1.45;
+    color: var(--sit-text);
+    @media (min-width: $desk) {
+      margin-top: vw(15px, $desktop);
+      font-size: vw(14px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(15px, $desktop_large);
+      font-size: vw(14px, $desktop_large);
+    }
+    span {
+      color: var(--sit-gold);
+    }
+  }
+
+  // Пагинация: активная точка — «таблетка»
+  .splide__bottom {
+    display: flex;
+    justify-content: center;
+    margin-top: vw(24px, $mobile);
+    @media (min-width: $desk) {
+      margin-top: vw(30px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(30px, $desktop_large);
+    }
+  }
+
+  .splide__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-gap: vw(8px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(8px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(8px, $desktop_large);
+    }
+  }
+
+  .splide__pagination__page {
+    width: vw(5px, $mobile);
+    height: vw(5px, $mobile);
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background-color: var(--sit-gold);
+    transition: all 0.3s linear;
+    @media (min-width: $desk) {
+      width: vw(5px, $desktop);
+      height: vw(5px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      width: vw(5px, $desktop_large);
+      height: vw(5px, $desktop_large);
+    }
+    &.is-active {
+      width: vw(25px, $mobile);
+      @media (min-width: $desk) {
+        width: vw(25px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        width: vw(25px, $desktop_large);
+      }
+    }
+  }
+}
