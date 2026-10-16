@@ -1,0 +1,26 @@
+{
+  "apiVersion": 3,
+  "title": "Кнопка «Перейти в блог»",
+  "name": "my-theme/blog-more",
+  "category": "tolstenko-general",
+  "icon": "arrow-right-alt",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "url": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}

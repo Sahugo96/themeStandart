@@ -1,0 +1,38 @@
+{
+  "apiVersion": 3,
+  "title": "Как проходит работа",
+  "name": "my-theme/process",
+  "category": "tolstenko-general",
+  "icon": "editor-ol",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "title_accent": {
+      "type": "string",
+      "default": ""
+    },
+    "image": {
+      "type": "object",
+      "default": {}
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

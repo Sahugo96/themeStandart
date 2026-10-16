@@ -1,0 +1,54 @@
+{
+  "apiVersion": 3,
+  "title": "Стоимость",
+  "name": "my-theme/cost",
+  "category": "tolstenko-general",
+  "icon": "money-alt",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "title_accent": {
+      "type": "string",
+      "default": ""
+    },
+    "lead": {
+      "type": "string",
+      "default": ""
+    },
+    "prices": {
+      "type": "array",
+      "default": []
+    },
+    "card_title": {
+      "type": "string",
+      "default": ""
+    },
+    "card_text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "image": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "render": "file:./template.php"
+}

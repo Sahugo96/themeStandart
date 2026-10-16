@@ -1,0 +1,22 @@
+{
+  "apiVersion": 3,
+  "title": "Цифры под hero",
+  "name": "my-theme/hero-stats",
+  "category": "tolstenko-general",
+  "icon": "chart-bar",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}
