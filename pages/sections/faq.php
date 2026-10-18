@@ -8,9 +8,6 @@ if (is_array($faq_data) && $faq_data) {
   $form_title = $faq_data['form_title'] ?? '';
   $form_text = $faq_data['form_text'] ?? '';
 } else {
-  $section = get_query_var('section');
-  if (!$section) return;
-
   // Дефолты из админки: «Дефолты блоков → FAQ».
   $defaults = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('faq') : [];
 

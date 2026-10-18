@@ -8,5 +8,4 @@
  * Рендер общий с блоком my-theme/faq (pages/sections/faq.php).
  */
 
-set_query_var('section', true);
 get_template_part('pages/sections/faq');

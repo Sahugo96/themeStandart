@@ -34,6 +34,7 @@ get_header();
     theme_render_front_section('cost');
     theme_render_front_section('blog-more');
     theme_render_front_section('documents');
+    theme_render_front_section('faq');
     ?>
 </main>
 
