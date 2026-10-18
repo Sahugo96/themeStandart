@@ -920,6 +920,32 @@ function tolstenko_merge_block_defaults_data( $base, $saved ) {
 	if ( ! is_array( $saved ) ) {
 		return $base;
 	}
+
+	// Пустое значение в сохранённых данных = «поле не заполнено»:
+	// не затираем непустой дефолт из схемы (иначе секции с пустыми
+	// сохранёнными полями/списками перестают выводиться).
+	foreach ( $saved as $saved_key => $saved_value ) {
+		if ( ! array_key_exists( $saved_key, $base ) ) {
+			continue;
+		}
+
+		$base_value = $base[ $saved_key ];
+
+		// Пустая строка vs непустая строка в схеме.
+		if ( is_string( $saved_value ) ) {
+			if ( trim( $saved_value ) === '' && is_string( $base_value ) && trim( $base_value ) !== '' ) {
+				unset( $saved[ $saved_key ] );
+			}
+
+			continue;
+		}
+
+		// Пустой список vs непустой список в схеме.
+		if ( is_array( $saved_value ) && empty( $saved_value ) && is_array( $base_value ) && ! empty( $base_value ) ) {
+			unset( $saved[ $saved_key ] );
+		}
+	}
+
 	$data = array_replace_recursive( $base, $saved );
 	foreach ( $saved as $key => $value ) {
 		if ( ! is_array( $value ) ) {
