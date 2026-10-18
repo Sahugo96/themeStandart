@@ -17,6 +17,6 @@
 
         <header class="header load-on-vissible--js" data-module="./modules/lazyLoad.js,./modules/headerScroll.js,./modules/menu.js,./modules/headerServicesPanel.js,./modules/modal.js,./modules/animSection.js,./modules/anchorScroll.js">
                 <?php
-                    // get_template_part('modules/header-menu');
+                    get_template_part('modules/header-menu');
                 ?>
         </header>

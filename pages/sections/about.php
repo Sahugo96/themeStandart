@@ -61,7 +61,7 @@ if (empty($image['url'])) {
           <?= $data['title']; ?>
         </h2>
 
-        <div class="about__text">
+        <div class="about__text reg-par-14-20">
           <?= $data['text']; ?>
         </div>
 
@@ -69,7 +69,7 @@ if (empty($image['url'])) {
           <ul class="about__stats br-30">
             <?php foreach ($stats as $stat) : ?>
               <li class="about__stat br-20">
-                <span class="about__stat-num"><?= $stat['num'] ?? ''; ?></span>
+                <span class="about__stat-num h2-18-20"><?= $stat['num'] ?? ''; ?></span>
                 <span class="about__stat-label"><?= $stat['label'] ?? ''; ?></span>
               </li>
             <?php endforeach; ?>

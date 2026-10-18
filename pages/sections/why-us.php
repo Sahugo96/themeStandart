@@ -51,7 +51,7 @@ if (empty($items)) {
                         <?= $icon; ?>
                         <h3 class="why-us__item-title h4"><?= $item['title'] ?? ''; ?></h3>
                     </div>
-                    <p class="why-us__item-text reg-par"><?= $item['text'] ?? ''; ?></p>
+                    <p class="why-us__item-text reg-par-14-20"><?= $item['text'] ?? ''; ?></p>
                 </li>
             <?php endforeach; ?>
 

@@ -11,22 +11,32 @@
   // На мобильных таблица скроллится внутри своего блока
   &__table-wrap {
     overflow-x: auto;
-    border-radius: vw(24px, $mobile);
+    
+    width: vw(387px, $mobile);
+    padding: 0 vw(16px, $mobile);
+    margin: 0 vw(-16px, $mobile);
     background-color: var(--white-color);
+    @media (max-width: $desk) {
+      border-radius: 0;
+    }
     @media (min-width: $desk) {
-      border-radius: vw(40px, $desktop);
+      width: auto;
+      padding: 0;
+      margin: 0;
+      // border-radius: vw(40px, $desktop);
     }
     @media (min-width: $desk_large) {
-      border-radius: vw(40px, $desktop_large);
+      // border-radius: vw(40px, $desktop_large);
     }
   }
 
   &__table {
     width: 100%;
-    min-width: 760px;
+    min-width: vw(860px, $mobile);
     border-collapse: collapse;
     table-layout: fixed;
     text-align: left;
+    // background-color: var(--white-color);
     @media (min-width: $desk) {
       min-width: 0;
     }
@@ -40,7 +50,7 @@
     line-height: 1.2;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--compare-dark);
+    color: var(--main-text-color);
     &:nth-child(1) {
       width: 22%;
     }
@@ -49,7 +59,7 @@
       width: 24%;
     }
     &--accent {
-      color: var(--compare-gold);
+      color: var(--accent-color);
     }
     @media (min-width: $desk) {
       padding: vw(30px, $desktop) vw(30px, $desktop) vw(22px, $desktop);

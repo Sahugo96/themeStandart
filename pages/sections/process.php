@@ -36,20 +36,20 @@ if (empty($image['url'])) {
     $image = ['url' => THEME_PATH . '/assets/img/process.jpg', 'srcset' => '', 'sizes' => '', 'alt' => 'Координатор Relocate-World'];
 }
 ?>
-<section class="process load-on-vissible--js" data-module="./modules/processAccordioninit.js">
+<section class="process section load-on-vissible--js" data-module="./modules/processAccordioninit.js">
   <div class="container">
-    <div class="process__top">
+    <div class="process__top section-top">
       <?php if (trim((string) $data['badge']) !== '') : ?>
-        <span class="process__badge"><?= $data['badge']; ?></span>
+        <span class="process__badge section-subtitle"><?= $data['badge']; ?></span>
       <?php endif; ?>
-      <h2 class="process__title">
+      <h2 class="process__title section-title">
         <?= $data['title']; ?>
-        <span class="process__title-accent"><?= $data['title_accent']; ?></span>
+        <span><?= $data['title_accent']; ?></span>
       </h2>
     </div>
 
-    <div class="process__card">
-      <div class="process__image">
+    <div class="process__card br-30">
+      <div class="process__image br-30">
         <img src="<?= $image['url']; ?>" <?php if ($image['srcset']) echo 'srcset="' . $image['srcset'] . '"'; ?> alt="<?= $image['alt']; ?>" loading="lazy">
       </div>
 
@@ -58,14 +58,14 @@ if (empty($image['url'])) {
         <?php foreach ($items as $index => $step) : ?>
           <div class="process__item<?= $index === 0 ? ' active' : ''; ?>" data-accordion-item>
             <button class="process__item-top" type="button" aria-expanded="<?= $index === 0 ? 'true' : 'false'; ?>" data-accordion-btn>
-              <span class="process__item-num"><?= $index + 1; ?></span>
-              <span class="process__item-title"><?= $step['title'] ?? ''; ?></span>
+              <span class="process__item-num h4"><?= $index + 1; ?></span>
+              <span class="process__item-title h4"><?= $step['title'] ?? ''; ?></span>
               <svg class="process__item-plus" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M10 3v14M3 10h14"/>
               </svg>
             </button>
             <div class="process__item-body">
-              <div class="process__item-inner">
+              <div class="process__item-inner reg-par-14-20">
                 <?= $step['text'] ?? ''; ?>
               </div>
             </div>

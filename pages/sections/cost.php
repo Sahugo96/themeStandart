@@ -49,7 +49,7 @@ $cd_whatsapp = trim((string) ($cd['whatsapp'] ?? ''));
 $cd_telegram = trim((string) ($cd['telegram'] ?? ''));
 $cd_phone_href = trim((string) ($cd['phone_href'] ?? ''));
 ?>
-<section class="cost">
+<section class="cost section">
   <div class="container">
     <div class="cost__top">
       <?php if (trim((string) $data['badge']) !== '') : ?>

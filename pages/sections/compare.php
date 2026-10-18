@@ -73,8 +73,8 @@ $btn_url = $btn_link['url'] ?? '';
             </p>
         </div>
 
-        <div class="compare__table-wrap">
-            <table class="compare__table">
+        <div class="compare__table-wrap br-30">
+            <table class="compare__table ">
                 <thead>
                     <tr>
                         <th class="compare__th" scope="col"><?= $columns[0]; ?></th>

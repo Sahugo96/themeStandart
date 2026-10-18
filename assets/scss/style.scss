@@ -5,8 +5,8 @@
 @import './common/general';
 
 
-@import './common/header'; // + +
-@import './common/footer'; // + +
+@import './common/header'; // + -
+@import './common/footer'; // + -
 
 //Модули
 // @import './modules/breadcrumb'; // + +
@@ -19,59 +19,66 @@
 // @import './modules/stats'; // + +
 // @import './modules/header-services-panel'; // + +
 
-@import './modules/redactor'; // +
-@import './modules/splide'; // - +
-@import './modules/form'; // + +
+@import './modules/redactor'; // -
+@import './modules/splide'; // - -
+@import './modules/form'; // + -
 
-@import './modules/tg-block'; // + +
-@import './modules/blockquote'; // + +
-@import './modules/blog-section-audit-btn'; // + +
-@import './modules/pagination'; // +
-@import './modules/blog-card'; // + +
-@import './modules/service-card'; // + +
-
-@import './modules/filter'; // - +
-@import './modules/anim'; // - +
-@import './modules/blog-section'; // - +
-@import './modules/service-section'; // - +
+@import './modules/tg-block'; // + -
+@import './modules/blockquote'; // + -
+@import './modules/blog-section-audit-btn'; // + -
 
 
-@import './modules/cookie'; // - +
+@import './modules/pagination'; // + +
 
 
 
+@import './modules/blog-card'; // + -
+@import './modules/service-card'; // + -
 
-@import './pages/front/sections/hero'; // + +
+@import './modules/filter'; // - -
+@import './modules/anim'; // - -
+@import './modules/blog-section'; // - -
+@import './modules/service-section'; // - -
+
+
+@import './modules/cookie'; // - -
+
+
+
+
+@import './pages/front/sections/hero'; // + -
+
+
+@import './pages/front/sections/process'; // + +
+@import './pages/front/sections/about'; // + +
+@import './pages/front/sections/result'; // + +
+@import './pages/front/sections/compare'; // + -
 
 
 @import './pages/front/sections/hero-stats'; // + -
 @import './pages/front/sections/blog-more'; // + -
 @import './pages/front/sections/cost'; // + -
-@import './pages/front/sections/process'; // + -
 @import './pages/front/sections/situations'; // + -
-@import './pages/front/sections/compare'; // + -
-@import './pages/front/sections/result'; // + -
 @import './pages/front/sections/why-us'; // + -
 @import './pages/front/sections/infra'; // + -
-@import './pages/front/sections/about'; // + -
 @import './pages/front/sections/guide'; // + -
 @import './pages/front/sections/consult'; // + -
 
 
-@import './pages/front/sections/consultation-tel'; // + +
-@import './pages/front/sections/consultation-tg'; // + +
-@import './pages/front/sections/team'; // + +
-@import './pages/front/sections/partners'; // + +
-@import './pages/front/sections/documents'; // + +
-@import './pages/front/sections/faq'; // + +
-@import './pages/front/sections/reviews'; // + +
-@import './pages/front/sections/consultation-free'; // + +
+@import './pages/front/sections/consultation-tel'; // + -
+@import './pages/front/sections/consultation-tg'; // + -
+@import './pages/front/sections/team'; // + -
+@import './pages/front/sections/partners'; // + -
+@import './pages/front/sections/documents'; // + -
+@import './pages/front/sections/faq'; // + -
+@import './pages/front/sections/reviews'; // + -
+@import './pages/front/sections/consultation-free'; // + -
 
 
 
 
 
-@import './pages/services/sections/services'; // - +
+@import './pages/services/sections/services'; // - -
 
 
 

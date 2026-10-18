@@ -1,97 +1,38 @@
 .process {
-  --process-card: var(--navy-light-color, #18212a);
-  --process-gold: var(--gold-color, #b89a68);
-  --process-text: var(--gray-60-color, #8e959c);
-  --process-line: rgba(255, 255, 255, 0.12);
-  --process-divider: var(--navy-line-color, #2e3840);
-
-  &__top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: vw(30px, $mobile);
-    @media (min-width: $desk) {
-      margin-bottom: vw(40px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-bottom: vw(40px, $desktop_large);
-    }
-  }
-
-  &__badge {
-    padding: vw(8px, $mobile) vw(18px, $mobile);
-    border: 1px solid var(--process-line);
-    border-radius: 999px;
-    font-size: vw(10px, $mobile);
-    line-height: 1.2;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--process-text);
-    @media (min-width: $desk) {
-      padding: vw(8px, $desktop) vw(18px, $desktop);
-      font-size: vw(10px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      padding: vw(8px, $desktop_large) vw(18px, $desktop_large);
-      font-size: vw(10px, $desktop_large);
-    }
-  }
-
-  &__title {
-    margin-top: vw(20px, $mobile);
-    text-align: center;
-    font-weight: 800;
-    font-size: vw(22px, $mobile);
-    line-height: 1.1;
-    color: var(--white-color);
-    @media (min-width: $desk) {
-      margin-top: vw(24px, $desktop);
-      font-size: vw(32px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-top: vw(24px, $desktop_large);
-      font-size: vw(32px, $desktop_large);
-    }
-  }
-
-  &__title-accent {
-    display: block;
-    color: var(--process-gold);
-  }
 
   &__card {
     display: flex;
     flex-direction: column;
     grid-gap: vw(16px, $mobile);
-    padding: vw(12px, $mobile);
-    border-radius: vw(24px, $mobile);
-    background-color: var(--process-card);
+    padding: vw(11px, $mobile);
+    background-color: var(--main-text-color);
     @media (min-width: $desk) {
       display: grid;
       grid-template-columns: vw(586px, $desktop) 1fr;
       grid-gap: 0;
-      padding: vw(10px, $desktop);
-      border-radius: vw(32px, $desktop);
+      padding: vw(11px, $desktop);
     }
     @media (min-width: $desk_large) {
       grid-template-columns: vw(586px, $desktop_large) 1fr;
-      padding: vw(10px, $desktop_large);
-      border-radius: vw(32px, $desktop_large);
+      padding: vw(11px, $desktop_large);
     }
   }
 
   &__image {
+    position: relative;
     width: 100%;
-    aspect-ratio: 586/498;
-    border-radius: vw(16px, $mobile);
+    min-height: vw(280px, $mobile);
     overflow: hidden;
     @media (min-width: $desk) {
-      border-radius: vw(20px, $desktop);
+      min-height: vw(490px, $desktop);
     }
     @media (min-width: $desk_large) {
-      border-radius: vw(20px, $desktop_large);
+      min-height: vw(490px, $desktop_large);
     }
     img {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -113,7 +54,7 @@
   }
 
   &__item {
-    border-bottom: 1px solid var(--process-divider);
+    border-bottom: 1px solid var(--accent-20-color);
     &:last-child {
       border-bottom: 0;
     }
@@ -147,38 +88,25 @@
     flex: none;
     width: vw(36px, $mobile);
     height: vw(36px, $mobile);
-    border: 1px solid var(--process-divider);
+    border: 1px solid var(--accent-20-color);
     border-radius: 50%;
-    font-weight: 700;
-    font-size: vw(13px, $mobile);
     line-height: 1;
-    color: var(--process-gold);
+    color: var(--accent-color);
     transition: all 0.3s linear;
     @media (min-width: $desk) {
       width: vw(40px, $desktop);
       height: vw(40px, $desktop);
-      font-size: vw(14px, $desktop);
     }
     @media (min-width: $desk_large) {
       width: vw(40px, $desktop_large);
       height: vw(40px, $desktop_large);
-      font-size: vw(14px, $desktop_large);
     }
   }
 
   &__item-title {
     width: 100%;
-    font-weight: 700;
-    font-size: vw(14px, $mobile);
-    line-height: 1.2;
-    color: var(--process-text);
+    color: var(--additional-gray-color);
     transition: color 0.3s linear;
-    @media (min-width: $desk) {
-      font-size: vw(16px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      font-size: vw(16px, $desktop_large);
-    }
   }
 
   &__item-plus {
@@ -188,7 +116,7 @@
     height: auto;
     aspect-ratio: 1/1;
     fill: none;
-    stroke: var(--process-text);
+    stroke: var(--accent-20-color);
     stroke-width: 1.4;
     stroke-linecap: round;
     transition: all 0.3s linear;
@@ -202,7 +130,6 @@
     }
   }
 
-  // Раскрытие через grid-template-rows (плавно, без фиксированной высоты)
   &__item-body {
     display: grid;
     grid-template-rows: 0fr;
@@ -212,22 +139,19 @@
   &__item-inner {
     display: flex;
     flex-direction: column;
-    grid-gap: vw(10px, $mobile);
+    grid-gap: vw(8px, $mobile);
     min-height: 0;
     overflow: hidden;
+    opacity: .5;
     padding-left: vw(51px, $mobile);
-    font-size: vw(13px, $mobile);
-    line-height: 1.45;
-    color: var(--process-text);
+    color: var(--light-bg-color);
     @media (min-width: $desk) {
       grid-gap: vw(10px, $desktop);
       padding-left: vw(55px, $desktop);
-      font-size: vw(14px, $desktop);
     }
     @media (min-width: $desk_large) {
       grid-gap: vw(10px, $desktop_large);
       padding-left: vw(55px, $desktop_large);
-      font-size: vw(14px, $desktop_large);
     }
   }
 
@@ -246,9 +170,9 @@
   }
 
   &__item.active &__item-num {
-    border-color: var(--process-gold);
-    color: var(--process-card);
-    background-color: var(--process-gold);
+    border-color: var(--accent-color);
+    color: var(--main-text-color);
+    background-color: var(--accent-color);
   }
 
   &__item.active &__item-title {
@@ -257,7 +181,7 @@
 
   &__item.active &__item-plus {
     transform: rotate(45deg);
-    stroke: var(--process-gold);
+    stroke: var(--accent-color);
   }
 
   @media (any-hover: hover) {

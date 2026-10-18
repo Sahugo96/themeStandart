@@ -1,22 +1,5 @@
 .result {
-  --result-line: var(--beige-line-color, #ebe7df);
   --result-border: var(--gray-30-color, #dcd7cd);
-
-  &__top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    grid-gap: vw(20px, $mobile);
-    margin-bottom: vw(30px, $mobile);
-    @media (min-width: $desk) {
-      grid-gap: vw(24px, $desktop);
-      margin-bottom: vw(40px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(24px, $desktop_large);
-      margin-bottom: vw(40px, $desktop_large);
-    }
-  }
 
   &__panel {
     padding: vw(20px, $mobile);
@@ -58,7 +41,7 @@
     align-items: center;
     grid-gap: vw(10px, $mobile);
     padding-bottom: vw(20px, $mobile);
-    border-bottom: 1px solid var(--result-line);
+    border-bottom: 1px solid var(--light-bg-color);
     @media (min-width: $desk) {
       grid-gap: vw(10px, $desktop);
       padding-bottom: vw(20px, $desktop);
@@ -105,34 +88,9 @@
     }
   }
 
-  // Точки слайдера (только мобильная версия)
   .splide__bottom {
-    display: flex;
-    justify-content: center;
-    margin-top: vw(15px, $mobile);
     @media (min-width: $desk) {
       display: none;
-    }
-  }
-
-  .splide__pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    grid-gap: vw(8px, $mobile);
-  }
-
-  .splide__pagination__page {
-    width: vw(8px, $mobile);
-    height: vw(8px, $mobile);
-    padding: 0;
-    border: 0;
-    border-radius: 999px;
-    background-color: var(--result-border);
-    transition: all 0.3s linear;
-    &.is-active {
-      width: vw(20px, $mobile);
-      background-color: var(--accent-color);
     }
   }
 }

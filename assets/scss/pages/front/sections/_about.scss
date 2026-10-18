@@ -1,17 +1,7 @@
 .about {
-  --about-panel: var(--beige-light-color, #f8f6f2);
-  --about-gold: var(--gold-color, #b8996a);
-  --about-dark: var(--dark-color, #1a2027);
-  --about-text: var(--gray-70-color, #2c3238);
-  --about-muted: var(--gray-60-color, #8a8d90);
-  --about-border: var(--gray-30-color, #dcd7cd);
-
   margin: 0 vw(10px, $mobile);
   @media (min-width: $desk) {
-    margin: 0 vw(30px, $desktop);
-  }
-  @media (min-width: $desk_large) {
-    margin: 0 vw(30px, $desktop_large);
+    margin: 0;
   }
 
   &__inner {
@@ -34,16 +24,22 @@
   }
 
   &__image {
+    position: relative;
     width: 100%;
-    aspect-ratio: 480/440;
+    min-height: vw(270px, $mobile);
     overflow: hidden;
     @media (min-width: $desk) {
       max-width: vw(480px, $desktop);
+      min-height: vw(440px, $desktop);
     }
     @media (min-width: $desk_large) {
       max-width: vw(480px, $desktop_large);
+      min-height: vw(440px, $desktop_large);
     }
     img {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -55,14 +51,6 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  &__badge {
-    // border: 1px solid var(--about-border);
-    @media (min-width: $desk) {
-    }
-    @media (min-width: $desk_large) {
-    }
   }
 
   &__title {
@@ -77,28 +65,22 @@
     }
   }
 
-  &__title-accent {
-    display: block;
-    color: var(--about-gold);
-  }
-
   &__text {
     display: flex;
     flex-direction: column;
-    grid-gap: vw(10px, $mobile);
+    grid-gap: vw(8px, $mobile);
     margin-top: vw(20px, $mobile);
-    font-size: vw(13px, $mobile);
-    line-height: 1.45;
-    color: var(--about-text);
+    margin-bottom: vw(20px, $mobile);
+    color: var(--main-text-color);
     @media (min-width: $desk) {
       grid-gap: vw(10px, $desktop);
-      margin-top: vw(45px, $desktop);
-      font-size: vw(14px, $desktop);
+      margin-top: vw(40px, $desktop);
+      margin-bottom: vw(40px, $desktop);
     }
     @media (min-width: $desk_large) {
       grid-gap: vw(10px, $desktop_large);
-      margin-top: vw(45px, $desktop_large);
-      font-size: vw(14px, $desktop_large);
+      margin-top: vw(40px, $desktop_large);
+      margin-bottom: vw(40px, $desktop_large);
     }
   }
 
@@ -107,13 +89,11 @@
     grid-template-columns: repeat(2, 1fr);
     grid-gap: vw(8px, $mobile);
     width: 100%;
-    margin-top: vw(24px, $mobile);
     padding: vw(8px, $mobile);
     background-color: var(--white-opa-50-color);
     @media (min-width: $desk) {
       grid-template-columns: repeat(4, 1fr);
       grid-gap: vw(10px, $desktop);
-      margin-top: auto;
       padding: vw(10px, $desktop);
     }
     @media (min-width: $desk_large) {
@@ -127,41 +107,28 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: vw(16px, $mobile) vw(8px, $mobile);
+    grid-gap: vw(5px, $mobile);
+    padding: vw(15px, $mobile) vw(8px, $mobile);
     background-color: var(--light-bg-color);
     @media (min-width: $desk) {
-      padding: vw(16px, $desktop) vw(8px, $desktop);
+      grid-gap: vw(5px, $desktop);
+      padding: vw(15px, $desktop) vw(8px, $desktop);
     }
     @media (min-width: $desk_large) {
-      padding: vw(16px, $desktop_large) vw(8px, $desktop_large);
+      grid-gap: vw(5px, $desktop_large);
+      padding: vw(15px, $desktop_large) vw(8px, $desktop_large);
     }
   }
 
   &__stat-num {
-    font-weight: 800;
-    font-size: vw(18px, $mobile);
-    line-height: 1.1;
-    color: var(--about-gold);
-    @media (min-width: $desk) {
-      font-size: vw(20px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      font-size: vw(20px, $desktop_large);
-    }
+    color: var(--accent-color);
   }
 
   &__stat-label {
-    margin-top: vw(6px, $mobile);
-    font-size: vw(10px, $mobile);
-    line-height: 1.3;
-    color: var(--about-muted);
+    color: var(--main-text-color);
     @media (min-width: $desk) {
-      margin-top: vw(6px, $desktop);
-      font-size: vw(11px, $desktop);
     }
     @media (min-width: $desk_large) {
-      margin-top: vw(6px, $desktop_large);
-      font-size: vw(11px, $desktop_large);
     }
   }
 }

@@ -49,12 +49,12 @@ if (empty($items)) {
                         <?php foreach ($items as $index => $item) :
                             $icon = tolstenko_landing_icon('result', $index, $item['icon'] ?? 0, 'result__item-icon');
                         ?>
-                            <article class="result__item fade-in-element splide__slide br-15">
+                            <article class="result__item br-15 fade-in-element splide__slide">
                                 <div class="result__item-head">
                                     <?= $icon; ?>
                                     <h3 class="result__item-title h4"><?= $item['title'] ?? ''; ?></h3>
                                 </div>
-                                <p class="result__item-text reg-par"><?= $item['text'] ?? ''; ?></p>
+                                <p class="result__item-text reg-par-14-20"><?= $item['text'] ?? ''; ?></p>
                             </article>
                         <?php endforeach; ?>
 

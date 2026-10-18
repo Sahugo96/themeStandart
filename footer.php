@@ -34,7 +34,7 @@ get_template_part('modules/modal/modal');
 
 
 
-<!-- <footer class="footer" id="footer">
+<footer class="footer" id="footer">
   <div class="footer__body">
     <div class="footer__left">
       <a class="footer__logo logo" href="<?= home_url(); ?>">
@@ -183,7 +183,7 @@ get_template_part('modules/modal/modal');
       console.error("Ошибка загрузки скрипта app.min.js!");
     };
   });
-</script> -->
+</script>
 </body>
 
 </html>
