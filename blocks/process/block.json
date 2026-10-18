@@ -21,10 +21,6 @@
       "type": "string",
       "default": ""
     },
-    "title_accent": {
-      "type": "string",
-      "default": ""
-    },
     "image": {
       "type": "object",
       "default": {}

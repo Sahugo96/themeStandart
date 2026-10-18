@@ -5,7 +5,6 @@ defined('ABSPATH') || exit;
 set_query_var('compare_data', [
     'subtitle'     => isset($attributes['subtitle']) ? $attributes['subtitle'] : '',
     'title'        => isset($attributes['title']) ? $attributes['title'] : '',
-    'title_accent' => isset($attributes['title_accent']) ? $attributes['title_accent'] : '',
     'text'         => isset($attributes['text']) ? $attributes['text'] : '',
     'rows'         => isset($attributes['rows']) && is_array($attributes['rows']) ? $attributes['rows'] : [],
     'foot_text'    => isset($attributes['foot_text']) ? $attributes['foot_text'] : '',

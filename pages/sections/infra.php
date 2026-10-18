@@ -17,7 +17,6 @@ $admin = function_exists('tolstenko_get_block_defaults')
 $defaults = [
     'subtitle'     => $admin['badge'] ?? '',
     'title'        => $admin['title'] ?? '',
-    'title_accent' => $admin['title_accent'] ?? '',
     'text'         => $admin['text'] ?? '',
     'btn_text'     => $admin['btn_text'] ?? '',
     'btn_link'     => ['url' => $admin['btn_url'] ?? '', 'title' => $admin['btn_text'] ?? '', 'target' => ''],
@@ -47,10 +46,7 @@ $lists = array_chunk($items, $half);
 
             <div class="infra__left">
                 <span class="infra__badge"><?= $data['subtitle']; ?></span>
-                <h2 class="infra__title">
-                    <?= $data['title']; ?>
-                    <span class="infra__title-accent"><?= $data['title_accent']; ?></span>
-                </h2>
+                <h2 class="infra__title"><?= $data['title']; ?></h2>
                 <p class="infra__text">
                     <?= $data['text']; ?>
                 </p>

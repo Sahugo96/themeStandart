@@ -28,7 +28,6 @@ foreach ($admin_stats as $stat) {
 $defaults = [
     'subtitle'     => $admin['badge'] ?? '',
     'title'        => $admin['title'] ?? '',
-    'title_accent' => $admin['title_accent'] ?? '',
     'text'         => $admin['text'] ?? '',
     'stats'        => $stats,
     'image'        => $admin['image'] ?? 0,
@@ -56,10 +55,7 @@ if (empty($image['url'])) {
 
       <div class="about__content">
         <span class="about__badge section-subtitle"><?= $data['subtitle']; ?></span>
-        <h2 class="about__title section-title h1">
-          <span><?= $data['title_accent']; ?></span>
-          <?= $data['title']; ?>
-        </h2>
+        <h2 class="about__title section-title h1"><?= $data['title']; ?></h2>
 
         <div class="about__text reg-par-14-20">
           <?= $data['text']; ?>

@@ -17,7 +17,6 @@ $admin = function_exists('tolstenko_get_block_defaults')
 $defaults = [
     'subtitle'          => $admin['badge'] ?? '',
     'title'             => isset($admin['title']) ? tolstenko_landing_text($admin['title']) : '',
-    'title_accent'      => $admin['title_accent'] ?? '',
     'text'              => $admin['text'] ?? '',
     'contact_label'     => $admin['contact_label'] ?? '',
     'phone'             => $admin['phone'] ?? '',
@@ -47,10 +46,7 @@ if (empty($image['url'])) {
 
       <div class="consult__content">
         <span class="consult__badge section-subtitle"><?= $data['subtitle']; ?></span>
-        <h2 class="consult__title section-title">
-          <?= $data['title']; ?>
-          <span><?= $data['title_accent']; ?></span>
-        </h2>
+        <h2 class="consult__title section-title"><?= $data['title']; ?></h2>
         <div class="consult__text">
           <p><?= $data['text']; ?></p>
           <?php if ($phone !== '') : ?>

@@ -14,7 +14,6 @@ $admin = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_d
 $defaults = [
     'badge'        => $admin['badge'] ?? '',
     'title'        => $admin['title'] ?? '',
-    'title_accent' => $admin['title_accent'] ?? '',
     'image'        => $admin['image'] ?? 0,
     'items'        => is_array($admin['items'] ?? null) ? $admin['items'] : [],
 ];
@@ -42,10 +41,7 @@ if (empty($image['url'])) {
       <?php if (trim((string) $data['badge']) !== '') : ?>
         <span class="process__badge section-subtitle"><?= $data['badge']; ?></span>
       <?php endif; ?>
-      <h2 class="process__title section-title">
-        <?= $data['title']; ?>
-        <span><?= $data['title_accent']; ?></span>
-      </h2>
+      <h2 class="process__title section-title"><?= $data['title']; ?></h2>
     </div>
 
     <div class="process__card br-30">

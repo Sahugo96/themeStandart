@@ -14,7 +14,6 @@ $admin = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_d
 $defaults = [
     'badge'        => $admin['badge'] ?? '',
     'title'        => $admin['title'] ?? '',
-    'title_accent' => $admin['title_accent'] ?? '',
     'lead'         => $admin['lead'] ?? '',
     'prices'       => is_array($admin['prices'] ?? null) ? $admin['prices'] : [],
     'card_title'   => $admin['card_title'] ?? '',
@@ -55,10 +54,7 @@ $cd_phone_href = trim((string) ($cd['phone_href'] ?? ''));
       <?php if (trim((string) $data['badge']) !== '') : ?>
         <span class="cost__badge"><?= $data['badge']; ?></span>
       <?php endif; ?>
-      <h2 class="cost__title">
-        <span class="cost__title-accent"><?= $data['title_accent']; ?></span>
-        <?= $data['title']; ?>
-      </h2>
+      <h2 class="cost__title"><?= $data['title']; ?></h2>
       <?php if (trim((string) $data['lead']) !== '') : ?>
         <p class="cost__lead"><?= $data['lead']; ?></p>
       <?php endif; ?>

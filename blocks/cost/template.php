@@ -5,7 +5,6 @@ defined('ABSPATH') || exit;
 set_query_var('cost_data', [
     'badge' => isset($attributes['badge']) ? $attributes['badge'] : '',
     'title' => isset($attributes['title']) ? $attributes['title'] : '',
-    'title_accent' => isset($attributes['title_accent']) ? $attributes['title_accent'] : '',
     'lead' => isset($attributes['lead']) ? $attributes['lead'] : '',
     'prices' => isset($attributes['prices']) && is_array($attributes['prices']) ? $attributes['prices'] : [],
     'card_title' => isset($attributes['card_title']) ? $attributes['card_title'] : '',

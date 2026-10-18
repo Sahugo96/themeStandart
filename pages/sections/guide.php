@@ -48,7 +48,6 @@ if ($post_id > 0 && ($guide_post = get_post($post_id))) {
 $defaults = array_merge($static, [
     'subtitle'     => $admin['subtitle'] ?? '',
     'title'        => $admin['title'] ?? '',
-    'title_accent' => '',
 ]);
 
 $overrides = get_query_var('guide_data');
@@ -63,17 +62,12 @@ if (empty($image['url'])) {
     $image = ['url' => THEME_PATH . '/assets/img/guide.jpg', 'srcset' => '', 'sizes' => '', 'alt' => 'Почему ОАЭ'];
 }
 
-$title_html = ($data['title_accent'] ?? '') !== ''
-    ? $data['title'] . '<span class="guide__title-accent">' . $data['title_accent'] . '</span>'
-    : $data['title'];
 ?>
 <section class="guide section">
   <div class="container">
     <div class="guide__top">
       <span class="guide__badge"><?= $data['subtitle']; ?></span>
-      <h2 class="guide__title">
-        <?= $title_html; ?>
-      </h2>
+      <h2 class="guide__title"><?= $data['title']; ?></h2>
     </div>
 
     <article class="guide__card" data-read-more>

@@ -12903,3 +12903,4 @@ body {
 .wrapper:has(> .main > .single-blog) {
   overflow: visible;
 }
+.infra__title span,.guide__title span,.situations__title span,.cost__title span,.documents__title span{display:block;color:var(--accent-color)}

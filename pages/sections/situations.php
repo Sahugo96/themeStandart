@@ -14,7 +14,6 @@ $admin = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_d
 $defaults = [
     'badge'        => $admin['badge'] ?? '',
     'title'        => $admin['title'] ?? '',
-    'title_accent' => $admin['title_accent'] ?? '',
     'items'        => is_array($admin['items'] ?? null) ? $admin['items'] : [],
 ];
 
@@ -38,10 +37,7 @@ $slides = array_chunk($items, 2);
       <?php if (trim((string) $data['badge']) !== '') : ?>
         <span class="situations__badge"><?= $data['badge']; ?></span>
       <?php endif; ?>
-      <h2 class="situations__title">
-        <?= $data['title']; ?>
-        <span class="situations__title-accent"><?= $data['title_accent']; ?></span>
-      </h2>
+      <h2 class="situations__title"><?= $data['title']; ?></h2>
     </div>
 
     <div class="fade-in-container situations__splide splide load-on-vissible--js"

@@ -651,7 +651,6 @@ function theme_get_section_blocks_editor_config(): array
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
-                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
                 ['attr' => 'text', 'label' => 'Описание', 'type' => 'textarea'],
                 [
                     'attr'       => 'rows',
@@ -678,7 +677,6 @@ function theme_get_section_blocks_editor_config(): array
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
-                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
                 [
                     'attr'       => 'items',
                     'label'      => 'Пункты',
@@ -700,7 +698,6 @@ function theme_get_section_blocks_editor_config(): array
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
-                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
                 ['attr' => 'text', 'label' => 'Описание', 'type' => 'textarea'],
                 ['attr' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text'],
                 [
@@ -723,7 +720,6 @@ function theme_get_section_blocks_editor_config(): array
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
-                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
                 ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
                 ['attr' => 'image', 'label' => 'Изображение', 'type' => 'image'],
                 [
@@ -747,7 +743,6 @@ function theme_get_section_blocks_editor_config(): array
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
-                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
                 [
                     'attr'       => 'tags',
                     'label'      => 'Теги',
@@ -775,7 +770,6 @@ function theme_get_section_blocks_editor_config(): array
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
-                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
                 ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
                 ['attr' => 'contact_label', 'label' => 'Подпись перед телефоном', 'type' => 'text'],
                 ['attr' => 'phone', 'label' => 'Телефон', 'type' => 'text'],
@@ -823,7 +817,6 @@ function theme_get_section_blocks_editor_config(): array
             'fields'        => [
                 ['attr' => 'badge', 'label' => 'Надзаголовок (бейдж)', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
-                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
                 [
                     'attr'       => 'items',
                     'label'      => 'Карточки',
@@ -845,7 +838,6 @@ function theme_get_section_blocks_editor_config(): array
             'fields'        => [
                 ['attr' => 'badge', 'label' => 'Надзаголовок (бейдж)', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
-                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
                 ['attr' => 'image', 'label' => 'Изображение', 'type' => 'image'],
                 [
                     'attr'       => 'items',
@@ -867,7 +859,6 @@ function theme_get_section_blocks_editor_config(): array
             'color'         => '#2271b1',
             'fields'        => [
                 ['attr' => 'badge', 'label' => 'Надзаголовок (бейдж)', 'type' => 'text'],
-                ['attr' => 'title_accent', 'label' => 'Заголовок (акцент)', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
                 ['attr' => 'lead', 'label' => 'Текст под заголовком', 'type' => 'textarea'],
                 [

@@ -630,3 +630,13 @@ body {
     font-size: vw(8px, $desktop_large);
   }
 }
+
+// Акцент в заголовках секций: одно поле заголовка, акцент — через <span>
+.infra__title span,
+.guide__title span,
+.situations__title span,
+.cost__title span,
+.documents__title span {
+  display: block;
+  color: var(--accent-color);
+}

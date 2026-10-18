@@ -16,7 +16,6 @@ $admin = function_exists('tolstenko_get_block_defaults')
 $defaults = [
     'subtitle'     => $admin['badge'] ?? '',
     'title'        => $admin['title'] ?? '',
-    'title_accent' => $admin['title_accent'] ?? '',
     'items'        => is_array($admin['items'] ?? null) ? $admin['items'] : [],
 ];
 
@@ -35,10 +34,7 @@ if (empty($items)) {
     <div class="container">
         <div class="why-us__top section-top">
             <span class="why-us__badge section-subtitle"><?= $data['subtitle']; ?></span>
-            <h2 class="why-us__title section-title">
-                <?= $data['title']; ?>
-                <span><?= $data['title_accent']; ?></span>
-            </h2>
+            <h2 class="why-us__title section-title"><?= $data['title']; ?></h2>
         </div>
 
         <ul class="why-us__items br-30">

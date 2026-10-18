@@ -30,7 +30,6 @@ foreach ($admin_rows as $row) {
 $defaults = [
     'subtitle'     => $admin['badge'] ?? '',
     'title'        => $admin['title'] ?? '',
-    'title_accent' => $admin['title_accent'] ?? '',
     'text'         => isset($admin['lead']) ? tolstenko_landing_text($admin['lead']) : '',
     'columns'      => [
         $admin['th_criterion'] ?? '',
@@ -64,10 +63,7 @@ $btn_url = $btn_link['url'] ?? '';
     <div class="container">
         <div class="compare__top section-top">
             <span class="compare__badge section-subtitle"><?= $data['subtitle']; ?></span>
-            <h2 class="compare__title section-title">
-                <?= $data['title']; ?>
-                <span><?= $data['title_accent']; ?></span>
-            </h2>
+            <h2 class="compare__title section-title"><?= $data['title']; ?></h2>
             <p class="compare__lead section-text">
                 <?= $data['text']; ?>
             </p>
