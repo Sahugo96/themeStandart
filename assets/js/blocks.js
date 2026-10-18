@@ -373,19 +373,86 @@
 
   registerBlockType('my-theme/documents', {
     apiVersion: 3,
-    edit: function () {
+    edit: function (props) {
+      var attributes = props.attributes;
+      var setAttributes = props.setAttributes;
+      var docsDefaults = getDefaults('documents');
+      var items = Array.isArray(attributes.items) ? attributes.items : [];
       var blockProps = useBlockProps({
         className: 'theme-block theme-block--documents',
-        style: Object.assign({}, controls.blockShell(colors.accentYellowDark), {
-          padding: '15px',
-          textAlign: 'center',
-        }),
+        style: controls.blockShell(colors.accentYellowDark),
       });
 
       return el(
         'div',
         blockProps,
-        el('p', { style: { margin: 0, color: colors.textMuted } }, 'Документы (контент из настроек темы)')
+        controls.blockTitle('Документы', colors.accentYellowDark),
+        controls.textField({
+          label: 'Надзаголовок (бейдж)',
+          help: 'Если пусто — из «Дефолты блоков → Документы»',
+          value: attributes.subtitle,
+          placeholder: docsDefaults.subtitle || '',
+          onChange: function (value) {
+            setAttributes({ subtitle: value });
+          },
+        }),
+        controls.textField({
+          label: 'Заголовок',
+          help: 'Если пусто — из «Дефолты блоков → Документы»',
+          value: attributes.title,
+          placeholder: docsDefaults.title || '',
+          onChange: function (value) {
+            setAttributes({ title: value });
+          },
+        }),
+        controls.textareaField({
+          label: 'Текст под заголовком',
+          help: 'Если пусто — из «Дефолты блоков → Документы»',
+          value: attributes.text,
+          placeholder: docsDefaults.text || '',
+          onChange: function (value) {
+            setAttributes({ text: value });
+          },
+        }),
+        controls.repeaterField({
+          label: 'Документы',
+          help: items.length ? '' : 'Если список пуст — из «Дефолты блоков → Документы»',
+          items: items,
+          keyPrefix: 'documents-item',
+          itemLabel: 'Документ',
+          addLabel: 'Добавить документ',
+          createItem: function () {
+            return { title: '', image: { id: 0, url: '', alt: '' } };
+          },
+          onChange: function (nextItems) {
+            setAttributes({ items: nextItems });
+          },
+          renderItem: function (item, index, updateItem, removeItem) {
+            return el(
+              'div',
+              null,
+              controls.textField({
+                label: 'Подпись',
+                value: item.title || '',
+                onChange: function (value) {
+                  updateItem(Object.assign({}, item, { title: value }));
+                },
+              }),
+              controls.imageField({
+                label: 'Изображение',
+                value: item.image && item.image.url ? item.image : { id: 0, url: '', alt: '' },
+                onChange: function (media) {
+                  updateItem(Object.assign({}, item, { image: media }));
+                },
+              }),
+              el(
+                wp.components.Button,
+                { isDestructive: true, variant: 'secondary', onClick: removeItem },
+                'Удалить'
+              )
+            );
+          },
+        })
       );
     },
     save: function () {

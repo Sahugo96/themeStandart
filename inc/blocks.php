@@ -991,6 +991,7 @@ function theme_enqueue_block_editor_assets(): void
 
     wp_localize_script('my-theme-blocks', 'themeBlockDefaults', [
         'faq' => function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('faq') : [],
+        'documents' => function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('documents') : [],
         'reviewsSection' => [
             'title'   => $acf_get ? ($acf_get('reviews_title', OPTION_ID) ?: 'Отзывы') : 'Отзывы',
             'postIds' => [],

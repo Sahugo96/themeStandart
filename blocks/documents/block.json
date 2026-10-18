@@ -12,6 +12,23 @@
     ],
     "multiple": true
   },
-  "attributes": {},
+  "attributes": {
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
   "render": "file:./template.php"
 }
