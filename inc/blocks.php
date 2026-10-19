@@ -624,6 +624,7 @@ function theme_get_section_blocks_editor_config(): array
     return [
         [
             'name'          => 'my-theme/result',
+'defaultsKey'   => 'result',
             'title'         => 'Что вы получаете',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -645,6 +646,7 @@ function theme_get_section_blocks_editor_config(): array
         ],
         [
             'name'          => 'my-theme/compare',
+'defaultsKey'   => 'compare',
             'title'         => 'Сравнение',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -671,6 +673,7 @@ function theme_get_section_blocks_editor_config(): array
         ],
         [
             'name'          => 'my-theme/why-us',
+'defaultsKey'   => 'why_us',
             'title'         => 'Почему именно мы',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -692,6 +695,7 @@ function theme_get_section_blocks_editor_config(): array
         ],
         [
             'name'          => 'my-theme/infra',
+'defaultsKey'   => 'infra',
             'title'         => 'Инфраструктура за пределами РФ',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -714,6 +718,7 @@ function theme_get_section_blocks_editor_config(): array
         ],
         [
             'name'          => 'my-theme/about',
+'defaultsKey'   => 'about',
             'title'         => 'Кратко о нас',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -737,6 +742,7 @@ function theme_get_section_blocks_editor_config(): array
         ],
         [
             'name'          => 'my-theme/guide',
+'defaultsKey'   => 'guide',
             'title'         => 'Подробнее (статья)',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -764,6 +770,7 @@ function theme_get_section_blocks_editor_config(): array
         ],
         [
             'name'          => 'my-theme/consult',
+'defaultsKey'   => 'consult',
             'title'         => 'Бесплатная консультация (CTA)',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -792,6 +799,7 @@ function theme_get_section_blocks_editor_config(): array
         ],
         [
             'name'          => 'my-theme/hero-stats',
+'defaultsKey'   => 'hero_stats',
             'title'         => 'Цифры под hero',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -811,6 +819,7 @@ function theme_get_section_blocks_editor_config(): array
         ],
         [
             'name'          => 'my-theme/situations',
+'defaultsKey'   => 'situations',
             'title'         => 'Ситуации',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -832,6 +841,7 @@ function theme_get_section_blocks_editor_config(): array
         ],
         [
             'name'          => 'my-theme/process',
+'defaultsKey'   => 'process',
             'title'         => 'Как проходит работа',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -854,6 +864,7 @@ function theme_get_section_blocks_editor_config(): array
         ],
         [
             'name'          => 'my-theme/cost',
+'defaultsKey'   => 'cost',
             'title'         => 'Стоимость',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -880,6 +891,7 @@ function theme_get_section_blocks_editor_config(): array
         ],
         [
             'name'          => 'my-theme/blog-more',
+'defaultsKey'   => 'blog_more',
             'title'         => 'Кнопка «Перейти в блог»',
             'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
             'color'         => '#2271b1',
@@ -976,6 +988,32 @@ function theme_enqueue_block_editor_assets(): void
         );
 
         wp_localize_script('my-theme-section-blocks', 'themeSimpleSectionBlocks', theme_attach_block_categories_to_editor_config(theme_get_section_blocks_editor_config()));
+
+        $section_defaults = array();
+
+        if (function_exists('tolstenko_get_block_defaults')) {
+            foreach (theme_get_section_blocks_editor_config() as $section_block) {
+                if (empty($section_block['defaultsKey'])) {
+                    continue;
+                }
+
+                $section_key = $section_block['defaultsKey'];
+                $section_data = tolstenko_get_block_defaults($section_key);
+
+                // В схеме поле может называться badge/lead, а в блоке — subtitle/text.
+                if (!isset($section_data['subtitle']) && isset($section_data['badge'])) {
+                    $section_data['subtitle'] = $section_data['badge'];
+                }
+
+                if (!isset($section_data['text']) && isset($section_data['lead'])) {
+                    $section_data['text'] = $section_data['lead'];
+                }
+
+                $section_defaults[$section_key] = $section_data;
+            }
+        }
+
+        wp_localize_script('my-theme-section-blocks', 'themeSectionBlockDefaults', $section_defaults);
     }
 
     $acf_get = function_exists('get_field') ? 'get_field' : null;

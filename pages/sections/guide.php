@@ -27,28 +27,29 @@ $static = [
     'image'      => ['url' => THEME_PATH . '/assets/img/guide.jpg', 'alt' => 'Почему ОАЭ'],
 ];
 
-// Если в админке выбрана статья — берём данные карточки из записи.
+// Дефолты: значения из таба «Дефолты блоков → Подробнее», иначе — статичный фолбэк.
+$defaults = array_merge($static, $admin);
+
+$defaults['subtitle'] = $admin['subtitle'] ?? '';
+$defaults['title']    = $admin['title'] ?? '';
+
+// Если в админке выбрана статья — карточка собирается из записи и перекрывает дефолты.
 $post_id = (int) ($admin['post_id'] ?? 0);
 if ($post_id > 0 && ($guide_post = get_post($post_id))) {
-    $static['card_title'] = get_the_title($guide_post);
-    $static['date_label'] = get_the_date('j F Y', $guide_post);
-    $static['date']       = get_the_date('Y-m-d', $guide_post);
+    $defaults['card_title'] = get_the_title($guide_post);
+    $defaults['date_label'] = get_the_date('j F Y', $guide_post);
+    $defaults['date']       = get_the_date('Y-m-d', $guide_post);
 
     $excerpt = get_the_excerpt($guide_post);
     if (is_string($excerpt) && $excerpt !== '') {
-        $static['text'] = '<p>' . $excerpt . '</p>';
+        $defaults['text'] = '<p>' . $excerpt . '</p>';
     }
 
     $thumb_id = get_post_thumbnail_id($post_id);
     if ($thumb_id) {
-        $static['image'] = (int) $thumb_id;
+        $defaults['image'] = (int) $thumb_id;
     }
 }
-
-$defaults = array_merge($static, [
-    'subtitle'     => $admin['subtitle'] ?? '',
-    'title'        => $admin['title'] ?? '',
-]);
 
 $overrides = get_query_var('guide_data');
 $overrides = is_array($overrides) ? $overrides : [];
