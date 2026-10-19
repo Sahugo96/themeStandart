@@ -405,15 +405,6 @@
             setAttributes({ title: value });
           },
         }),
-        controls.textareaField({
-          label: 'Текст под заголовком',
-          help: 'Если пусто — из «Дефолты блоков → Документы»',
-          value: attributes.text,
-          placeholder: docsDefaults.text || '',
-          onChange: function (value) {
-            setAttributes({ text: value });
-          },
-        }),
         controls.repeaterField({
           label: 'Документы',
           help: items.length ? '' : 'Если список пуст — из «Дефолты блоков → Документы»',
@@ -422,7 +413,7 @@
           itemLabel: 'Документ',
           addLabel: 'Добавить документ',
           createItem: function () {
-            return { title: '', image: { id: 0, url: '', alt: '' } };
+            return { title: '', text: '', attributes: '', image: { id: 0, url: '', alt: '' } };
           },
           onChange: function (nextItems) {
             setAttributes({ items: nextItems });
@@ -431,18 +422,32 @@
             return el(
               'div',
               null,
-              controls.textField({
-                label: 'Подпись',
-                value: item.title || '',
-                onChange: function (value) {
-                  updateItem(Object.assign({}, item, { title: value }));
-                },
-              }),
               controls.imageField({
                 label: 'Изображение',
                 value: item.image && item.image.url ? item.image : { id: 0, url: '', alt: '' },
                 onChange: function (media) {
                   updateItem(Object.assign({}, item, { image: media }));
+                },
+              }),
+              controls.textField({
+                label: 'Заглавие',
+                value: item.title || '',
+                onChange: function (value) {
+                  updateItem(Object.assign({}, item, { title: value }));
+                },
+              }),
+              controls.textareaField({
+                label: 'Описание',
+                value: item.text || '',
+                onChange: function (value) {
+                  updateItem(Object.assign({}, item, { text: value }));
+                },
+              }),
+              controls.textareaField({
+                label: 'Атрибуты (по одному в строке)',
+                value: item.attributes || '',
+                onChange: function (value) {
+                  updateItem(Object.assign({}, item, { attributes: value }));
                 },
               }),
               el(

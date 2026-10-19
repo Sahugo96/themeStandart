@@ -12904,3 +12904,14 @@ body {
   overflow: visible;
 }
 .infra__title span,.guide__title span,.situations__title span,.cost__title span,.documents__title span{display:block;color:var(--accent-color)}
+
+/* ---------- Документы: карточки ---------- */
+.documents__item{display:flex;flex-direction:column}
+.documents__item-image{cursor:pointer;width:100%;height:auto;aspect-ratio:180/245;overflow:hidden;position:relative;background:var(--white-color);border:1px solid var(--gray-90-color);border-radius:15px}
+.documents__item-image img{width:100%;height:100%;object-fit:cover;object-position:center center;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.documents__item-title{margin-top:14px;font-size:14px;font-weight:600;line-height:1.3;color:var(--main-text-color)}
+.documents__item-text{margin-top:4px;font-size:12px;line-height:1.4;color:var(--gray-50-color)}
+.documents__item-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.documents__item-tag{display:inline-block;padding:4px 10px;border:1px solid var(--gray-70-color);border-radius:999px;font-size:9px;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-50-color)}
+@media (min-width: 991px){.documents__item-title{font-size:15px}.documents__item-text{font-size:13px}}
+

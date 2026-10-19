@@ -21,10 +21,6 @@
       "type": "string",
       "default": ""
     },
-    "text": {
-      "type": "string",
-      "default": ""
-    },
     "items": {
       "type": "array",
       "default": []
