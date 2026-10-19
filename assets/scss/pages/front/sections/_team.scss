@@ -137,3 +137,135 @@
     margin-top: auto;
   }
 }
+/* ---------- Карточка команды (по макету) ---------- */
+.team {
+  &__item {
+    align-items: stretch;
+    text-align: left;
+    grid-gap: vw(16px, $mobile);
+    border-radius: vw(20px, $mobile);
+    @media (min-width: $desk) {
+      border-radius: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      border-radius: vw(20px, $desktop_large);
+    }
+  }
+
+  &__item-head {
+    display: flex;
+    align-items: center;
+    grid-gap: vw(14px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(14px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(14px, $desktop_large);
+    }
+  }
+
+  &__item-img {
+    max-width: vw(64px, $mobile);
+    min-width: vw(64px, $mobile);
+    @media (min-width: $desk) {
+      max-width: vw(64px, $desktop);
+      min-width: vw(64px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      max-width: vw(64px, $desktop_large);
+      min-width: vw(64px, $desktop_large);
+    }
+  }
+
+  &__item-info {
+    align-items: flex-start;
+    text-align: left;
+    grid-gap: vw(8px, $mobile);
+  }
+
+  &__item-name {
+    width: auto;
+    text-transform: none;
+    font-size: vw(16px, $mobile);
+    font-weight: 600;
+    @media (min-width: $desk) {
+      font-size: vw(16px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(16px, $desktop_large);
+    }
+  }
+
+  &__item-tags {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: vw(6px, $mobile);
+  }
+
+  &__item-tag {
+    padding: vw(3px, $mobile) vw(10px, $mobile);
+    border: 1px solid var(--gray-30-color);
+    border-radius: 999px;
+    font-size: vw(9px, $mobile);
+    line-height: 1.2;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--gray-45-color);
+  }
+
+  &__item-text {
+    margin-top: 0;
+    font-size: vw(12px, $mobile);
+    color: var(--gray-45-color);
+    @media (min-width: $desk) {
+      font-size: vw(13px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(13px, $desktop_large);
+    }
+  }
+
+  &__item-bottom {
+    display: flex;
+    align-items: center;
+    grid-gap: vw(10px, $mobile);
+    margin-top: auto;
+    padding-top: vw(16px, $mobile);
+  }
+
+  &__item-btn {
+    margin-top: 0;
+    flex: 1 1 auto;
+    background-color: var(--button-accent-color);
+    color: var(--white-color);
+  }
+
+  &__item-links {
+    display: flex;
+    grid-gap: vw(10px, $mobile);
+  }
+
+  &__item-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: vw(40px, $mobile);
+    height: vw(40px, $mobile);
+    border: 1px solid var(--gray-30-color);
+    border-radius: 50%;
+    color: var(--white-color);
+    svg,
+    img {
+      width: vw(18px, $mobile);
+      height: auto;
+      fill: currentColor;
+    }
+    @media (any-hover: hover) {
+      transition: all .3s linear;
+      &:hover {
+        border-color: var(--brand-accent-yellow-color);
+        color: var(--brand-accent-yellow-color);
+      }
+    }
+  }
+}

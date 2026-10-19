@@ -46,9 +46,42 @@ function register_service_cpt()
     );
 }
 
+
+
+// Члены команды: без собственной страницы, только поля.
+add_action('init', 'register_teammate_cpt');
+function register_teammate_cpt()
+{
+    register_post_type(
+        'teammate',
+        array(
+            'labels' => array(
+                'name' => 'Команда',
+                'singular_name' => 'Член команды',
+                'add_new' => 'Добавить',
+                'add_new_item' => 'Добавить члена команды',
+                'edit_item' => 'Редактировать',
+                'all_items' => 'Все члены команды',
+            ),
+            'public' => false,
+            'publicly_queryable' => false,
+            'exclude_from_search' => true,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'menu_icon' => 'dashicons-groups',
+            'menu_position' => -4,
+            'supports' => array('title'),
+            'show_in_rest' => true,
+            'has_archive' => false,
+            'rewrite' => false,
+        )
+    );
+}
+
 add_action('admin_init', function () {
     remove_meta_box('slugdiv', 'service', 'normal');
     remove_meta_box('slugdiv', 'blog', 'normal');
+    remove_meta_box('slugdiv', 'teammate', 'normal');
 });
 
 add_action('init', 'register_review_cpt');

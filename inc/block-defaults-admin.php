@@ -24,6 +24,11 @@ function tolstenko_block_defaults_schema() {
 				array( 'image' => 0, 'title' => 'Соответствие регулятору', 'text' => 'Работа в рамках требований ОАЭ', 'attributes' => '' ),
 			),
 		),
+		'team' => array(
+			'badge' => 'Команда',
+			'title' => 'С вами работают <span>реальные эксперты</span>',
+			'text' => 'Персональный менеджер ведёт вас от заявки до результата. Вы всегда знаете, с кем говорите.',
+		),
 		'case_section' => array(
 			'subtitle'        => '',
 			'title'          => 'Кейсы',
@@ -1180,6 +1185,7 @@ function tolstenko_render_block_defaults_admin_page() {
 				<button type="button" class="tolstenko-df-tab" data-panel="guide" data-group="landing"><?php esc_html_e( 'Подробнее', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="consult" data-group="landing"><?php esc_html_e( 'Начните с бесплатной консультации', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="documents" data-group="landing"><?php esc_html_e( 'Документы', 'tolstenko-theme' ); ?></button>
+				<button type="button" class="tolstenko-df-tab" data-panel="team" data-group="landing"><?php esc_html_e( 'Команда', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="faq" data-group="landing"><?php esc_html_e( 'FAQ', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="hero_stats" data-group="landing"><?php esc_html_e( 'Цифры под hero', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="situations" data-group="landing"><?php esc_html_e( 'Ситуации', 'tolstenko-theme' ); ?></button>
@@ -1270,6 +1276,14 @@ function tolstenko_render_block_defaults_admin_page() {
 				</div>
 				<div class="actions"><button type="button" class="button" data-add-item="documents-list"><?php esc_html_e( 'Добавить документ', 'tolstenko-theme' ); ?></button></div>
 			</div>
+		</div>
+
+		<div class="tolstenko-df-panel" data-panel="team" data-group="landing">
+			<?php $team_defaults = $all['team'] ?? array(); ?>
+			<div class="row"><input type="text" name="tolstenko_block_defaults[team][badge]" value="<?php echo esc_attr( $team_defaults['badge'] ?? '' ); ?>" style="width:100%" placeholder="Надзаголовок (бейдж)"></div>
+			<div class="row"><textarea name="tolstenko_block_defaults[team][title]" rows="2" style="width:100%" placeholder="Заголовок (HTML, акцент — <span>&hellip;</span>)"><?php echo esc_textarea( $team_defaults['title'] ?? '' ); ?></textarea></div>
+			<div class="row"><textarea name="tolstenko_block_defaults[team][text]" rows="3" placeholder="Текст под заголовком"><?php echo esc_textarea( $team_defaults['text'] ?? '' ); ?></textarea></div>
+			<p class="description"><?php esc_html_e( 'Карточки команды берутся из записей «Команда» (CPT teammate).', 'tolstenko-theme' ); ?></p>
 		</div>
 
 		<div class="tolstenko-df-panel" data-panel="case_section" data-group="post_sliders">
@@ -1802,6 +1816,7 @@ function tolstenko_render_block_defaults_admin_page() {
 
 		var panelGroupMap = {
 			documents: 'landing',
+			team: 'landing',
 			hero_stats: 'landing',
 			situations: 'landing',
 			process: 'landing',
@@ -2552,6 +2567,12 @@ function tolstenko_save_block_defaults_from_request() {
 		'text' => tolstenko_kses_html( $raw['blog_more']['text'] ?? '' ),
 		'url'  => esc_url_raw( $raw['blog_more']['url'] ?? '' ),
 	);
+	$out['team'] = array(
+		'badge' => tolstenko_kses_html( $raw['team']['badge'] ?? '' ),
+		'title' => tolstenko_kses_html( $raw['team']['title'] ?? '' ),
+		'text'  => tolstenko_kses_html( $raw['team']['text'] ?? '' ),
+	);
+
 	// Не затирать дефолты блоков тела статьи (правятся на отдельной странице).
 	$prev = get_option( 'tolstenko_block_defaults', array() );
 	if ( is_array( $prev ) && function_exists( 'tolstenko_blog_content_defaults_schema' ) ) {

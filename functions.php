@@ -3,6 +3,8 @@
 require_once(dirname(__FILE__) . '/inc/consts.php');
 // Фолбэк ACF (если плагин ACF не активен — не даём сайту упасть)
 require_once(dirname(__FILE__) . '/inc/acf-fallback.php');
+// ACF-поля члена команды (CPT teammate)
+require_once(dirname(__FILE__) . '/inc/acf-teammate-fields.php');
 //Подключение стиоей и скриптов
 require_once(dirname(__FILE__) . '/inc/enqueue.php');
 //Базовые настройки

@@ -1,0 +1,30 @@
+{
+  "apiVersion": 3,
+  "title": "Команда",
+  "name": "my-theme/team",
+  "category": "tolstenko-general",
+  "icon": "groups",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}

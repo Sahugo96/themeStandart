@@ -54,6 +54,7 @@ function theme_get_block_category_map(): array
         'cost'                   => 'tolstenko-general',
         'blog-more'              => 'tolstenko-general',
         'documents'           => 'tolstenko-general',
+        'team'                  => 'tolstenko-general',
         'faq'                    => 'tolstenko-general',
         'field-template'         => 'tolstenko-general',
         'hidden-block'           => 'tolstenko-general',
@@ -270,6 +271,7 @@ function theme_get_front_page_block_template(): array
         ['my-theme/cost'],
         ['my-theme/blog-more'],
         ['my-theme/documents'],
+        ['my-theme/team'],
         ['my-theme/blog-section'],
         ['my-theme/service-section'],
         ['my-theme/faq'],
@@ -898,6 +900,18 @@ function theme_get_section_blocks_editor_config(): array
             'fields'        => [
                 ['attr' => 'text', 'label' => 'Текст кнопки', 'type' => 'text'],
                 ['attr' => 'url', 'label' => 'Ссылка', 'type' => 'text'],
+            ],
+        ],
+        [
+            'name'          => 'my-theme/team',
+            'title'         => 'Команда',
+            'hint'          => 'Карточки — из записей «Команда» (CPT teammate). Заголовок/текст: если пусто — из админки',
+            'color'         => '#2271b1',
+            'defaultsKey'   => 'team',
+            'fields'        => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок (бейдж)', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
             ],
         ],
         [

@@ -12915,3 +12915,19 @@ body {
 .documents__item-tag{display:inline-block;padding:4px 10px;border:1px solid var(--gray-70-color);border-radius:999px;font-size:9px;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-50-color)}
 @media (min-width: 991px){.documents__item-title{font-size:15px}.documents__item-text{font-size:13px}}
 
+/* ---------- Команда: карточка ---------- */
+.team__item{align-items:stretch;text-align:left;gap:16px;border-radius:20px}
+.team__item-head{display:flex;align-items:center;gap:14px}
+.team__item-img{max-width:64px;min-width:64px}
+.team__item-info{align-items:flex-start;text-align:left;gap:8px}
+.team__item-name{width:auto;text-transform:none;font-size:16px;font-weight:600}
+.team__item-tags{display:flex;flex-wrap:wrap;gap:6px}
+.team__item-tag{padding:3px 10px;border:1px solid var(--gray-30-color);border-radius:999px;font-size:9px;line-height:1.2;letter-spacing:.04em;text-transform:uppercase;color:var(--gray-45-color)}
+.team__item-text{margin-top:0;font-size:12px;color:var(--gray-45-color)}
+.team__item-bottom{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:16px}
+.team__item-btn{margin-top:0;flex:1 1 auto;background-color:var(--button-accent-color);color:var(--white-color)}
+.team__item-links{display:flex;gap:10px}
+.team__item-link{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--gray-30-color);border-radius:50%;color:var(--white-color)}
+.team__item-link svg,.team__item-link img{width:18px;height:auto;fill:currentColor}
+@media (min-width: 991px){.team__item-text{font-size:13px}}
+
