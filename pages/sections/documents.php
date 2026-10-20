@@ -30,14 +30,13 @@ if (empty($items) && trim((string) $data['title']) === '') {
 ?>
 <section class="documents section section--white">
   <div class="container">
-    <div class="documents__inner br-30">
       <div class="documents__top section-top">
         <?php if (trim((string) $data['subtitle']) !== '') : ?>
           <span class="documents__badge section-subtitle"><?= $data['subtitle']; ?></span>
         <?php endif; ?>
 
         <?php if (trim((string) $data['title']) !== '') : ?>
-          <h2 class="documents__title"><?= $data['title']; ?></h2>
+          <h2 class="documents__title section-title"><?= $data['title']; ?></h2>
         <?php endif; ?>
       </div>
 
@@ -92,6 +91,5 @@ if (empty($items) && trim((string) $data['title']) === '') {
           </div>
         </div>
       <?php endif; ?>
-    </div>
   </div>
 </section>

@@ -4,12 +4,13 @@
   .splide .splide__bottom {
     display: flex;
     justify-content: center;
-    margin-top: vw(15px, $mobile);
+    align-items: center;
+    margin-top: vw(30px, $mobile);
     @media (min-width: $desk) {
-      margin-top: vw(15px, $desktop);
+      margin-top: vw(40px, $desktop);
     }
     @media (min-width: $desk_large) {
-      margin-top: vw(15px, $desktop_large);
+      margin-top: vw(40px, $desktop_large);
     }
   }
 

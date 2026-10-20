@@ -49,11 +49,11 @@ $split_lines = static function ($value): array {
       <?php endif; ?>
 
       <?php if (trim((string) $data['title']) !== '') : ?>
-        <h2 class="team__title"><?= $data['title']; ?></h2>
+        <h2 class="team__title section-title"><?= $data['title']; ?></h2>
       <?php endif; ?>
 
       <?php if (trim((string) $data['text']) !== '') : ?>
-        <p class="team__text paragraph-15-15"><?= $data['text']; ?></p>
+        <p class="team__text section-text"><?= $data['text']; ?></p>
       <?php endif; ?>
     </div>
 
@@ -69,21 +69,22 @@ $split_lines = static function ($value): array {
 
             <?php foreach ($teammates as $teammate) :
               $teammate_id = (int) $teammate->ID;
-              $name = trim((string) get_field('teammate_name', $teammate_id));
+              $name = trim((string) get_post_meta($teammate_id, 'teammate_name', true));
 
               if ($name === '') {
                   $name = get_the_title($teammate);
               }
 
-              $image = tolstenko_contact_get_image_attrs(get_field('teammate_image', $teammate_id));
-              $tags = $split_lines(get_field('teammate_list', $teammate_id));
-              $description = (string) get_field('teammate_description', $teammate_id);
-              $btn_text = trim((string) get_field('teammate_btn_text', $teammate_id));
-              $btn_url = trim((string) get_field('teammate_btn_url', $teammate_id));
-              $links = get_field('teammate_links', $teammate_id);
+              $image_id = (int) get_post_meta($teammate_id, 'teammate_image_id', true);
+              $image = tolstenko_contact_get_image_attrs($image_id);
+              $tags = $split_lines((string) get_post_meta($teammate_id, 'teammate_list', true));
+              $description = (string) get_post_meta($teammate_id, 'teammate_description', true);
+              $btn_text = trim((string) get_post_meta($teammate_id, 'teammate_btn_text', true));
+              $btn_url = trim((string) get_post_meta($teammate_id, 'teammate_btn_url', true));
+              $links = get_post_meta($teammate_id, 'teammate_links', true);
               $links = is_array($links) ? $links : [];
             ?>
-              <article class="team__item fade-in-element splide__slide">
+              <article class="team__item br-30 fade-in-element splide__slide">
                 <div class="team__item-head">
                   <?php if ($image['url'] !== '') : ?>
                     <div class="team__item-img">
@@ -105,7 +106,7 @@ $split_lines = static function ($value): array {
                 </div>
 
                 <?php if (trim($description) !== '') : ?>
-                  <p class="team__item-text"><?= nl2br(esc_html($description)); ?></p>
+                  <p class="team__item-text reg-par-14-20"><?= nl2br(esc_html($description)); ?></p>
                 <?php endif; ?>
 
                 <?php if ($btn_text !== '' || !empty($links)) : ?>
@@ -120,21 +121,25 @@ $split_lines = static function ($value): array {
                       <div class="team__item-links">
                         <?php foreach ($links as $link) :
                           $link = is_array($link) ? $link : [];
+                          $icon_id = (int) ($link['icon_id'] ?? 0);
+                          $link_title = trim((string) ($link['title'] ?? ''));
                           $link_url = trim((string) ($link['link'] ?? ''));
 
                           if ($link_url === '') {
                               continue;
                           }
 
-                          $icon_raw = $link['icon'] ?? '';
-                          $svg = function_exists('tolstenko_contact_get_inline_svg') ? tolstenko_contact_get_inline_svg($icon_raw) : '';
-                          $icon_url = tolstenko_contact_resolve_icon_url($icon_raw);
+                          $svg = function_exists('tolstenko_contact_get_inline_svg') ? tolstenko_contact_get_inline_svg($icon_id) : '';
+                          $icon_url = tolstenko_contact_resolve_icon_url($icon_id);
                         ?>
                           <a class="team__item-link" href="<?= esc_url($link_url); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?= esc_attr($name); ?> — ссылка">
                             <?php if ($svg !== '') : ?>
                               <?= $svg; ?>
                             <?php elseif ($icon_url !== '') : ?>
                               <img src="<?= esc_url($icon_url); ?>" alt="" loading="lazy">
+                            <?php endif; ?>
+                            <?php if ($link_title !== '') : ?>
+                              <span class="team__item-link-title"><?= esc_html($link_title); ?></span>
                             <?php endif; ?>
                           </a>
                         <?php endforeach; ?>

@@ -29,16 +29,13 @@
   &__items {
     display: flex;
     flex-direction: column;
-    padding: vw(30px, $mobile);
     grid-gap: vw(5px, $mobile);
     @media (min-width: $desk) {
       width: 100%;
-      padding: vw(30px, $desktop);
       grid-gap: vw(5px, $desktop);
     }
     @media (min-width: $desk_large) {
       width: 100%;
-      padding: vw(30px, $desktop_large);
       grid-gap: vw(5px, $desktop_large);
     }
   }
@@ -171,7 +168,7 @@
   &__form {
     padding: vw(40px, $mobile) vw(20px, $mobile);
     border-radius: vw(20px, $mobile);
-    background-color: var(--gray-15-color);
+    background-color: var(--super-dark-bg-color);
     @media (min-width: $desk) {
       padding: vw(39px, $desktop) vw(20px, $desktop);
       border-radius: vw(20px, $desktop);

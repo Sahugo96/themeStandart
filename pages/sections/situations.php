@@ -31,7 +31,7 @@ if (empty($items)) {
 // Слайд = две карточки друг под другом.
 $slides = array_chunk($items, 2);
 ?>
-<section class="situations">
+<section class="situations section">
   <div class="container">
     <div class="situations__top">
       <?php if (trim((string) $data['badge']) !== '') : ?>

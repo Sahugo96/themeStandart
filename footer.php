@@ -29,12 +29,12 @@ $footer_services_menu = wp_nav_menu(
 
 
 <?php
-get_template_part('modules/modal/modal');
+// get_template_part('modules/modal/modal');
 ?>
 
 
 
-<footer class="footer" id="footer">
+<!-- <footer class="footer" id="footer">
   <div class="footer__body">
     <div class="footer__left">
       <a class="footer__logo logo" href="<?= home_url(); ?>">
@@ -158,7 +158,7 @@ get_template_part('modules/modal/modal');
 
     <a class="footer__bottom-link line-13-15" href="<?= $cd['footer_links'][2]['url']; ?>" target="_blank"><?= $cd['footer_links'][2]['title']; ?></a>
   </div>
-</footer>
+</footer> -->
 </div>
 
 

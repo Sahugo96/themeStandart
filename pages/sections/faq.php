@@ -36,15 +36,15 @@ $teammate_image = ['url' => '', 'srcset' => '', 'sizes' => '', 'alt' => ''];
 $teammate_tags = [];
 
 if ($teammate_id > 0 && ($teammate_post = get_post($teammate_id))) {
-    $teammate_name = trim((string) get_field('teammate_name', $teammate_id));
+    $teammate_name = trim((string) get_post_meta($teammate_id, 'teammate_name', true));
 
     if ($teammate_name === '') {
         $teammate_name = get_the_title($teammate_post);
     }
 
-    $teammate_image = tolstenko_contact_get_image_attrs(get_field('teammate_image', $teammate_id));
+    $teammate_image = tolstenko_contact_get_image_attrs((int) get_post_meta($teammate_id, 'teammate_image_id', true));
 
-    $tags_raw = preg_split('/\r\n|\r|\n/', (string) get_field('teammate_list', $teammate_id));
+    $tags_raw = preg_split('/\r\n|\r|\n/', (string) get_post_meta($teammate_id, 'teammate_list', true));
     $teammate_tags = array_values(array_filter(array_map('trim', (array) $tags_raw), static function ($tag) {
         return $tag !== '';
     }));
@@ -59,12 +59,12 @@ if ($teammate_id > 0 && ($teammate_post = get_post($teammate_id))) {
       <?php endif; ?>
 
       <?php if (trim((string) $title) !== '') : ?>
-        <h2 class="faq__title h2"><?= $title; ?></h2>
+        <h2 class="faq__title section-title"><?= $title; ?></h2>
       <?php endif; ?>
     </div>
 
     <div class="faq__inner">
-      <div class="faq__items br-30 accordion-group">
+      <div class="faq__items accordion-group">
 
         <?php
         $active = ' active';
