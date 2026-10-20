@@ -21,6 +21,8 @@ get_header();
     // Hardcoded-секции вынесены в блоки (my-theme/*) с дефолтами.
     // Если на странице есть соответствующий Gutenberg-блок — выводится он,
     // иначе подставляются дефолты секции.
+    theme_render_front_section('hero-stats');
+    
     theme_render_front_section('process');
     theme_render_front_section('about');
     
@@ -30,7 +32,6 @@ get_header();
     theme_render_front_section('infra');
     theme_render_front_section('guide');
     theme_render_front_section('consult');
-    theme_render_front_section('hero-stats');
     theme_render_front_section('situations');
     theme_render_front_section('cost');
     theme_render_front_section('blog-more');

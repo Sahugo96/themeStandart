@@ -38,12 +38,12 @@ $faq_tg_link = trim((string) $cd['telegram']);
       <?php endif; ?>
 
       <?php if (trim((string) $title) !== '') : ?>
-        <h2 class="faq__title h2"><?= $title; ?></h2>
+        <h2 class="faq__title section-title"><?= $title; ?></h2>
       <?php endif; ?>
     </div>
 
     <div class="faq__inner">
-      <div class="faq__items br-30 accordion-group">
+      <div class="faq__items accordion-group">
 
         <?php
         $active = ' active';

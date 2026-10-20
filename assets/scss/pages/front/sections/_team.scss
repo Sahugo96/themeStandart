@@ -1,64 +1,64 @@
 .team {
   &__top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     text-align: center;
-    grid-gap: vw(15px, $mobile);
     
     @media (min-width: $desk) {
-      grid-gap: vw(15px, $desktop);
       max-width: vw(650px, $desktop);
       margin-left: auto;
       margin-right: auto;
     }
     @media (min-width: $desk_large) {
-      grid-gap: vw(15px, $desktop_large);
       max-width: vw(650px, $desktop_large);
       margin-left: auto;
       margin-right: auto;
     }
   }
-  &__text {
-    letter-spacing: 0%;
-  }
 
   &__list {
-    max-width: vw(280px, $mobile);
+    // max-width: vw(280px, $mobile);
     @media (min-width: $desk) {
-      max-width: unset;
+      // max-width: unset;
     }
     @media (min-width: $desk_large) {
-      max-width: unset;
+      // max-width: unset;
     }
   }
   &__item {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    grid-gap: vw(20px, $mobile);
+    align-items: flex-start;
+    text-align: left;
+    grid-gap: vw(15px, $mobile);
     padding: vw(20px, $mobile);
-    background-color: var(--gray-15-color);
+    background-color: var(--dark-bg-plank-color);
     
     @media (min-width: $desk) {
       grid-gap: vw(20px, $desktop);
-      padding: vw(20px, $desktop);
+      padding: vw(30px, $desktop);
     }
     @media (min-width: $desk_large) {
       grid-gap: vw(20px, $desktop_large);
-      padding: vw(20px, $desktop_large);
+      padding: vw(30px, $desktop_large);
     }
     @media (any-hover: hover) {
       &:hover .team__item-img {
-        filter: grayscale(0);
       }
     }
   }
-
+  &__item-head {
+    display: flex;
+    align-items: center;
+    grid-gap: vw(15px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+    }
+  }
   &__item-img {
-    max-width: vw(200px, $mobile);
-    min-width: vw(200px, $mobile);
+    max-width: vw(64px, $mobile);
+    min-width: vw(64px, $mobile);
     width: 100%;
     height: auto;
     aspect-ratio: 1/1;
@@ -66,23 +66,19 @@
     overflow: hidden;
     position: relative;
     @media (min-width: $desk) {
-      max-width: unset;
-      min-width: unset;
-      filter: grayscale(1);
-      transition: filter .3s linear;
+      max-width: vw(80px, $desktop);
+      min-width: vw(80px, $desktop);
     }
     @media (min-width: $desk_large) {
-      max-width: unset;
-      min-width: unset;
-      filter: grayscale(1);
-      transition: filter .3s linear;
+      max-width: vw(80px, $desktop_large);
+      min-width: vw(80px, $desktop_large);
     }
     img {
       width: 100%;
       height: 100%;
+      position: absolute;
       object-fit: cover;
       object-position: center center;
-      position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -91,8 +87,8 @@
   &__item-info {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
     grid-gap: vw(10px, $mobile);
     @media (min-width: $desk) {
       grid-gap: vw(10px, $desktop);
@@ -102,15 +98,21 @@
     }
   }
   &__item-name {
-    width: min-content;
-    text-transform: uppercase;
-    color: var(--white-color);
+    font-size: vw(18px, $mobile);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--light-bg-color);
+    @media (min-width: $desk) {
+      font-size: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(20px, $desktop_large);
+    }
   }
-  &__item-position {
+  &__item-tags {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     grid-gap: vw(5px, $mobile);
-    color: var(--gray-45-color);
     @media (min-width: $desk) {
       grid-gap: vw(5px, $desktop);
     }
@@ -118,154 +120,101 @@
       grid-gap: vw(5px, $desktop_large);
     }
   }
-
-  &__item-text {
-    font-family: $Montserrat;
-    font-size: vw(12px, $mobile);
-    font-weight: 400;
-    line-height: 1.25;
-    letter-spacing: 0%;
-    margin-top: auto;
-    @media (min-width: $desk) {
-      font-size: vw(12px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      font-size: vw(12px, $desktop_large);
-    }
-  }
-  &__item-btn {
-    margin-top: auto;
-  }
-}
-/* ---------- Карточка команды (по макету) ---------- */
-.team {
-  &__item {
-    align-items: stretch;
-    text-align: left;
-    grid-gap: vw(16px, $mobile);
-    border-radius: vw(20px, $mobile);
-    @media (min-width: $desk) {
-      border-radius: vw(20px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      border-radius: vw(20px, $desktop_large);
-    }
-  }
-
-  &__item-head {
-    display: flex;
-    align-items: center;
-    grid-gap: vw(14px, $mobile);
-    @media (min-width: $desk) {
-      grid-gap: vw(14px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(14px, $desktop_large);
-    }
-  }
-
-  &__item-img {
-    max-width: vw(64px, $mobile);
-    min-width: vw(64px, $mobile);
-    @media (min-width: $desk) {
-      max-width: vw(64px, $desktop);
-      min-width: vw(64px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      max-width: vw(64px, $desktop_large);
-      min-width: vw(64px, $desktop_large);
-    }
-  }
-
-  &__item-info {
-    align-items: flex-start;
-    text-align: left;
-    grid-gap: vw(8px, $mobile);
-  }
-
-  &__item-name {
-    width: auto;
-    text-transform: none;
-    font-size: vw(16px, $mobile);
-    font-weight: 600;
-    @media (min-width: $desk) {
-      font-size: vw(16px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      font-size: vw(16px, $desktop_large);
-    }
-  }
-
-  &__item-tags {
-    display: flex;
-    flex-wrap: wrap;
-    grid-gap: vw(6px, $mobile);
-  }
-
   &__item-tag {
-    padding: vw(3px, $mobile) vw(10px, $mobile);
-    border: 1px solid var(--gray-30-color);
+    padding: vw(4px, $mobile) vw(7px, $mobile) vw(3px, $mobile);
+    border: 1px solid var(--button-accent-30-color);
     border-radius: 999px;
-    font-size: vw(9px, $mobile);
-    line-height: 1.2;
-    letter-spacing: .04em;
+    font-size: vw(10px, $mobile);
+    line-height: 1;
     text-transform: uppercase;
-    color: var(--gray-45-color);
-  }
-
-  &__item-text {
-    margin-top: 0;
-    font-size: vw(12px, $mobile);
-    color: var(--gray-45-color);
+    color: var(--button-accent-color);
     @media (min-width: $desk) {
-      font-size: vw(13px, $desktop);
+      padding: vw(4px, $desktop) vw(7px, $desktop) vw(3px, $desktop);
+      font-size: vw(10px, $desktop);
     }
     @media (min-width: $desk_large) {
-      font-size: vw(13px, $desktop_large);
+      padding: vw(4px, $desktop_large) vw(7px, $desktop_large) vw(3px, $desktop_large);
+      font-size: vw(10px, $desktop_large);
     }
   }
-
+  &__item-text {
+    opacity: .6;
+    color: var(--light-bg-color);
+  }
   &__item-bottom {
+    width: 100%;
     display: flex;
     align-items: center;
-    grid-gap: vw(10px, $mobile);
+    grid-gap: vw(8px, $mobile);
     margin-top: auto;
-    padding-top: vw(16px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+    }
   }
-
   &__item-btn {
-    margin-top: 0;
-    flex: 1 1 auto;
+    width: 100%;
     background-color: var(--button-accent-color);
     color: var(--white-color);
   }
 
   &__item-links {
     display: flex;
-    grid-gap: vw(10px, $mobile);
+    align-items: center;
+    grid-gap: vw(8px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+    }
   }
-
   &__item-link {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: vw(40px, $mobile);
-    height: vw(40px, $mobile);
-    border: 1px solid var(--gray-30-color);
+    justify-content: flex-end;
+    width: vw(44px, $mobile);
+    height: vw(44px, $mobile);
+    padding: vw(6px, $mobile);
+    border: 1px solid var(--button-accent-30-color);
     border-radius: 50%;
-    color: var(--white-color);
-    svg,
-    img {
-      width: vw(18px, $mobile);
+    color: var(--light-bg-50-color);
+    background-color: transparent;
+    @media (min-width: $desk) {
+      width: vw(60px, $desktop);
+      height: vw(60px, $desktop);
+      padding: vw(13px, $desktop);
+      border: 2px solid var(--button-accent-30-color);
+    }
+    @media (min-width: $desk_large) {
+      width: vw(60px, $desktop_large);
+      height: vw(60px, $desktop_large);
+      padding: vw(13px, $desktop_large);
+    }
+
+    svg {
+      width: 100%;
       height: auto;
-      fill: currentColor;
+      fill: var(--button-accent-color);
+      transition: all .3s linear;
     }
     @media (any-hover: hover) {
       transition: all .3s linear;
       &:hover {
-        border-color: var(--brand-accent-yellow-color);
-        color: var(--brand-accent-yellow-color);
+        background-color: var(--button-accent-color);
+        border-color: var(--button-accent-color);
+        color: var(--light-bg-color);
+        svg {
+          fill: var(--light-bg-color);
+        }
       }
     }
+  }
+  
+  .splide .splide__pagination__page,
+  .splide .splide__pagination__page.is-active {
+    background-color: var(--button-accent-color);
   }
 }

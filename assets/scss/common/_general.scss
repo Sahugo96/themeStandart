@@ -202,7 +202,7 @@ body {
     font-size: vw(32px, $desktop_large);
   }
   span {
-    display: block;
+    // display: block;
     color: var(--accent-color);
   }
 }
@@ -364,116 +364,65 @@ body {
   pointer-events: none;
 }
 
-// .default-btn {
-//   width: 100%;
-//   position: relative;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   height: vw(40px, $mobile);
-//   grid-gap: vw(10px, $mobile);
-//   border-radius: vw(10px, $mobile);
-//   font-family: $Montserrat;
-//   font-size: vw(13px, $mobile);
-//   font-weight: 600;
-//   line-height: 1.1538;
-//   letter-spacing: -1%;
-//   text-transform: uppercase;
-//   color: var(--black-color);
-//   background-color: var(--brand-accent-yellow-color);
-//   @media (min-width: $desk) {
-//     height: vw(40px, $desktop);
-//     grid-gap: vw(10px, $desktop);
-//     border-radius: vw(10px, $desktop);
-//     font-size: vw(13px, $desktop);
-//   }
-//   @media (min-width: $desk_large) {
-//     height: vw(40px, $desktop_large);
-//     grid-gap: vw(10px, $desktop_large);
-//     border-radius: vw(10px, $desktop_large);
-//     font-size: vw(13px, $desktop_large);
-//   }
+.default-btn {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: vw(40px, $mobile);
+  grid-gap: vw(10px, $mobile);
+  border-radius: vw(10px, $mobile);
+  font-family: $Montserrat;
+  font-size: vw(13px, $mobile);
+  font-weight: 600;
+  line-height: 1.1538;
+  letter-spacing: -1%;
+  text-transform: uppercase;
+  color: var(--black-color);
+  background-color: var(--brand-accent-yellow-color);
+  @media (min-width: $desk) {
+    height: vw(40px, $desktop);
+    grid-gap: vw(10px, $desktop);
+    border-radius: vw(10px, $desktop);
+    font-size: vw(13px, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    height: vw(40px, $desktop_large);
+    grid-gap: vw(10px, $desktop_large);
+    border-radius: vw(10px, $desktop_large);
+    font-size: vw(13px, $desktop_large);
+  }
+  @media (any-hover: hover) {
+    transition: all .3s linear;
+    &:hover {
+      background-color: var(--white-color);
+    }
+  }
 
-//   @media (any-hover: hover) {
-//     transition: all .3s linear;
-//     &:hover {
-//       background-color: var(--white-color);
-//     }
-//   }
-
-//   &--huge {
-//     height: vw(65px, $mobile);
-//     font-size: vw(16px, $mobile);
-//     @media (min-width: $desk) {
-//       height: vw(65px, $desktop);
-//       font-size: vw(16px, $desktop);
-//     }
-//     @media (min-width: $desk_large) {
-//       height: vw(65px, $desktop_large);
-//       font-size: vw(16px, $desktop_large);
-//     }
-//   }
-
-//   &--red {
-//     color: var(--white-color);
-//     background-color: var(--brand-accent-red-m-color);
-//     @media (any-hover: hover) {
-//       transition: all .3s linear;
-//       &:hover {
-//         background-color: var(--brand-accent-yellow-color);
-//       }
-//     }
-//   }
-//   &--white {
-//     background-color: var(--white-color);
-//     @media (any-hover: hover) {
-//       transition: all .3s linear;
-//       &:hover {
-//         background-color: var(--brand-accent-yellow-color);
-//       }
-//     }
-//   }
-//   &.default-btn--tg {
-//     color: var(--white-color);
-//     background-color: var(--telegram-color);
-//     svg {
-//       fill: var(--white-color);
-//     }
-//     @media (any-hover: hover) {
-//       transition: all .3s linear;
-//       &:hover {
-//         background-color: var(--telegram-2-color);
-//       }
-//     }
-//   }
-
-//   &--transparent {
-//     color: var(--white-color);
-//     background-color: transparent;
-//     @media (any-hover: hover) {
-//       transition: all .3s linear;
-//       &:hover {
-//         background-color: var(--brand-accent-yellow-color);
-//       }
-//     }
-//   }
-
-//   &--whatsapp {
-//     color: var(--white-color);
-//     background-color: var(--whatsapp-color);
-//     background-color: var(--color-btn);
-//     @media (any-hover: hover) {
-//       transition: all .3s linear;
-//       &:hover {
-//         background-color: var(--whatsapp-hover-color);
-//         background-color: var(--color-hover-btn);
-//       }
-//     }
-//     svg {
-//       fill: var(--white-color);
-//     }
-//   }
-// }
+  &--white {
+    background-color: var(--white-color);
+    @media (any-hover: hover) {
+      transition: all .3s linear;
+      &:hover {
+        background-color: var(--brand-accent-yellow-color);
+      }
+    }
+  }
+  &.default-btn--tg {
+    color: var(--white-color);
+    background-color: var(--telegram-color);
+    svg {
+      fill: var(--white-color);
+    }
+    @media (any-hover: hover) {
+      transition: all .3s linear;
+      &:hover {
+        background-color: var(--telegram-2-color);
+      }
+    }
+  }
+}
 
 
 @keyframes loadPage {

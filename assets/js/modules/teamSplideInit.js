@@ -1,6 +1,6 @@
 // Слайдер «Команда»: как result — точки-пагинация, без стрелок.
 const team_splide = new Splide(".team__splide", {
-  perPage: 4,
+  perPage: 3,
   perMove: 1,
   gap: "20px",
   arrows: false,
