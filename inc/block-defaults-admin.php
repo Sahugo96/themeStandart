@@ -203,8 +203,8 @@ function tolstenko_block_defaults_schema() {
 			),
 		),
 		'faq' => array(
-			'badge'      => '',
-			'title'      => 'Частые вопросы',
+			'badge'      => 'Частые вопросы',
+			'title'      => 'Коротко о главном',
 			'items'      => array(
 				array(
 					'quest'  => 'Сколько занимает изготовление?',
@@ -216,7 +216,8 @@ function tolstenko_block_defaults_schema() {
 				),
 			),
 			'form_title' => 'Не нашли ответ на свой вопрос?',
-			'form_text'  => 'Оставьте заявку, и мы свяжемся с вами в ближайшее время, чтобы обсудить детали вашего проекта',
+			'form_text'  => 'Оставьте заявку — свяжемся и разберём вашу ситуацию.',
+			'teammate_id' => 0,
 		),
 		'result' => array(
 			'badge' => 'Результат',
@@ -1380,6 +1381,28 @@ function tolstenko_render_block_defaults_admin_page() {
 			<div class="muted"><?php esc_html_e( 'Форма справа', 'tolstenko-theme' ); ?></div>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[faq][form_title]" value="<?php echo esc_attr( $faq['form_title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок формы"></div>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[faq][form_text]" value="<?php echo esc_attr( $faq['form_text'] ?? '' ); ?>" style="width:100%" placeholder="Текст формы"></div>
+			<div class="row">
+				<div class="muted"><?php esc_html_e( 'Контактная карточка — член команды', 'tolstenko-theme' ); ?></div>
+				<?php
+				$faq_teammates = get_posts( array(
+					'post_type'      => 'teammate',
+					'posts_per_page' => -1,
+					'post_status'    => 'publish',
+					'orderby'        => 'title',
+					'order'          => 'ASC',
+				) );
+				$faq_teammate_id = isset( $faq['teammate_id'] ) ? (int) $faq['teammate_id'] : 0;
+				?>
+				<select name="tolstenko_block_defaults[faq][teammate_id]" style="min-width:320px;max-width:100%">
+					<option value="0"><?php esc_html_e( '— Не выбрано —', 'tolstenko-theme' ); ?></option>
+					<?php foreach ( $faq_teammates as $faq_teammate ) : ?>
+						<option value="<?php echo (int) $faq_teammate->ID; ?>" <?php selected( $faq_teammate_id, (int) $faq_teammate->ID ); ?>><?php echo esc_html( get_the_title( $faq_teammate ) ); ?></option>
+					<?php endforeach; ?>
+				</select>
+				<?php if ( empty( $faq_teammates ) ) : ?>
+					<p class="description"><?php esc_html_e( 'Сначала добавьте записи в разделе «Команда».', 'tolstenko-theme' ); ?></p>
+				<?php endif; ?>
+			</div>
 		</div>
 
 		<div class="tolstenko-df-panel" data-panel="field_template">
@@ -2242,6 +2265,7 @@ function tolstenko_save_block_defaults_from_request() {
 		'title'      => tolstenko_kses_html( $raw['faq']['title'] ?? ''  ),
 		'form_title' => tolstenko_kses_html( $raw['faq']['form_title'] ?? ''  ),
 		'form_text'  => tolstenko_kses_html( $raw['faq']['form_text'] ?? ''  ),
+		'teammate_id' => isset( $raw['faq']['teammate_id'] ) ? (int) $raw['faq']['teammate_id'] : 0,
 		'items'      => array(),
 	);
 	if ( isset( $raw['faq']['items'] ) && is_array( $raw['faq']['items'] ) ) {
