@@ -491,7 +491,10 @@ function tolstenko_block_defaults_schema() {
 			'btn_text'     => 'Получить расчёт',
 			'btn_url'      => '#modal',
 			'image'        => 0,
-		'links'        => array(),
+			'links'        => array(
+				array( 'icon_id' => THEME_PATH . '/assets/img/WA Icon.svg', 'title' => 'WhatsApp', 'link' => '#' ),
+				array( 'icon_id' => THEME_PATH . '/assets/img/TG Icon.svg', 'title' => 'Telegram', 'link' => '#' ),
+			),
 		),
 		'blog_more' => array(
 			'text' => 'Перейти в блог',
@@ -2611,6 +2614,26 @@ function tolstenko_save_block_defaults_from_request() {
 		'image'        => isset( $raw['cost']['image'] ) ? (int) $raw['cost']['image'] : 0,
 		'links'        => array(),
 	);
+	if ( isset( $raw['cost']['links'] ) && is_array( $raw['cost']['links'] ) ) {
+		foreach ( $raw['cost']['links'] as $it ) {
+			if ( ! is_array( $it ) ) {
+				continue;
+			}
+			$icon = $it['icon_id'] ?? '';
+			$icon = is_array( $icon ) ? ( $icon['id'] ?? ( $icon['url'] ?? '' ) ) : $icon;
+			$icon = ( is_string( $icon ) && $icon !== '' && ctype_digit( $icon ) ) ? (int) $icon : sanitize_text_field( (string) $icon );
+			$title = sanitize_text_field( $it['title'] ?? '' );
+			$url   = esc_url_raw( $it['link'] ?? '' );
+			if ( $url === '' && $title === '' && empty( $icon ) ) {
+				continue;
+			}
+			$out['cost']['links'][] = array(
+				'icon_id' => $icon,
+				'title'   => $title,
+				'link'    => $url,
+			);
+		}
+	}
 	if ( isset( $raw['cost']['prices'] ) && is_array( $raw['cost']['prices'] ) ) {
 		foreach ( $raw['cost']['prices'] as $it ) {
 			if ( ! is_array( $it ) ) { continue; }

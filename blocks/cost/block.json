@@ -44,6 +44,10 @@
     "image": {
       "type": "object",
       "default": {}
+    },
+    "links": {
+      "type": "array",
+      "default": []
     }
   },
   "render": "file:./template.php"

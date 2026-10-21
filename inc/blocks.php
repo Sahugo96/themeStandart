@@ -888,7 +888,19 @@ function theme_get_section_blocks_editor_config(): array
                 ['attr' => 'card_title', 'label' => 'Заголовок карточки (HTML)', 'type' => 'textarea'],
                 ['attr' => 'card_text', 'label' => 'Текст карточки', 'type' => 'textarea'],
                 ['attr' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text'],
-                ['attr' => 'image', 'label' => 'Изображение', 'type' => 'image'],
+                                [
+                    'attr'       => 'links',
+                    'label'      => 'Ссылки с иконками',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить ссылку',
+                    'itemLabel'  => 'Ссылка',
+                    'itemFields' => [
+                        ['key' => 'icon_id', 'label' => 'Иконка (SVG)', 'type' => 'image'],
+                        ['key' => 'title', 'label' => 'Название', 'type' => 'text'],
+                        ['key' => 'link', 'label' => 'Ссылка', 'type' => 'text'],
+                    ],
+                ],
+['attr' => 'image', 'label' => 'Изображение', 'type' => 'image'],
             ],
         ],
         [

@@ -103,7 +103,7 @@
         createItem: function () {
           var item = {};
           itemFields.forEach(function (itemField) {
-            item[itemField.key] = '';
+            item[itemField.key] = itemField.type === 'image' ? { id: 0, url: '', alt: '' } : '';
           });
           return item;
         },
@@ -117,6 +117,21 @@
             'div',
             null,
             itemFields.map(function (itemField) {
+              if (itemField.type === 'image') {
+                var imgValue = item[itemField.key];
+                return controls.imageField({
+                  label: itemField.label,
+                  value: imgValue && imgValue.url
+                    ? imgValue
+                    : { id: imgValue && imgValue.id ? imgValue.id : 0, url: '', alt: '' },
+                  onChange: function (next) {
+                    var nextItem = Object.assign({}, item);
+                    nextItem[itemField.key] = next;
+                    updateItem(nextItem);
+                  },
+                });
+              }
+
               if (itemField.type === 'textarea') {
                 return controls.textareaField({
                   label: itemField.label,
