@@ -16,6 +16,9 @@
     }
   }
   &__text {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(8px, $mobile);
     color: var(--gray-50-color);
   }
   .filter__label {

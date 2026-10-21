@@ -40,6 +40,9 @@
   }
 
   &__text {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(8px, $mobile);
     font-size: vw(14px, $mobile);
     line-height: 1.55;
     color: var(--additional-gray-color);

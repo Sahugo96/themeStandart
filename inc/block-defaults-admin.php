@@ -1571,7 +1571,8 @@ function tolstenko_render_block_defaults_admin_page() {
 			<?php $lp = $all['infra'] ?? array(); ?>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[infra][badge]" value="<?php echo esc_attr( $lp['badge'] ?? '' ); ?>" style="width:100%" placeholder="Подзаголовок (badge)"></div>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[infra][title]" value="<?php echo esc_attr( $lp['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок (HTML, акцент — <span>&hellip;</span>)"></div>
-			<div class="row"><textarea name="tolstenko_block_defaults[infra][text]" rows="3" style="width:100%" placeholder="Текст под заголовком"><?php echo esc_textarea( $lp['text'] ?? '' ); ?></textarea></div>
+			<div class="muted"><?php esc_html_e( 'Текст под заголовком (визуальный редактор)', 'tolstenko-theme' ); ?></div>
+			<div class="row tolstenko-faq-editor-wrap"><?php tolstenko_field_template_editor( (string) ( $lp['text'] ?? '' ), 'tolstenko_field_template_infra_text', 'tolstenko_block_defaults[infra][text]' ); ?></div>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[infra][btn_text]" value="<?php echo esc_attr( $lp['btn_text'] ?? '' ); ?>" style="width:100%" placeholder="Текст кнопки"></div>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[infra][btn_url]" value="<?php echo esc_attr( $lp['btn_url'] ?? '' ); ?>" style="width:100%" placeholder="Ссылка кнопки"></div>
 			<div class="row">
@@ -2090,7 +2091,7 @@ function tolstenko_render_block_defaults_admin_page() {
 				groupEl.classList.add('is-active');
 				groupEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 			}
-			if (target === 'faq' || target === 'field_template' || target === 'about') refreshFaqEditors();
+			if (target === 'faq' || target === 'field_template' || target === 'about' || target === 'infra') refreshFaqEditors();
 		}
 
 		root.querySelectorAll('.tolstenko-df-tab').forEach(function(tab){

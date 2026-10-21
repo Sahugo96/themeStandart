@@ -36,6 +36,19 @@
       });
     }
 
+    if (field.type === 'editor' && typeof controls.richTextField === 'function') {
+      return controls.richTextField({
+        id: 'tolstenko_section_editor_' + String(field.attr || 'field').replace(/[^a-zA-Z0-9_-]/g, '') + '_' + Math.random().toString(36).slice(2, 8),
+        label: field.label,
+        value: value || '',
+        onChange: function (next) {
+          var patch = {};
+          patch[field.attr] = next;
+          setAttributes(patch);
+        },
+      });
+    }
+
     if (field.type === 'textarea') {
       return controls.textareaField({
         label: field.label,

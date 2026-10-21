@@ -12718,3 +12718,10 @@ body {
 .cost__links{display:flex;flex-wrap:wrap;gap:10px}
 .cost__round img{max-width:24px;min-width:24px;height:auto;object-fit:contain}
 
+/* ---------- Тексты секций: корректный вывод HTML (абзацы/курсив) ---------- */
+.infra__text{display:flex;flex-direction:column;gap:8px}
+.infra__text p,.team__text p,.service-section__text p{margin:0}
+.infra__text p+p,.team__text p+p,.service-section__text p+p{margin-top:8px}
+.infra__text em,.infra__text i,.team__text em,.team__text i,.service-section__text em,.service-section__text i{font-style:italic}
+.infra__text strong,.infra__text b{font-weight:700}
+

@@ -50,7 +50,7 @@ if (!$section_query->have_posts()) {
       <?php endif; ?>
 
       <?php if ($text !== '') : ?>
-        <p class="service-section__text paragraph-15-15"><?= $text; ?></p>
+        <div class="service-section__text paragraph-15-15"><?= $text; ?></div>
       <?php endif; ?>
     </div>
 

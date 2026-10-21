@@ -704,7 +704,7 @@ function theme_get_section_blocks_editor_config(): array
             'fields'        => [
                 ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
-                ['attr' => 'text', 'label' => 'Описание', 'type' => 'textarea'],
+                ['attr' => 'text', 'label' => 'Описание', 'type' => 'editor'],
                 ['attr' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text'],
                 [
                     'attr'       => 'items',

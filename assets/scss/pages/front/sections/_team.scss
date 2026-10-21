@@ -1,4 +1,10 @@
 .team {
+  &__text {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(8px, $mobile);
+  }
+
   &__top {
     text-align: center;
     

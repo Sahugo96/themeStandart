@@ -53,7 +53,7 @@ $split_lines = static function ($value): array {
       <?php endif; ?>
 
       <?php if (trim((string) $data['text']) !== '') : ?>
-        <p class="team__text section-text"><?= $data['text']; ?></p>
+        <div class="team__text section-text"><?= $data['text']; ?></div>
       <?php endif; ?>
     </div>
 

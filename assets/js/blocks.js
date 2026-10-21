@@ -830,5 +830,16 @@
     },
   });
 
+  // Общий rich-text контрол для generic-блоков (section-blocks.js).
+  if (controls && !controls.richTextField) {
+    controls.richTextField = function (options) {
+      return el(ThemeRichTextField, {
+        id: options.id,
+        label: options.label,
+        value: options.value,
+        onChange: options.onChange,
+      });
+    };
+  }
 
 })(window.wp);
