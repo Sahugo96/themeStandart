@@ -1817,23 +1817,37 @@ function tolstenko_render_block_defaults_admin_page() {
 			<div class="row"><input type="text" name="tolstenko_block_defaults[cost][btn_text]" value="<?php echo esc_attr( $cst['btn_text'] ?? '' ); ?>" style="width:100%" placeholder="Текст кнопки"></div>
 		<div class="row"><input type="text" name="tolstenko_block_defaults[cost][btn_url]" value="<?php echo esc_attr( $cst['btn_url'] ?? '' ); ?>" style="width:100%" placeholder="Ссылка кнопки"></div>
 		<div class="muted"><?php esc_html_e( 'Ссылки с иконками (под кнопкой)', 'tolstenko-theme' ); ?></div>
-		<div data-repeater-list="cost-links-list">
+		<div id="cost-links-template" style="display:none;">
+			<div class="cost-link-row" style="margin-top:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+				<input type="hidden" name="tolstenko_block_defaults[cost][links][__INDEX__][icon_id]" class="cost-link-icon-id" value="" />
+				<img src="" class="cost-link-icon-preview" style="max-width:32px;max-height:32px;display:none;" />
+				<button type="button" class="button cost-link-choose-icon">Загрузить SVG</button>
+				<button type="button" class="button cost-link-remove-icon hidden" style="margin-left:4px;">Удалить иконку</button>
+				<input type="text" name="tolstenko_block_defaults[cost][links][__INDEX__][title]" placeholder="Название" style="min-width:120px;" />
+				<input type="text" name="tolstenko_block_defaults[cost][links][__INDEX__][link]" placeholder="Ссылка" style="flex:1; min-width:220px;" />
+				<button type="button" class="button cost-remove-link">Удалить строку</button>
+			</div>
+		</div>
+
+		<div class="cost-links-repeater">
 			<?php foreach ( (array) ( $cst['links'] ?? array() ) as $idx => $lk ) : ?>
-				<?php $lk = is_array( $lk ) ? $lk : array(); $lk_icon_id = (int) ( $lk['icon_id'] ?? 0 ); $lk_icon_url = $lk_icon_id ? wp_get_attachment_image_url( $lk_icon_id, 'thumbnail' ) : ''; ?>
-				<div class="repeater-item" data-repeater-item>
-					<div class="cols" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-						<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[cost][links][<?php echo (int) $idx; ?>][icon_id]" value="<?php echo esc_attr( $lk_icon_id ); ?>">
-						<div class="icon-preview" style="max-width:32px;max-height:32px;<?php echo empty($lk_icon_url) ? 'display:none;' : ''; ?>"><?php if ($lk_icon_url) : ?><img src="<?php echo esc_url( $lk_icon_url ); ?>" alt=""><?php endif; ?></div>
-						<button type="button" class="button tolstenko-defaults-pick-icon" style="min-width:110px;">Загрузить SVG</button>
-						<button type="button" class="button tolstenko-defaults-remove-icon hidden" style="margin-left:4px; min-width:90px;">Удалить иконку</button>
-						<input type="text" name="tolstenko_block_defaults[cost][links][<?php echo (int) $idx; ?>][title]" value="<?php echo esc_attr( $lk['title'] ?? '' ); ?>" placeholder="Название" style="min-width:130px;">
-						<input type="text" name="tolstenko_block_defaults[cost][links][<?php echo (int) $idx; ?>][link]" value="<?php echo esc_attr( $lk['link'] ?? '' ); ?>" placeholder="Ссылка" style="flex:1; min-width:200px;">
-						<button type="button" class="button" data-remove-item><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
-					</div>
+				<?php
+				$lk       = is_array( $lk ) ? $lk : array();
+				$icon_raw = $lk['icon_id'] ?? '';
+				$icon_url = tolstenko_contact_resolve_icon_url( $icon_raw );
+				?><div class="cost-link-row" style="margin-top:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+					<input type="hidden" name="tolstenko_block_defaults[cost][links][<?php echo (int) $idx; ?>][icon_id]" class="cost-link-icon-id" value="<?php echo esc_attr( $icon_raw ); ?>" />
+					<img src="<?php echo esc_url( $icon_url ); ?>" class="cost-link-icon-preview" style="max-width:32px;max-height:32px;<?php echo empty( $icon_url ) ? 'display:none;' : ''; ?>" />
+					<button type="button" class="button cost-link-choose-icon">Загрузить SVG</button>
+					<button type="button" class="button cost-link-remove-icon<?php echo empty( $icon_url ) ? ' hidden' : ''; ?>" style="margin-left:4px;">Удалить иконку</button>
+					<input type="text" name="tolstenko_block_defaults[cost][links][<?php echo (int) $idx; ?>][title]" placeholder="Название" value="<?php echo esc_attr( $lk['title'] ?? '' ); ?>" style="min-width:120px;" />
+					<input type="text" name="tolstenko_block_defaults[cost][links][<?php echo (int) $idx; ?>][link]" placeholder="Ссылка" value="<?php echo esc_attr( $lk['link'] ?? '' ); ?>" style="flex:1; min-width:220px;" />
+					<button type="button" class="button cost-remove-link">Удалить строку</button>
 				</div>
 			<?php endforeach; ?>
 		</div>
-		<div class="actions"><button type="button" class="button" data-add-item="cost-links-list"><?php esc_html_e( 'Добавить ссылку', 'tolstenko-theme' ); ?></button></div>
+
+		<button type="button" class="button cost-add-link" style="margin-top:8px;"><?php esc_html_e( 'Добавить ссылку', 'tolstenko-theme' ); ?></button>
 			<div class="row">
 				<div class="muted"><?php esc_html_e( 'Изображение', 'tolstenko-theme' ); ?></div>
 				<div class="tolstenko-defaults-image-row">
@@ -1998,8 +2012,6 @@ function tolstenko_render_block_defaults_admin_page() {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[situations][items][' + idx + '][title]" placeholder="Заголовок"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row"><textarea name="tolstenko_block_defaults[situations][items][' + idx + '][text]" rows="2" placeholder="Текст"></textarea></div></div>';
 				} else if (key === 'process-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[process][items][' + idx + '][title]" placeholder="Название шага"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row"><textarea name="tolstenko_block_defaults[process][items][' + idx + '][text]" rows="3" placeholder="Описание (HTML)"></textarea></div></div>';
-				} else if (key === 'cost-links-list') {
-			html = '<div class="repeater-item" data-repeater-item><div class="cols" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[cost][links][' + idx + '][icon_id]" value="0"><div class="icon-preview" style="max-width:32px;max-height:32px;display:none;"></div><button type="button" class="button tolstenko-defaults-pick-icon" style="min-width:110px;">Загрузить SVG</button><button type="button" class="button tolstenko-defaults-remove-icon hidden" style="margin-left:4px; min-width:90px;">Удалить иконку</button><input type="text" name="tolstenko_block_defaults[cost][links][' + idx + '][title]" placeholder="Название" style="min-width:130px;"><input type="text" name="tolstenko_block_defaults[cost][links][' + idx + '][link]" placeholder="Ссылка" style="flex:1; min-width:200px;"><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
 		} else if (key === 'cost-prices-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[cost][prices][' + idx + '][name]" placeholder="Услуга"><input type="text" name="tolstenko_block_defaults[cost][prices][' + idx + '][value]" placeholder="Значение (HTML)"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
 				} else if (key === 'guide-tags-list') {
@@ -2141,7 +2153,93 @@ function tolstenko_render_block_defaults_admin_page() {
 			}
 		});
 
-		function bindVideoPicker(scope){
+// ---------- Ссылки «Стоимость»: репитер как в записи «Команда» ----------
+		(function(){
+			var template = document.getElementById('cost-links-template');
+			if (!template) return;
+
+			var repeater = template.parentNode.querySelector('.cost-links-repeater');
+			if (!repeater) return;
+
+			var index = repeater.querySelectorAll('.cost-link-row').length;
+			var frame = null;
+
+			document.addEventListener('click', function(e){
+				var target = e.target;
+				if (!target || !target.closest) return;
+
+				if (target.closest('.cost-add-link')) {
+					e.preventDefault();
+					repeater.insertAdjacentHTML('beforeend', template.innerHTML.replace(/__INDEX__/g, index));
+					index++;
+					return;
+				}
+
+				if (target.closest('.cost-remove-link')) {
+					e.preventDefault();
+					var rowToRemove = target.closest('.cost-link-row');
+					if (rowToRemove) rowToRemove.remove();
+					return;
+				}if (target.closest('.cost-link-choose-icon')) {
+					e.preventDefault();
+					if (typeof wp === 'undefined' || !wp.media) return;
+
+					var row = target.closest('.cost-link-row');
+					if (!row) return;
+
+					if (!frame) {
+						frame = wp.media({
+							title: 'Выберите SVG иконку',
+							button: { text: 'Использовать иконку' },
+							multiple: false,
+							library: { type: 'image' }
+						});
+
+						frame.on('select', function(){
+							var selection = frame.state().get('selection').first();
+							if (!selection) return;
+
+							var json = selection.toJSON();
+							var activeRow = frame.__activeRow;
+							if (!activeRow) return;
+
+							activeRow.querySelector('.cost-link-icon-id').value = json.id || '';
+
+							var preview = activeRow.querySelector('.cost-link-icon-preview');
+							var img = (json.sizes && json.sizes.thumbnail && json.sizes.thumbnail.url) || json.url || '';
+
+							if (preview) {
+								preview.src = img;
+								preview.style.display = img ? 'block' : 'none';
+							}
+
+							var removeIcon = activeRow.querySelector('.cost-link-remove-icon');
+							if (removeIcon && img) removeIcon.classList.remove('hidden');
+						});
+					}
+
+					frame.__activeRow = row;
+					frame.open();
+					return;
+				}
+
+				if (target.closest('.cost-link-remove-icon')) {
+					e.preventDefault();
+					var iconRow = target.closest('.cost-link-row');
+					if (!iconRow) return;
+
+					iconRow.querySelector('.cost-link-icon-id').value = '';
+
+					var iconPreview = iconRow.querySelector('.cost-link-icon-preview');
+					if (iconPreview) {
+						iconPreview.src = '';
+						iconPreview.style.display = 'none';
+					}
+
+					target.closest('.cost-link-remove-icon').classList.add('hidden');
+				}
+			});
+		})();		function bindVideoPicker(scope){
 			scope.querySelectorAll('.tolstenko-defaults-pick-video').forEach(function(btn){
 				if (btn.dataset.bound) return;
 				btn.dataset.bound = '1';
@@ -2641,17 +2739,6 @@ function tolstenko_save_block_defaults_from_request() {
 			$v = tolstenko_kses_html( $it['value'] ?? '' );
 			if ( $n === '' && $v === '' ) { continue; }
 			$out['cost']['prices'][] = array( 'name' => $n, 'value' => $v );
-		}
-	}
-
-	if ( isset( $raw['cost']['links'] ) && is_array( $raw['cost']['links'] ) ) {
-		foreach ( $raw['cost']['links'] as $lk ) {
-			if ( ! is_array( $lk ) ) { continue; }
-			$icon_id = isset( $lk['icon_id'] ) ? (int) $lk['icon_id'] : 0;
-			$title   = sanitize_text_field( $lk['title'] ?? '' );
-			$url     = esc_url_raw( $lk['link'] ?? '' );
-			if ( $icon_id === 0 && $title === '' && $url === '' ) { continue; }
-			$out['cost']['links'][] = array( 'icon_id' => $icon_id, 'title' => $title, 'link' => $url );
 		}
 	}
 
