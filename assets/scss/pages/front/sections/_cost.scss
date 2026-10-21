@@ -235,3 +235,20 @@
     }
   }
 }
+/* ---------- Ссылки с иконками под кнопкой ---------- */
+.cost {
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: vw(10px, $mobile);
+  }
+
+  &__round {
+    img {
+      max-width: vw(24px, $mobile);
+      min-width: vw(24px, $mobile);
+      height: auto;
+      object-fit: contain;
+    }
+  }
+}

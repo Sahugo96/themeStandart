@@ -10,6 +10,7 @@ set_query_var('cost_data', [
     'card_title' => isset($attributes['card_title']) ? $attributes['card_title'] : '',
     'card_text' => isset($attributes['card_text']) ? $attributes['card_text'] : '',
     'btn_text' => isset($attributes['btn_text']) ? $attributes['btn_text'] : '',
+    'links' => isset($attributes['links']) && is_array($attributes['links']) ? $attributes['links'] : [],
     'image' => isset($attributes['image']) && is_array($attributes['image']) ? $attributes['image'] : [],
 ]);
 

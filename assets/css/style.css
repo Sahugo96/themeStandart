@@ -12714,3 +12714,7 @@ body {
 .faq__item.active .faq__item-plus{transform:rotate(45deg);stroke:var(--brand-accent-yellow-color)}
 .faq__item-redactor{background-color:transparent;padding:0 0 18px;font-size:13px;color:var(--gray-45-color)}
 
+/* ---------- Стоимость: ссылки с иконками ---------- */
+.cost__links{display:flex;flex-wrap:wrap;gap:10px}
+.cost__round img{max-width:24px;min-width:24px;height:auto;object-fit:contain}
+
