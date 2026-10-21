@@ -1153,11 +1153,12 @@ function theme_get_faq_section_data(array $attrs): array
         : (is_array($defaults['items'] ?? null) ? $defaults['items'] : []);
 
     return [
-        'badge'      => (string) (($attrs['badge'] ?? '') !== '' ? $attrs['badge'] : ($defaults['badge'] ?? '')),
-        'title'      => (string) (($attrs['title'] ?? '') !== '' ? $attrs['title'] : ($defaults['title'] ?? '')),
-        'items'      => $items,
-        'form_title' => (string) (($attrs['form_title'] ?? '') !== '' ? $attrs['form_title'] : ($defaults['form_title'] ?? '')),
-        'form_text'  => (string) (($attrs['form_text'] ?? '') !== '' ? $attrs['form_text'] : ($defaults['form_text'] ?? '')),
+        'badge'       => (string) (($attrs['badge'] ?? '') !== '' ? $attrs['badge'] : ($defaults['badge'] ?? '')),
+        'title'       => (string) (($attrs['title'] ?? '') !== '' ? $attrs['title'] : ($defaults['title'] ?? '')),
+        'items'       => $items,
+        'form_title'  => (string) (($attrs['form_title'] ?? '') !== '' ? $attrs['form_title'] : ($defaults['form_title'] ?? '')),
+        'form_text'   => (string) (($attrs['form_text'] ?? '') !== '' ? $attrs['form_text'] : ($defaults['form_text'] ?? '')),
+        'teammate_id' => (int) (($attrs['teammate_id'] ?? 0) ?: ($defaults['teammate_id'] ?? 0)),
     ];
 }
 
