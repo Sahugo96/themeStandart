@@ -126,7 +126,6 @@
 
   &__actions {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     grid-gap: vw(10px, $mobile);
     margin-top: vw(24px, $mobile);
@@ -154,6 +153,10 @@
         color: var(--cost-card);
       }
     }
+
+    svg.cost__btn-arrow {
+      fill: none;
+    }
   }
 
   &__btn-arrow {
@@ -175,49 +178,52 @@
       min-width: vw(20px, $desktop_large);
     }
   }
-
-  &__round {
+  
+  &__links {
     display: flex;
     align-items: center;
+    grid-gap: vw(8px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+    }
+  }
+
+  &__round {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    width: vw(52px, $mobile);
-    height: vw(52px, $mobile);
-    border: 1px solid var(--cost-line);
+    width: vw(44px, $mobile);
+    height: vw(44px, $mobile);
+    padding: vw(6px, $mobile);
+    border: 1px solid var(--accent-20-color);
     border-radius: 50%;
     transition: all 0.3s linear;
     @media (min-width: $desk) {
-      width: vw(56px, $desktop);
-      height: vw(56px, $desktop);
+      width: vw(60px, $desktop);
+      height: vw(60px, $desktop);
+      padding: vw(13px, $desktop);
+      border: 2px solid var(--accent-20-color);
     }
     @media (min-width: $desk_large) {
-      width: vw(56px, $desktop_large);
-      height: vw(56px, $desktop_large);
+      width: vw(60px, $desktop_large);
+      height: vw(60px, $desktop_large);
+      padding: vw(13px, $desktop_large);
     }
     svg {
-      max-width: vw(24px, $mobile);
-      min-width: vw(24px, $mobile);
+      width: 100%;
       height: auto;
-      aspect-ratio: 1/1;
-      fill: none;
-      stroke: var(--cost-gold);
-      stroke-width: 1.6;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: all 0.3s linear;
-      @media (min-width: $desk) {
-        max-width: vw(24px, $desktop);
-        min-width: vw(24px, $desktop);
-      }
-      @media (min-width: $desk_large) {
-        max-width: vw(24px, $desktop_large);
-        min-width: vw(24px, $desktop_large);
-      }
+      fill: var(--accent-color);
+      transition: all .3s linear;
     }
     @media (any-hover: hover) {
       &:hover {
-        background-color: var(--cost-gold);
+        border-color: var(--light-bg-color);
+        background-color: var(--light-bg-color);
         svg {
-          stroke: var(--cost-card);
+          fill: var(--main-text-color);
         }
       }
     }
@@ -225,7 +231,7 @@
 
   &__image {
     width: 100%;
-    aspect-ratio: 555/405;
+    aspect-ratio: 588/430;
     overflow: hidden;
     img {
       width: 100%;
@@ -233,38 +239,5 @@
       object-fit: cover;
       object-position: center center;
     }
-  }
-}
-/* ---------- Ссылки с иконками под кнопкой ---------- */
-.cost {
-  &__links {
-    display: flex;
-    flex-wrap: wrap;
-    grid-gap: vw(10px, $mobile);
-  }
-
-  &__round {
-    img {
-      max-width: vw(24px, $mobile);
-      min-width: vw(24px, $mobile);
-      height: auto;
-      object-fit: contain;
-    }
-  }
-}
-
-/* ---------- Абзацы в лиде (редактор) ---------- */
-.cost__lead {
-  p {
-    margin: 0;
-  }
-
-  p + p {
-    margin-top: vw(8px, $mobile);
-  }
-
-  em,
-  i {
-    font-style: italic;
   }
 }

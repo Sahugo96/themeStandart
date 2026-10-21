@@ -2,10 +2,14 @@
   margin: 0 vw(10px, $mobile);
   @media (min-width: $desk) {
     margin: 0 auto;
-    max-width: vw(1380px, $desktop);
+    max-width: vw(1440px, $desktop);
+    padding-left: vw(30px, $desktop);
+    padding-right: vw(30px, $desktop);
   }
   @media (min-width: $desk_large) {
-    max-width: vw(1380px, $desktop_large);
+    max-width: vw(1440px, $desktop_large);
+    padding-left: vw(30px, $desktop_large);
+    padding-right: vw(30px, $desktop_large);
   }
   
   &__wrapper {

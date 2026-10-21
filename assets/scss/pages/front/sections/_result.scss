@@ -1,5 +1,8 @@
 .result {
-  --result-border: var(--gray-30-color, #dcd7cd);
+
+  &__title span {
+    display: block;
+  }
 
   &__panel {
     padding: vw(20px, $mobile);

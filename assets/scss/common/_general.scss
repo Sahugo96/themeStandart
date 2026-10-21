@@ -4,17 +4,17 @@ html {
 
 body {
   animation: loadPage 0.3s ease forwards;
-  background: var(--dark-bg-color);
+  background-color: var(--dark-bg-color);
   font-family: $Montserrat;
-  font-size: vw(15px, $mobile);
+  font-size: vw(14px, $mobile);
   font-weight: 400;
-  line-height: 1.333;
-  color: var(--gray-70-color);
+  line-height: 1.425;
+  color: var(--additional-gray-color);
   @media (min-width: $desk) {
-    font-size: vw(15px, $desktop);
+    font-size: vw(14px, $desktop);
   }
   @media (min-width: $desk_large) {
-    font-size: vw(15px, $desktop_large);
+    font-size: vw(14px, $desktop_large);
   }
 }
 
@@ -120,6 +120,7 @@ body {
   
   &--white {
     background-color: var(--light-bg-color);
+    box-shadow: 1px 0 0 0 var(--light-bg-color);
     padding-bottom: vw(40px, $mobile);
     @media (min-width: $desk) {
       padding-bottom: vw(100px, $desktop);
@@ -129,7 +130,7 @@ body {
     }
     
     .section-subtitle {
-      border-color: var(--gray-50-color);
+      border-color: var(--additional-gray-30-color);
       color: var(--gray-50-color);
     }
     .section-title,
@@ -231,6 +232,19 @@ body {
   }
   @media (min-width: $desk_large) {
     font-size: vw(18px, $desktop_large);
+  }
+}
+
+.h4-16-20 {
+  font-family: $Montserrat;
+  font-size: vw(16px, $mobile);
+  font-weight: 800;
+  line-height: 1.25;
+  @media (min-width: $desk) {
+    font-size: vw(16px, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    font-size: vw(16px, $desktop_large);
   }
 }
 

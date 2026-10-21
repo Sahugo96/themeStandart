@@ -32,12 +32,12 @@ if (empty($items)) {
 $slides = array_chunk($items, 2);
 ?>
 <section class="situations section">
-  <div class="container">
-    <div class="situations__top">
+  <div class="situations__inner br-30">
+    <div class="situations__top section-top">
       <?php if (trim((string) $data['badge']) !== '') : ?>
-        <span class="situations__badge"><?= $data['badge']; ?></span>
+        <span class="situations__badge section-subtitle"><?= $data['badge']; ?></span>
       <?php endif; ?>
-      <h2 class="situations__title"><?= $data['title']; ?></h2>
+      <h2 class="situations__title section-title"><?= $data['title']; ?></h2>
     </div>
 
     <div class="fade-in-container situations__splide splide load-on-vissible--js"
@@ -51,7 +51,7 @@ $slides = array_chunk($items, 2);
           <?php foreach ($slides as $slide) : ?>
             <div class="situations__slide fade-in-element splide__slide">
               <?php foreach ($slide as $card) : ?>
-                <article class="situations__card">
+                <article class="situations__card br-20">
                   <div class="situations__card-head">
                     <svg class="situations__card-icon" viewBox="0 0 30 30" aria-hidden="true">
                       <circle cx="15" cy="15" r="15"/>
@@ -59,7 +59,7 @@ $slides = array_chunk($items, 2);
                     </svg>
                     <h3 class="situations__card-title"><?= $card['title'] ?? ''; ?></h3>
                   </div>
-                  <p class="situations__card-text"><?= $card['text'] ?? ''; ?></p>
+                  <p class="situations__card-text reg-par-14-20"><?= $card['text'] ?? ''; ?></p>
                 </article>
               <?php endforeach; ?>
             </div>

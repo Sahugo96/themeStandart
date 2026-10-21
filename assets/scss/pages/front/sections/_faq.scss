@@ -1,13 +1,5 @@
 .faq {
-  &__top {
-    grid-gap: vw(10px, $mobile);
-    @media (min-width: $desk) {
-      grid-gap: vw(10px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(10px, $desktop_large);
-    }
-  }
+  
   &__text {
     text-transform: uppercase;
   }
@@ -21,8 +13,6 @@
       grid-gap: vw(20px, $desktop);
     }
     @media (min-width: $desk_large) {
-      flex-direction: row;
-      align-items: flex-start;
       grid-gap: vw(20px, $desktop_large);
     }
   }
@@ -35,24 +25,21 @@
       grid-gap: vw(5px, $desktop);
     }
     @media (min-width: $desk_large) {
-      width: 100%;
       grid-gap: vw(5px, $desktop_large);
     }
   }
   &__item {
-    border-radius: vw(10px, $mobile);
     overflow: hidden;
     @media (min-width: $desk) {
-      border-radius: vw(10px, $desktop);
     }
     @media (min-width: $desk_large) {
-      border-radius: vw(10px, $desktop_large);
     }
     &:not(.active) .redactor p+p {
       margin-top: 0;
     }
   }
   &__item-top {
+    width: 100%;
     display: flex;
     align-items: center;
     grid-gap: vw(15px, $mobile);
@@ -68,33 +55,19 @@
       padding: vw(25px, $desktop_large) vw(20px, $desktop_large);
     }
   }
-  &__item-arrow {
-    max-width: vw(30px, $mobile);
-    min-width: vw(30px, $mobile);
-    height: auto;
-    aspect-ratio: 1/1;
-    fill: var(--gray-45-color);
-    transition: all 0.3s linear;
-    @media (min-width: $desk) {
-      max-width: vw(30px, $desktop);
-      min-width: vw(30px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      max-width: vw(30px, $desktop_large);
-      min-width: vw(30px, $desktop_large);
-    }
-  }
   &__item-title {
     width: 100%;
-    text-transform: uppercase;
+    text-align: left;
+    color: var(--additional-gray-color);
     transition: color 0.3s linear;
   }
   &__item-plus {
+    opacity: .4;
     max-width: vw(20px, $mobile);
     min-width: vw(20px, $mobile);
     height: auto;
     aspect-ratio: 1/1;
-    stroke: var(--gray-45-color);
+    stroke: var(--accent-color);
     transition: all 0.3s linear;
     @media (min-width: $desk) {
       max-width: vw(20px, $desktop);
@@ -119,16 +92,12 @@
     }
   }
 
-  &__item.active .faq__item-arrow {
-    transform: rotate(90deg);
-    fill: var(--white-color);
-  }
   &__item.active .faq__item-title {
     color: var(--white-color);
   }
   &__item.active .faq__item-plus {
     transform: rotate(135deg);
-    stroke: var(--white-color);
+    opacity: 1;
   }
   &__item:not(.active) .redactor {
     padding-top: 0;
@@ -453,8 +422,13 @@
     }
   }
 
-  &__item:not(.active) .faq__item-redactor {
-    display: none;
+  &__item-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s linear;
+  }
+  &__item.active &__item-body {
+    grid-template-rows: 1fr;
   }
 
   &__item-top {

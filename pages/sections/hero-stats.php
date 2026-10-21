@@ -28,11 +28,11 @@ if (empty($items)) {
 ?>
 <section class="hero-stats section">
   <div class="container">
-    <ul class="hero-stats__list">
+    <ul class="hero-stats__list br-30">
       <?php foreach ($items as $item) : ?>
-        <li class="hero-stats__item">
-          <span class="hero-stats__num"><?= $item['num'] ?? ''; ?></span>
-          <span class="hero-stats__label"><?= $item['label'] ?? ''; ?></span>
+        <li class="hero-stats__item br-20">
+          <span class="hero-stats__num h2-18-20"><?= $item['num'] ?? ''; ?></span>
+          <span class="hero-stats__label reg-par-14-20"><?= $item['label'] ?? ''; ?></span>
         </li>
       <?php endforeach; ?>
     </ul>
