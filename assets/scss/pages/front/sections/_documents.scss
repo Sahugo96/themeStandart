@@ -1,4 +1,5 @@
 .documents {
+  overflow: hidden;
   
   &__list {
     // max-width: vw(180px, $mobile);
@@ -96,10 +97,11 @@
     }
   }
 
-  .splide__bottom {
-    // display: none;
-    // @media (min-width: $desk) {
-    //   display: flex;
-    // }
+  .splide__track {
+    overflow: visible;
+  }
+  &.section.section--white .splide .splide__pagination__page,
+  &.section.section--white .splide .splide__pagination__page.is-active {
+    background-color: var(--accent-color);
   }
 }

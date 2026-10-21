@@ -1,6 +1,6 @@
 // Слайдер «Документы»: как result — точки-пагинация, без стрелок.
 const documents_splide = new Splide(".documents__splide", {
-  perPage: 5,
+  perPage: 4,
   perMove: 1,
   gap: "20px",
   arrows: false,
