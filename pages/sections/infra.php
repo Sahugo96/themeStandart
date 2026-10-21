@@ -42,16 +42,16 @@ $lists = array_chunk($items, $half);
 ?>
 <section class="infra section">
     <div class="container">
-        <div class="infra__inner">
+        <div class="infra__inner br-30">
 
             <div class="infra__left">
-                <span class="infra__badge"><?= $data['subtitle']; ?></span>
-                <h2 class="infra__title"><?= $data['title']; ?></h2>
+                <span class="infra__badge section-subtitle"><?= $data['subtitle']; ?></span>
+                <h2 class="infra__title section-title"><?= $data['title']; ?></h2>
                 <p class="infra__text">
                     <?= $data['text']; ?>
                 </p>
                 <?php if ($btn_url !== '' || !empty($data['btn_text'])) : ?>
-                    <a class="infra__btn" href="<?= esc_url($btn_url !== '' ? $btn_url : '#'); ?>">
+                    <a class="infra__btn default-btn default-btn--brown" href="<?= esc_url($btn_url !== '' ? $btn_url : '#'); ?>">
                         <span><?= $data['btn_text']; ?></span>
                         <svg class="infra__btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M4 12h16M14 6l6 6-6 6" />
@@ -64,7 +64,7 @@ $lists = array_chunk($items, $half);
                 <?php foreach ($lists as $list) : ?>
                     <ul class="infra__list">
                         <?php foreach ($list as $item) : ?>
-                            <li class="infra__list-item"><?= $item['text'] ?? ''; ?></li>
+                            <li class="infra__list-item reg-par-14-20"><?= $item['text'] ?? ''; ?></li>
                         <?php endforeach; ?>
                     </ul>
                 <?php endforeach; ?>

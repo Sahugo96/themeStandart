@@ -26,7 +26,7 @@ if (empty($items)) {
     return;
 }
 ?>
-<section class="hero-stats">
+<section class="hero-stats section">
   <div class="container">
     <ul class="hero-stats__list">
       <?php foreach ($items as $item) : ?>

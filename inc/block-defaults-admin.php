@@ -490,6 +490,7 @@ function tolstenko_block_defaults_schema() {
 			'btn_text'     => 'Получить расчёт',
 			'btn_url'      => '#modal',
 			'image'        => 0,
+		'links'        => array(),
 		),
 		'blog_more' => array(
 			'text' => 'Перейти в блог',
@@ -1788,6 +1789,25 @@ function tolstenko_render_block_defaults_admin_page() {
 			<div class="row"><textarea name="tolstenko_block_defaults[cost][card_title]" rows="2" placeholder="Заголовок карточки (HTML)"><?php echo esc_textarea( $cst['card_title'] ?? '' ); ?></textarea></div>
 			<div class="row"><textarea name="tolstenko_block_defaults[cost][card_text]" rows="2" placeholder="Текст карточки"><?php echo esc_textarea( $cst['card_text'] ?? '' ); ?></textarea></div>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[cost][btn_text]" value="<?php echo esc_attr( $cst['btn_text'] ?? '' ); ?>" style="width:100%" placeholder="Текст кнопки"></div>
+		<div class="row"><input type="text" name="tolstenko_block_defaults[cost][btn_url]" value="<?php echo esc_attr( $cst['btn_url'] ?? '' ); ?>" style="width:100%" placeholder="Ссылка кнопки"></div>
+		<div class="muted"><?php esc_html_e( 'Ссылки с иконками (под кнопкой)', 'tolstenko-theme' ); ?></div>
+		<div data-repeater-list="cost-links-list">
+			<?php foreach ( (array) ( $cst['links'] ?? array() ) as $idx => $lk ) : ?>
+				<?php $lk = is_array( $lk ) ? $lk : array(); $lk_icon_id = (int) ( $lk['icon_id'] ?? 0 ); $lk_icon_url = $lk_icon_id ? wp_get_attachment_image_url( $lk_icon_id, 'thumbnail' ) : ''; ?>
+				<div class="repeater-item" data-repeater-item>
+					<div class="cols" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+						<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[cost][links][<?php echo (int) $idx; ?>][icon_id]" value="<?php echo esc_attr( $lk_icon_id ); ?>">
+						<div class="icon-preview" style="max-width:32px;max-height:32px;<?php echo empty($lk_icon_url) ? 'display:none;' : ''; ?>"><?php if ($lk_icon_url) : ?><img src="<?php echo esc_url( $lk_icon_url ); ?>" alt=""><?php endif; ?></div>
+						<button type="button" class="button tolstenko-defaults-pick-icon" style="min-width:110px;">Загрузить SVG</button>
+						<button type="button" class="button tolstenko-defaults-remove-icon hidden" style="margin-left:4px; min-width:90px;">Удалить иконку</button>
+						<input type="text" name="tolstenko_block_defaults[cost][links][<?php echo (int) $idx; ?>][title]" value="<?php echo esc_attr( $lk['title'] ?? '' ); ?>" placeholder="Название" style="min-width:130px;">
+						<input type="text" name="tolstenko_block_defaults[cost][links][<?php echo (int) $idx; ?>][link]" value="<?php echo esc_attr( $lk['link'] ?? '' ); ?>" placeholder="Ссылка" style="flex:1; min-width:200px;">
+						<button type="button" class="button" data-remove-item><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<div class="actions"><button type="button" class="button" data-add-item="cost-links-list"><?php esc_html_e( 'Добавить ссылку', 'tolstenko-theme' ); ?></button></div>
 			<div class="row">
 				<div class="muted"><?php esc_html_e( 'Изображение', 'tolstenko-theme' ); ?></div>
 				<div class="tolstenko-defaults-image-row">
@@ -1952,7 +1972,9 @@ function tolstenko_render_block_defaults_admin_page() {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[situations][items][' + idx + '][title]" placeholder="Заголовок"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row"><textarea name="tolstenko_block_defaults[situations][items][' + idx + '][text]" rows="2" placeholder="Текст"></textarea></div></div>';
 				} else if (key === 'process-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[process][items][' + idx + '][title]" placeholder="Название шага"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row"><textarea name="tolstenko_block_defaults[process][items][' + idx + '][text]" rows="3" placeholder="Описание (HTML)"></textarea></div></div>';
-				} else if (key === 'cost-prices-list') {
+				} else if (key === 'cost-links-list') {
+			html = '<div class="repeater-item" data-repeater-item><div class="cols" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[cost][links][' + idx + '][icon_id]" value="0"><div class="icon-preview" style="max-width:32px;max-height:32px;display:none;"></div><button type="button" class="button tolstenko-defaults-pick-icon" style="min-width:110px;">Загрузить SVG</button><button type="button" class="button tolstenko-defaults-remove-icon hidden" style="margin-left:4px; min-width:90px;">Удалить иконку</button><input type="text" name="tolstenko_block_defaults[cost][links][' + idx + '][title]" placeholder="Название" style="min-width:130px;"><input type="text" name="tolstenko_block_defaults[cost][links][' + idx + '][link]" placeholder="Ссылка" style="flex:1; min-width:200px;"><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
+		} else if (key === 'cost-prices-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[cost][prices][' + idx + '][name]" placeholder="Услуга"><input type="text" name="tolstenko_block_defaults[cost][prices][' + idx + '][value]" placeholder="Значение (HTML)"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
 				} else if (key === 'guide-tags-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[guide][tags][' + idx + '][text]" placeholder="Тег"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
@@ -2080,6 +2102,16 @@ function tolstenko_render_block_defaults_admin_page() {
 			var btn = e.target;
 			if (btn.matches && btn.matches('[data-add-item]')) {
 				setTimeout(function(){ bindIconPicker(document); }, 0);
+			}
+			if (btn.matches && btn.matches('.tolstenko-defaults-remove-icon')) {
+				e.preventDefault();
+				var row = btn.closest('[data-repeater-item], .tolstenko-defaults-image-row');
+				if (!row) return;
+				var input = row.querySelector('.tolstenko-defaults-icon-id');
+				var preview = row.querySelector('.icon-preview');
+				if (input) input.value = '0';
+				if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
+				btn.classList.add('hidden');
 			}
 		});
 
@@ -2551,7 +2583,9 @@ function tolstenko_save_block_defaults_from_request() {
 		'card_title'   => tolstenko_kses_html( $raw['cost']['card_title'] ?? '' ),
 		'card_text'    => tolstenko_kses_html( $raw['cost']['card_text'] ?? '' ),
 		'btn_text'     => tolstenko_kses_html( $raw['cost']['btn_text'] ?? '' ),
+		'btn_url'      => esc_url_raw( $raw['cost']['btn_url'] ?? '' ),
 		'image'        => isset( $raw['cost']['image'] ) ? (int) $raw['cost']['image'] : 0,
+		'links'        => array(),
 	);
 	if ( isset( $raw['cost']['prices'] ) && is_array( $raw['cost']['prices'] ) ) {
 		foreach ( $raw['cost']['prices'] as $it ) {
@@ -2560,6 +2594,17 @@ function tolstenko_save_block_defaults_from_request() {
 			$v = tolstenko_kses_html( $it['value'] ?? '' );
 			if ( $n === '' && $v === '' ) { continue; }
 			$out['cost']['prices'][] = array( 'name' => $n, 'value' => $v );
+		}
+	}
+
+	if ( isset( $raw['cost']['links'] ) && is_array( $raw['cost']['links'] ) ) {
+		foreach ( $raw['cost']['links'] as $lk ) {
+			if ( ! is_array( $lk ) ) { continue; }
+			$icon_id = isset( $lk['icon_id'] ) ? (int) $lk['icon_id'] : 0;
+			$title   = sanitize_text_field( $lk['title'] ?? '' );
+			$url     = esc_url_raw( $lk['link'] ?? '' );
+			if ( $icon_id === 0 && $title === '' && $url === '' ) { continue; }
+			$out['cost']['links'][] = array( 'icon_id' => $icon_id, 'title' => $title, 'link' => $url );
 		}
 	}
 

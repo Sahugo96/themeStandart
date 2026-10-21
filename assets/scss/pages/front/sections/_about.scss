@@ -1,7 +1,15 @@
 .about {
   margin: 0 vw(10px, $mobile);
   @media (min-width: $desk) {
-    margin: 0;
+    margin: 0 auto;
+    max-width: vw(1380px, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    max-width: vw(1380px, $desktop_large);
+  }
+  
+  &__wrapper {
+    background-color: var(--light-bg-color);
   }
 
   &__inner {
@@ -9,7 +17,6 @@
     flex-direction: column;
     grid-gap: vw(24px, $mobile);
     padding: vw(20px, $mobile);
-    background-color: var(--light-bg-color);
     @media (min-width: $desk) {
       display: grid;
       grid-template-columns: vw(480px, $desktop) 1fr;
@@ -92,6 +99,7 @@
     padding: vw(8px, $mobile);
     background-color: var(--white-opa-50-color);
     @media (min-width: $desk) {
+      margin-top: auto;
       grid-template-columns: repeat(4, 1fr);
       grid-gap: vw(10px, $desktop);
       padding: vw(10px, $desktop);

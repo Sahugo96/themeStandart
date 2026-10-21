@@ -60,17 +60,17 @@ if (empty($items) && trim((string) $data['title']) === '') {
               ?>
                 <article class="documents__item fade-in-element splide__slide">
                   <?php if ($image['url'] !== '') : ?>
-                    <div class="documents__item-image" data-fancybox="documents" data-src="<?= $image['url']; ?>">
+                    <div class="documents__item-image br-15" data-fancybox="documents" data-src="<?= $image['url']; ?>">
                       <img src="<?= $image['url']; ?>" alt="<?= esc_attr($item['title'] ?? ''); ?>" loading="lazy">
                     </div>
                   <?php endif; ?>
 
                   <?php if (trim((string) ($item['title'] ?? '')) !== '') : ?>
-                    <h3 class="documents__item-title"><?= $item['title']; ?></h3>
+                    <h3 class="documents__item-title h5-14-15"><?= $item['title']; ?></h3>
                   <?php endif; ?>
 
                   <?php if (trim((string) ($item['text'] ?? '')) !== '') : ?>
-                    <p class="documents__item-text"><?= $item['text']; ?></p>
+                    <p class="documents__item-text reg-par-14-20"><?= $item['text']; ?></p>
                   <?php endif; ?>
 
                   <?php if (!empty($tags)) : ?>

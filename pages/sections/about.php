@@ -10,27 +10,27 @@ defined('ABSPATH') || exit;
  */
 
 $admin = function_exists('tolstenko_get_block_defaults')
-    ? tolstenko_get_block_defaults('about')
-    : [];
+  ? tolstenko_get_block_defaults('about')
+  : [];
 
 $admin_stats = is_array($admin['stats'] ?? null) ? $admin['stats'] : [];
 $stats = [];
 foreach ($admin_stats as $stat) {
-    if (!is_array($stat)) {
-        continue;
-    }
-    $stats[] = [
-        'num'   => $stat['num'] ?? '',
-        'label' => isset($stat['label']) ? tolstenko_landing_text($stat['label']) : '',
-    ];
+  if (!is_array($stat)) {
+    continue;
+  }
+  $stats[] = [
+    'num'   => $stat['num'] ?? '',
+    'label' => isset($stat['label']) ? tolstenko_landing_text($stat['label']) : '',
+  ];
 }
 
 $defaults = [
-    'subtitle'     => $admin['badge'] ?? '',
-    'title'        => $admin['title'] ?? '',
-    'text'         => $admin['text'] ?? '',
-    'stats'        => $stats,
-    'image'        => $admin['image'] ?? 0,
+  'subtitle'     => $admin['badge'] ?? '',
+  'title'        => $admin['title'] ?? '',
+  'text'         => $admin['text'] ?? '',
+  'stats'        => $stats,
+  'image'        => $admin['image'] ?? 0,
 ];
 
 $overrides = get_query_var('about_data');
@@ -42,12 +42,12 @@ $stats = isset($data['stats']) && is_array($data['stats']) ? $data['stats'] : []
 $image = tolstenko_contact_get_image_attrs($data['image'] ?? null);
 
 if (empty($image['url'])) {
-    $image = ['url' => THEME_PATH . '/assets/img/about.jpg', 'srcset' => '', 'sizes' => '', 'alt' => 'Команда Relocate-World'];
+  $image = ['url' => THEME_PATH . '/assets/img/about.jpg', 'srcset' => '', 'sizes' => '', 'alt' => 'Команда Relocate-World'];
 }
 ?>
 <section class="about section">
-  <div class="container">
-    <div class="about__inner br-30">
+  <div class="about__wrapper br-30">
+    <div class="about__inner ">
 
       <div class="about__image br-30">
         <img src="<?= $image['url']; ?>" <?php if ($image['srcset']) echo 'srcset="' . $image['srcset'] . '"'; ?> alt="<?= $image['alt']; ?>" loading="lazy">
@@ -55,7 +55,7 @@ if (empty($image['url'])) {
 
       <div class="about__content">
         <span class="about__badge section-subtitle"><?= $data['subtitle']; ?></span>
-        <h2 class="about__title section-title h1"><?= $data['title']; ?></h2>
+        <h2 class="about__title section-title"><?= $data['title']; ?></h2>
 
         <div class="about__text reg-par-14-20">
           <?= $data['text']; ?>
@@ -66,7 +66,7 @@ if (empty($image['url'])) {
             <?php foreach ($stats as $stat) : ?>
               <li class="about__stat br-20">
                 <span class="about__stat-num h2-18-20"><?= $stat['num'] ?? ''; ?></span>
-                <span class="about__stat-label"><?= $stat['label'] ?? ''; ?></span>
+                <span class="about__stat-label reg-small-12-15"><?= $stat['label'] ?? ''; ?></span>
               </li>
             <?php endforeach; ?>
           </ul>

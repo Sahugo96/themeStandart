@@ -1,245 +1,15 @@
 .documents {
-  &__inner {
-    padding: vw(50px, $mobile) vw(20px, $mobile);
-    @media (min-width: $desk) {
-      padding: vw(50px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      padding: vw(50px, $desktop_large);
-    }
-  }
-  &__top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    grid-gap: vw(15px, $mobile);
-    margin-bottom: vw(28px, $mobile);
-    @media (min-width: $desk) {
-      grid-gap: vw(15px, $desktop);
-      margin-bottom: vw(60px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(15px, $desktop_large);
-      margin-bottom: vw(60px, $desktop_large);
-    }
-  }
   
   &__list {
-    max-width: vw(180px, $mobile);
+    // max-width: vw(180px, $mobile);
     @media (min-width: $desk) {
-      max-width: unset;
+      // max-width: unset;
     }
     @media (min-width: $desk_large) {
-      max-width: unset;
+      // max-width: unset;
     }
   }
 
-  &__list-image {
-    cursor: pointer;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 180/245;
-    overflow: hidden;
-    position: relative;
-    border-radius: vw(15px, $mobile);
-    @media (min-width: $desk) {
-      border-radius: vw(15px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      border-radius: vw(15px, $desktop_large);
-    }
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  }
-
-  .splide__bottom {
-    display: none;
-    @media (min-width: $desk) {
-      display: flex;
-    }
-  }
-}
-
-
-.head {
-    text-align: center;
-    margin-bottom: 40px;
-  }
- 
-  .badge {
-    display: inline-block;
-    padding: 8px 18px;
-    border: 1px solid var(--badge-color);
-    border-radius: 999px;
-    font-size: 11px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    background: transparent;
-  }
- 
-  .title {
-    margin: 24px 0 0;
-    font-family: "Unbounded", sans-serif;
-    font-weight: 800;
-    line-height: 1.1;
-    color: var(--dark);
-  }
-  .title--xl { font-size: clamp(32px, 5.4vw, 60px); }
-  .title--lg { font-size: clamp(24px, 3.2vw, 34px); }
-  .title__accent { display: block; color: var(--gold); }
- 
-  .lead {
-    margin: 24px auto 0;
-    max-width: 560px;
-    font-size: 16px;
-    color: var(--muted);
-  }
- 
-  /* ---------- Что вы получаете ---------- */
-  .benefits {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 20px;
-    background: var(--surface-soft);
-    border-radius: var(--radius-xl);
-  }
- 
-  .benefit {
-    padding: 24px 20px 20px;
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-  }
-  .benefit__head {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--line);
-  }
-  .benefit__icon {
-    flex: none;
-    width: 24px;
-    height: 24px;
-    stroke: var(--gold);
-    fill: none;
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .benefit__title {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--dark);
-  }
-  .benefit__text {
-    margin: 16px 0 0;
-    font-size: 14px;
-    color: var(--muted);
-  }
- 
-  /* ---------- Сравнение ---------- */
-  // .table-wrap {
-  //   overflow-x: auto;
-  //   background: var(--surface);
-  //   border-radius: var(--radius-xl);
-  // }
- 
-  // .compare {
-  //   width: 100%;
-  //   // min-width: 860px;
-  //   border-collapse: collapse;
-  //   text-align: left;
-  //   font-size: 14px;
-  // }
-  // .compare th,
-  // .compare td {
-  //   padding: 24px 30px;
-  //   vertical-align: middle;
-  // }
-  // .compare thead th {
-  //   padding-top: 32px;
-  //   padding-bottom: 22px;
-  //   font-size: 10.5px;
-  //   font-weight: 700;
-  //   letter-spacing: .04em;
-  //   text-transform: uppercase;
-  //   color: var(--dark);
-  //   border-bottom: 1px solid var(--line);
-  // }
-  // .compare thead th.is-us { color: var(--gold); }
- 
-  // .compare tbody tr { background: var(--surface-soft); }
-  // .compare tbody tr:nth-child(odd) { background: #f7f5f0; }
-  // .compare tbody tr:nth-child(even) { background: #fcfbf9; }
-  // .compare tbody tr + tr td,
-  // .compare tbody tr + tr th { border-top: 1px solid var(--line); }
- 
-  // .compare tbody th {
-  //   font-weight: 500;
-  //   color: var(--muted);
-  // }
-  // .compare td { color: var(--dark); }
-  // .compare td.is-us {
-  //   font-weight: 700;
-  //   color: var(--gold);
-  // }
-  // .compare col.c-crit { width: 24%; }
- 
-  .cta-block {
-    margin-top: 48px;
-    text-align: center;
-  }
-  .cta-block p {
-    margin: 0 auto;
-    max-width: 420px;
-    color: var(--muted);
-  }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 40px;
-    padding: 21px 30px;
-    border-radius: 999px;
-    background: var(--gold);
-    color: #fff;
-    font: 500 14px "Montserrat", sans-serif;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: background-color .2s;
-  }
-  .btn:hover { background: #a98a5b; }
-  .btn:focus-visible { outline: 2px solid var(--dark); outline-offset: 3px; }
-  .btn svg {
-    width: 20px; height: 20px;
-    stroke: currentColor; fill: none; stroke-width: 1.8;
-    stroke-linecap: round; stroke-linejoin: round;
-  }
- 
-  /* ---------- Адаптив ---------- */
-  @media (max-width: 960px) {
-    .benefits { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 600px) {
-    // .section { padding-top: 64px; }
-    .benefits { grid-template-columns: 1fr; padding: 12px; gap: 12px; }
-    // .compare th, .compare td { padding: 18px 20px; }
-  }
-/* ---------- Карточки документов ---------- */
-.documents {
   &__item {
     display: flex;
     flex-direction: column;
@@ -249,18 +19,10 @@
     cursor: pointer;
     width: 100%;
     height: auto;
-    aspect-ratio: 180/245;
+    aspect-ratio: 260/370;
     overflow: hidden;
     position: relative;
-    background: var(--white-color);
-    border: 1px solid var(--gray-90-color);
-    border-radius: vw(15px, $mobile);
-    @media (min-width: $desk) {
-      border-radius: vw(15px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      border-radius: vw(15px, $desktop_large);
-    }
+    background-color: var(--white-color);
     img {
       width: 100%;
       height: 100%;
@@ -274,50 +36,70 @@
   }
 
   &__item-title {
-    margin-top: vw(14px, $mobile);
-    font-size: vw(14px, $mobile);
-    font-weight: 600;
-    line-height: 1.3;
+    margin-top: vw(15px, $mobile);
     color: var(--main-text-color);
     @media (min-width: $desk) {
-      margin-top: vw(14px, $desktop);
-      font-size: vw(15px, $desktop);
+      margin-top: vw(20px, $desktop);
     }
     @media (min-width: $desk_large) {
-      margin-top: vw(14px, $desktop_large);
-      font-size: vw(15px, $desktop_large);
+      margin-top: vw(20px, $desktop_large);
     }
   }
 
   &__item-text {
-    margin-top: vw(4px, $mobile);
-    font-size: vw(12px, $mobile);
-    line-height: 1.4;
-    color: var(--gray-50-color);
+    opacity: .6;
+    margin-top: vw(5px, $mobile);
+    color: var(--main-text-color);
     @media (min-width: $desk) {
-      font-size: vw(13px, $desktop);
+      margin-top: vw(5px, $desktop);
     }
     @media (min-width: $desk_large) {
-      font-size: vw(13px, $desktop_large);
+      margin-top: vw(5px, $desktop_large);
     }
   }
 
   &__item-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: vw(6px, $mobile);
+    grid-gap: vw(9px, $mobile);
     margin-top: vw(10px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(9px, $desktop);
+      margin-top: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(9px, $desktop_large);
+      margin-top: vw(10px, $desktop_large);
+    }
   }
 
   &__item-tag {
     display: inline-block;
-    padding: vw(4px, $mobile) vw(10px, $mobile);
-    border: 1px solid var(--gray-70-color);
+    padding: vw(3px, $mobile) vw(7px, $mobile);
     border-radius: 999px;
-    font-size: vw(9px, $mobile);
-    line-height: 1.2;
-    letter-spacing: .06em;
+    
+    font-family: $Montserrat;
+    font-size: vw(10px, $mobile);
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 2%;
     text-transform: uppercase;
-    color: var(--gray-50-color);
+    color: var(--additional-gray-color);
+    background-color: var(--white-color);
+    @media (min-width: $desk) {
+      padding: vw(3px, $desktop) vw(7px, $desktop);
+      font-size: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(3px, $desktop_large) vw(7px, $desktop_large);
+      font-size: vw(10px, $desktop_large);
+    }
+  }
+
+  .splide__bottom {
+    // display: none;
+    // @media (min-width: $desk) {
+    //   display: flex;
+    // }
   }
 }
