@@ -88,7 +88,7 @@
     }
   }
 
-  .splide__bottom {
+  .splide .splide__bottom {
     @media (min-width: $desk) {
       display: none;
     }
