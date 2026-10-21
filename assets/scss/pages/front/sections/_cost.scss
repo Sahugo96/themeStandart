@@ -252,3 +252,19 @@
     }
   }
 }
+
+/* ---------- Абзацы в лиде (редактор) ---------- */
+.cost__lead {
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: vw(8px, $mobile);
+  }
+
+  em,
+  i {
+    font-style: italic;
+  }
+}

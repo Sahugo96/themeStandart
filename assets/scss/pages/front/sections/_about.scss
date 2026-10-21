@@ -140,3 +140,19 @@
     }
   }
 }
+/* ---------- Абзацы в тексте (редактор) ---------- */
+.about__text {
+  p {
+    margin: 0;
+  }
+
+  em,
+  i {
+    font-style: italic;
+  }
+
+  strong,
+  b {
+    font-weight: 700;
+  }
+}

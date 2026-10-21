@@ -48,7 +48,7 @@ if (empty($image['url'])) {
         <span class="consult__badge section-subtitle"><?= $data['subtitle']; ?></span>
         <h2 class="consult__title section-title"><?= $data['title']; ?></h2>
         <div class="consult__text">
-          <p><?= $data['text']; ?></p>
+          <div class="consult__text-inner"><?= theme_section_text_html($data['text'] ?? ''); ?></div>
           <?php if ($phone !== '') : ?>
             <p><?= $data['contact_label']; ?> <a href="tel:<?= esc_attr($phone_href); ?>"><?= esc_html($phone); ?></a></p>
           <?php endif; ?>

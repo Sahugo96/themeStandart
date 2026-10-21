@@ -1112,6 +1112,31 @@ function theme_render_breadcrumb(): void
  * @param array $overrides Данные из атрибутов блока.
  * @return array
  */
+/**
+ * Текст секции для вывода как HTML.
+ *
+ * Значение из редактора/дефолтов может быть как готовым HTML (<p>, <em>…),
+ * так и plain-text с переносами строк (старые значения из textarea).
+ * Во втором случае переносы превращаются в настоящие абзацы.
+ *
+ * @param mixed $value Значение поля.
+ * @return string
+ */
+function theme_section_text_html($value): string
+{
+    $value = (string) $value;
+
+    if (trim($value) === '') {
+        return '';
+    }
+
+    if (preg_match('/<(p|div|ul|ol|h[1-6]|blockquote|table|figure)\b/i', $value)) {
+        return $value;
+    }
+
+    return function_exists('wpautop') ? wpautop($value) : nl2br(esc_html($value));
+}
+
 function theme_section_merge_defaults(array $defaults, array $overrides): array
 {
     foreach ($overrides as $key => $value) {

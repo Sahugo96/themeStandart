@@ -195,3 +195,26 @@
     }
   }
 }
+/* ---------- Абзацы в текстах секций ---------- */
+.guide__text p,
+.process__item-inner p,
+.documents__item-text p,
+.consult__text-inner p {
+  margin: 0;
+}
+
+.guide__text p + p,
+.process__item-inner p + p,
+.documents__item-text p + p,
+.consult__text-inner p + p {
+  margin-top: vw(8px, $mobile);
+}
+
+.guide__text em,
+.guide__text i,
+.process__item-inner em,
+.process__item-inner i,
+.documents__item-text em,
+.documents__item-text i {
+  font-style: italic;
+}

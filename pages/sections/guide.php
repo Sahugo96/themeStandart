@@ -116,7 +116,7 @@ if (empty($image['url'])) {
         <h3 class="guide__card-title"><?= $data['card_title']; ?></h3>
 
         <div class="guide__text">
-          <?= $data['text']; ?>
+          <?= theme_section_text_html($data['text'] ?? ''); ?>
 
           <div class="guide__more">
             <!-- Продолжение статьи: показывается по кнопке «Читать полностью» -->

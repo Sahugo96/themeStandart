@@ -54,7 +54,10 @@ $links = is_array($data['links'] ?? null) ? $data['links'] : [];
       <?php endif; ?>
       <h2 class="cost__title section-title"><?= $data['title']; ?></h2>
       <?php if (trim((string) $data['lead']) !== '') : ?>
-        <p class="cost__lead section-text"><?= $data['lead']; ?></p>
+        <?php $cost_lead = theme_section_text_html($data['lead'] ?? ''); ?>
+        <?php if ($cost_lead !== '') : ?>
+          <div class="cost__lead section-text"><?= $cost_lead; ?></div>
+        <?php endif; ?>
       <?php endif; ?>
     </div>
 

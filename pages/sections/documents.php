@@ -70,7 +70,7 @@ if (empty($items) && trim((string) $data['title']) === '') {
                   <?php endif; ?>
 
                   <?php if (trim((string) ($item['text'] ?? '')) !== '') : ?>
-                    <p class="documents__item-text reg-par-14-20"><?= $item['text']; ?></p>
+                    <div class="documents__item-text reg-par-14-20"><?= theme_section_text_html($item['text'] ?? ''); ?></div>
                   <?php endif; ?>
 
                   <?php if (!empty($tags)) : ?>

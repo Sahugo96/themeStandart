@@ -195,3 +195,18 @@
     }
   }
 }
+/* ---------- Абзацы в лиде (редактор) ---------- */
+.compare__lead {
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: vw(8px, $mobile);
+  }
+
+  em,
+  i {
+    font-style: italic;
+  }
+}

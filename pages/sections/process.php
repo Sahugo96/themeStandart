@@ -62,7 +62,7 @@ if (empty($image['url'])) {
             </button>
             <div class="process__item-body">
               <div class="process__item-inner reg-par-14-20">
-                <?= $step['text'] ?? ''; ?>
+                <?= theme_section_text_html($step['text'] ?? ''); ?>
               </div>
             </div>
           </div>

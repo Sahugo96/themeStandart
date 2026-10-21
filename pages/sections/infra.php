@@ -40,13 +40,8 @@ $btn_url = $btn_link['url'] ?? '';
 $half = (int) ceil(count($items) / 2);
 $lists = array_chunk($items, $half);
 
-// Текст выводится как HTML: если абзацев нет (старое значение из textarea),
-// превращаем переносы строк в абзацы, чтобы форматирование не терялось.
-$text_html = (string) ($data['text'] ?? '');
-
-if ($text_html !== '' && !preg_match('/<(p|div|ul|ol|h[1-6]|blockquote|table)\b/i', $text_html)) {
-    $text_html = function_exists('wpautop') ? wpautop($text_html) : nl2br(esc_html($text_html));
-}
+// Текст выводится как HTML (общий хелпер: plain-text → абзацы).
+$text_html = theme_section_text_html($data['text'] ?? '');
 ?>
 <section class="infra section">
     <div class="container">

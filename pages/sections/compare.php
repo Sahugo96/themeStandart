@@ -64,9 +64,10 @@ $btn_url = $btn_link['url'] ?? '';
         <div class="compare__top section-top">
             <span class="compare__badge section-subtitle"><?= $data['subtitle']; ?></span>
             <h2 class="compare__title section-title"><?= $data['title']; ?></h2>
-            <p class="compare__lead section-text">
-                <?= $data['text']; ?>
-            </p>
+            <?php $compare_lead = theme_section_text_html($data['text'] ?? ''); ?>
+            <?php if ($compare_lead !== '') : ?>
+                <div class="compare__lead section-text"><?= $compare_lead; ?></div>
+            <?php endif; ?>
         </div>
 
         <div class="compare__table-wrap br-30">

@@ -57,9 +57,10 @@ if (empty($image['url'])) {
         <span class="about__badge section-subtitle"><?= $data['subtitle']; ?></span>
         <h2 class="about__title section-title"><?= $data['title']; ?></h2>
 
-        <div class="about__text reg-par-14-20">
-          <?= $data['text']; ?>
-        </div>
+        <?php $about_text = theme_section_text_html($data['text'] ?? ''); ?>
+        <?php if ($about_text !== '') : ?>
+          <div class="about__text reg-par-14-20"><?= $about_text; ?></div>
+        <?php endif; ?>
 
         <?php if (!empty($stats)) : ?>
           <ul class="about__stats br-30">

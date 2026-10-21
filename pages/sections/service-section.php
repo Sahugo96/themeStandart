@@ -69,7 +69,7 @@ $section_query = new WP_Query(theme_get_services_slider_query_args([
       <?php
       if ($text) {
       ?>
-        <div class="service-section__text paragraph-15-15"><?= $text; ?></div>
+        <div class="service-section__text paragraph-15-15"><?= theme_section_text_html($text); ?></div>
       <?php
       }
       ?>
