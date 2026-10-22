@@ -520,3 +520,26 @@
     }
   }
 }
+/* ---------- Ссылка в заголовке карточки ---------- */
+.cases {
+  &__card-title-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s linear;
+    @media (any-hover: hover) {
+      &:hover {
+        color: var(--cases-gold);
+      }
+    }
+  }
+
+  &__story--text {
+    p {
+      margin: 0;
+    }
+
+    p + p {
+      margin-top: vw(8px, $mobile);
+    }
+  }
+}

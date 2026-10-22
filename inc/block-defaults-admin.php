@@ -541,6 +541,57 @@ function tolstenko_block_defaults_schema() {
 				array( 'title' => 'Личный счёт для нерезидентов', 'logo' => 0, 'type_text' => 'Открытие личного счёта', 'fact_1_label' => 'Стоимость', 'fact_1_value' => '0 AED', 'fact_2_label' => 'Срок', 'fact_2_value' => '2 дня', 'link_text' => 'Открыть счёт', 'link_url' => '#modal' ),
 			),
 		),
+		'flagship' => array(
+			'badge' => 'Программы по получению ВНЖ ОАЭ',
+			'title' => '<span>Флагманские</span> программы<br>резидентства',
+			'cards' => array(
+				array(
+					'country'  => 'ОАЭ',
+					'flag'     => 0,
+					'price'    => '<small>от</small> 6 500 $',
+					'title'    => 'Компания + ВНЖ',
+					'text'     => 'Самый популярный путь к резидентству: открываем компанию во Free Zone или Mainland и оформляем визу. Подходит для бизнеса, фриланса и удалённой работы.',
+					'facts'    => "Знание языка: Не требуется\nСрок действия: 2 года\nЧлены семьи: Супруг, супруга, дети до 18",
+					'btn_text' => 'Подробнее',
+					'btn_url'  => '#modal',
+				),
+				array(
+					'country'  => 'ОАЭ',
+					'flag'     => 0,
+					'price'    => '<small>от</small> 3 900 $',
+					'title'    => 'Виза инвестора',
+					'text'     => 'Инвестиционная виза для владельцев капитала: подтверждаем источник средств и оформляем резидентство.',
+					'facts'    => "Знание языка: Не требуется\nСрок действия: от 2-х лет\nЧлены семьи: Супруг, супруга, дети до 18",
+					'btn_text' => 'Подробнее',
+					'btn_url'  => '#modal',
+				),
+				array(
+					'country'  => 'ОАЭ',
+					'flag'     => 0,
+					'price'    => '<small>от</small> 9 500 $',
+					'title'    => 'Виза фрилансера',
+					'text'     => 'Резидентство для специалистов, работающих на себя: без спонсора и без местного работодателя.',
+					'facts'    => "Знание языка: Не требуется\nСрок действия: 2 года\nЧлены семьи: Супруг, супруга, дети до 18",
+					'btn_text' => 'Подробнее',
+					'btn_url'  => '#modal',
+				),
+			),
+		),
+		'europe' => array(
+			'title'     => 'Другие программы <span>— ВНЖ в Европе</span>',
+			'columns'   => array( 'Страна', 'Стоимость', 'Срок оформления', 'Преимущества', 'Действие' ),
+			'rows'      => array(
+				array( 'country' => 'Португалия', 'flag' => 0, 'note' => 'ВНЖ, ЕС', 'price' => 'от € –', 'term' => 'от 6 мес.', 'benefits' => "Шенген, путь к гражданству через 5 лет\nНе требует постоянного проживания", 'link_text' => 'Проконсультироваться', 'link_url' => '#modal' ),
+				array( 'country' => 'Испания', 'flag' => 0, 'note' => 'ВНЖ, ЕС', 'price' => 'от € 3 000', 'term' => 'от 1,5 мес.', 'benefits' => "ВНЖ для всей семьи\nПМЖ через 5 лет", 'link_text' => 'Проконсультироваться', 'link_url' => '#modal' ),
+				array( 'country' => 'Мальта', 'flag' => 0, 'note' => 'ВНЖ, ЕС', 'price' => 'от € –', 'term' => 'от 2 мес.', 'benefits' => "Английский язык, статус в ЕС\nСтабильная налоговая система", 'link_text' => 'Проконсультироваться', 'link_url' => '#modal' ),
+				array( 'country' => 'Кипр', 'flag' => 0, 'note' => 'ВНЖ, ЕС', 'price' => 'по запросу', 'term' => 'индивидуально', 'benefits' => "Льготные налоговые режимы\nМягкий климат, ВНЖ для семьи", 'link_text' => 'Проконсультироваться', 'link_url' => '#modal' ),
+			),
+			'link_text' => 'Проконсультироваться',
+			'link_url'  => '#modal',
+			'foot_text' => 'Не знаете, что выбрать?<br>Подскажем подходящую программу под вашу цель и бюджет.',
+			'btn_text'  => 'Проконсультироваться по программам',
+			'btn_url'   => '#modal',
+		),
 		'field_template' => array(
 			'enabled'       => false,
 			'text_field'     => '',
@@ -1241,6 +1292,8 @@ function tolstenko_render_block_defaults_admin_page() {
 				<button type="button" class="tolstenko-df-tab" data-panel="cases" data-group="landing"><?php esc_html_e( 'Кейсы', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="programs" data-group="landing"><?php esc_html_e( 'Сравнение программ', 'tolstenko-theme' ); ?></button>
 				<button type="button" class="tolstenko-df-tab" data-panel="banks" data-group="landing"><?php esc_html_e( 'Банки-партнёры', 'tolstenko-theme' ); ?></button>
+				<button type="button" class="tolstenko-df-tab" data-panel="flagship" data-group="landing"><?php esc_html_e( 'Флагманские программы', 'tolstenko-theme' ); ?></button>
+				<button type="button" class="tolstenko-df-tab" data-panel="europe" data-group="landing"><?php esc_html_e( 'ВНЖ в Европе', 'tolstenko-theme' ); ?></button>
 			</div>
 			<div class="tolstenko-df-group-panels" data-group-panels="landing"></div>
 		</div>
@@ -2006,6 +2059,88 @@ function tolstenko_render_block_defaults_admin_page() {
 			<div class="actions"><button type="button" class="button" data-add-item="banks-items-list"><?php esc_html_e( 'Добавить банк', 'tolstenko-theme' ); ?></button></div>
 		</div>
 
+<div class="tolstenko-df-panel" data-panel="flagship" data-group="landing">
+			<?php $flg = $all['flagship'] ?? array(); ?>
+			<div class="row"><input type="text" name="tolstenko_block_defaults[flagship][badge]" value="<?php echo esc_attr( $flg['badge'] ?? '' ); ?>" style="width:100%" placeholder="Надзаголовок (бейдж)"></div>
+			<div class="row"><textarea name="tolstenko_block_defaults[flagship][title]" rows="2" style="width:100%" placeholder="Заголовок (HTML, акцент — <span>&hellip;</span>)"><?php echo esc_textarea( $flg['title'] ?? '' ); ?></textarea></div>
+			<div class="muted"><?php esc_html_e( 'Карточки программ', 'tolstenko-theme' ); ?></div>
+			<div data-repeater-list="flagship-cards-list">
+				<?php foreach ( (array) ( $flg['cards'] ?? array() ) as $idx => $it ) : ?>
+					<?php
+					$it = is_array( $it ) ? $it : array();
+					$flag_id = (int) ( $it['flag'] ?? 0 );
+					$flag_url = $flag_id ? wp_get_attachment_image_url( $flag_id, 'thumbnail' ) : '';
+					?>
+					<div class="repeater-item" data-repeater-item>
+						<div class="cols">
+							<input type="text" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][country]" value="<?php echo esc_attr( $it['country'] ?? '' ); ?>" placeholder="Страна">
+							<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][flag]" value="<?php echo (int) $flag_id; ?>">
+							<button type="button" class="button tolstenko-defaults-pick-icon"><?php esc_html_e( 'Флаг', 'tolstenko-theme' ); ?></button>
+							<button type="button" class="button move-btn" data-move-up title="Вверх">↑</button>
+							<button type="button" class="button move-btn" data-move-down title="Вниз">↓</button>
+							<button type="button" class="button" data-remove-item><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
+						</div>
+						<div class="icon-preview" style="margin-top:8px;"><?php if ( $flag_url ) : ?><img src="<?php echo esc_url( $flag_url ); ?>" alt=""><?php endif; ?></div>
+						<div class="cols">
+							<input type="text" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][price]" value="<?php echo esc_attr( $it['price'] ?? '' ); ?>" placeholder="Цена (HTML)">
+							<input type="text" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][title]" value="<?php echo esc_attr( $it['title'] ?? '' ); ?>" placeholder="Название программы">
+						</div>
+						<div class="row"><textarea name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][text]" rows="3" placeholder="Описание (HTML)"><?php echo esc_textarea( $it['text'] ?? '' ); ?></textarea></div>
+						<div class="row"><textarea name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][facts]" rows="3" placeholder="Факты (по одному в строке: «Подпись: значение»)"><?php echo esc_textarea( $it['facts'] ?? '' ); ?></textarea></div>
+						<div class="cols">
+							<input type="text" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][btn_text]" value="<?php echo esc_attr( $it['btn_text'] ?? '' ); ?>" placeholder="Кнопка">
+							<input type="text" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][btn_url]" value="<?php echo esc_attr( $it['btn_url'] ?? '' ); ?>" placeholder="Ссылка кнопки">
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</div>
+			<div class="actions"><button type="button" class="button" data-add-item="flagship-cards-list"><?php esc_html_e( 'Добавить программу', 'tolstenko-theme' ); ?></button></div>
+		</div><div class="tolstenko-df-panel" data-panel="europe" data-group="landing">
+			<?php $eur = $all['europe'] ?? array(); ?>
+			<div class="row"><textarea name="tolstenko_block_defaults[europe][title]" rows="2" style="width:100%" placeholder="Заголовок (HTML, акцент — <span>&hellip;</span>)"><?php echo esc_textarea( $eur['title'] ?? '' ); ?></textarea></div>
+			<div class="muted"><?php esc_html_e( 'Страны (таблица)', 'tolstenko-theme' ); ?></div>
+			<div data-repeater-list="europe-rows-list">
+				<?php foreach ( (array) ( $eur['rows'] ?? array() ) as $idx => $it ) : ?>
+					<?php
+					$it = is_array( $it ) ? $it : array();
+					$flag_id = (int) ( $it['flag'] ?? 0 );
+					$flag_url = $flag_id ? wp_get_attachment_image_url( $flag_id, 'thumbnail' ) : '';
+					?>
+					<div class="repeater-item" data-repeater-item>
+						<div class="cols">
+							<input type="text" name="tolstenko_block_defaults[europe][rows][<?php echo (int) $idx; ?>][country]" value="<?php echo esc_attr( $it['country'] ?? '' ); ?>" placeholder="Страна">
+							<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[europe][rows][<?php echo (int) $idx; ?>][flag]" value="<?php echo (int) $flag_id; ?>">
+							<button type="button" class="button tolstenko-defaults-pick-icon"><?php esc_html_e( 'Флаг', 'tolstenko-theme' ); ?></button>
+							<input type="text" name="tolstenko_block_defaults[europe][rows][<?php echo (int) $idx; ?>][note]" value="<?php echo esc_attr( $it['note'] ?? '' ); ?>" placeholder="Примечание">
+							<button type="button" class="button move-btn" data-move-up title="Вверх">↑</button>
+							<button type="button" class="button move-btn" data-move-down title="Вниз">↓</button>
+							<button type="button" class="button" data-remove-item><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
+						</div>
+						<div class="icon-preview" style="margin-top:8px;"><?php if ( $flag_url ) : ?><img src="<?php echo esc_url( $flag_url ); ?>" alt=""><?php endif; ?></div>
+						<div class="cols">
+							<input type="text" name="tolstenko_block_defaults[europe][rows][<?php echo (int) $idx; ?>][price]" value="<?php echo esc_attr( $it['price'] ?? '' ); ?>" placeholder="Стоимость">
+							<input type="text" name="tolstenko_block_defaults[europe][rows][<?php echo (int) $idx; ?>][term]" value="<?php echo esc_attr( $it['term'] ?? '' ); ?>" placeholder="Срок оформления">
+						</div>
+						<div class="row"><textarea name="tolstenko_block_defaults[europe][rows][<?php echo (int) $idx; ?>][benefits]" rows="3" placeholder="Преимущества (по одному в строке)"><?php echo esc_textarea( $it['benefits'] ?? '' ); ?></textarea></div>
+						<div class="cols">
+							<input type="text" name="tolstenko_block_defaults[europe][rows][<?php echo (int) $idx; ?>][link_text]" value="<?php echo esc_attr( $it['link_text'] ?? '' ); ?>" placeholder="Ссылка — текст">
+							<input type="text" name="tolstenko_block_defaults[europe][rows][<?php echo (int) $idx; ?>][link_url]" value="<?php echo esc_attr( $it['link_url'] ?? '' ); ?>" placeholder="Ссылка — URL">
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</div>
+			<div class="actions"><button type="button" class="button" data-add-item="europe-rows-list"><?php esc_html_e( 'Добавить страну', 'tolstenko-theme' ); ?></button></div>
+			<div class="cols">
+				<input type="text" name="tolstenko_block_defaults[europe][link_text]" value="<?php echo esc_attr( $eur['link_text'] ?? '' ); ?>" placeholder="Ссылка по умолчанию — текст">
+				<input type="text" name="tolstenko_block_defaults[europe][link_url]" value="<?php echo esc_attr( $eur['link_url'] ?? '' ); ?>" placeholder="Ссылка по умолчанию — URL">
+			</div>
+			<div class="row"><textarea name="tolstenko_block_defaults[europe][foot_text]" rows="2" placeholder="Текст под таблицей"><?php echo esc_textarea( $eur['foot_text'] ?? '' ); ?></textarea></div>
+			<div class="cols">
+				<input type="text" name="tolstenko_block_defaults[europe][btn_text]" value="<?php echo esc_attr( $eur['btn_text'] ?? '' ); ?>" placeholder="Кнопка под таблицей">
+				<input type="text" name="tolstenko_block_defaults[europe][btn_url]" value="<?php echo esc_attr( $eur['btn_url'] ?? '' ); ?>" placeholder="Ссылка кнопки">
+			</div>
+		</div>
+
 		</div><!-- .tolstenko-df-panels-source -->
 	</div>
 	<div class="actions">
@@ -2023,6 +2158,8 @@ function tolstenko_render_block_defaults_admin_page() {
 			cases: 'landing',
 			programs: 'landing',
 			banks: 'landing',
+			flagship: 'landing',
+			europe: 'landing',
 			hero_stats: 'landing',
 			situations: 'landing',
 			process: 'landing',
@@ -2168,6 +2305,10 @@ function tolstenko_render_block_defaults_admin_page() {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[programs][rows][' + idx + '][criterion]" placeholder="Критерий"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row"><textarea name="tolstenko_block_defaults[programs][rows][' + idx + '][values]" rows="4" placeholder="Значения по колонкам (по одному в строке)"></textarea></div></div>';
 				} else if (key === 'banks-items-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[banks][items][' + idx + '][title]" placeholder="Заголовок карточки"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[banks][items][' + idx + '][logo]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Логотип</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview" style="margin-top:8px;"></div><div class="row"><input type="text" name="tolstenko_block_defaults[banks][items][' + idx + '][type_text]" style="width:100%" placeholder="Тип счёта"></div><div class="cols"><input type="text" name="tolstenko_block_defaults[banks][items][' + idx + '][fact_1_label]" placeholder="Факт 1 — подпись"><input type="text" name="tolstenko_block_defaults[banks][items][' + idx + '][fact_1_value]" placeholder="Факт 1 — значение"></div><div class="cols"><input type="text" name="tolstenko_block_defaults[banks][items][' + idx + '][fact_2_label]" placeholder="Факт 2 — подпись"><input type="text" name="tolstenko_block_defaults[banks][items][' + idx + '][fact_2_value]" placeholder="Факт 2 — значение"></div><div class="cols"><input type="text" name="tolstenko_block_defaults[banks][items][' + idx + '][link_text]" placeholder="Кнопка"><input type="text" name="tolstenko_block_defaults[banks][items][' + idx + '][link_url]" placeholder="Ссылка кнопки"></div></div>';
+} else if (key === 'flagship-cards-list') {
+					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[flagship][cards][' + idx + '][country]" placeholder="Страна"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[flagship][cards][' + idx + '][flag]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Флаг</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview" style="margin-top:8px;"></div><div class="cols"><input type="text" name="tolstenko_block_defaults[flagship][cards][' + idx + '][price]" placeholder="Цена (HTML)"><input type="text" name="tolstenko_block_defaults[flagship][cards][' + idx + '][title]" placeholder="Название программы"></div><div class="row"><textarea name="tolstenko_block_defaults[flagship][cards][' + idx + '][text]" rows="3" placeholder="Описание (HTML)"></textarea></div><div class="row"><textarea name="tolstenko_block_defaults[flagship][cards][' + idx + '][facts]" rows="3" placeholder="Факты (по одному в строке: «Подпись: значение»)"></textarea></div><div class="cols"><input type="text" name="tolstenko_block_defaults[flagship][cards][' + idx + '][btn_text]" placeholder="Кнопка"><input type="text" name="tolstenko_block_defaults[flagship][cards][' + idx + '][btn_url]" placeholder="Ссылка кнопки"></div></div>';
+				} else if (key === 'europe-rows-list') {
+					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[europe][rows][' + idx + '][country]" placeholder="Страна"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[europe][rows][' + idx + '][flag]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Флаг</button><input type="text" name="tolstenko_block_defaults[europe][rows][' + idx + '][note]" placeholder="Примечание"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview" style="margin-top:8px;"></div><div class="cols"><input type="text" name="tolstenko_block_defaults[europe][rows][' + idx + '][price]" placeholder="Стоимость"><input type="text" name="tolstenko_block_defaults[europe][rows][' + idx + '][term]" placeholder="Срок оформления"></div><div class="row"><textarea name="tolstenko_block_defaults[europe][rows][' + idx + '][benefits]" rows="3" placeholder="Преимущества (по одному в строке)"></textarea></div><div class="cols"><input type="text" name="tolstenko_block_defaults[europe][rows][' + idx + '][link_text]" placeholder="Ссылка — текст"><input type="text" name="tolstenko_block_defaults[europe][rows][' + idx + '][link_url]" placeholder="Ссылка — URL"></div></div>';
 				} else if (key === 'faq-list') {
 					var editorId = 'tolstenko_faq_redactor_' + idx + '_' + Date.now();
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[faq][items][' + idx + '][quest]" placeholder="Вопрос" style="width:100%"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row tolstenko-faq-editor-wrap"><p class="description" style="margin:0 0 6px;">Ответ</p><textarea id="' + editorId + '" name="tolstenko_block_defaults[faq][items][' + idx + '][unswer]" rows="8" class="wp-editor-area"></textarea></div></div>';
@@ -2990,6 +3131,79 @@ $out['cases'] = array(
 				'fact_2_value'  => sanitize_text_field( $it['fact_2_value'] ?? '' ),
 				'link_text'     => sanitize_text_field( $it['link_text'] ?? '' ),
 				'link_url'      => esc_url_raw( $it['link_url'] ?? '' ),
+			);
+		}
+	}$out['flagship'] = array(
+		'badge' => tolstenko_kses_html( $raw['flagship']['badge'] ?? '' ),
+		'title' => tolstenko_kses_html( $raw['flagship']['title'] ?? '' ),
+		'cards' => array(),
+	);
+
+	if ( isset( $raw['flagship']['cards'] ) && is_array( $raw['flagship']['cards'] ) ) {
+		foreach ( $raw['flagship']['cards'] as $it ) {
+			if ( ! is_array( $it ) ) {
+				continue;
+			}
+
+			$card_title = tolstenko_kses_html( $it['title'] ?? '' );
+			$flag       = isset( $it['flag'] ) ? (int) $it['flag'] : 0;
+
+			if ( $card_title === '' && $flag === 0 ) {
+				continue;
+			}
+
+			$out['flagship']['cards'][] = array(
+				'country'  => sanitize_text_field( $it['country'] ?? '' ),
+				'flag'     => $flag,
+				'price'    => tolstenko_kses_html( $it['price'] ?? '' ),
+				'title'    => $card_title,
+				'text'     => tolstenko_kses_html( $it['text'] ?? '' ),
+				'facts'    => sanitize_textarea_field( $it['facts'] ?? '' ),
+				'btn_text' => tolstenko_kses_html( $it['btn_text'] ?? '' ),
+				'btn_url'  => esc_url_raw( $it['btn_url'] ?? '' ),
+			);
+		}
+	}
+
+	$out['europe'] = array(
+		'title'     => tolstenko_kses_html( $raw['europe']['title'] ?? '' ),
+		'columns'   => array(),
+		'rows'      => array(),
+		'link_text' => sanitize_text_field( $raw['europe']['link_text'] ?? '' ),
+		'link_url'  => esc_url_raw( $raw['europe']['link_url'] ?? '' ),
+		'foot_text' => tolstenko_kses_html( $raw['europe']['foot_text'] ?? '' ),
+		'btn_text'  => tolstenko_kses_html( $raw['europe']['btn_text'] ?? '' ),
+		'btn_url'   => esc_url_raw( $raw['europe']['btn_url'] ?? '' ),
+	);
+
+	if ( isset( $raw['europe']['columns'] ) && is_array( $raw['europe']['columns'] ) ) {
+		foreach ( $raw['europe']['columns'] as $col ) {
+			$out['europe']['columns'][] = tolstenko_kses_html( $col );
+		}
+	}
+
+	if ( isset( $raw['europe']['rows'] ) && is_array( $raw['europe']['rows'] ) ) {
+		foreach ( $raw['europe']['rows'] as $it ) {
+			if ( ! is_array( $it ) ) {
+				continue;
+			}
+
+			$country = sanitize_text_field( $it['country'] ?? '' );
+			$flag    = isset( $it['flag'] ) ? (int) $it['flag'] : 0;
+
+			if ( $country === '' && $flag === 0 ) {
+				continue;
+			}
+
+			$out['europe']['rows'][] = array(
+				'country'   => $country,
+				'flag'      => $flag,
+				'note'      => sanitize_text_field( $it['note'] ?? '' ),
+				'price'     => tolstenko_kses_html( $it['price'] ?? '' ),
+				'term'      => tolstenko_kses_html( $it['term'] ?? '' ),
+				'benefits'  => sanitize_textarea_field( $it['benefits'] ?? '' ),
+				'link_text' => sanitize_text_field( $it['link_text'] ?? '' ),
+				'link_url'  => esc_url_raw( $it['link_url'] ?? '' ),
 			);
 		}
 	}	// Не затирать дефолты блоков тела статьи (правятся на отдельной странице).

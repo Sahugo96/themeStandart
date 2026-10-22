@@ -1,0 +1,30 @@
+{
+  "apiVersion": 3,
+  "title": "Флагманские программы",
+  "name": "my-theme/flagship",
+  "category": "tolstenko-general",
+  "icon": "star-filled",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "cards": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

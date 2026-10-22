@@ -1,0 +1,50 @@
+{
+  "apiVersion": 3,
+  "title": "ВНЖ в Европе",
+  "name": "my-theme/europe",
+  "category": "tolstenko-general",
+  "icon": "location",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "columns": {
+      "type": "array",
+      "default": []
+    },
+    "rows": {
+      "type": "array",
+      "default": []
+    },
+    "link_text": {
+      "type": "string",
+      "default": ""
+    },
+    "link_url": {
+      "type": "string",
+      "default": ""
+    },
+    "foot_text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_url": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}
