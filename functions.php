@@ -5,6 +5,8 @@ require_once(dirname(__FILE__) . '/inc/consts.php');
 require_once(dirname(__FILE__) . '/inc/acf-fallback.php');
 // Мета-поля члена команды (CPT teammate) без ACF
 require_once(dirname(__FILE__) . '/inc/teammate-meta-boxes.php');
+// Мета-поля кейсов (CPT case)
+require_once(dirname(__FILE__) . '/inc/case-meta-boxes.php');
 //Подключение стиоей и скриптов
 require_once(dirname(__FILE__) . '/inc/enqueue.php');
 //Базовые настройки
@@ -46,6 +48,7 @@ require_once __DIR__ . '/inc/cf7/custom-elements.php';
 
 require_once __DIR__ . '/inc/ajax/blog-section.php';
 require_once __DIR__ . '/inc/ajax/service-section.php';
+require_once __DIR__ . '/inc/ajax/case-section.php';
 
 require_once __DIR__ . '/inc/ajax/blog-page.php';
 
