@@ -61,6 +61,11 @@
     color: var(--additional-gray-color);
     transition: color 0.3s linear;
   }
+  &__item-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s linear;
+  }
   &__item-plus {
     opacity: .4;
     max-width: vw(20px, $mobile);
@@ -78,8 +83,8 @@
       min-width: vw(20px, $desktop_large);
     }
   }
-  &__item-redactor {
-    background-color: var(--gray-12-color);
+  &__item-inner {
+    // background-color: var(--gray-12-color);
     padding: vw(20px, $mobile) vw(30px, $mobile) vw(30px, $mobile);
     transition: all 0.3s linear;
     @media (min-width: $desk) {
@@ -99,20 +104,23 @@
     transform: rotate(135deg);
     opacity: 1;
   }
-  &__item:not(.active) .redactor {
+  &__item.active &__item-body {
+    grid-template-rows: 1fr;
+  }
+  &__item:not(.active) .faq__item-inner {
     padding-top: 0;
     padding-bottom: 0;
   }
-  &__item:not(.active) .redactor p {
+  &__item:not(.active) .faq__item-inner {
     line-height: 0;
     opacity: 0;
   }
-  &__item:not(.active) .redactor li::before {
+  &__item:not(.active) .faq__item-inner li::before {
     margin: 0;
     height: 0;
   }
-  &__item:not(.active) .redactor ul,
-  &__item:not(.active) .redactor ol {
+  &__item:not(.active) .faq__item-inner ul,
+  &__item:not(.active) .faq__item-inner ol {
     grid-gap: 0;
     line-height: 0;
     opacity: 0;

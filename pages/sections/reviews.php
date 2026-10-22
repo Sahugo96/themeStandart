@@ -65,10 +65,9 @@ if (empty($reviews) || !is_array($reviews)) {
 
       // Группируем отзывы по типу
       $grouped_reviews = array(
-        'Благодарности' => array(),
+        'Мессенджеры' => array(),
         'Видео' => array(),
-        'Текстовые' => array(),
-        'Месседжеры' => array()
+        'Текстовые' => array()
       );
 
       foreach ($reviews as $review) {
@@ -83,10 +82,10 @@ if (empty($reviews) || !is_array($reviews)) {
 
       <div class="reviews__tabs">
         <div class="reviews__labels">
-          <?php if (!empty($grouped_reviews['Благодарности'])): ?>
+          <?php if (!empty($grouped_reviews['Мессенджеры'])): ?>
             <label class="reviews__label line-caps-bold-13-15">
               <input type="radio" value="thenks" name="reviews" <?= $checked; ?>>
-              <span>Благодарности</span>
+              <span>Мессенджеры</span>
             </label>
           <?php
           $checked = '';
@@ -110,26 +109,17 @@ if (empty($reviews) || !is_array($reviews)) {
           $checked = '';
           endif;
           ?>
-          <?php if (!empty($grouped_reviews['Месседжеры'])): ?>
-            <label class="reviews__label line-caps-bold-13-15">
-              <input type="radio" value="messengers" name="reviews" <?= $checked; ?>
-                <span>Месседжеры</span>
-            </label>
-          <?php
-          $checked = '';
-          endif;
-          ?>
         </div>
       </div>
 
 
-      <!-- Блок благодарностей -->
-      <?php if (!empty($grouped_reviews['Благодарности'])): ?>
+      <!-- Блок Мессенджеры -->
+      <?php if (!empty($grouped_reviews['Мессенджеры'])): ?>
         <div class="reviews__splide reviews__splide--thenks splide">
           <div class="splide__track">
             <div class="reviews__list splide__list">
               <?php
-              foreach ($grouped_reviews['Благодарности'] as $review) {
+              foreach ($grouped_reviews['Мессенджеры'] as $review) {
                 $image = get_field('review_thenks', $review->ID);
                 $image = Image::get_image_attrs($image);
               ?>
@@ -282,8 +272,16 @@ if (empty($reviews) || !is_array($reviews)) {
                 $position = get_field('review_position', $review->ID);
                 $rating = get_field('review_rating', $review->ID);
                 $redactor = get_field('review_redactor', $review->ID);
-                $contact = get_field('review_contact', $review->ID);
-                $case_file = get_field('review_case', $review->ID);
+                $icon = Image::get_image_attrs(get_field('review_platform_icon', $review->ID));
+                $platform_name = get_field('review_platform_name', $review->ID);
+                $publish_date = '';
+                if ( $pub_time = get_post_time('U', false, $review->ID) ) {
+                    $day = date('j', $pub_time);
+                    $month = date('M', $pub_time);
+                    $year = date('Y', $pub_time);
+                    $months = array('Jan'=>'янв','Feb'=>'фев','Mar'=>'мар','Apr'=>'апр','May'=>'май','Jun'=>'июн','Jul'=>'июл','Aug'=>'авг','Sep'=>'сен','Oct'=>'окт','Nov'=>'ноя','Dec'=>'дек');
+                    $publish_date = sprintf( '%s %s. %s', $day, empty($months[$month]) ? $month : $months[$month], $year );
+                }
 
                 $photo = get_field('review_photo', $review->ID);
                 $photo = Image::get_image_attrs($photo);
@@ -311,23 +309,16 @@ if (empty($reviews) || !is_array($reviews)) {
                     <?= $redactor; ?>
                   </div>
 
-                  <div class="reviews__list-btns">
-                    <a class="reviews__list-btn reviews__list-btn--transparent default-btn" href="<?= $contact['url'];  ?>">
-                      <!-- <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13.9999 15.0003C14.9333 15.0003 15.4 15.0003 15.7566 14.8187C16.0702 14.6589 16.3251 14.4039 16.4849 14.0903C16.6666 13.7338 16.6666 13.2671 16.6666 12.3337V4.33366C16.6666 3.40024 16.6666 2.93353 16.4849 2.57701C16.3251 2.2634 16.0702 2.00844 15.7566 1.84865C15.4 1.66699 14.9333 1.66699 13.9999 1.66699H9.33325C8.39983 1.66699 7.93312 1.66699 7.5766 1.84865C7.263 2.00844 7.00803 2.2634 6.84824 2.57701C6.66659 2.93353 6.66659 3.40024 6.66659 4.33366M5.99992 18.3337H10.6666C11.6 18.3337 12.0667 18.3337 12.4232 18.152C12.7368 17.9922 12.9918 17.7372 13.1516 17.4236C13.3333 17.0671 13.3333 16.6004 13.3333 15.667V7.66699C13.3333 6.73357 13.3333 6.26686 13.1516 5.91034C12.9918 5.59674 12.7368 5.34177 12.4232 5.18198C12.0667 5.00033 11.6 5.00033 10.6666 5.00033H5.99992C5.0665 5.00033 4.59979 5.00033 4.24327 5.18198C3.92966 5.34177 3.6747 5.59674 3.51491 5.91034C3.33325 6.26686 3.33325 6.73357 3.33325 7.66699V15.667C3.33325 16.6004 3.33325 17.0671 3.51491 17.4236C3.6747 17.7372 3.92966 17.9922 4.24327 18.152C4.59979 18.3337 5.0665 18.3337 5.99992 18.3337Z" stroke-width="2" />
-                      </svg> -->
-
-                      <?= $contact['title'];  ?>
-                    </a>
-
-                    <a class="reviews__list-btn reviews__list-btn--shablon default-btn" href="<?= $case_file;  ?>">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 4L12 13M16 10L12.7071 13.2929C12.3166 13.6834 11.6834 13.6834 11.2929 13.2929L8 10M20 20L4 20" stroke-width="2" stroke-linecap="round" />
-                      </svg>
-
-                      Получить кейс
-                    </a>
-
+                                    <div class="reviews__list-btns">
+                    <?php if ( ! empty( $icon['url'] ) ) : ?>
+                      <div class="reviews__list-btn-icon">
+                        <img src="<?= $icon['url']; ?>" alt="<?= $platform_name; ?>">
+                      </div>
+                    <?php endif; ?>
+                    <?php if ( $platform_name ) : ?>
+                      <div class="reviews__list-btn-name"><?= $platform_name; ?></div>
+                    <?php endif; ?>
+                    <div class="reviews__list-btn-date"><?= $publish_date; ?></div>
                   </div>
                 </div>
               <?php
@@ -356,46 +347,6 @@ if (empty($reviews) || !is_array($reviews)) {
         </div>
       <?php endif; ?>
 
-      <!-- Блок отзывов из мессенджеров -->
-      <?php if (!empty($grouped_reviews['Месседжеры'])): ?>
-        <div class="reviews__splide reviews__splide--messengers splide">
-          <div class="splide__track">
-            <div class="reviews__list splide__list">
-              <?php
-              foreach ($grouped_reviews['Месседжеры'] as $review) {
-                $screenshot = get_field('review_screen', $review->ID);
-                $screenshot = Image::get_image_attrs($screenshot);
-              ?>
-                <div class="reviews__list-item splide__slide">
-                  <div class="reviews__list-screenshot">
-                    <img src="<?= $screenshot['url']; ?>" alt="<?= $screenshot['alt']; ?>" data-fancybox="reviews-messengers">
-                  </div>
-                </div>
-              <?php
-              }
-              ?>
-            </div>
-          </div>
-
-          <div class="splide__bottom">
-            <ul class="splide__pagination"></ul>
-
-            <div class="splide__arrows splide__arrows--ltr">
-              <button class="splide__arrow splide__arrow--prev" type="button" aria-label="Previous slide">
-                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.8332 10H4.99987M9.16654 5L4.7558 9.41074C4.43036 9.73618 4.43036 10.2638 4.7558 10.5893L9.16654 15" stroke-width="2" stroke-linecap="round" />
-                </svg>
-              </button>
-
-              <button class="splide__arrow splide__arrow--next" type="button" aria-label="Next slide">
-                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.8332 10H4.99987M9.16654 5L4.7558 9.41074C4.43036 9.73618 4.43036 10.2638 4.7558 10.5893L9.16654 15" stroke-width="2" stroke-linecap="round" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      <?php endif; ?>
 
       <div class="reviews__splide splide">
         <div class="splide__track">

@@ -58,22 +58,3 @@ if (document.querySelector(".reviews__splide--text")) {
   }).mount();
 }
 
-if (document.querySelector(".reviews__splide--messengers")) {
-  const reviews_splide_messengers = new Splide(".reviews__splide--messengers", {
-    // type: "loop",
-    perPage: 4,
-    perMove: 1,
-    gap: "30px",
-    arrows: true,
-    pagination: false,
-    updateOnMove: true,
-    breakpoints: {
-      991.9: {
-        perPage: 1,
-        perMove: 1,
-        arrows: false,
-        pagination: true,
-      },
-    },
-  }).mount();
-}

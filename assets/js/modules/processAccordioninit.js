@@ -15,9 +15,11 @@ document.querySelectorAll("[data-accordion]").forEach((root) => {
         if (otherBtn) otherBtn.setAttribute("aria-expanded", "false");
       });
 
+      // Обновляем состояние кнопки кликнутого элемента
+      btn.setAttribute("aria-expanded", wasOpen ? "false" : "true");
+
       if (!wasOpen) {
         item.classList.add("active");
-        btn.setAttribute("aria-expanded", "true");
       }
     });
   });

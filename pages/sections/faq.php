@@ -68,7 +68,7 @@ if ($teammate_id > 0 && ($teammate_post = get_post($teammate_id))) {
 
         <?php foreach ($items as $index => $item) : ?>
           <div class="faq__item br-20<?= $index === 0 ? ' active' : ''; ?>" data-accordion-item>
-            <button type="button" class="faq__item-top accordion-top" data-accordion-btn aria-expanded="<?= $index === 0 ? 'true' : 'false'; ?>">
+            <button type="button" class="faq__item-top" data-accordion-btn aria-expanded="<?= $index === 0 ? 'true' : 'false'; ?>">
               <p class="faq__item-title h4-16-20"><?= $item['quest'] ?? ''; ?></p>
 
               <svg class="faq__item-plus" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +77,7 @@ if ($teammate_id > 0 && ($teammate_post = get_post($teammate_id))) {
             </button>
 
             <div class="faq__item-body">
-              <div class="faq__item-redactor redactor reg-par-14-20"><?= $item['unswer'] ?? ''; ?></div>
+              <div class="faq__item-inner reg-par-14-20"><?= $item['unswer'] ?? ''; ?></div>
             </div>
           </div>
         <?php endforeach; ?>
