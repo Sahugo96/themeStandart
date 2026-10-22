@@ -1,0 +1,34 @@
+{
+  "apiVersion": 3,
+  "title": "Банки-партнёры",
+  "name": "my-theme/banks",
+  "category": "tolstenko-general",
+  "icon": "bank",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "lead": {
+      "type": "string",
+      "default": ""
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

@@ -48,6 +48,51 @@ function register_service_cpt()
 
 
 
+// Кейсы: CPT + таксономия для AJAX-фильтра
+add_action('init', 'register_case_cpt');
+function register_case_cpt()
+{
+    register_post_type(
+        'case',
+        array(
+            'labels' => array(
+                'name' => 'Кейсы',
+                'singular_name' => 'Кейс',
+                'add_new' => 'Добавить',
+                'add_new_item' => 'Добавить кейс',
+                'edit_item' => 'Редактировать',
+                'all_items' => 'Все кейсы',
+            ),
+            'public' => true,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'menu_icon' => 'dashicons-awards',
+            'menu_position' => -4,
+            'supports' => array('title', 'thumbnail'),
+            'show_in_rest' => true,
+            'has_archive' => false,
+            'rewrite' => array('slug' => 'cases'),
+        )
+    );
+
+    register_taxonomy(
+        'case_cat',
+        array('case'),
+        array(
+            'labels' => array(
+                'name' => 'Категории кейсов',
+                'singular_name' => 'Категория кейса',
+            ),
+            'public' => true,
+            'show_ui' => true,
+            'show_admin_column' => true,
+            'show_in_rest' => true,
+            'hierarchical' => true,
+            'rewrite' => array('slug' => 'cases'),
+        )
+    );
+}
+
 // Члены команды: без собственной страницы, только поля.
 add_action('init', 'register_teammate_cpt');
 function register_teammate_cpt()
@@ -82,6 +127,7 @@ add_action('admin_init', function () {
     remove_meta_box('slugdiv', 'service', 'normal');
     remove_meta_box('slugdiv', 'blog', 'normal');
     remove_meta_box('slugdiv', 'teammate', 'normal');
+    remove_meta_box('slugdiv', 'case', 'normal');
 });
 
 add_action('init', 'register_review_cpt');

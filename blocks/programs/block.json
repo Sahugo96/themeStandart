@@ -1,0 +1,46 @@
+{
+  "apiVersion": 3,
+  "title": "Сравнение программ",
+  "name": "my-theme/programs",
+  "category": "tolstenko-general",
+  "icon": "editor-table",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "lead": {
+      "type": "string",
+      "default": ""
+    },
+    "columns": {
+      "type": "array",
+      "default": []
+    },
+    "rows": {
+      "type": "array",
+      "default": []
+    },
+    "btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_url": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}

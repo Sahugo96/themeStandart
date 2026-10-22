@@ -1,0 +1,50 @@
+{
+  "apiVersion": 3,
+  "title": "Кейсы",
+  "name": "my-theme/cases",
+  "category": "tolstenko-general",
+  "icon": "awards",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "all_text": {
+      "type": "string",
+      "default": ""
+    },
+    "all_url": {
+      "type": "string",
+      "default": ""
+    },
+    "foot_text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_url": {
+      "type": "string",
+      "default": ""
+    },
+    "post_ids": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}
