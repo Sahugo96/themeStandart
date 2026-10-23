@@ -28,13 +28,6 @@ if (empty($cards)) {
     return;
 }
 
-$split_lines = static function ($value): array {
-    $lines = preg_split('/\r\n|\r|\n/', (string) $value);
-
-    return array_values(array_filter(array_map('trim', (array) $lines), static function ($line) {
-        return $line !== '';
-    }));
-};
 ?>
 <section class="flagship section">
   <div class="container">
@@ -52,7 +45,21 @@ $split_lines = static function ($value): array {
       <?php foreach ($cards as $card) :
         $card = is_array($card) ? $card : [];
         $flag = tolstenko_contact_get_image_attrs($card['flag'] ?? null);
-        $facts = $split_lines($card['facts'] ?? '');
+        $facts = isset($card['facts']) && is_array($card['facts']) ? array_values($card['facts']) : [];
+
+        // Обратная совместимость: ранее факты хранились строкой «Подпись: значение».
+        if (empty($facts) && !empty($card['facts']) && is_string($card['facts'])) {
+            foreach (preg_split('/\r\n|\r|\n/', $card['facts']) as $line) {
+                $line = trim($line);
+
+                if ($line === '') {
+                    continue;
+                }
+
+                $parts = array_map('trim', explode(':', $line, 2));
+                $facts[] = ['label' => $parts[0] ?? '', 'value' => $parts[1] ?? ''];
+            }
+        }
         $btn_url = trim((string) ($card['btn_url'] ?? ''));
       ?>
         <article class="flagship__card">
@@ -81,14 +88,25 @@ $split_lines = static function ($value): array {
 
           <?php if (!empty($facts)) : ?>
             <ul class="flagship__facts">
-              <?php foreach ($facts as $fact) :
-                $parts = array_map('trim', explode(':', $fact, 2));
-                $fact_label = $parts[0] ?? '';
-                $fact_value = $parts[1] ?? '';
+              <?php foreach ($facts as $fact_index => $fact) :
+                $fact = is_array($fact) ? $fact : [];
+                $fact_label = trim((string) ($fact['label'] ?? ''));
+                $fact_value = trim((string) ($fact['value'] ?? ''));
+
+                if ($fact_label === '' && $fact_value === '') {
+                    continue;
+                }
+
+                $fact_icon = tolstenko_contact_get_image_attrs($fact['icon'] ?? null);
+                $fact_icon_svg = $fact_icon['url'] === '' ? theme_flagship_fact_icon($fact_index) : '';
               ?>
                 <li class="flagship__fact">
                   <span class="flagship__fact-label">
-                    <svg class="flagship__fact-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                    <?php if ($fact_icon['url'] !== '') : ?>
+                      <img class="flagship__fact-icon" src="<?= $fact_icon['url']; ?>" alt="" loading="lazy">
+                    <?php elseif ($fact_icon_svg !== '') : ?>
+                      <?= $fact_icon_svg; ?>
+                    <?php endif; ?>
                     <?= esc_html($fact_label); ?><?= $fact_value !== '' ? ':' : ''; ?>
                   </span>
                   <?php if ($fact_value !== '') : ?>

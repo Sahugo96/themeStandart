@@ -1039,9 +1039,20 @@ function theme_get_section_blocks_editor_config(): array
                         ['key' => 'price', 'label' => 'Цена (HTML)', 'type' => 'text'],
                         ['key' => 'title', 'label' => 'Название программы', 'type' => 'text'],
                         ['key' => 'text', 'label' => 'Описание (HTML)', 'type' => 'textarea'],
-                        ['key' => 'facts', 'label' => 'Факты (по одному в строке, «Подпись: значение»)', 'type' => 'textarea'],
                         ['key' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text'],
                         ['key' => 'btn_url', 'label' => 'Ссылка кнопки', 'type' => 'text'],
+                    ],
+                    'nested'     => [
+                        'attr'       => 'facts',
+                        'label'      => 'Факты (иконка + параметр + значение)',
+                        'type'       => 'repeater',
+                        'addLabel'   => 'Добавить факт',
+                        'itemLabel'  => 'Факт',
+                        'itemFields' => [
+                            ['key' => 'icon', 'label' => 'Иконка', 'type' => 'image'],
+                            ['key' => 'label', 'label' => 'Параметр', 'type' => 'text'],
+                            ['key' => 'value', 'label' => 'Значение', 'type' => 'text'],
+                        ],
                     ],
                 ],
             ],
@@ -1286,6 +1297,27 @@ function theme_section_text_html($value): string
     }
 
     return function_exists('wpautop') ? wpautop($value) : nl2br(esc_html($value));
+}
+
+/**
+ * Дефолтная SVG-иконка факта карточки «Флагманские программы».
+ *
+ * Используется, когда в поле «Иконка» не выбрана картинка.
+ *
+ * @param int $index Порядковый номер факта.
+ * @return string
+ */
+function theme_flagship_fact_icon(int $index): string
+{
+    $icons = [
+        '<circle cx="9" cy="8" r="3.5"/><path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M17 8c1.2.8 1.2 3.2 0 4M19.5 6c2.2 1.8 2.2 6.2 0 8"/>',
+        '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+        '<circle cx="8" cy="8" r="3"/><circle cx="16" cy="9" r="2.5"/><path d="M2.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5M14 14.5c.7-.3 1.4-.5 2-.5 2.5 0 4.5 1.7 4.5 4.5"/>',
+    ];
+
+    $path = $icons[$index] ?? $icons[1];
+
+    return '<svg class="flagship__fact-icon" viewBox="0 0 24 24" aria-hidden="true">' . $path . '</svg>';
 }
 
 function theme_section_merge_defaults(array $defaults, array $overrides): array

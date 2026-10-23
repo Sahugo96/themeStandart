@@ -237,6 +237,7 @@
 
   &__fact-icon {
     max-width: vw(16px, $mobile);
+    object-fit: contain;
     min-width: vw(16px, $mobile);
     height: auto;
     aspect-ratio: 1/1;

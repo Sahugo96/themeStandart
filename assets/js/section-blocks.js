@@ -105,6 +105,7 @@
     if (field.type === 'repeater') {
       var items = Array.isArray(value) ? value : [];
       var itemFields = field.itemFields || [];
+      var nestedField = field.nested || null;
 
       return controls.repeaterField({
         label: field.label,
@@ -118,6 +119,9 @@
           itemFields.forEach(function (itemField) {
             item[itemField.key] = itemField.type === 'image' ? { id: 0, url: '', alt: '' } : '';
           });
+          if (nestedField) {
+            item[nestedField.attr] = [];
+          }
           return item;
         },
         onChange: function (nextItems) {
@@ -167,6 +171,16 @@
                 },
               });
             }),
+            nestedField
+              ? renderField(
+                  Object.assign({}, nestedField, { attr: nestedField.attr }),
+                  item,
+                  function (patch) {
+                    updateItem(Object.assign({}, item, patch));
+                  },
+                  {}
+                )
+              : null,
             el(
               wp.components.Button,
               {

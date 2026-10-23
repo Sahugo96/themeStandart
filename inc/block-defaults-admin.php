@@ -551,7 +551,11 @@ function tolstenko_block_defaults_schema() {
 					'price'    => '<small>от</small> 6 500 $',
 					'title'    => 'Компания + ВНЖ',
 					'text'     => 'Самый популярный путь к резидентству: открываем компанию во Free Zone или Mainland и оформляем визу. Подходит для бизнеса, фриланса и удалённой работы.',
-					'facts'    => "Знание языка: Не требуется\nСрок действия: 2 года\nЧлены семьи: Супруг, супруга, дети до 18",
+					'facts'    => array(
+						array( 'icon' => 0, 'label' => 'Знание языка', 'value' => 'Не требуется' ),
+						array( 'icon' => 0, 'label' => 'Срок действия', 'value' => '2 года' ),
+						array( 'icon' => 0, 'label' => 'Члены семьи', 'value' => 'Супруг, супруга, дети до 18' ),
+					),
 					'btn_text' => 'Подробнее',
 					'btn_url'  => '#modal',
 				),
@@ -561,7 +565,11 @@ function tolstenko_block_defaults_schema() {
 					'price'    => '<small>от</small> 3 900 $',
 					'title'    => 'Виза инвестора',
 					'text'     => 'Инвестиционная виза для владельцев капитала: подтверждаем источник средств и оформляем резидентство.',
-					'facts'    => "Знание языка: Не требуется\nСрок действия: от 2-х лет\nЧлены семьи: Супруг, супруга, дети до 18",
+					'facts'    => array(
+						array( 'icon' => 0, 'label' => 'Знание языка', 'value' => 'Не требуется' ),
+						array( 'icon' => 0, 'label' => 'Срок действия', 'value' => 'от 2-х лет' ),
+						array( 'icon' => 0, 'label' => 'Члены семьи', 'value' => 'Супруг, супруга, дети до 18' ),
+					),
 					'btn_text' => 'Подробнее',
 					'btn_url'  => '#modal',
 				),
@@ -571,7 +579,11 @@ function tolstenko_block_defaults_schema() {
 					'price'    => '<small>от</small> 9 500 $',
 					'title'    => 'Виза фрилансера',
 					'text'     => 'Резидентство для специалистов, работающих на себя: без спонсора и без местного работодателя.',
-					'facts'    => "Знание языка: Не требуется\nСрок действия: 2 года\nЧлены семьи: Супруг, супруга, дети до 18",
+					'facts'    => array(
+						array( 'icon' => 0, 'label' => 'Знание языка', 'value' => 'Не требуется' ),
+						array( 'icon' => 0, 'label' => 'Срок действия', 'value' => '2 года' ),
+						array( 'icon' => 0, 'label' => 'Члены семьи', 'value' => 'Супруг, супруга, дети до 18' ),
+					),
 					'btn_text' => 'Подробнее',
 					'btn_url'  => '#modal',
 				),
@@ -2086,8 +2098,31 @@ function tolstenko_render_block_defaults_admin_page() {
 							<input type="text" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][title]" value="<?php echo esc_attr( $it['title'] ?? '' ); ?>" placeholder="Название программы">
 						</div>
 						<div class="row"><textarea name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][text]" rows="3" placeholder="Описание (HTML)"><?php echo esc_textarea( $it['text'] ?? '' ); ?></textarea></div>
-						<div class="row"><textarea name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][facts]" rows="3" placeholder="Факты (по одному в строке: «Подпись: значение»)"><?php echo esc_textarea( $it['facts'] ?? '' ); ?></textarea></div>
-						<div class="cols">
+<div class="row">
+							<div class="muted"><?php esc_html_e( 'Факты (иконка + параметр + значение)', 'tolstenko-theme' ); ?></div>
+							<div class="flagship-facts-repeater">
+								<?php
+								$card_facts = isset( $it['facts'] ) && is_array( $it['facts'] ) ? $it['facts'] : array();
+
+								foreach ( $card_facts as $f_idx => $fact ) :
+									$fact = is_array( $fact ) ? $fact : array();
+									$fact_icon_id = (int) ( $fact['icon'] ?? 0 );
+									$fact_icon_url = $fact_icon_id ? wp_get_attachment_image_url( $fact_icon_id, 'thumbnail' ) : '';
+									?>
+									<div class="repeater-item" data-flagship-fact>
+										<div class="cols">
+											<input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][facts][<?php echo (int) $f_idx; ?>][icon]" value="<?php echo (int) $fact_icon_id; ?>">
+											<button type="button" class="button tolstenko-defaults-pick-icon"><?php esc_html_e( 'Иконка', 'tolstenko-theme' ); ?></button>
+											<input type="text" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][facts][<?php echo (int) $f_idx; ?>][label]" value="<?php echo esc_attr( $fact['label'] ?? '' ); ?>" placeholder="Параметр">
+											<input type="text" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][facts][<?php echo (int) $f_idx; ?>][value]" value="<?php echo esc_attr( $fact['value'] ?? '' ); ?>" placeholder="Значение">
+											<button type="button" class="button" data-flagship-fact-remove><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
+										</div>
+										<div class="icon-preview" style="margin-top:8px;"><?php if ( $fact_icon_url ) : ?><img src="<?php echo esc_url( $fact_icon_url ); ?>" alt=""><?php endif; ?></div>
+									</div>
+								<?php endforeach; ?>
+							</div>
+							<div class="actions"><button type="button" class="button" data-flagship-fact-add data-card-index="<?php echo (int) $idx; ?>"><?php esc_html_e( 'Добавить факт', 'tolstenko-theme' ); ?></button></div>
+						</div>						<div class="cols">
 							<input type="text" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][btn_text]" value="<?php echo esc_attr( $it['btn_text'] ?? '' ); ?>" placeholder="Кнопка">
 							<input type="text" name="tolstenko_block_defaults[flagship][cards][<?php echo (int) $idx; ?>][btn_url]" value="<?php echo esc_attr( $it['btn_url'] ?? '' ); ?>" placeholder="Ссылка кнопки">
 						</div>
@@ -2530,6 +2565,48 @@ function tolstenko_render_block_defaults_admin_page() {
 					}
 
 					target.closest('.cost-link-remove-icon').classList.add('hidden');
+				}
+			});
+		})();// ---------- Факты карточки «Флагманские программы»: вложенный повторитель ----------
+		(function(){
+			function factRow(cardIndex, factIndex) {
+				var p = 'tolstenko_block_defaults[flagship][cards][' + cardIndex + '][facts][' + factIndex + ']';
+				return '<div class="repeater-item" data-flagship-fact>'
+					+ '<div class="cols">'
+					+ '<input type="hidden" class="tolstenko-defaults-icon-id" name="' + p + '[icon]" value="0">'
+					+ '<button type="button" class="button tolstenko-defaults-pick-icon">Иконка</button>'
+					+ '<input type="text" name="' + p + '[label]" placeholder="Параметр">'
+					+ '<input type="text" name="' + p + '[value]" placeholder="Значение">'
+					+ '<button type="button" class="button" data-flagship-fact-remove>Удалить</button>'
+					+ '</div>'
+					+ '<div class="icon-preview" style="margin-top:8px;"></div>'
+					+ '</div>';
+			}
+
+			document.addEventListener('click', function(e){
+				var target = e.target;
+				if (!target || !target.closest) return;
+
+				if (target.closest('[data-flagship-fact-add]')) {
+					e.preventDefault();
+
+					var addBtn = target.closest('[data-flagship-fact-add]');
+					var card = addBtn.closest('[data-repeater-item]');
+					var repeater = card ? card.querySelector('.flagship-facts-repeater') : null;
+					if (!repeater) return;
+
+					var index = parseInt(addBtn.getAttribute('data-card-index'), 10) || 0;
+					repeater.insertAdjacentHTML('beforeend', factRow(index, repeater.querySelectorAll('[data-flagship-fact]').length));
+
+					if (typeof bindIconPicker === 'function') {
+						bindIconPicker(repeater);
+					}
+				}
+
+				if (target.closest('[data-flagship-fact-remove]')) {
+					e.preventDefault();
+					var row = target.closest('[data-flagship-fact]');
+					if (row) row.remove();
 				}
 			});
 		})();		function bindVideoPicker(scope){
@@ -3152,13 +3229,37 @@ $out['cases'] = array(
 				continue;
 			}
 
+$card_facts = array();
+
+			if ( isset( $it['facts'] ) && is_array( $it['facts'] ) ) {
+				foreach ( $it['facts'] as $fact ) {
+					if ( ! is_array( $fact ) ) {
+						continue;
+					}
+
+					$fact_label = sanitize_text_field( $fact['label'] ?? '' );
+					$fact_value = sanitize_text_field( $fact['value'] ?? '' );
+					$fact_icon  = isset( $fact['icon'] ) ? (int) $fact['icon'] : 0;
+
+					if ( $fact_label === '' && $fact_value === '' ) {
+						continue;
+					}
+
+					$card_facts[] = array(
+						'icon'  => $fact_icon,
+						'label' => $fact_label,
+						'value' => $fact_value,
+					);
+				}
+			}
+
 			$out['flagship']['cards'][] = array(
 				'country'  => sanitize_text_field( $it['country'] ?? '' ),
 				'flag'     => $flag,
 				'price'    => tolstenko_kses_html( $it['price'] ?? '' ),
 				'title'    => $card_title,
 				'text'     => tolstenko_kses_html( $it['text'] ?? '' ),
-				'facts'    => sanitize_textarea_field( $it['facts'] ?? '' ),
+				'facts'    => $card_facts,
 				'btn_text' => tolstenko_kses_html( $it['btn_text'] ?? '' ),
 				'btn_url'  => esc_url_raw( $it['btn_url'] ?? '' ),
 			);

@@ -16625,6 +16625,52 @@ body {
   --brand-accent-yellow-darkest-color: #2B271F;
 }
 
+:root {
+  --white-color: #FFFFFF;
+  --white-opa-50-color: #FFFFFF88;
+  --gray-30-color: #4D4D4D;
+  --gray-50-color: #808080;
+  --light-bg-color: #F3F0E9;
+  --light-bg-50-color: #F3F0E988;
+  --dark-bg-color: #0A1622;
+  --super-dark-bg-color: #070F18;
+  --dark-bg-plank-color: #16222D;
+  --dark-bg-stoke-color: #27323C;
+  --main-text-color: #18212A;
+  --accent-color: #B89A68;
+  --accent-20-color: #B89A6833;
+  --additional-gray-color: #A7A39A;
+  --additional-gray-30-color: #A7A39A55;
+  --button-accent-color: #165C52;
+  --button-accent-30-color: #165C5250;
+  --badge-color: #454E5788;
+  --whatsapp-color: #2CB742;
+  --whatsapp-hover-color: #3FFF5D;
+  --telegram-color: #2AABEE;
+  --telegram-2-color: #229ED9;
+  --black-color: #000000;
+  --gray-5-color: #0D0D0D;
+  --gray-10-color: #1A1A1A;
+  --gray-12-color: #1F1F1F;
+  --gray-15-color: #272727;
+  --gray-20-color: #343434;
+  --gray-25-color: #404040;
+  --gray-35-color: #595959;
+  --gray-40-color: #676767;
+  --gray-45-color: #737373;
+  --gray-70-color: #B2B2B2;
+  --gray-90-color: #E6E6E6;
+  --glass-bg-color: #26262680;
+  --glass-bg-2-color: #0D0D0D80;
+  --brand-accent-red-color: #AE1730;
+  --brand-accent-red-m-color: #FF2146;
+  --brand-accent-yellow-color: #FACA64;
+  --brand-accent-yellow-dark-color: #F7A800;
+  --brand-accent-yellow-opacity-color: #FACA6433;
+  --brand-accent-yellow-opacity-two-color: #FACA6480;
+  --brand-accent-yellow-darkest-color: #2B271F;
+}
+
 .flagship {
   --fl-card: var(--beige-color, #f3f0e9);
   --fl-soft: var(--beige-light-color, #f8f7f3);
@@ -16905,6 +16951,7 @@ body {
 }
 .flagship__fact-icon {
   max-width: 4.134vw;
+  object-fit: contain;
   min-width: 4.134vw;
   height: auto;
   aspect-ratio: 1/1;
