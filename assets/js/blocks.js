@@ -830,6 +830,222 @@
     },
   });
 
+  // Блок «Главный баннер» (my-theme/main-hero)
+  function mainHeroImageUrl(id) {
+    try {
+      if (id && window.wp && wp.data && wp.data.select) {
+        var att = wp.data.select('core').getEntityRecord('postType', 'attachment', id);
+        if (att && att.source_url) {
+          return att.source_url;
+        }
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  registerBlockType('my-theme/main-hero', {
+    apiVersion: 3,
+    title: 'Главный баннер',
+    category: 'tolstenko-general',
+    icon: 'cover-image',
+    edit: function (props) {
+      var attributes = props.attributes;
+      var setAttributes = props.setAttributes;
+      var defaults = getDefaults('main_hero') || {};
+      var items = Array.isArray(attributes.block_main_hero_items) ? attributes.block_main_hero_items.slice() : [];
+      var imageId = parseInt(attributes.block_main_hero_image, 10) || 0;
+      var presentId = parseInt(attributes.block_main_hero_present_image, 10) || 0;
+      var showPromo = String(attributes.block_main_hero_show_promo || '') === '1' || (String(attributes.block_main_hero_show_promo || '') === '' && defaults.show_promo === true);
+
+      function setItems(next) { setAttributes({ block_main_hero_items: next }); }
+
+      function moveItem(index, direction) {
+        var nextItems = items.slice();
+        var target = index + direction;
+        if (target < 0 || target >= nextItems.length) { return; }
+        var tmp = nextItems[index];
+        nextItems[index] = nextItems[target];
+        nextItems[target] = tmp;
+        setItems(nextItems);
+      }
+
+      var blockProps = useBlockProps({
+        className: 'theme-block theme-block--main-hero',
+        style: controls.blockShell(colors.accent),
+      });
+
+      return el(
+        'div',
+        blockProps,
+        controls.blockTitle('Главный баннер', colors.accent),
+        el('p', {
+          key: 'note',
+          style: { marginTop: 0, marginBottom: '12px', opacity: 0.7, fontSize: '12px' }
+        }, 'Пустые поля = дефолты. Кнопка открывает модалку заявки.'),
+        controls.textareaField({
+          key: 'title',
+          label: 'Заголовок (HTML)',
+          value: attributes.block_main_hero_title || '',
+          placeholder: defaults.title || '',
+          onChange: function (value) {
+            setAttributes({ block_main_hero_title: value });
+          },
+          rows: 2
+        }),
+        controls.textField({
+          key: 'title-tag',
+          label: 'Тег заголовка',
+          value: attributes.block_main_hero_title_tag || 'h1',
+          placeholder: 'h1',
+          help: 'h1, h2, h3, h4, h5 или h6',
+          onChange: function (value) {
+            setAttributes({ block_main_hero_title_tag: value });
+          }
+        }),
+        controls.textareaField({
+          key: 'text',
+          label: 'Текст (HTML)',
+          value: attributes.block_main_hero_text || '',
+          placeholder: defaults.text || '',
+          onChange: function (value) {
+            setAttributes({ block_main_hero_text: value });
+          },
+          rows: 3
+        }),
+        el('p', {
+          key: 'items-label',
+          style: { marginBottom: '6px', fontWeight: '600' }
+        }, 'Пункты списка (HTML)'),
+        controls.repeaterField({
+          key: 'items',
+          label: null,
+          items: items,
+          keyPrefix: 'main-hero-item',
+          itemLabel: 'Пункт',
+          addLabel: 'Добавить пункт',
+          createItem: function () {
+            return { title: '', text: '' };
+          },
+          onChange: setItems,
+          renderItem: function (item, index, updateItem, removeItem) {
+            return el(
+              'div',
+              null,
+              controls.textField({
+                label: 'Пункт ' + (index + 1),
+                value: item.title || '',
+                onChange: function (value) {
+                  updateItem(Object.assign({}, item, { title: value }));
+                }
+              }),
+              controls.textareaField({
+                label: 'Текст',
+                value: item.text || '',
+                onChange: function (value) {
+                  updateItem(Object.assign({}, item, { text: value }));
+                },
+                rows: 2
+              }),
+              el(
+                wp.components.Button,
+                {
+                  variant: 'secondary',
+                  onClick: function () { moveItem(index, -1); },
+                  disabled: index === 0,
+                },
+                '↑ Вверх'
+              ),
+              el(
+                wp.components.Button,
+                {
+                  variant: 'secondary',
+                  onClick: function () { moveItem(index, 1); },
+                  disabled: index === items.length - 1,
+                },
+                '↓ Вниз'
+              ),
+              el(
+                wp.components.Button,
+                {
+                  isDestructive: true,
+                  variant: 'secondary',
+                  onClick: removeItem,
+                },
+                'Удалить'
+              )
+            );
+          }
+        }),
+        controls.textField({
+          key: 'btn',
+          label: 'Текст кнопки',
+          value: attributes.block_main_hero_btn_text || '',
+          placeholder: defaults.btn_text || 'Оставить заявку',
+          onChange: function (value) {
+            setAttributes({ block_main_hero_btn_text: value });
+          }
+        }),
+        controls.toggleField({
+          key: 'promo',
+          label: 'Показать промо у кнопки',
+          value: showPromo,
+          help: 'Если включено — отображается текст промо под кнопкой',
+          onChange: function (value) {
+            setAttributes({ block_main_hero_show_promo: value ? '1' : '0' });
+          }
+        }),
+        controls.textareaField({
+          key: 'promo-text',
+          label: 'Текст промо (HTML)',
+          value: attributes.block_main_hero_promo_text || '',
+          placeholder: defaults.promo_text || '',
+          onChange: function (value) {
+            setAttributes({ block_main_hero_promo_text: value });
+          },
+          rows: 2
+        }),
+        controls.imageField({
+          key: 'present-image',
+          label: 'Иконка подарка',
+          value: { id: presentId, url: mainHeroImageUrl(presentId), alt: '' },
+          onChange: function (media) {
+            setAttributes({ block_main_hero_present_image: media && media.id ? parseInt(media.id, 10) : 0 });
+          }
+        }),
+        controls.textField({
+          key: 'person-name',
+          label: 'Имя персоны',
+          value: attributes.block_main_hero_person_name || '',
+          placeholder: defaults.person_name || '',
+          onChange: function (value) {
+            setAttributes({ block_main_hero_person_name: value });
+          }
+        }),
+        controls.textField({
+          key: 'person-position',
+          label: 'Должность',
+          value: attributes.block_main_hero_person_position || '',
+          placeholder: defaults.person_position || '',
+          onChange: function (value) {
+            setAttributes({ block_main_hero_person_position: value });
+          }
+        }),
+        controls.imageField({
+          key: 'image',
+          label: 'Изображение баннера',
+          value: { id: imageId, url: mainHeroImageUrl(imageId), alt: '' },
+          onChange: function (media) {
+            setAttributes({ block_main_hero_image: media && media.id ? parseInt(media.id, 10) : 0 });
+          }
+        }),
+        controls.blockHint('Эталонный блок главного баннера: заголовок, текст, список, кнопка, промо, фото персоны и изображения.')
+      );
+    },
+    save: function () {
+      return null;
+    },
+  });
+
   // Общий rich-text контрол для generic-блоков (section-blocks.js).
   if (controls && !controls.richTextField) {
     controls.richTextField = function (options) {

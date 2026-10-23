@@ -1,0 +1,63 @@
+{
+  "apiVersion": 3,
+  "title": "Главный баннер",
+  "name": "my-theme/main-hero",
+  "category": "tolstenko-general",
+  "icon": "cover-image",
+  "description": "Главный баннер секции героя. Пустые поля берутся из дефолтов блока «Главный баннер».",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "block_main_hero_title": {
+      "type": "string",
+      "default": ""
+    },
+    "block_main_hero_title_tag": {
+      "type": "string",
+      "default": "h1"
+    },
+    "block_main_hero_text": {
+      "type": "string",
+      "default": ""
+    },
+    "block_main_hero_items": {
+      "type": "array",
+      "default": []
+    },
+    "block_main_hero_btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "block_main_hero_show_promo": {
+      "type": "string",
+      "default": "0"
+    },
+    "block_main_hero_promo_text": {
+      "type": "string",
+      "default": ""
+    },
+    "block_main_hero_present_image": {
+      "type": "number",
+      "default": 0
+    },
+    "block_main_hero_person_name": {
+      "type": "string",
+      "default": ""
+    },
+    "block_main_hero_person_position": {
+      "type": "string",
+      "default": ""
+    },
+    "block_main_hero_image": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "render": "file:./template.php"
+}

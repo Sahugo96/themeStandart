@@ -90,6 +90,13 @@ function tolstenko_case_render_metabox( $post ) {
 	if ( empty( $items ) ) {
 		$items = array( array( 'value' => '', 'text' => '' ) );
 	}
+	$case_category_title = (string) tolstenko_case_meta( $post->ID, 'case_category_title', '' );
+	$case_non_resident   = (string) tolstenko_case_meta( $post->ID, 'case_non_resident', '' );
+	$case_indicators_raw = tolstenko_case_meta( $post->ID, 'case_indicators', array() );
+	$case_indicators     = is_array( $case_indicators_raw ) ? $case_indicators_raw : array();
+	if ( empty( $case_indicators ) ) {
+		$case_indicators = array( array( 'icon' => '', 'criteria' => '', 'value' => '' ) );
+	}
 
 	$services = tolstenko_case_get_service_choices();
 	?>
@@ -135,8 +142,18 @@ function tolstenko_case_render_metabox( $post ) {
 			</select>
 		</p>
 
+		<p class="tolstenko-case-field">
+			<label for="tolstenko_case_category_title"><strong><?php esc_html_e( 'Подробное название рубрики', 'tolstenko-theme' ); ?></strong></label><br>
+			<input type="text" id="tolstenko_case_category_title" name="tolstenko_case_category_title" value="<?php echo esc_attr( $case_category_title ); ?>" placeholder="<?php esc_attr_e( 'Например: ООО «Релокейшн Ворлд»', 'tolstenko-theme' ); ?>">
+		</p>
+
+		<p class="tolstenko-case-field">
+			<label for="tolstenko_case_non_resident"><strong><?php esc_html_e( 'Счет нерезиденту', 'tolstenko-theme' ); ?></strong></label><br>
+			<input type="text" id="tolstenko_case_non_resident" name="tolstenko_case_non_resident" value="<?php echo esc_attr( $case_non_resident ); ?>" placeholder="<?php esc_attr_e( 'Номер счета или данные', 'tolstenko-theme' ); ?>">
+		</p>
+
 		<div class="tolstenko-case-field">
-			<strong><?php esc_html_e( 'Показатели', 'tolstenko-theme' ); ?></strong>
+			<strong><?php esc_html_e( 'Показатели (значение + подпись)', 'tolstenko-theme' ); ?></strong>
 			<div class="tolstenko-case-items" data-case-items>
 				<?php foreach ( $items as $idx => $row ) :
 					$row = is_array( $row ) ? $row : array();
@@ -153,6 +170,28 @@ function tolstenko_case_render_metabox( $post ) {
 			<p>
 				<button type="button" class="button" data-case-item-add><?php esc_html_e( 'Добавить показатель', 'tolstenko-theme' ); ?></button>
 			</p>
+		</div>
+
+		<div class="tolstenko-case-field">
+			<strong><?php esc_html_e( 'Показатели (иконка, критерий, значение)', 'tolstenko-theme' ); ?></strong>
+			<div class="tolstenko-case-indicators" data-case-indicators>
+				<?php foreach ( $case_indicators as $idx => $row ) :
+					$row      = is_array( $row ) ? $row : array();
+					$icon     = (string) ( $row['icon'] ?? '' );
+					$criteria = (string) ( $row['criteria'] ?? '' );
+					$value    = (string) ( $row['value'] ?? '' );
+					?>
+					<div class="tolstenko-case-item" data-case-indicator>
+						<input type="text" name="tolstenko_case_indicators[<?php echo (int) $idx; ?>][icon]" value="<?php echo esc_attr( $icon ); ?>" placeholder="<?php esc_attr_e( 'Иконка', 'tolstenko-theme' ); ?>">
+						<input type="text" name="tolstenko_case_indicators[<?php echo (int) $idx; ?>][criteria]" value="<?php echo esc_attr( $criteria ); ?>" placeholder="<?php esc_attr_e( 'Критерий', 'tolstenko-theme' ); ?>">
+						<input type="text" name="tolstenko_case_indicators[<?php echo (int) $idx; ?>][value]" value="<?php echo esc_attr( $value ); ?>" placeholder="<?php esc_attr_e( 'Значение', 'tolstenko-theme' ); ?>">
+						<button type="button" class="button" data-case-indicator-remove><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
+					</div>
+				<?php endforeach; ?>
+			</div>
+			<p>
+				<button type="button" class="button" data-case-indicator-add><?php esc_html_e( 'Добавить показатель', 'tolstenko-theme' ); ?></button>
+			</p>
 			<p class="description"><?php esc_html_e( 'Изображение карточки — миниатюра записи (блок справа).', 'tolstenko-theme' ); ?></p>
 		</div>
 	</div>
@@ -161,41 +200,77 @@ function tolstenko_case_render_metabox( $post ) {
 	(function () {
 		var box = document.getElementById('tolstenko-case-box');
 		if (!box) return;
-		var list = box.querySelector('[data-case-items]');
-		var addBtn = box.querySelector('[data-case-item-add]');
-		if (!list || !addBtn) return;
 
-		function reindex() {
-			list.querySelectorAll('[data-case-item]').forEach(function (row, i) {
-				var inputs = row.querySelectorAll('input');
-				if (inputs[0]) inputs[0].name = 'tolstenko_case_items[' + i + '][value]';
-				if (inputs[1]) inputs[1].name = 'tolstenko_case_items[' + i + '][text]';
+		/**
+		 * Универсальный повторитель строк из текстовых полей.
+		 * cfg: listAttr, addAttr, itemAttr, removeAttr, name, fields[{key, placeholder}]
+		 */
+		function initRepeater(cfg) {
+			var list = box.querySelector('[' + cfg.listAttr + ']');
+			var addBtn = box.querySelector('[' + cfg.addAttr + ']');
+			if (!list || !addBtn) return;
+
+			function reindex() {
+				list.querySelectorAll('[' + cfg.itemAttr + ']').forEach(function (row, i) {
+					row.querySelectorAll('input').forEach(function (input, n) {
+						if (cfg.fields[n]) {
+							input.name = cfg.name + '[' + i + '][' + cfg.fields[n].key + ']';
+						}
+					});
+				});
+			}
+
+			addBtn.addEventListener('click', function (e) {
+				e.preventDefault();
+				var row = document.createElement('div');
+				row.className = 'tolstenko-case-item';
+				row.setAttribute(cfg.itemAttr, '');
+				var html = '';
+				cfg.fields.forEach(function (f) {
+					html += '<input type="text" name="" value="" placeholder="' + f.placeholder + '">';
+				});
+				html += '<button type="button" class="button" ' + cfg.removeAttr + '>Удалить</button>';
+				row.innerHTML = html;
+				list.appendChild(row);
+				reindex();
+			});
+
+			list.addEventListener('click', function (e) {
+				var btn = e.target.closest('[' + cfg.removeAttr + ']');
+				if (!btn) return;
+				e.preventDefault();
+				var row = btn.closest('[' + cfg.itemAttr + ']');
+				if (row) row.remove();
+				if (!list.querySelector('[' + cfg.itemAttr + ']')) {
+					addBtn.click();
+				}
+				reindex();
 			});
 		}
 
-		addBtn.addEventListener('click', function (e) {
-			e.preventDefault();
-			var row = document.createElement('div');
-			row.className = 'tolstenko-case-item';
-			row.setAttribute('data-case-item', '');
-			row.innerHTML =
-				'<input type="text" name="tolstenko_case_items[0][value]" value="" placeholder="Значение">' +
-				'<input type="text" name="tolstenko_case_items[0][text]" value="" placeholder="Подпись">' +
-				'<button type="button" class="button" data-case-item-remove>Удалить</button>';
-			list.appendChild(row);
-			reindex();
+		initRepeater({
+			listAttr: 'data-case-items',
+			addAttr: 'data-case-item-add',
+			itemAttr: 'data-case-item',
+			removeAttr: 'data-case-item-remove',
+			name: 'tolstenko_case_items',
+			fields: [
+				{ key: 'value', placeholder: 'Значение' },
+				{ key: 'text', placeholder: 'Подпись' }
+			]
 		});
 
-		list.addEventListener('click', function (e) {
-			var btn = e.target.closest('[data-case-item-remove]');
-			if (!btn) return;
-			e.preventDefault();
-			var row = btn.closest('[data-case-item]');
-			if (row) row.remove();
-			if (!list.querySelector('[data-case-item]')) {
-				addBtn.click();
-			}
-			reindex();
+		initRepeater({
+			listAttr: 'data-case-indicators',
+			addAttr: 'data-case-indicator-add',
+			itemAttr: 'data-case-indicator',
+			removeAttr: 'data-case-indicator-remove',
+			name: 'tolstenko_case_indicators',
+			fields: [
+				{ key: 'icon', placeholder: 'Иконка' },
+				{ key: 'criteria', placeholder: 'Критерий' },
+				{ key: 'value', placeholder: 'Значение' }
+			]
 		});
 	})();
 	</script>
@@ -243,6 +318,45 @@ function tolstenko_case_save_metabox( $post_id, $post ) {
 		update_post_meta( $post_id, 'case_service', $service_id );
 	} else {
 		delete_post_meta( $post_id, 'case_service' );
+	}
+
+	$case_category_title = isset( $_POST['tolstenko_case_category_title'] ) ? sanitize_text_field( wp_unslash( $_POST['tolstenko_case_category_title'] ) ) : '';
+	if ( $case_category_title !== '' ) {
+		update_post_meta( $post_id, 'case_category_title', $case_category_title );
+	} else {
+		delete_post_meta( $post_id, 'case_category_title' );
+	}
+
+	$case_non_resident = isset( $_POST['tolstenko_case_non_resident'] ) ? sanitize_text_field( wp_unslash( $_POST['tolstenko_case_non_resident'] ) ) : '';
+	if ( $case_non_resident !== '' ) {
+		update_post_meta( $post_id, 'case_non_resident', $case_non_resident );
+	} else {
+		delete_post_meta( $post_id, 'case_non_resident' );
+	}
+
+	$case_indicators_out = array();
+	if ( isset( $_POST['tolstenko_case_indicators'] ) && is_array( $_POST['tolstenko_case_indicators'] ) ) {
+		foreach ( wp_unslash( $_POST['tolstenko_case_indicators'] ) as $row ) {
+			if ( ! is_array( $row ) ) {
+				continue;
+			}
+			$icon     = isset( $row['icon'] ) ? sanitize_text_field( (string) $row['icon'] ) : '';
+			$criteria = isset( $row['criteria'] ) ? sanitize_text_field( (string) $row['criteria'] ) : '';
+			$value    = isset( $row['value'] ) ? sanitize_text_field( (string) $row['value'] ) : '';
+			if ( $icon === '' && $criteria === '' && $value === '' ) {
+				continue;
+			}
+			$case_indicators_out[] = array(
+				'icon'     => $icon,
+				'criteria' => $criteria,
+				'value'    => $value,
+			);
+		}
+	}
+	if ( ! empty( $case_indicators_out ) ) {
+		update_post_meta( $post_id, 'case_indicators', $case_indicators_out );
+	} else {
+		delete_post_meta( $post_id, 'case_indicators' );
 	}
 
 	$items_out = array();

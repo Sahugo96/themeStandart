@@ -24,6 +24,7 @@ get_header();
 
     
     
+    theme_render_front_section('main-hero'); // +
     theme_render_front_section('hero-stats'); // +
     theme_render_front_section('situations'); // +
 

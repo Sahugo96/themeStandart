@@ -55,7 +55,7 @@ $split_lines = static function ($value): array {
         $facts = $split_lines($card['facts'] ?? '');
         $btn_url = trim((string) ($card['btn_url'] ?? ''));
       ?>
-        <article class="flagship__card">
+        <article class="flagship__card br-30">
           <div class="flagship__card-top">
             <?php if (trim((string) ($card['country'] ?? '')) !== '') : ?>
               <span class="flagship__country">

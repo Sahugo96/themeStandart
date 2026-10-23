@@ -9,59 +9,6 @@
   --fl-round: var(--beige-border-color, #e6dfd0);
   --fl-badge: rgba(255, 255, 255, 0.12);
 
-  &__top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: vw(30px, $mobile);
-    @media (min-width: $desk) {
-      margin-bottom: vw(40px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-bottom: vw(40px, $desktop_large);
-    }
-  }
-
-  &__badge {
-    padding: vw(8px, $mobile) vw(18px, $mobile);
-    border: 1px solid var(--fl-badge);
-    border-radius: 999px;
-    font-size: vw(10px, $mobile);
-    line-height: 1.2;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--gray-50-color, #9aa3ab);
-    @media (min-width: $desk) {
-      padding: vw(8px, $desktop) vw(18px, $desktop);
-      font-size: vw(10px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      padding: vw(8px, $desktop_large) vw(18px, $desktop_large);
-      font-size: vw(10px, $desktop_large);
-    }
-  }
-
-  &__title {
-    margin-top: vw(20px, $mobile);
-    text-align: center;
-    font-weight: 800;
-    font-size: vw(22px, $mobile);
-    line-height: 1.1;
-    color: var(--white-color);
-    @media (min-width: $desk) {
-      margin-top: vw(24px, $desktop);
-      font-size: vw(32px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-top: vw(24px, $desktop_large);
-      font-size: vw(32px, $desktop_large);
-    }
-  }
-
-  &__title-accent {
-    color: var(--fl-gold);
-  }
-
   &__list {
     display: grid;
     grid-template-columns: 1fr;
@@ -79,15 +26,12 @@
     display: flex;
     flex-direction: column;
     padding: vw(20px, $mobile);
-    border-radius: vw(24px, $mobile);
     background-color: var(--fl-card);
     @media (min-width: $desk) {
       padding: vw(20px, $desktop);
-      border-radius: vw(32px, $desktop);
     }
     @media (min-width: $desk_large) {
       padding: vw(20px, $desktop_large);
-      border-radius: vw(32px, $desktop_large);
     }
   }
 
