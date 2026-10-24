@@ -4,12 +4,6 @@
       return;
     }
 
-    var existing = container.splide;
-
-    if (existing && typeof existing.destroy === 'function') {
-      existing.destroy(true);
-    }
-
     var splide = new Splide(container, {
       perPage: 3,
       perMove: 1,
@@ -27,6 +21,7 @@
     });
 
     splide.mount();
+    container.splide = splide;
     container.classList.add('splide--initialized');
   }
 
@@ -34,7 +29,7 @@
     var sections = document.querySelectorAll('.cases');
 
     sections.forEach(function (section) {
-      var tabs = section.querySelectorAll('.cases__tab');
+      var tabs = section.querySelectorAll('.filter__link[data-filter]');
 
       tabs.forEach(function (tab) {
         tab.addEventListener('click', function () {
@@ -87,6 +82,11 @@
               if (!data.success) {
                 console.error('Cases filter error:', data.data);
                 return;
+              }
+
+              if (container.splide && typeof container.splide.destroy === 'function') {
+                container.splide.destroy(true);
+                container.splide = null;
               }
 
               container.innerHTML = data.data.html;

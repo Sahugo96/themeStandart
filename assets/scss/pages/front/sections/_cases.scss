@@ -1,186 +1,35 @@
 .cases {
-  --cases-bg: var(--beige-color, #f3f0e9);
-  --cases-soft: var(--beige-light-color, #f8f7f3);
-  --cases-gold: var(--gold-color, #b89a68);
-  --cases-dark: var(--dark-color, #1a2027);
-  --cases-text: var(--gray-60-color, #6f7479);
-  --cases-muted: var(--gray-50-color, #a3a7aa);
-  --cases-line: var(--beige-line-color, #ebe8e1);
-  --cases-border: var(--gray-30-color, #dcd7cd);
-
-  // Блок с отступом от краёв экрана; слайдер уходит за правый край блока и обрезается им
+  // Обёртка — как у секции «Ситуации» (situations): светлый блок со скруглением,
+  // слайдер уходит за правый край блока и обрезается им.
   margin: 0 vw(10px, $mobile);
-  padding: vw(30px, $mobile) 0;
-  border-radius: vw(24px, $mobile);
-  background-color: var(--cases-bg);
-  overflow: hidden;
   @media (min-width: $desk) {
-    margin: 0 vw(30px, $desktop);
-    padding: vw(80px, $desktop) 0 vw(40px, $desktop);
-    border-radius: vw(40px, $desktop);
+    margin: 0 auto;
+    max-width: vw(1440px, $desktop);
+    padding-left: vw(30px, $desktop);
+    padding-right: vw(30px, $desktop);
   }
   @media (min-width: $desk_large) {
-    margin: 0 vw(30px, $desktop_large);
-    padding: vw(80px, $desktop_large) 0 vw(40px, $desktop_large);
-    border-radius: vw(40px, $desktop_large);
+    max-width: vw(1440px, $desktop_large);
+    padding-left: vw(30px, $desktop_large);
+    padding-right: vw(30px, $desktop_large);
   }
 
-  &__top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: vw(24px, $mobile);
+  &__inner {
+    overflow: hidden;
+    padding: vw(30px, $mobile) vw(20px, $mobile) vw(20px, $mobile);
+    background-color: var(--light-bg-color);
     @media (min-width: $desk) {
-      margin-bottom: vw(40px, $desktop);
+      padding: vw(80px, $desktop) vw(100px, $desktop) vw(40px, $desktop);
     }
     @media (min-width: $desk_large) {
-      margin-bottom: vw(40px, $desktop_large);
-    }
-  }
-
-  &__badge {
-    padding: vw(8px, $mobile) vw(18px, $mobile);
-    border: 1px solid var(--cases-border);
-    border-radius: 999px;
-    font-size: vw(10px, $mobile);
-    line-height: 1.2;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--cases-muted);
-    @media (min-width: $desk) {
-      padding: vw(8px, $desktop) vw(18px, $desktop);
-      font-size: vw(10px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      padding: vw(8px, $desktop_large) vw(18px, $desktop_large);
-      font-size: vw(10px, $desktop_large);
+      padding: vw(80px, $desktop_large) vw(100px, $desktop_large) vw(40px, $desktop_large);
     }
   }
 
   &__title {
-    margin-top: vw(20px, $mobile);
-    text-align: center;
-    font-weight: 800;
-    font-size: vw(22px, $mobile);
-    line-height: 1.1;
-    color: var(--cases-dark);
-    @media (min-width: $desk) {
-      margin-top: vw(24px, $desktop);
-      font-size: vw(32px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-top: vw(24px, $desktop_large);
-      font-size: vw(32px, $desktop_large);
-    }
-  }
-
-  &__title-accent {
-    display: block;
-    color: var(--cases-gold);
-  }
-
-  // ----- Фильтр -----
-  &__filter {
-    display: flex;
-    flex-direction: column;
-    grid-gap: vw(8px, $mobile);
-    margin-bottom: vw(24px, $mobile);
-    padding: vw(8px, $mobile);
-    border-radius: vw(24px, $mobile);
-    background-color: var(--cases-soft);
-    @media (min-width: $desk) {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      grid-gap: vw(8px, $desktop);
-      margin-bottom: vw(40px, $desktop);
-      padding: vw(8px, $desktop);
-      border-radius: 999px;
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(8px, $desktop_large);
-      margin-bottom: vw(40px, $desktop_large);
-      padding: vw(8px, $desktop_large);
-    }
-  }
-
-  &__tabs {
-    display: flex;
-    grid-gap: vw(8px, $mobile);
-    overflow-x: auto;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    @media (min-width: $desk) {
-      grid-gap: vw(8px, $desktop);
-      overflow: visible;
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(8px, $desktop_large);
-    }
-  }
-
-  &__tab,
-  &__all {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    grid-gap: vw(10px, $mobile);
-    padding: vw(14px, $mobile) vw(20px, $mobile);
-    border: 1px solid var(--cases-border);
-    border-radius: 999px;
-    font-weight: 500;
-    font-size: vw(12px, $mobile);
-    line-height: 1.2;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: var(--cases-text);
-    background: none;
-    cursor: pointer;
-    transition: all 0.3s linear;
-    @media (min-width: $desk) {
-      grid-gap: vw(10px, $desktop);
-      padding: vw(15px, $desktop) vw(24px, $desktop);
-      font-size: vw(14px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(10px, $desktop_large);
-      padding: vw(15px, $desktop_large) vw(24px, $desktop_large);
-      font-size: vw(14px, $desktop_large);
-    }
-    @media (any-hover: hover) {
-      &:hover {
-        border-color: var(--cases-gold);
-        color: var(--cases-gold);
-      }
-    }
-  }
-
-  &__tab.active {
-    border-color: var(--cases-gold);
-    color: var(--white-color);
-    background-color: var(--cases-gold);
-  }
-
-  &__all-arrow {
-    max-width: vw(18px, $mobile);
-    min-width: vw(18px, $mobile);
-    height: auto;
-    aspect-ratio: 1/1;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    @media (min-width: $desk) {
-      max-width: vw(18px, $desktop);
-      min-width: vw(18px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      max-width: vw(18px, $desktop_large);
-      min-width: vw(18px, $desktop_large);
+    color: var(--main-text-color);
+    span {
+      display: block;
     }
   }
 
@@ -196,27 +45,27 @@
     display: flex;
     flex-direction: column;
     padding: vw(20px, $mobile);
-    border-radius: vw(24px, $mobile);
+    border-radius: vw(30px, $mobile);
     background-color: var(--white-color);
     @media (min-width: $desk) {
       padding: vw(20px, $desktop);
-      border-radius: vw(32px, $desktop);
+      border-radius: vw(30px, $desktop);
     }
     @media (min-width: $desk_large) {
       padding: vw(20px, $desktop_large);
-      border-radius: vw(32px, $desktop_large);
+      border-radius: vw(30px, $desktop_large);
     }
   }
 
   &__card-tag {
     align-self: flex-start;
     padding: vw(6px, $mobile) vw(12px, $mobile);
-    border: 1px solid var(--cases-border);
+    border: 1px solid var(--additional-gray-30-color);
     border-radius: 999px;
     font-size: vw(10px, $mobile);
     line-height: 1.2;
     text-transform: uppercase;
-    color: var(--cases-text);
+    color: var(--gray-50-color);
     @media (min-width: $desk) {
       padding: vw(6px, $desktop) vw(12px, $desktop);
       font-size: vw(10px, $desktop);
@@ -227,12 +76,22 @@
     }
   }
 
+  &__card-title-link {
+    color: inherit;
+    transition: color 0.3s linear;
+    @media (any-hover: hover) {
+      &:hover {
+        color: var(--accent-color);
+      }
+    }
+  }
+
   &__card-title {
     margin-top: vw(20px, $mobile);
     font-weight: 700;
     font-size: vw(18px, $mobile);
     line-height: 1.05;
-    color: var(--cases-dark);
+    color: var(--main-text-color);
     @media (min-width: $desk) {
       margin-top: vw(20px, $desktop);
       font-size: vw(20px, $desktop);
@@ -248,7 +107,7 @@
     margin-top: vw(20px, $mobile);
     padding: vw(5px, $mobile) vw(20px, $mobile);
     border-radius: vw(16px, $mobile);
-    background-color: var(--cases-soft);
+    background-color: var(--light-bg-50-color);
     @media (min-width: $desk) {
       margin-top: vw(20px, $desktop);
       padding: vw(5px, $desktop) vw(20px, $desktop);
@@ -270,7 +129,7 @@
       padding: vw(15px, $desktop_large) 0;
     }
     & + & {
-      border-top: 1px solid var(--cases-line);
+      border-top: 1px solid var(--light-bg-color);
     }
   }
 
@@ -279,7 +138,7 @@
     font-size: vw(10px, $mobile);
     line-height: 1.2;
     text-transform: uppercase;
-    color: var(--cases-muted);
+    color: var(--additional-gray-color);
     @media (min-width: $desk) {
       font-size: vw(10px, $desktop);
     }
@@ -292,7 +151,7 @@
     margin-top: vw(6px, $mobile);
     font-size: vw(13px, $mobile);
     line-height: 1.4;
-    color: var(--cases-text);
+    color: var(--gray-50-color);
     @media (min-width: $desk) {
       margin-top: vw(6px, $desktop);
       font-size: vw(14px, $desktop);
@@ -307,7 +166,7 @@
     margin-top: vw(16px, $mobile);
     padding: 0 vw(20px, $mobile);
     border-radius: vw(16px, $mobile);
-    background-color: var(--cases-soft);
+    background-color: var(--light-bg-50-color);
     @media (min-width: $desk) {
       margin-top: vw(16px, $desktop);
       padding: 0 vw(20px, $desktop);
@@ -332,7 +191,7 @@
       padding: vw(17px, $desktop_large) 0;
     }
     & + & {
-      border-top: 1px solid var(--cases-line);
+      border-top: 1px solid var(--light-bg-color);
     }
   }
 
@@ -343,7 +202,7 @@
     font-size: vw(11px, $mobile);
     line-height: 1.2;
     text-transform: uppercase;
-    color: var(--cases-muted);
+    color: var(--additional-gray-color);
     @media (min-width: $desk) {
       grid-gap: vw(8px, $desktop);
       font-size: vw(11px, $desktop);
@@ -359,8 +218,7 @@
     min-width: vw(12px, $mobile);
     height: auto;
     aspect-ratio: 1/1;
-    fill: var(--cases-muted);
-    stroke: none;
+    object-fit: contain;
     @media (min-width: $desk) {
       max-width: vw(12px, $desktop);
       min-width: vw(12px, $desktop);
@@ -374,7 +232,7 @@
   &__fact-value {
     font-size: vw(12px, $mobile);
     line-height: 1.2;
-    color: var(--cases-dark);
+    color: var(--main-text-color);
     @media (min-width: $desk) {
       font-size: vw(12px, $desktop);
     }
@@ -415,7 +273,7 @@
     padding: 0;
     border: 0;
     border-radius: 999px;
-    background-color: var(--cases-gold);
+    background-color: var(--accent-color);
     transition: all 0.3s linear;
     @media (min-width: $desk) {
       width: vw(5px, $desktop);
@@ -454,7 +312,7 @@
     text-align: center;
     font-size: vw(13px, $mobile);
     line-height: 1.4;
-    color: var(--cases-text);
+    color: var(--gray-50-color);
     @media (min-width: $desk) {
       font-size: vw(14px, $desktop);
     }
@@ -478,7 +336,7 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--white-color);
-    background-color: var(--cases-gold);
+    background-color: var(--accent-color);
     transition: all 0.3s linear;
     @media (min-width: $desk) {
       width: auto;
@@ -495,7 +353,7 @@
     }
     @media (any-hover: hover) {
       &:hover {
-        background-color: var(--cases-dark);
+        background-color: var(--main-text-color);
       }
     }
   }
@@ -519,27 +377,10 @@
       min-width: vw(20px, $desktop_large);
     }
   }
-}
-/* ---------- Ссылка в заголовке карточки ---------- */
-.cases {
-  &__card-title-link {
-    color: inherit;
-    text-decoration: none;
-    transition: color 0.3s linear;
-    @media (any-hover: hover) {
-      &:hover {
-        color: var(--cases-gold);
-      }
-    }
-  }
 
-  &__story--text {
-    p {
-      margin: 0;
-    }
-
-    p + p {
-      margin-top: vw(8px, $mobile);
-    }
+  // Глобальные стили Splide красят точки иначе — возвращаем цвет акцента (как в situations).
+  &.section .splide .splide__pagination__page,
+  &.section .splide .splide__pagination__page.is-active {
+    background-color: var(--accent-color);
   }
 }

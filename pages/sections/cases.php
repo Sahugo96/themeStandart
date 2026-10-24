@@ -36,13 +36,32 @@ $posts_per_page = !empty($post_ids) ? -1 : 6;
 
 theme_enqueue_cases_section_assets();
 
-$all_categories = get_terms([
+// Табы — рубрики case_cat. Если в блоке выбраны конкретные кейсы,
+// показываем только рубрики этих кейсов (иначе таб может оказаться пустым).
+$term_args = [
     'taxonomy'   => $taxonomy,
     'hide_empty' => true,
-]);
+];
+
+if (!empty($post_ids)) {
+    $term_args['object_ids'] = $post_ids;
+}
+
+$all_categories = get_terms($term_args);
+$all_categories = ($all_categories && !is_wp_error($all_categories)) ? $all_categories : [];
+
+// get_terms с object_ids может вернуть рубрику несколько раз.
+$unique_categories = [];
+foreach ($all_categories as $cat) {
+    $unique_categories[$cat->term_id] = $cat;
+}
+$all_categories = array_values($unique_categories);
+
+// Активна первая рубрика: при загрузке выводим её кейсы, как после клика по табу.
+$active_category = $all_categories ? (string) $all_categories[0]->slug : '';
 
 $section_query = new WP_Query(theme_get_cases_query_args([
-    'category'       => '',
+    'category'       => $active_category,
     'taxonomy'       => $taxonomy,
     'post_type'      => $post_type,
     'posts_per_page' => $posts_per_page,
@@ -56,42 +75,39 @@ if (!$section_query->have_posts() && trim((string) $data['title']) === '') {
 $all_url = (string) $data['all_url'];
 $btn_url = (string) $data['btn_url'];
 ?>
-<section class="cases load-on-vissible--js"
+<section class="cases section load-on-vissible--js"
   data-taxonomy="<?php echo esc_attr($taxonomy); ?>"
   data-post-type="<?php echo esc_attr($post_type); ?>"
   data-posts-per-page="<?php echo esc_attr($posts_per_page); ?>"
   data-post-ids="<?php echo esc_attr(implode(',', $post_ids)); ?>">
-  <div class="container">
+  <div class="cases__inner br-30">
     <div class="cases__top section-top">
       <?php if (trim((string) $data['badge']) !== '') : ?>
         <span class="cases__badge section-subtitle"><?= $data['badge']; ?></span>
       <?php endif; ?>
 
       <?php if (trim((string) $data['title']) !== '') : ?>
-        <h2 class="cases__title"><?= $data['title']; ?></h2>
+        <h2 class="cases__title section-title"><?= $data['title']; ?></h2>
       <?php endif; ?>
     </div>
 
-    <?php if (($all_categories && !is_wp_error($all_categories)) || $all_url !== '') : ?>
-      <div class="cases__filter">
-        <ul class="cases__tabs">
-          <li><button class="cases__tab active" type="button" data-filter="">Все кейсы</button></li>
-
-          <?php if ($all_categories && !is_wp_error($all_categories)) : ?>
+    <?php $show_all_link = $all_url !== '' && trim((string) $data['all_text']) !== ''; ?>
+    <?php if ($all_categories || $show_all_link) : ?>
+      <div class="cases__filter filter filter--tabs">
+        <?php if ($all_categories) : ?>
+          <div class="filter__form">
             <?php foreach ($all_categories as $cat) : ?>
-              <li>
-                <button class="cases__tab" type="button" data-filter="<?= esc_attr($cat->slug); ?>">
-                  <?= esc_html($cat->name); ?>
-                </button>
-              </li>
+              <button class="filter__link<?= $cat->slug === $active_category ? ' active' : ''; ?>" type="button" data-filter="<?= esc_attr($cat->slug); ?>">
+                <span class="filter__label"><?= esc_html($cat->name); ?></span>
+              </button>
             <?php endforeach; ?>
-          <?php endif; ?>
-        </ul>
+          </div>
+        <?php endif; ?>
 
-        <?php if ($all_url !== '' && trim((string) $data['all_text']) !== '') : ?>
-          <a class="cases__all" href="<?= esc_url($all_url); ?>">
+        <?php if ($show_all_link) : ?>
+          <a class="filter__more" href="<?= esc_url($all_url); ?>">
             <span><?= $data['all_text']; ?></span>
-            <svg class="cases__all-arrow" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="filter__more-arrow" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 12h16M14 6l6 6-6 6"/>
             </svg>
           </a>

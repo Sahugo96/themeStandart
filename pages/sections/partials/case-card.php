@@ -3,32 +3,35 @@
 /**
  * Карточка кейса для секции «Кейсы» (CPT case).
  *
- * Мета-поля записи (inc/case-metabox.php): case_title, case_category_title,
- * case_items (показатели: value + text), case_indicators (иконка, критерий,
- * значение). Метка — термин таксономии case_cat, изображение — миниатюра записи.
+ * Мета-поля записи (inc/case-metabox.php):
+ * - case_title          — заголовок карточки (пусто = заголовок записи);
+ * - case_category_title — метка над заголовком (пусто = рубрика case_cat);
+ * - case_items          — этапы «Задача / Решение / Результат»: text = подпись, value = текст;
+ * - case_indicators     — факты «Срок / Экономия»: icon (ID вложения), criteria, value.
  */
 
 $case_id = get_the_ID();
 
 $case_title = trim((string) get_post_meta($case_id, 'case_title', true));
 $case_link  = (string) get_permalink($case_id);
-$case_items = get_post_meta($case_id, 'case_items', true);
-$case_items = is_array($case_items) ? $case_items : [];
+$case_tag   = trim((string) get_post_meta($case_id, 'case_category_title', true));
 
-$case_category_title = trim((string) get_post_meta($case_id, 'case_category_title', true));
+$case_steps = get_post_meta($case_id, 'case_items', true);
+$case_steps = is_array($case_steps) ? $case_steps : [];
 
-$case_indicators = get_post_meta($case_id, 'case_indicators', true);
-$case_indicators = is_array($case_indicators) ? $case_indicators : [];
+$case_facts = get_post_meta($case_id, 'case_indicators', true);
+$case_facts = is_array($case_facts) ? $case_facts : [];
 
 if ($case_title === '') {
     $case_title = get_the_title();
 }
 
-$case_terms = get_the_terms($case_id, 'case_cat');
-$case_tag   = '';
+if ($case_tag === '') {
+    $case_terms = get_the_terms($case_id, 'case_cat');
 
-if ($case_terms && !is_wp_error($case_terms)) {
-    $case_tag = (string) $case_terms[0]->name;
+    if ($case_terms && !is_wp_error($case_terms)) {
+        $case_tag = (string) $case_terms[0]->name;
+    }
 }
 ?>
 <article class="cases__card fade-in-element splide__slide">
@@ -36,62 +39,61 @@ if ($case_terms && !is_wp_error($case_terms)) {
     <span class="cases__card-tag"><?= esc_html($case_tag); ?></span>
   <?php endif; ?>
 
-  <?php if ($case_category_title !== '') : ?>
-    <span class="cases__card-subtitle"><?= esc_html($case_category_title); ?></span>
-  <?php endif; ?>
-
   <h3 class="cases__card-title">
     <a class="cases__card-title-link" href="<?= esc_url($case_link); ?>"><?= $case_title; ?></a>
   </h3>
 
-  <?php if (!empty($case_indicators)) : ?>
-    <ul class="cases__indicators">
-      <?php foreach ($case_indicators as $item) :
-        $item = is_array($item) ? $item : [];
-        $icon_raw = $item['icon'] ?? 0;
+  <?php if (!empty($case_steps)) : ?>
+    <div class="cases__story">
+      <?php foreach ($case_steps as $step) :
+        $step = is_array($step) ? $step : [];
+        $step_label = trim((string) ($step['text'] ?? ''));
+        $step_text  = trim((string) ($step['value'] ?? ''));
+
+        if ($step_label === '' && $step_text === '') {
+            continue;
+        }
+
+        if ($step_label !== '' && substr($step_label, -1) !== ':') {
+            $step_label .= ':';
+        }
+      ?>
+        <div class="cases__step">
+          <?php if ($step_label !== '') : ?>
+            <span class="cases__step-label"><?= esc_html($step_label); ?></span>
+          <?php endif; ?>
+          <?php if ($step_text !== '') : ?>
+            <p class="cases__step-text"><?= esc_html($step_text); ?></p>
+          <?php endif; ?>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  <?php endif; ?>
+
+  <?php if (!empty($case_facts)) : ?>
+    <ul class="cases__facts">
+      <?php foreach ($case_facts as $fact) :
+        $fact = is_array($fact) ? $fact : [];
+        $icon_raw = $fact['icon'] ?? 0;
         // Иконка — ID вложения; старые записи могли хранить URL строкой.
         $icon_url = is_numeric($icon_raw)
             ? (string) wp_get_attachment_image_url((int) $icon_raw, 'full')
             : trim((string) $icon_raw);
-        $criteria = trim((string) ($item['criteria'] ?? ''));
-        $value    = trim((string) ($item['value'] ?? ''));
+        $fact_label = trim((string) ($fact['criteria'] ?? ''));
+        $fact_value = trim((string) ($fact['value'] ?? ''));
 
-        if ($icon_url === '' && $criteria === '' && $value === '') {
-            continue;
-        }
-      ?>
-        <li class="cases__indicator">
-          <?php if ($icon_url !== '') : ?>
-            <img src="<?= esc_url($icon_url); ?>" alt="" class="cases__indicator-icon" loading="lazy">
-          <?php endif; ?>
-          <span class="cases__indicator-criteria"><?= esc_html($criteria); ?></span>
-          <span class="cases__indicator-value"><?= esc_html($value); ?></span>
-        </li>
-      <?php endforeach; ?>
-    </ul>
-  <?php endif; ?>
-
-  <?php if (!empty($case_items)) : ?>
-    <ul class="cases__facts">
-      <?php foreach ($case_items as $index => $item) :
-        $item = is_array($item) ? $item : [];
-        $item_value = trim((string) ($item['value'] ?? ''));
-        $item_label = trim((string) ($item['text'] ?? ''));
-
-        if ($item_value === '' && $item_label === '') {
+        if ($fact_label === '' && $fact_value === '') {
             continue;
         }
       ?>
         <li class="cases__fact">
           <span class="cases__fact-label">
-            <?php if ($index === 0) : ?>
-              <svg class="cases__fact-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6.5V12l3.5 2" /></svg>
-            <?php else : ?>
-              <svg class="cases__fact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h11v4"/><rect x="3" y="8" width="18" height="12" rx="2"/><circle cx="16.5" cy="14" r="1.3"/></svg>
+            <?php if ($icon_url !== '') : ?>
+              <img class="cases__fact-icon" src="<?= esc_url($icon_url); ?>" alt="" loading="lazy">
             <?php endif; ?>
-            <?= esc_html($item_label); ?>
+            <?= esc_html($fact_label); ?>
           </span>
-          <span class="cases__fact-value"><?= esc_html($item_value); ?></span>
+          <span class="cases__fact-value"><?= esc_html($fact_value); ?></span>
         </li>
       <?php endforeach; ?>
     </ul>

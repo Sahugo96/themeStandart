@@ -142,7 +142,7 @@ function tolstenko_case_render_metabox( $post ) {
 		</p>
 
 		<div class="tolstenko-case-field">
-			<strong><?php esc_html_e( 'Показатели (значение + подпись)', 'tolstenko-theme' ); ?></strong>
+			<strong><?php esc_html_e( 'Этапы: Задача / Решение / Результат (подпись + текст)', 'tolstenko-theme' ); ?></strong>
 			<div class="tolstenko-case-items" data-case-items>
 				<?php foreach ( $items as $idx => $row ) :
 					$row = is_array( $row ) ? $row : array();
@@ -150,19 +150,19 @@ function tolstenko_case_render_metabox( $post ) {
 					$t   = (string) ( $row['text'] ?? '' );
 					?>
 					<div class="tolstenko-case-item" data-case-item>
-						<input type="text" name="tolstenko_case_items[<?php echo (int) $idx; ?>][value]" value="<?php echo esc_attr( $v ); ?>" placeholder="<?php esc_attr_e( 'Значение', 'tolstenko-theme' ); ?>">
-						<input type="text" name="tolstenko_case_items[<?php echo (int) $idx; ?>][text]" value="<?php echo esc_attr( $t ); ?>" placeholder="<?php esc_attr_e( 'Подпись', 'tolstenko-theme' ); ?>">
+						<input type="text" name="tolstenko_case_items[<?php echo (int) $idx; ?>][text]" value="<?php echo esc_attr( $t ); ?>" placeholder="<?php esc_attr_e( 'Подпись, например: Задача', 'tolstenko-theme' ); ?>">
+						<input type="text" name="tolstenko_case_items[<?php echo (int) $idx; ?>][value]" value="<?php echo esc_attr( $v ); ?>" placeholder="<?php esc_attr_e( 'Текст', 'tolstenko-theme' ); ?>">
 						<button type="button" class="button" data-case-item-remove><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
 					</div>
 				<?php endforeach; ?>
 			</div>
 			<p>
-				<button type="button" class="button" data-case-item-add><?php esc_html_e( 'Добавить показатель', 'tolstenko-theme' ); ?></button>
+				<button type="button" class="button" data-case-item-add><?php esc_html_e( 'Добавить этап', 'tolstenko-theme' ); ?></button>
 			</p>
 		</div>
 
 		<div class="tolstenko-case-field">
-			<strong><?php esc_html_e( 'Показатели (иконка, критерий, значение)', 'tolstenko-theme' ); ?></strong>
+			<strong><?php esc_html_e( 'Факты: Срок / Экономия (иконка, критерий, значение)', 'tolstenko-theme' ); ?></strong>
 			<div class="tolstenko-case-indicators" data-case-indicators>
 				<?php foreach ( $case_indicators as $idx => $row ) :
 					$row = is_array( $row ) ? $row : array();
@@ -243,8 +243,8 @@ function tolstenko_case_render_metabox( $post ) {
 			removeAttr: 'data-case-item-remove',
 			name: 'tolstenko_case_items',
 			fields: [
-				{ key: 'value', placeholder: 'Значение' },
-				{ key: 'text', placeholder: 'Подпись' }
+				{ key: 'text', placeholder: 'Подпись, например: Задача' },
+				{ key: 'value', placeholder: 'Текст' }
 			]
 		});
 
