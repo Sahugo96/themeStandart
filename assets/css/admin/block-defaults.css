@@ -1,0 +1,25 @@
+	.tolstenko-df-tabs{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid #dcdcde;margin-top:8px}
+	.tolstenko-df-tabs-group{margin-top:20px;padding:14px;background:#fff;border:1px solid #dcdcde;border-radius:4px}
+	.tolstenko-df-tabs-group.is-active{border-color:#2271b1;box-shadow:0 0 0 1px #2271b1}
+	.tolstenko-df-tabs-group-title{margin:0;font-size:14px;font-weight:600;color:#1d2327}
+	.tolstenko-df-tab{border:1px solid #dcdcde;border-bottom:0;background:#f0f0f1;padding:8px 12px;cursor:pointer;margin:0 4px 0 0;border-radius:4px 4px 0 0}
+	.tolstenko-df-tab.active{background:#fff;font-weight:600;color:#1d2327;position:relative;z-index:1}
+	.tolstenko-df-group-panels{border:1px solid #dcdcde;border-top:0;background:#fff;min-height:0}
+	.tolstenko-df-group-panels:empty{display:none}
+	.tolstenko-df-panel{display:none;padding:14px}
+	.tolstenko-df-panel.active{display:block}
+	.tolstenko-df .row{margin:10px 0}
+	.tolstenko-df textarea{width:100%}
+	.tolstenko-df .repeater-item{padding:10px;border:1px solid #ddd;background:#fafafa;margin-bottom:8px}
+	.tolstenko-df .repeater-item .cols{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+	.tolstenko-df .repeater-item .cols input[type="text"]{flex:1 1 220px}
+	.tolstenko-df .repeater-item .cols .move-btn{min-width:34px;padding:0 8px}
+	.tolstenko-df .muted{font-size:12px;color:#666}
+	.tolstenko-df .actions{margin-top:12px;display:flex;gap:8px}
+	.tolstenko-df .icon-preview img{max-width:44px;max-height:44px;display:block}
+	.tolstenko-df .cert-preview img{max-width:80px;max-height:110px;display:block;object-fit:cover;border-radius:4px}
+	.tolstenko-df .field-template-preview img{max-width:240px;max-height:330px;display:block;object-fit:cover;border-radius:4px}
+	.tolstenko-df .tolstenko-defaults-image-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+	.tolstenko-df .tolstenko-faq-editor-wrap .wp-editor-wrap{width:100%}
+	.tolstenko-df .tolstenko-faq-editor-wrap .wp-editor-area{width:100%}
+	.tolstenko-df .repeater-item .repeater-item{margin-top:8px;background:#f5f5f5}
