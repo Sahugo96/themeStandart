@@ -1,5 +1,5 @@
 <?php
-$contents = get_field('single-blog_content');
+$contents = theme_get_field('single-blog_content');
 $toc_items = [];
 $used_toc_ids = [];
 $toc_heading_level = 0;
@@ -122,7 +122,7 @@ if (is_array($contents) && $contents) {
 
           <h2 class="single-blog__title h2"><?= the_title(); ?></h2>
 
-          <div class="single-blog__pretext paragraph-15-25"><?= get_field('single-blog_text'); ?></div>
+          <div class="single-blog__pretext paragraph-15-25"><?= theme_get_field('single-blog_text'); ?></div>
 
           <div class="blog-card__stats">
             <?php    get_template_part('modules/stats/stats'); ?>
@@ -394,15 +394,15 @@ if (is_array($contents) && $contents) {
       <div class="single-blog__right">
         <div class="single-blog__right-info">
           <?php
-          $photo = get_field('director_photo', OPTION_ID);
+          $photo = theme_get_field('director_photo', OPTION_ID);
           $photo = Image::get_image_attrs($photo);
           ?>
           <div class="single-blog__right-wrapper">
             <img class="single-blog__right-photo lazyload--js" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="<?= $photo['url']; ?>" data-srcset="<?= $photo['srcset']; ?>" alt="<?= $photo['alt']; ?>" data-sizes="<?= $photo['sizes']; ?>">
 
-            <div class="single-blog__right-name line-caps-bold-13-15"><?= get_field('director_name', OPTION_ID) ?></div>
+            <div class="single-blog__right-name line-caps-bold-13-15"><?= theme_get_field('director_name', OPTION_ID) ?></div>
 
-            <div class="single-blog__right-text paragraph-15-25"><?= get_field('director_text', OPTION_ID) ?></div>
+            <div class="single-blog__right-text paragraph-15-25"><?= theme_get_field('director_text', OPTION_ID) ?></div>
 
 
             <?php get_template_part('modules/socials/socials-rgb'); ?>
@@ -414,7 +414,7 @@ if (is_array($contents) && $contents) {
           </div>
 
           <?php
-          if (get_field('blog_actions')) {
+          if (theme_get_field('blog_actions')) {
             ?>
             <div class="single-blog__right-actions splide load-on-vissible--js"
               aria-label="Splide direction"
@@ -424,7 +424,7 @@ if (is_array($contents) && $contents) {
                 <div class="single-blog__right-list splide__list">
 
                   <?php
-                  $blog_actions_field = get_field('blog_actions');
+                  $blog_actions_field = theme_get_field('blog_actions');
 
                   if (!empty($blog_actions_field)) {
                     $actions_ids = [];

@@ -25,16 +25,16 @@ if (is_array($hero_data) && $hero_data) {
     $name = $section['hero_name'];
     $position = $section['hero_position'];
   } else {
-    $title = get_field('hero_title', OPTION_ID);
-    $text = get_field('hero_text', OPTION_ID);
-    $img = get_field('hero_img', OPTION_ID);
-    $items = get_field('hero_items', OPTION_ID);
+    $title = theme_get_field('hero_title', OPTION_ID);
+    $text = theme_get_field('hero_text', OPTION_ID);
+    $img = theme_get_field('hero_img', OPTION_ID);
+    $items = theme_get_field('hero_items', OPTION_ID);
 
-    $btn_text = get_field('hero_btn', OPTION_ID);
-    $btn_text_hide = get_field('hero_btn_hide', OPTION_ID);
-    $btn_close_text = get_field('hero_btn_close', OPTION_ID);
-    $name = get_field('hero_name', OPTION_ID);
-    $position = get_field('hero_position', OPTION_ID);
+    $btn_text = theme_get_field('hero_btn', OPTION_ID);
+    $btn_text_hide = theme_get_field('hero_btn_hide', OPTION_ID);
+    $btn_close_text = theme_get_field('hero_btn_close', OPTION_ID);
+    $name = theme_get_field('hero_name', OPTION_ID);
+    $position = theme_get_field('hero_position', OPTION_ID);
   }
 
   $img = Image::get_image_attrs($img);
@@ -42,7 +42,7 @@ if (is_array($hero_data) && $hero_data) {
   return;
 }
 
-$present = get_field('present_ico', OPTION_ID);
+$present = theme_get_field('present_ico', OPTION_ID);
 $present = $present ? Image::get_image_attrs($present) : null;
 ?>
 <section class="hero">

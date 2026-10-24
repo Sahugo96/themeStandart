@@ -1,13 +1,13 @@
 <?php
-if (get_field('service_section_true')) {
-  if (get_field('service_section_rewrite')) {
-    $title = get_field('service_section_title') ?: get_field('service_section_title', OPTION_ID);
-    $text = get_field('service_section_text') ?: get_field('service_section_text', OPTION_ID);
+if (theme_get_field('service_section_true')) {
+  if (theme_get_field('service_section_rewrite')) {
+    $title = theme_get_field('service_section_title') ?: theme_get_field('service_section_title', OPTION_ID);
+    $text = theme_get_field('service_section_text') ?: theme_get_field('service_section_text', OPTION_ID);
   } else {
-    $title = get_field('service_section_title', OPTION_ID);
-    $text = get_field('service_section_text', OPTION_ID);
+    $title = theme_get_field('service_section_title', OPTION_ID);
+    $text = theme_get_field('service_section_text', OPTION_ID);
   }
-  $items = get_field('service_section_items');
+  $items = theme_get_field('service_section_items');
   
 
   /**
@@ -158,9 +158,9 @@ if (get_field('service_section_true')) {
                         хит
 
                         <?php
-                        if (get_field('single_service_hit', get_the_ID()) && get_field('single_service_action', get_the_ID())) {
+                        if (theme_get_field('single_service_hit', get_the_ID()) && theme_get_field('single_service_action', get_the_ID())) {
                         ?>
-                          <span><?= get_field('single_service_action', get_the_ID()); ?>%</span>
+                          <span><?= theme_get_field('single_service_action', get_the_ID()); ?>%</span>
                         <?php
                         }
                         ?>
@@ -171,15 +171,15 @@ if (get_field('service_section_true')) {
 
                     <h4 class="service-card__title paragraph-15-15"><?= get_the_title(); ?></h4>
 
-                    <div class="service-card__text line-13-15"><?= get_field('single_service_description', get_the_ID()); ?></div>
+                    <div class="service-card__text line-13-15"><?= theme_get_field('single_service_description', get_the_ID()); ?></div>
 
 
                     <div class="service-card__cost line-13-15">
-                      Цена от <?= get_field('single_service_same_cost', get_the_ID()); ?>₽
+                      Цена от <?= theme_get_field('single_service_same_cost', get_the_ID()); ?>₽
                       <?php
-                      if (get_field('single_service_cost', get_the_ID())) {
+                      if (theme_get_field('single_service_cost', get_the_ID())) {
                       ?>
-                        <span><?= get_field('single_service_cost', get_the_ID()); ?>₽</span>
+                        <span><?= theme_get_field('single_service_cost', get_the_ID()); ?>₽</span>
                       <?php
                       }
                       ?>
@@ -240,9 +240,9 @@ if (get_field('service_section_true')) {
                         хит
 
                         <?php
-                        if (get_field('single_service_hit', get_the_ID()) && get_field('single_service_action', get_the_ID())) {
+                        if (theme_get_field('single_service_hit', get_the_ID()) && theme_get_field('single_service_action', get_the_ID())) {
                         ?>
-                          <span><?= get_field('single_service_action', get_the_ID()); ?>%</span>
+                          <span><?= theme_get_field('single_service_action', get_the_ID()); ?>%</span>
                         <?php
                         }
                         ?>
@@ -253,15 +253,15 @@ if (get_field('service_section_true')) {
 
                     <h4 class="service-card__title paragraph-15-15"><?= get_the_title(); ?></h4>
 
-                    <div class="service-card__text line-13-15"><?= get_field('single_service_description', get_the_ID()); ?></div>
+                    <div class="service-card__text line-13-15"><?= theme_get_field('single_service_description', get_the_ID()); ?></div>
 
 
                     <div class="service-card__cost line-13-15">
-                      Цена от <?= get_field('single_service_same_cost', get_the_ID()); ?>₽
+                      Цена от <?= theme_get_field('single_service_same_cost', get_the_ID()); ?>₽
                       <?php
-                      if (get_field('single_service_cost', get_the_ID())) {
+                      if (theme_get_field('single_service_cost', get_the_ID())) {
                       ?>
-                        <span><?= get_field('single_service_cost', get_the_ID()); ?>₽</span>
+                        <span><?= theme_get_field('single_service_cost', get_the_ID()); ?>₽</span>
                       <?php
                       }
                       ?>

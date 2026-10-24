@@ -2,12 +2,12 @@
   <div class="container">
 
     <div class="section-top">
-      <h1 class="services__title h1"><?= get_field('services_title') ?></h1>
+      <h1 class="services__title h1"><?= theme_get_field('services_title') ?></h1>
     </div>
 
     <div class="services__items">
       <?php
-      $items = get_field('services_items');
+      $items = theme_get_field('services_items');
       $items = is_array($items) ? $items : [];
       foreach ($items as $item) {
         $ico = $item['ico'];
@@ -49,13 +49,13 @@
         </g>
       </svg>
 
-      <p><?= get_field('services_note') ?></p>
+      <p><?= theme_get_field('services_note') ?></p>
     </div>
 
     <div class="services__list accordion-group">
       <?php
       $active = " active";
-      $items = get_field('services_list');
+      $items = theme_get_field('services_list');
       $items = is_array($items) ? $items : [];
       $current_anchor = isset($_GET['anchor']) ? '#' . $_GET['anchor'] : '';
 
@@ -88,9 +88,9 @@
     </div>
 
     <div class="services__wrapper">
-      <div class="services__wrapper-title h2"><?= get_field('price_text', 136); ?></div>
+      <div class="services__wrapper-title h2"><?= theme_get_field('price_text', 136); ?></div>
 
-      <a class="services__wrapper-link default-btn default-btn--svg" href="<?= get_field('price_file', 136)['url']; ?>" target="_blank">
+      <a class="services__wrapper-link default-btn default-btn--svg" href="<?= theme_get_field('price_file', 136)['url']; ?>" target="_blank">
         Скачать PDF
 
         <div class="default-btn__svg">

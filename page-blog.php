@@ -57,12 +57,12 @@ $blog_query = new WP_Query($args);
   <section class="blog-section section blog-section--blog load-on-vissible--js" data-module="./modules/animFadeInUp.js">
     <div class="container">
       <div class="blog-section__top section-top">
-        <h2 class="blog-section__title h2"><?= get_field('blog_section_title', OPTION_ID); ?></h2>
+        <h2 class="blog-section__title h2"><?= theme_get_field('blog_section_title', OPTION_ID); ?></h2>
 
         <?php
-        if (get_field('blog_section_text', OPTION_ID)) {
+        if (theme_get_field('blog_section_text', OPTION_ID)) {
         ?>
-          <p class="blog-section__text paragraph-15-15"><?= get_field('blog_section_text', OPTION_ID); ?></p>
+          <p class="blog-section__text paragraph-15-15"><?= theme_get_field('blog_section_text', OPTION_ID); ?></p>
         <?php
         }
         ?>
@@ -164,7 +164,7 @@ $blog_query = new WP_Query($args);
 
                   <h4 class="blog-card__title"><?= get_the_title(); ?></h4>
 
-                  <div class="blog-card__text line-13-15"><?= get_field('blog_card_text', $post_id); ?></div>
+                  <div class="blog-card__text line-13-15"><?= theme_get_field('blog_card_text', $post_id); ?></div>
                 
                   <div class="blog-card__stats">
                   <?php    get_template_part('modules/stats/stats'); ?>

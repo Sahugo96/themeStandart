@@ -1,6 +1,6 @@
 <?php
 $cd = tolstenko_get_contact_data();
-$img = get_field('consultation_free_image', OPTION_ID);
+$img = theme_get_field('consultation_free_image', OPTION_ID);
 $img = Image::get_image_attrs($img);
 ?>
 <section class="consultation-free section">
@@ -9,17 +9,17 @@ $img = Image::get_image_attrs($img);
       <div class="consultation-free__left">
         <div class="consultation-free__top">
           <h2 class="consultation-free__title h2">
-            <?= get_field('consultation_free_title', OPTION_ID);  ?>
+            <?= theme_get_field('consultation_free_title', OPTION_ID);  ?>
           </h2>
 
           <div class="consultation-free__text paragraph-15-15">
-            <?= get_field('consultation_free_text', OPTION_ID);  ?>
+            <?= theme_get_field('consultation_free_text', OPTION_ID);  ?>
           </div>
         </div>
 
         <div class="consultation-free__form form br-20">
           <div class="consultation-free__subtitle line-caps-bold-16-15">
-            <?= get_field('consultation_free_subtitle', OPTION_ID);  ?>
+            <?= theme_get_field('consultation_free_subtitle', OPTION_ID);  ?>
           </div>
 
           <?php echo do_shortcode('[contact-form-7 id="5d6571e" title="Бесплатная консультация"]'); ?>

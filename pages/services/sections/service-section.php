@@ -9,8 +9,8 @@ if (is_array($service_section_data) && !empty($service_section_data)) {
   $title = $section['service_section_title'];
   $text = $section['service_section_text'];
 } else {
-  $title = get_field('service_section_title', OPTION_ID);
-  $text = get_field('service_section_text', OPTION_ID);
+  $title = theme_get_field('service_section_title', OPTION_ID);
+  $text = theme_get_field('service_section_text', OPTION_ID);
 }
 
 

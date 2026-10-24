@@ -11,8 +11,8 @@ if (is_array($blog_section_data) && !empty($blog_section_data)) {
   $title = $blog_section_data['title'] ?? '';
   $text = $blog_section_data['text'] ?? '';
 } else {
-  $title = get_field('blog_section_title', OPTION_ID);
-  $text = get_field('blog_section_text', OPTION_ID);
+  $title = theme_get_field('blog_section_title', OPTION_ID);
+  $text = theme_get_field('blog_section_text', OPTION_ID);
 }
 
 // Уникальный ID для этой секции
@@ -200,7 +200,7 @@ $section_query = new WP_Query($args_query);
 
                 <h4 class="blog-card__title"><?= get_the_title(); ?></h4>
 
-<div class="blog-card__text line-13-15"><?= get_field('blog_card_text', $post_id); ?></div>
+<div class="blog-card__text line-13-15"><?= theme_get_field('blog_card_text', $post_id); ?></div>
 
                 <div class="blog-card__stats">
                   <?php get_template_part('modules/stats/stats'); ?>
@@ -222,8 +222,8 @@ $section_query = new WP_Query($args_query);
 
               <div class="splide__pagination"></div>
 
-              <a class="blog-section__btn default-btn" href="<?= get_field('blog_section_btn', OPTION_ID)['url']; ?>">
-                <?= get_field('blog_section_btn', OPTION_ID)['title']; ?>
+              <a class="blog-section__btn default-btn" href="<?= theme_get_field('blog_section_btn', OPTION_ID)['url']; ?>">
+                <?= theme_get_field('blog_section_btn', OPTION_ID)['title']; ?>
 
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5.87524 14.1246L13.5356 6.46426M7.05376 5.875H13.2915C13.7517 5.875 14.1248 6.2481 14.1248 6.70833V12.9461" stroke="black" stroke-width="2" stroke-linecap="round" />

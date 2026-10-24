@@ -170,8 +170,8 @@ if (!is_array($cta_btn) || empty($cta_btn['url'])) {
                                                         }
 
                                                         $service_id = theme_resolve_service_post_id_from_url($service_url);
-                                                        $service_hit = $service_id ? get_field('single_service_hit', $service_id) : null;
-                                                        $service_action = $service_id ? get_field('single_service_action', $service_id) : null;
+                                                        $service_hit = $service_id ? theme_get_field('single_service_hit', $service_id) : null;
+                                                        $service_action = $service_id ? theme_get_field('single_service_action', $service_id) : null;
 
                                                         $show_hit_badge = !empty($service_hit);
                                                         $show_action_percent = !empty($service_hit) && !empty($service_action);

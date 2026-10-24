@@ -438,8 +438,8 @@ function theme_get_front_page_id(): int
 function theme_get_service_section_data(array $attrs): array
 {
     return [
-        'title' => ($attrs['title'] ?? '') !== '' ? $attrs['title'] : (get_field('service_section_title', OPTION_ID) ?: ''),
-        'text'  => ($attrs['text'] ?? '') !== '' ? $attrs['text'] : (get_field('service_section_text', OPTION_ID) ?: ''),
+        'title' => ($attrs['title'] ?? '') !== '' ? $attrs['title'] : (theme_get_field('service_section_title', OPTION_ID) ?: ''),
+        'text'  => ($attrs['text'] ?? '') !== '' ? $attrs['text'] : (theme_get_field('service_section_text', OPTION_ID) ?: ''),
     ];
 }
 
@@ -470,14 +470,14 @@ function theme_extract_post_ids_from_acf_items($items): array
 
 function theme_get_services_slider_data(array $attrs): array
 {
-    $title = ($attrs['title'] ?? '') !== '' ? $attrs['title'] : (get_field('service_section_title', OPTION_ID) ?: '');
-    $text = ($attrs['text'] ?? '') !== '' ? $attrs['text'] : (get_field('service_section_text', OPTION_ID) ?: '');
+    $title = ($attrs['title'] ?? '') !== '' ? $attrs['title'] : (theme_get_field('service_section_title', OPTION_ID) ?: '');
+    $text = ($attrs['text'] ?? '') !== '' ? $attrs['text'] : (theme_get_field('service_section_text', OPTION_ID) ?: '');
     $post_ids = [];
 
     if (!empty($attrs['postIds']) && is_array($attrs['postIds'])) {
         $post_ids = array_values(array_filter(array_map('intval', $attrs['postIds'])));
     } else {
-        $post_ids = theme_extract_post_ids_from_acf_items(get_field('service_section_items', OPTION_ID));
+        $post_ids = theme_extract_post_ids_from_acf_items(theme_get_field('service_section_items', OPTION_ID));
     }
 
     return [
@@ -496,8 +496,8 @@ function theme_get_services_slider_simple_data(array $attrs): array
 function theme_get_blog_section_data(array $attrs): array
 {
     return [
-        'title' => ($attrs['title'] ?? '') !== '' ? $attrs['title'] : (get_field('blog_section_title', OPTION_ID) ?: ''),
-        'text'  => ($attrs['text'] ?? '') !== '' ? $attrs['text'] : (get_field('blog_section_text', OPTION_ID) ?: ''),
+        'title' => ($attrs['title'] ?? '') !== '' ? $attrs['title'] : (theme_get_field('blog_section_title', OPTION_ID) ?: ''),
+        'text'  => ($attrs['text'] ?? '') !== '' ? $attrs['text'] : (theme_get_field('blog_section_text', OPTION_ID) ?: ''),
     ];
 }
 
@@ -505,7 +505,7 @@ function theme_get_blog_slider_data(array $attrs): array
 {
     $title = ($attrs['title'] ?? '') !== ''
         ? $attrs['title']
-        : (get_field('blog_section_title', OPTION_ID) ?: 'Статьи');
+        : (theme_get_field('blog_section_title', OPTION_ID) ?: 'Статьи');
     $post_ids = [];
 
     if (!empty($attrs['postIds']) && is_array($attrs['postIds'])) {
@@ -527,7 +527,7 @@ function theme_get_blog_related_data(array $attrs): array
     if (!empty($attrs['postIds']) && is_array($attrs['postIds'])) {
         $post_ids = array_values(array_filter(array_map('intval', $attrs['postIds'])));
     } elseif ($post_id && function_exists('get_field')) {
-        $post_ids = theme_extract_post_ids_from_acf_items(get_field('blog_articles', $post_id));
+        $post_ids = theme_extract_post_ids_from_acf_items(theme_get_field('blog_articles', $post_id));
     }
 
     if ($post_id) {
@@ -1409,7 +1409,7 @@ function theme_block_string_attr(array $attrs, string $key, string $option_key):
         return (string) $value;
     }
 
-    return (string) (get_field($option_key, OPTION_ID) ?: '');
+    return (string) (theme_get_field($option_key, OPTION_ID) ?: '');
 }
 
 function theme_block_bool_attr(array $attrs, string $key, string $option_key): bool
@@ -1418,7 +1418,7 @@ function theme_block_bool_attr(array $attrs, string $key, string $option_key): b
         return (bool) $attrs[$key];
     }
 
-    $option_value = get_field($option_key, OPTION_ID);
+    $option_value = theme_get_field($option_key, OPTION_ID);
 
     if ($option_value !== null && $option_value !== '') {
         return (bool) $option_value;
@@ -1435,7 +1435,7 @@ function theme_block_items_attr(array $attrs, string $key, string $option_key): 
         return $items;
     }
 
-    $option_items = get_field($option_key, OPTION_ID);
+    $option_items = theme_get_field($option_key, OPTION_ID);
 
     return is_array($option_items) ? $option_items : [];
 }
@@ -1461,7 +1461,7 @@ function theme_block_link_attr(array $attrs, string $key, string $option_key): a
         return theme_normalize_block_link($override);
     }
 
-    return theme_normalize_block_link(get_field($option_key, OPTION_ID));
+    return theme_normalize_block_link(theme_get_field($option_key, OPTION_ID));
 }
 
 function theme_get_reviews_section_data(array $attrs, $section = null): array
@@ -1493,14 +1493,14 @@ function theme_get_reviews_section_data(array $attrs, $section = null): array
             }
         }
     } else {
-        $fallback = get_field('reviews_review', OPTION_ID);
+        $fallback = theme_get_field('reviews_review', OPTION_ID);
         $reviews = is_array($fallback) ? $fallback : [];
     }
 
     return [
-        'title'             => $title !== '' ? $title : (get_field('reviews_title', OPTION_ID) ?: 'Отзывы'),
-        'reviews_list'      => get_field('reviews_list', OPTION_ID) ?: [],
-        'reviews_list_hide' => (bool) get_field('reviews_list_hide', OPTION_ID),
+        'title'             => $title !== '' ? $title : (theme_get_field('reviews_title', OPTION_ID) ?: 'Отзывы'),
+        'reviews_list'      => theme_get_field('reviews_list', OPTION_ID) ?: [],
+        'reviews_list_hide' => (bool) theme_get_field('reviews_list_hide', OPTION_ID),
         'reviews'           => $reviews,
     ];
 }

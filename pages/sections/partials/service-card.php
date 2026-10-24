@@ -52,8 +52,8 @@ $selected_category = isset($args['selected_category'])
       <span class="service-card__hit caption-8-10">
         хит
 
-        <?php if (get_field('single_service_hit', $post_id) && get_field('single_service_action', $post_id)) : ?>
-          <span><?= get_field('single_service_action', $post_id); ?>%</span>
+        <?php if (theme_get_field('single_service_hit', $post_id) && theme_get_field('single_service_action', $post_id)) : ?>
+          <span><?= theme_get_field('single_service_action', $post_id); ?>%</span>
         <?php endif; ?>
       </span>
     </a>
@@ -62,12 +62,12 @@ $selected_category = isset($args['selected_category'])
   <div class="service-card__wrapper">
     <a class="service-card__title paragraph-15-15" href="<?= get_permalink(); ?>"><?= get_the_title(); ?></a>
 
-    <div class="service-card__text line-13-15"><?= get_field('single_service_description', $post_id); ?></div>
+    <div class="service-card__text line-13-15"><?= theme_get_field('single_service_description', $post_id); ?></div>
 
     <div class="service-card__cost line-13-15">
-      Цена от <?= get_field('single_service_same_cost', $post_id); ?>₽
-      <?php if (get_field('single_service_cost', $post_id)) : ?>
-        <span><?= get_field('single_service_cost', $post_id); ?>₽</span>
+      Цена от <?= theme_get_field('single_service_same_cost', $post_id); ?>₽
+      <?php if (theme_get_field('single_service_cost', $post_id)) : ?>
+        <span><?= theme_get_field('single_service_cost', $post_id); ?>₽</span>
       <?php endif; ?>
     </div>
   </div>

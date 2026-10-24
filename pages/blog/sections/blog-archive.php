@@ -27,12 +27,12 @@ global $wp_query;
 <section class="blog-section section blog-section--blog load-on-vissible--js" data-module="./modules/animFadeInUp.js">
     <div class="container">
       <div class="blog-section__top section-top">
-        <h2 class="blog-section__title h2"><?= get_field('blog_section_title', OPTION_ID); ?></h2>
+        <h2 class="blog-section__title h2"><?= theme_get_field('blog_section_title', OPTION_ID); ?></h2>
 
         <?php
-        if (get_field('blog_section_text', OPTION_ID)) {
+        if (theme_get_field('blog_section_text', OPTION_ID)) {
         ?>
-          <p class="blog-section__text paragraph-15-15"><?= get_field('blog_section_text', OPTION_ID); ?></p>
+          <p class="blog-section__text paragraph-15-15"><?= theme_get_field('blog_section_text', OPTION_ID); ?></p>
         <?php
         }
         ?>
@@ -134,7 +134,7 @@ global $wp_query;
 
                   <h4 class="blog-card__title"><?= get_the_title(); ?></h4>
 
-                  <div class="blog-card__text line-13-15"><?= get_field('blog_card_text', $post_id); ?></div>
+                  <div class="blog-card__text line-13-15"><?= theme_get_field('blog_card_text', $post_id); ?></div>
 
                                   
                   <div class="blog-card__stats">
@@ -146,15 +146,15 @@ global $wp_query;
 
 
             <?php if ($index) {
-              $photo = get_field('director_photo', OPTION_ID);
+              $photo = theme_get_field('director_photo', OPTION_ID);
               $photo = Image::get_image_attrs($photo);
               ?>
               <div class="blog-section__right-wrapper">
                 <img class="blog-section__right-photo lazyload--js" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="<?= $photo['url']; ?>" data-srcset="<?= $photo['srcset']; ?>" alt="<?= $photo['alt']; ?>" data-sizes="<?= $photo['sizes']; ?>">
 
-                <div class="blog-section__right-name line-caps-bold-13-15"><?= get_field('director_name', OPTION_ID) ?></div>
+                <div class="blog-section__right-name line-caps-bold-13-15"><?= theme_get_field('director_name', OPTION_ID) ?></div>
 
-                <div class="blog-section__right-text paragraph-15-25"><?= get_field('director_text', OPTION_ID) ?></div>
+                <div class="blog-section__right-text paragraph-15-25"><?= theme_get_field('director_text', OPTION_ID) ?></div>
 
 
                 <?php get_template_part('modules/socials/socials-rgb'); ?>

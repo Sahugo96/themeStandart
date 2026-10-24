@@ -48,7 +48,7 @@ $post_id = get_the_ID();
 
       <h4 class="blog-card__title"><?= esc_html(get_the_title()); ?></h4>
 
-<div class="blog-card__text line-13-15"><?= get_field('blog_card_text', $post_id); ?></div>
+<div class="blog-card__text line-13-15"><?= theme_get_field('blog_card_text', $post_id); ?></div>
 
       <div class="blog-card__stats">
         <?php get_template_part('modules/stats/stats'); ?>

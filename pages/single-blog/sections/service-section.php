@@ -1,6 +1,6 @@
 <?php
   $title = 'Рекомендуем так же ознакомиться';
-  $items = get_field('blog_services');
+  $items = theme_get_field('blog_services');
   
   $post_type = isset($args['post_type']) ? $args['post_type'] : 'service';
   $posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : 1;
@@ -88,9 +88,9 @@
                         хит
 
                         <?php
-                        if (get_field('single_service_hit', get_the_ID()) && get_field('single_service_action', get_the_ID())) {
+                        if (theme_get_field('single_service_hit', get_the_ID()) && theme_get_field('single_service_action', get_the_ID())) {
                         ?>
-                          <span><?= get_field('single_service_action', get_the_ID()); ?>%</span>
+                          <span><?= theme_get_field('single_service_action', get_the_ID()); ?>%</span>
                         <?php
                         }
                         ?>
@@ -101,15 +101,15 @@
 
                     <h4 class="service-card__title paragraph-15-15"><?= get_the_title(); ?></h4>
 
-                    <div class="service-card__text line-13-15"><?= get_field('single_service_description', get_the_ID()); ?></div>
+                    <div class="service-card__text line-13-15"><?= theme_get_field('single_service_description', get_the_ID()); ?></div>
 
 
                     <div class="service-card__cost line-13-15">
-                      Цена от <?= get_field('single_service_same_cost', get_the_ID()); ?>₽
+                      Цена от <?= theme_get_field('single_service_same_cost', get_the_ID()); ?>₽
                       <?php
-                      if (get_field('single_service_cost', get_the_ID())) {
+                      if (theme_get_field('single_service_cost', get_the_ID())) {
                       ?>
-                        <span><?= get_field('single_service_cost', get_the_ID()); ?>₽</span>
+                        <span><?= theme_get_field('single_service_cost', get_the_ID()); ?>₽</span>
                       <?php
                       }
                       ?>
@@ -171,9 +171,9 @@
                         хит
 
                         <?php
-                        if (get_field('single_service_hit', get_the_ID()) && get_field('single_service_action', get_the_ID())) {
+                        if (theme_get_field('single_service_hit', get_the_ID()) && theme_get_field('single_service_action', get_the_ID())) {
                         ?>
-                          <span><?= get_field('single_service_action', get_the_ID()); ?>%</span>
+                          <span><?= theme_get_field('single_service_action', get_the_ID()); ?>%</span>
                         <?php
                         }
                         ?>
@@ -184,15 +184,15 @@
 
                     <h4 class="service-card__title paragraph-15-15"><?= get_the_title(); ?></h4>
 
-                    <div class="service-card__text line-13-15"><?= get_field('single_service_description', get_the_ID()); ?></div>
+                    <div class="service-card__text line-13-15"><?= theme_get_field('single_service_description', get_the_ID()); ?></div>
 
 
                     <div class="service-card__cost line-13-15">
-                      Цена от <?= get_field('single_service_same_cost', get_the_ID()); ?>₽
+                      Цена от <?= theme_get_field('single_service_same_cost', get_the_ID()); ?>₽
                       <?php
-                      if (get_field('single_service_cost', get_the_ID())) {
+                      if (theme_get_field('single_service_cost', get_the_ID())) {
                       ?>
-                        <span><?= get_field('single_service_cost', get_the_ID()); ?>₽</span>
+                        <span><?= theme_get_field('single_service_cost', get_the_ID()); ?>₽</span>
                       <?php
                       }
                       ?>

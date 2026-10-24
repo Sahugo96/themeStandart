@@ -12,9 +12,9 @@ if (is_array($services_slider_data) && !empty($services_slider_data)) {
   $text = $section['service_section_text'];
   $items = $section['service_section_items'];
 } else {
-  $title = get_field('service_section_title', OPTION_ID);
-  $text = get_field('service_section_text', OPTION_ID);
-  $items = get_field('service_section_items');
+  $title = theme_get_field('service_section_title', OPTION_ID);
+  $text = theme_get_field('service_section_text', OPTION_ID);
+  $items = theme_get_field('service_section_items');
 }
 
 if (!empty($items) && empty($post_ids)) {

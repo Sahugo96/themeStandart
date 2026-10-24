@@ -36,7 +36,7 @@ $formatted_date = ($day && $month_num && $year)
     : get_the_date('', $post_id);
 
 $tags = get_the_terms($post_id, 'blog_cat');
-$card_text = get_field('single-blog_text', $post_id);
+$card_text = theme_get_field('single-blog_text', $post_id);
 
 if (!$card_text) {
     $card_text = wp_trim_words(wp_strip_all_tags(get_the_content(null, false, $post_id)), 20, '…');
@@ -78,7 +78,7 @@ if ($is_same) {
 
       <h4 class="blog-card__title"><?= esc_html(get_the_title($post_id)); ?></h4>
 
-<div class="blog-card__text line-13-15"><?= get_field('blog_card_text', $post_id); ?></div>
+<div class="blog-card__text line-13-15"><?= theme_get_field('blog_card_text', $post_id); ?></div>
 
       <div class="blog-card__stats">
         <?php

@@ -14,10 +14,10 @@ if (is_array($reviews_data) && !empty($reviews_data)) {
     $reviews_list_hide = $section['reviews_list_hide'];
     $reviews = $section['reviews_reviews'];
   } else {
-    $title = get_field('reviews_title', OPTION_ID);
-    $reviews_list = get_field('reviews_list', OPTION_ID);
-    $reviews_list_hide = get_field('reviews_list_hide', OPTION_ID);
-    $reviews = get_field('reviews_review', OPTION_ID);
+    $title = theme_get_field('reviews_title', OPTION_ID);
+    $reviews_list = theme_get_field('reviews_list', OPTION_ID);
+    $reviews_list_hide = theme_get_field('reviews_list_hide', OPTION_ID);
+    $reviews = theme_get_field('reviews_review', OPTION_ID);
   }
 } else {
   return;
@@ -71,7 +71,7 @@ if (empty($reviews) || !is_array($reviews)) {
       );
 
       foreach ($reviews as $review) {
-        $review_type = get_field('review_type', $review->ID);
+        $review_type = theme_get_field('review_type', $review->ID);
         if (isset($grouped_reviews[$review_type])) {
           $grouped_reviews[$review_type][] = $review;
         }
@@ -120,7 +120,7 @@ if (empty($reviews) || !is_array($reviews)) {
             <div class="reviews__list splide__list">
               <?php
               foreach ($grouped_reviews['Мессенджеры'] as $review) {
-                $image = get_field('review_thenks', $review->ID);
+                $image = theme_get_field('review_thenks', $review->ID);
                 $image = Image::get_image_attrs($image);
               ?>
                 <div class="reviews__list-item splide__slide">
@@ -161,7 +161,7 @@ if (empty($reviews) || !is_array($reviews)) {
             <div class="reviews__list splide__list">
               <?php
               foreach ($grouped_reviews['Видео'] as $review) {
-                $video = html_entity_decode(trim((string) get_field('review_video', $review->ID)), ENT_QUOTES, 'UTF-8');
+                $video = html_entity_decode(trim((string) theme_get_field('review_video', $review->ID)), ENT_QUOTES, 'UTF-8');
 
                 if ($video === '') {
                   continue;
@@ -181,11 +181,11 @@ if (empty($reviews) || !is_array($reviews)) {
 
                 $video_poster = theme_get_video_embed_poster($video_src);
                 $rutube_id = theme_get_rutube_video_id($video_src);
-                $video_name = trim((string) get_field('review_video_name', $review->ID));
-                $video_text = trim((string) get_field('review_video_text', $review->ID));
+                $video_name = trim((string) theme_get_field('review_video_name', $review->ID));
+                $video_text = trim((string) theme_get_field('review_video_text', $review->ID));
                 $video_has_meta = $video_name !== '' && $video_text !== '';
 
-                $logo = get_field('review_logo', $review->ID);
+                $logo = theme_get_field('review_logo', $review->ID);
                 $logo = Image::get_image_attrs($logo);
               ?>
                 <div class="reviews__list-item reviews__list-item--video<?= $video_has_meta ? ' reviews__list-item--video-meta' : ''; ?> splide__slide">
@@ -268,12 +268,12 @@ if (empty($reviews) || !is_array($reviews)) {
           <div class="splide__track">
             <div class="reviews__list splide__list">
               <?php foreach ($grouped_reviews['Текстовые'] as $review) {
-                $name = get_field('review_name', $review->ID);
-                $position = get_field('review_position', $review->ID);
-                $rating = get_field('review_rating', $review->ID);
-                $redactor = get_field('review_redactor', $review->ID);
-                $icon = Image::get_image_attrs(get_field('review_platform_icon', $review->ID));
-                $platform_name = get_field('review_platform_name', $review->ID);
+                $name = theme_get_field('review_name', $review->ID);
+                $position = theme_get_field('review_position', $review->ID);
+                $rating = theme_get_field('review_rating', $review->ID);
+                $redactor = theme_get_field('review_redactor', $review->ID);
+                $icon = Image::get_image_attrs(theme_get_field('review_platform_icon', $review->ID));
+                $platform_name = theme_get_field('review_platform_name', $review->ID);
                 $publish_date = '';
                 if ( $pub_time = get_post_time('U', false, $review->ID) ) {
                     $day = date('j', $pub_time);
@@ -283,7 +283,7 @@ if (empty($reviews) || !is_array($reviews)) {
                     $publish_date = sprintf( '%s %s. %s', $day, empty($months[$month]) ? $month : $months[$month], $year );
                 }
 
-                $photo = get_field('review_photo', $review->ID);
+                $photo = theme_get_field('review_photo', $review->ID);
                 $photo = Image::get_image_attrs($photo);
               ?>
                 <div class="reviews__list-item reviews__list-item--text splide__slide">

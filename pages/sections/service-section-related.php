@@ -14,7 +14,7 @@
 
 $title = isset($args['title']) ? $args['title'] : 'Рекомендуем так же ознакомиться';
 $items_field = isset($args['items_field']) ? $args['items_field'] : 'blog_services';
-$items = get_field($items_field);
+$items = theme_get_field($items_field);
 $post_type = isset($args['post_type']) ? $args['post_type'] : 'service';
 $posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : 1;
 $section_id = isset($args['section_id']) ? $args['section_id'] : 'related_services_' . uniqid();
