@@ -51,3 +51,4 @@ require_once __DIR__ . '/inc/ajax/case-section.php';
 require_once __DIR__ . '/inc/ajax/blog-page.php';
 
 require_once __DIR__ . '/inc/blocks.php';
+require_once __DIR__ . '/inc/search.php';

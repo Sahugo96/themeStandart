@@ -281,6 +281,26 @@
       }
     }
   }
+  // Открытый поиск встаёт в строку на место меню услуг (класс is-open ставит headerSearch.js).
+  &__search.is-open {
+    flex: 1 1 auto;
+    grid-gap: vw(5px, $desktop);
+    @media (min-width: $desk_large) {
+      grid-gap: vw(5px, $desktop_large);
+    }
+    .header-search-form {
+      position: relative;
+      flex: 1 1 auto;
+      width: auto;
+      height: vw(40px, $desktop);
+      @media (min-width: $desk_large) {
+        height: vw(40px, $desktop_large);
+      }
+    }
+  }
+  &__search.is-open + .header__menu-services {
+    display: none;
+  }
   &__socials {
     display: none;
     @media (min-width: $desk) {

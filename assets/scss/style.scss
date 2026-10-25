@@ -16,7 +16,7 @@
 // @import './modules/video'; // + +
 // @import './modules/more'; // + +
 // @import './modules/tabs'; // + +
-// @import './modules/stats'; // + +
+@import './modules/stats'; // + +
 // @import './modules/header-services-panel'; // + +
 
 @import './modules/redactor'; // -
@@ -106,4 +106,5 @@
 
 
 @import './pages/single-blog/single-blog'; // -
+@import './pages/search/search'; // + +
 

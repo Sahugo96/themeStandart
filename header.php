@@ -15,7 +15,7 @@
 <body class="load-on-vissible--js notranslate" data-module="./modules/lazyLoad.js,./modules/menu.js">
     <div class="wrapper">
 
-        <header class="header load-on-vissible--js" data-module="./modules/lazyLoad.js,./modules/headerScroll.js,./modules/menu.js,./modules/headerServicesPanel.js,./modules/modal.js,./modules/animSection.js,./modules/anchorScroll.js">
+        <header class="header load-on-vissible--js" data-module="./modules/lazyLoad.js,./modules/headerScroll.js,./modules/menu.js,./modules/headerServicesPanel.js,./modules/headerSearch.js,./modules/modal.js,./modules/animSection.js,./modules/anchorScroll.js">
                 <?php
                     get_template_part('modules/header-menu');
                 ?>

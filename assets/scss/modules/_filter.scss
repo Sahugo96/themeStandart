@@ -116,8 +116,15 @@
 //   .filter.filter--tabs
 //     .filter__form > button.filter__link[.active] > span.filter__label
 //     a.filter__more > span + svg.filter__more-arrow
-// Используется в секции «Кейсы»; подходит для любой секции с AJAX-табами.
+// Используется в секции «Кейсы» и на странице поиска; подходит для любой секции с табами.
+// Цвета — через переменные: светлый фон по умолчанию, .filter--dark — для тёмных секций.
 .filter--tabs {
+  --filter-panel-bg: var(--white-opa-50-color);
+  --filter-border: var(--additional-gray-30-color);
+  --filter-color: var(--gray-50-color);
+  --filter-accent: var(--accent-color);
+  --filter-active-color: var(--white-color);
+
   display: flex;
   flex-direction: column;
   grid-gap: vw(10px, $mobile);
@@ -127,7 +134,7 @@
   overflow: visible;
   touch-action: auto;
   border-radius: vw(24px, $mobile);
-  background-color: var(--white-opa-50-color);
+  background-color: var(--filter-panel-bg);
   @media (min-width: $desk) {
     flex-direction: row;
     align-items: center;
@@ -168,7 +175,7 @@
   .filter__more {
     height: vw(40px, $mobile);
     padding: 0 vw(16px, $mobile);
-    border: 1px solid var(--additional-gray-30-color);
+    border: 1px solid var(--filter-border);
     border-radius: vw(40px, $mobile);
     font-family: $Montserrat;
     font-size: vw(12px, $mobile);
@@ -177,7 +184,7 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
     white-space: nowrap;
-    color: var(--gray-50-color);
+    color: var(--filter-color);
     background-color: transparent;
     transition: all 0.3s linear;
     @media (min-width: $desk) {
@@ -200,15 +207,15 @@
 
   .filter__link:hover .filter__label,
   .filter__more:hover {
-    border-color: var(--accent-color);
+    border-color: var(--filter-accent);
     background-color: transparent;
-    color: var(--accent-color);
+    color: var(--filter-accent);
   }
 
   .filter__link.active .filter__label {
-    border-color: var(--accent-color);
-    background-color: var(--accent-color);
-    color: var(--white-color);
+    border-color: var(--filter-accent);
+    background-color: var(--filter-accent);
+    color: var(--filter-active-color);
   }
 
   .filter__more {
@@ -244,4 +251,11 @@
       min-width: vw(18px, $desktop_large);
     }
   }
+}
+
+// Тёмный вариант табов (страница поиска и другие тёмные секции).
+.filter--tabs.filter--dark {
+  --filter-panel-bg: rgba(13, 13, 13, 0.5);
+  --filter-border: var(--gray-20-color);
+  --filter-color: var(--gray-70-color);
 }
