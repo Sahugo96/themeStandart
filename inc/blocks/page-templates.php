@@ -84,7 +84,6 @@ function theme_get_front_page_block_template(): array
         ['my-theme/programs'],
         ['my-theme/banks'],
         ['my-theme/flagship'],
-        ['my-theme/europe'],
         ['my-theme/blog-section'],
         ['my-theme/service-section'],
         ['my-theme/faq'],

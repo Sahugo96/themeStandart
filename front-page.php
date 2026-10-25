@@ -49,7 +49,8 @@ get_header();
     theme_render_front_section('blog-more');
     theme_render_front_section('consult');
     theme_render_front_section('flagship'); // +
-    theme_render_front_section('europe'); // +
+    // «ВНЖ в Европе» теперь таблица внутри «Флагманских программ»; отдельный блок europe
+    // остаётся для других страниц.
     theme_render_front_section('blog-section'); // +
     ?>
 

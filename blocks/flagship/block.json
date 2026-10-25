@@ -24,6 +24,50 @@
     "cards": {
       "type": "array",
       "default": []
+    },
+    "links": {
+      "type": "array",
+      "default": []
+    },
+    "table_title": {
+      "type": "string",
+      "default": ""
+    },
+    "col_country": {
+      "type": "string",
+      "default": ""
+    },
+    "col_price": {
+      "type": "string",
+      "default": ""
+    },
+    "col_term": {
+      "type": "string",
+      "default": ""
+    },
+    "col_benefits": {
+      "type": "string",
+      "default": ""
+    },
+    "row_btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "rows": {
+      "type": "array",
+      "default": []
+    },
+    "foot_text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_url": {
+      "type": "string",
+      "default": ""
     }
   },
   "render": "file:./template.php"

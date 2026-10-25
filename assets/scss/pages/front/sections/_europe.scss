@@ -41,6 +41,8 @@
 
   // На мобильных таблица скроллится внутри своего блока
   &__table-wrap {
+    // Контекст для скрытого заголовка колонки (__sr): иначе он «выпадает» из скролла и раздвигает страницу.
+    position: relative;
     overflow-x: auto;
     border-radius: vw(24px, $mobile);
     background-color: var(--eu-card);

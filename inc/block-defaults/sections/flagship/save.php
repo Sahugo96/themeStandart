@@ -34,3 +34,64 @@ if ( isset( $raw['flagship']['cards'] ) && is_array( $raw['flagship']['cards'] )
 		);
 	}
 }
+
+// Круглые кнопки-ссылки карточек.
+$out['flagship']['links'] = array();
+if ( isset( $raw['flagship']['links'] ) && is_array( $raw['flagship']['links'] ) ) {
+	foreach ( $raw['flagship']['links'] as $it ) {
+		if ( ! is_array( $it ) ) {
+			continue;
+		}
+		$link_url = esc_url_raw( trim( (string) ( $it['url'] ?? '' ) ) );
+		if ( $link_url === '' ) {
+			continue;
+		}
+		$out['flagship']['links'][] = array(
+			'icon' => isset( $it['icon'] ) ? (int) $it['icon'] : 0,
+			'url'  => $link_url,
+		);
+	}
+}
+
+// Таблица «Другие программы».
+$out['flagship']['table_title']  = tolstenko_kses_html( $raw['flagship']['table_title'] ?? '' );
+$out['flagship']['col_country']  = sanitize_text_field( $raw['flagship']['col_country'] ?? '' );
+$out['flagship']['col_price']    = sanitize_text_field( $raw['flagship']['col_price'] ?? '' );
+$out['flagship']['col_term']     = sanitize_text_field( $raw['flagship']['col_term'] ?? '' );
+$out['flagship']['col_benefits'] = sanitize_text_field( $raw['flagship']['col_benefits'] ?? '' );
+$out['flagship']['row_btn_text'] = sanitize_text_field( $raw['flagship']['row_btn_text'] ?? '' );
+$out['flagship']['rows']         = array();
+
+if ( isset( $raw['flagship']['rows'] ) && is_array( $raw['flagship']['rows'] ) ) {
+	foreach ( $raw['flagship']['rows'] as $it ) {
+		if ( ! is_array( $it ) ) {
+			continue;
+		}
+
+		$row_name = tolstenko_kses_html( $it['name'] ?? '' );
+		if ( trim( wp_strip_all_tags( $row_name ) ) === '' ) {
+			continue;
+		}
+
+		$benefits = array();
+		foreach ( (array) ( $it['benefits'] ?? array() ) as $benefit ) {
+			$benefit_text = sanitize_text_field( is_array( $benefit ) ? ( $benefit['text'] ?? '' ) : '' );
+			if ( $benefit_text !== '' ) {
+				$benefits[] = array( 'text' => $benefit_text );
+			}
+		}
+
+		$out['flagship']['rows'][] = array(
+			'flag'     => isset( $it['flag'] ) ? (int) $it['flag'] : 0,
+			'name'     => $row_name,
+			'price'    => tolstenko_kses_html( $it['price'] ?? '' ),
+			'term'     => tolstenko_kses_html( $it['term'] ?? '' ),
+			'benefits' => $benefits,
+			'link'     => esc_url_raw( trim( (string) ( $it['link'] ?? '' ) ) ),
+		);
+	}
+}
+
+$out['flagship']['foot_text'] = tolstenko_kses_html( $raw['flagship']['foot_text'] ?? '' );
+$out['flagship']['btn_text']  = sanitize_text_field( $raw['flagship']['btn_text'] ?? '' );
+$out['flagship']['btn_url']   = esc_url_raw( $raw['flagship']['btn_url'] ?? '' );

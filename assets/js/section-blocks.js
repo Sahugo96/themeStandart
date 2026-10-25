@@ -18,6 +18,105 @@
     return sectionDefaults[block.defaultsKey];
   }
 
+  function emptyItem(itemFields) {
+    var item = {};
+    itemFields.forEach(function (itemField) {
+      if (itemField.type === 'image') {
+        item[itemField.key] = { id: 0, url: '', alt: '' };
+      } else if (itemField.type === 'repeater') {
+        item[itemField.key] = [];
+      } else {
+        item[itemField.key] = '';
+      }
+    });
+    return item;
+  }
+
+  /**
+   * Повторитель; поле пункта с type: 'repeater' рисуется вложенным повторителем
+   * (например, преимущества внутри строки таблицы).
+   */
+  function renderRepeater(field, value, keyPrefix, onChange, emptyHelp) {
+    var items = Array.isArray(value) ? value : [];
+    var itemFields = field.itemFields || [];
+
+    return controls.repeaterField({
+      label: field.label,
+      help: items.length ? '' : (emptyHelp || ''),
+      addLabel: field.addLabel || 'Добавить',
+      itemLabel: field.itemLabel || 'Пункт',
+      keyPrefix: keyPrefix,
+      items: items,
+      createItem: function () {
+        return emptyItem(itemFields);
+      },
+      onChange: onChange,
+      renderItem: function (item, index, updateItem, removeItem) {
+        function setValue(key, next) {
+          var nextItem = Object.assign({}, item);
+          nextItem[key] = next;
+          updateItem(nextItem);
+        }
+
+        return el(
+          'div',
+          null,
+          itemFields.map(function (itemField) {
+            if (itemField.type === 'repeater') {
+              return el(
+                'div',
+                { key: itemField.key, style: { marginLeft: '12px' } },
+                renderRepeater(itemField, item[itemField.key], keyPrefix + '-' + index + '-' + itemField.key, function (next) {
+                  setValue(itemField.key, next);
+                })
+              );
+            }
+
+            if (itemField.type === 'image') {
+              var imgValue = item[itemField.key];
+              return controls.imageField({
+                label: itemField.label,
+                value: imgValue && imgValue.url
+                  ? imgValue
+                  : { id: imgValue && imgValue.id ? imgValue.id : 0, url: '', alt: '' },
+                onChange: function (next) {
+                  setValue(itemField.key, next);
+                },
+              });
+            }
+
+            if (itemField.type === 'textarea') {
+              return controls.textareaField({
+                label: itemField.label,
+                value: item[itemField.key] || '',
+                onChange: function (next) {
+                  setValue(itemField.key, next);
+                },
+              });
+            }
+
+            return controls.textField({
+              label: itemField.label,
+              value: item[itemField.key] || '',
+              onChange: function (next) {
+                setValue(itemField.key, next);
+              },
+            });
+          }),
+          el(
+            wp.components.Button,
+            {
+              isDestructive: true,
+              variant: 'secondary',
+              onClick: removeItem,
+            },
+            'Удалить'
+          )
+        );
+      },
+    });
+  }
+
   function renderField(field, attributes, setAttributes, defaults) {
     var value = attributes[field.attr];
     var placeholder = defaults[field.attr];
@@ -103,82 +202,11 @@
     }
 
     if (field.type === 'repeater') {
-      var items = Array.isArray(value) ? value : [];
-      var itemFields = field.itemFields || [];
-
-      return controls.repeaterField({
-        label: field.label,
-        help: items.length ? '' : 'Если список пуст — из настроек темы',
-        addLabel: field.addLabel || 'Добавить',
-        itemLabel: field.itemLabel || 'Пункт',
-        keyPrefix: field.attr,
-        items: items,
-        createItem: function () {
-          var item = {};
-          itemFields.forEach(function (itemField) {
-            item[itemField.key] = itemField.type === 'image' ? { id: 0, url: '', alt: '' } : '';
-          });
-          return item;
-        },
-        onChange: function (nextItems) {
-          var patch = {};
-          patch[field.attr] = nextItems;
-          setAttributes(patch);
-        },
-        renderItem: function (item, index, updateItem, removeItem) {
-          return el(
-            'div',
-            null,
-            itemFields.map(function (itemField) {
-              if (itemField.type === 'image') {
-                var imgValue = item[itemField.key];
-                return controls.imageField({
-                  label: itemField.label,
-                  value: imgValue && imgValue.url
-                    ? imgValue
-                    : { id: imgValue && imgValue.id ? imgValue.id : 0, url: '', alt: '' },
-                  onChange: function (next) {
-                    var nextItem = Object.assign({}, item);
-                    nextItem[itemField.key] = next;
-                    updateItem(nextItem);
-                  },
-                });
-              }
-
-              if (itemField.type === 'textarea') {
-                return controls.textareaField({
-                  label: itemField.label,
-                  value: item[itemField.key] || '',
-                  onChange: function (next) {
-                    var nextItem = Object.assign({}, item);
-                    nextItem[itemField.key] = next;
-                    updateItem(nextItem);
-                  },
-                });
-              }
-
-              return controls.textField({
-                label: itemField.label,
-                value: item[itemField.key] || '',
-                onChange: function (next) {
-                  var nextItem = Object.assign({}, item);
-                  nextItem[itemField.key] = next;
-                  updateItem(nextItem);
-                },
-              });
-            }),
-            el(
-              wp.components.Button,
-              {
-                isDestructive: true,
-                variant: 'secondary',
-                onClick: removeItem,
-              },
-              'Удалить'
-            )
-          );
-        },
-      });
+      return renderRepeater(field, value, field.attr, function (nextItems) {
+        var patch = {};
+        patch[field.attr] = nextItems;
+        setAttributes(patch);
+      }, 'Если список пуст — из настроек темы');
     }
 
     return null;
