@@ -16,6 +16,8 @@ $defaults = [
     'title'        => $admin['title'] ?? '',
     'lead'         => $admin['lead'] ?? '',
     'items'        => is_array($admin['items'] ?? null) ? $admin['items'] : [],
+    'btn_text'     => $admin['btn_text'] ?? '',
+    'btn_url'      => $admin['btn_url'] ?? '',
 ];
 
 $overrides = get_query_var('banks_data');
@@ -29,9 +31,11 @@ if (empty($items)) {
     return;
 }
 
-$lead = theme_section_text_html($data['lead'] ?? '');
+$lead     = theme_section_text_html($data['lead'] ?? '');
+$btn_text = trim((string) ($data['btn_text'] ?? ''));
+$btn_url  = trim((string) ($data['btn_url'] ?? ''));
 ?>
-<section class="banks section">
+<section class="banks section section--white">
   <div class="container">
     <div class="banks__top section-top">
       <?php if (trim((string) $data['badge']) !== '') : ?>
@@ -39,11 +43,11 @@ $lead = theme_section_text_html($data['lead'] ?? '');
       <?php endif; ?>
 
       <?php if (trim((string) $data['title']) !== '') : ?>
-        <h2 class="banks__title"><?= $data['title']; ?></h2>
+        <h2 class="banks__title section-title"><?= $data['title']; ?></h2>
       <?php endif; ?>
 
       <?php if ($lead !== '') : ?>
-        <div class="banks__lead"><?= $lead; ?></div>
+        <div class="banks__lead section-text"><?= $lead; ?></div>
       <?php endif; ?>
     </div>
 
@@ -133,5 +137,16 @@ $lead = theme_section_text_html($data['lead'] ?? '');
         <div class="splide__pagination"></div>
       </div>
     </div>
+
+    <?php if ($btn_text !== '') : ?>
+      <div class="banks__foot">
+        <a class="banks__btn" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
+          <span><?= esc_html($btn_text); ?></span>
+          <svg class="banks__btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12h16M14 6l6 6-6 6"/>
+          </svg>
+        </a>
+      </div>
+    <?php endif; ?>
   </div>
 </section>

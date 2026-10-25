@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="row"><input type="text" name="tolstenko_block_defaults[banks][badge]" value="<?php echo esc_attr( $bnk['badge'] ?? '' ); ?>" style="width:100%" placeholder="Надзаголовок (бейдж)"></div>
 			<div class="row"><textarea name="tolstenko_block_defaults[banks][title]" rows="2" style="width:100%" placeholder="Заголовок (HTML, акцент — <span>&hellip;</span>)"><?php echo esc_textarea( $bnk['title'] ?? '' ); ?></textarea></div>
 			<div class="row"><textarea name="tolstenko_block_defaults[banks][lead]" rows="3" placeholder="Текст под заголовком (HTML)"><?php echo esc_textarea( $bnk['lead'] ?? '' ); ?></textarea></div>
+			<div class="cols"><input type="text" name="tolstenko_block_defaults[banks][btn_text]" value="<?php echo esc_attr( $bnk['btn_text'] ?? '' ); ?>" placeholder="Кнопка под слайдером (Открыть счёт в ОАЭ)"><input type="text" name="tolstenko_block_defaults[banks][btn_url]" value="<?php echo esc_attr( $bnk['btn_url'] ?? '' ); ?>" placeholder="Ссылка кнопки (пусто = #modal)"></div>
 			<div class="muted"><?php esc_html_e( 'Банки', 'tolstenko-theme' ); ?></div>
 			<div data-repeater-list="banks-items-list">
 				<?php foreach ( (array) ( $bnk['items'] ?? array() ) as $idx => $it ) : ?>

@@ -8,6 +8,8 @@ $out['banks'] = array(
 	'title' => tolstenko_kses_html( $raw['banks']['title'] ?? '' ),
 	'lead'  => tolstenko_kses_html( $raw['banks']['lead'] ?? '' ),
 	'items' => array(),
+	'btn_text' => sanitize_text_field( $raw['banks']['btn_text'] ?? '' ),
+	'btn_url'  => esc_url_raw( $raw['banks']['btn_url'] ?? '' ),
 );
 
 if ( isset( $raw['banks']['items'] ) && is_array( $raw['banks']['items'] ) ) {

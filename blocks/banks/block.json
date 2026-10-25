@@ -28,6 +28,14 @@
     "items": {
       "type": "array",
       "default": []
+    },
+    "btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_url": {
+      "type": "string",
+      "default": ""
     }
   },
   "render": "file:./template.php"

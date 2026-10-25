@@ -410,6 +410,8 @@ function theme_get_section_blocks_editor_config(): array
                         ['key' => 'link_url', 'label' => 'Ссылка кнопки', 'type' => 'text'],
                     ],
                 ],
+                ['attr' => 'btn_text', 'label' => 'Кнопка под слайдером', 'type' => 'text'],
+                ['attr' => 'btn_url', 'label' => 'Ссылка кнопки под слайдером (пусто = #modal)', 'type' => 'text'],
             ],
         ],[
             'name'          => 'my-theme/flagship',

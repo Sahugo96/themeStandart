@@ -1,85 +1,15 @@
 .banks {
-  --banks-soft: var(--beige-light-color, #f8f7f3);
-  --banks-facts: #fbfaf8;
-  --banks-gold: var(--gold-color, #b89a68);
-  --banks-dark: var(--dark-color, #1a2027);
-  --banks-text: var(--gray-60-color, #6f7479);
-  --banks-muted: var(--gray-50-color, #9a9da0);
-  --banks-line: var(--beige-line-color, #ebe8e1);
-  --banks-border: var(--gray-30-color, #dcd7cd);
-  --banks-green: var(--green-color, #255652);
-
-  // Слайдер уходит за правый край контейнера, лишнее обрезаем по ширине экрана
-  overflow: hidden;
-
-  &__top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: vw(30px, $mobile);
-    @media (min-width: $desk) {
-      margin-bottom: vw(40px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-bottom: vw(40px, $desktop_large);
-    }
-  }
-
-  &__badge {
-    padding: vw(8px, $mobile) vw(18px, $mobile);
-    border: 1px solid var(--banks-border);
-    border-radius: 999px;
-    font-size: vw(10px, $mobile);
-    line-height: 1.2;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--banks-muted);
-    @media (min-width: $desk) {
-      padding: vw(8px, $desktop) vw(18px, $desktop);
-      font-size: vw(10px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      padding: vw(8px, $desktop_large) vw(18px, $desktop_large);
-      font-size: vw(10px, $desktop_large);
-    }
-  }
-
-  &__title {
-    margin-top: vw(20px, $mobile);
-    text-align: center;
-    font-weight: 800;
-    font-size: vw(22px, $mobile);
-    line-height: 1.1;
-    color: var(--banks-dark);
-    @media (min-width: $desk) {
-      margin-top: vw(24px, $desktop);
-      font-size: vw(32px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-top: vw(24px, $desktop_large);
-      font-size: vw(32px, $desktop_large);
-    }
-  }
-
-  &__title-accent {
-    color: var(--banks-gold);
-  }
-
-  &__lead {
-    margin-top: vw(16px, $mobile);
-    text-align: center;
-    font-size: vw(14px, $mobile);
-    line-height: 1.55;
-    color: var(--banks-text);
-    @media (min-width: $desk) {
-      margin-top: vw(16px, $desktop);
-      font-size: vw(16px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-top: vw(16px, $desktop_large);
-      font-size: vw(16px, $desktop_large);
-    }
-  }
+  // Цвета — из палитры темы. Фон, бейдж, заголовок и текст секции — section--white
+  // и общие section-subtitle / section-title / section-text.
+  --banks-soft: var(--light-bg-50-color);
+  --banks-facts: var(--light-bg-50-color);
+  --banks-gold: var(--accent-color);
+  --banks-dark: var(--main-text-color);
+  --banks-text: var(--gray-50-color);
+  --banks-muted: var(--additional-gray-color);
+  --banks-line: var(--light-bg-color);
+  --banks-border: var(--additional-gray-30-color);
+  --banks-green: var(--button-accent-color);
 
   // Контекст для стрелок, которые стоят на краях контейнера
   &__stage {
