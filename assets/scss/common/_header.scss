@@ -188,6 +188,99 @@
       }
     }
   }
+  &__search {
+    display: none;
+    position: static;
+    align-items: center;
+    flex: 0 0 auto;
+    @media (min-width: $desk) {
+      display: flex;
+      margin-right: vw(4px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-right: vw(4px, $desktop_large);
+    }
+  }
+  &__search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: vw(40px, $desktop);
+    height: vw(40px, $desktop);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    @media (min-width: $desk_large) {
+      width: vw(40px, $desktop_large);
+      height: vw(40px, $desktop_large);
+    }
+    img {
+      display: block;
+      width: vw(40px, $desktop);
+      height: vw(40px, $desktop);
+      @media (min-width: $desk_large) {
+        width: vw(40px, $desktop_large);
+        height: vw(40px, $desktop_large);
+      }
+    }
+  }
+  .header-search-form {
+    display: none;
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    &.active {
+      display: block;
+    }
+  }
+  .header-search-input {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 0;
+    outline: none;
+    border-radius: vw(50px, $desktop);
+    padding: 0 vw(48px, $desktop) 0 vw(20px, $desktop);
+    background: var(--gray-15-color);
+    color: var(--white-color);
+    @media (min-width: $desk_large) {
+      border-radius: vw(50px, $desktop_large);
+      padding: 0 vw(48px, $desktop_large) 0 vw(20px, $desktop_large);
+    }
+  }
+  .header-search-form-close {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: vw(12px, $desktop);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    @media (min-width: $desk_large) {
+      right: vw(12px, $desktop_large);
+    }
+    img {
+      width: vw(24px, $desktop);
+      height: vw(24px, $desktop);
+      @media (min-width: $desk_large) {
+        width: vw(24px, $desktop_large);
+        height: vw(24px, $desktop_large);
+      }
+    }
+  }
   &__socials {
     display: none;
     @media (min-width: $desk) {
