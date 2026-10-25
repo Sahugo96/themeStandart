@@ -35,6 +35,7 @@ require_once get_template_directory() . '/inc/contact-data-admin.php';
 require_once get_template_directory() . '/inc/case-metabox.php';
 require_once get_template_directory() . '/inc/review-metabox.php';
 require_once get_template_directory() . '/inc/blog-metabox.php';
+require_once get_template_directory() . '/inc/service-metabox.php';
 require_once get_template_directory() . '/inc/blog/allowed-blocks.php';
 
 
@@ -48,6 +49,7 @@ require_once __DIR__ . '/inc/cf7/custom-elements.php';
 require_once __DIR__ . '/inc/ajax/blog-section.php';
 require_once __DIR__ . '/inc/ajax/service-section.php';
 require_once __DIR__ . '/inc/ajax/case-section.php';
+require_once __DIR__ . '/inc/ajax/services-slider.php';
 
 require_once __DIR__ . '/inc/ajax/blog-page.php';
 

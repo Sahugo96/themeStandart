@@ -13,6 +13,10 @@
     "multiple": true
   },
   "attributes": {
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
     "title": {
       "type": "string",
       "default": ""
@@ -26,5 +30,6 @@
       "default": []
     }
   },
-  "render": "file:./template.php"
+  "render": "file:./template.php",
+  "description": "Услуги с фильтром по рубрикам (AJAX). Пустые поля — из таба «Слайдер услуг (фильтры)»."
 }

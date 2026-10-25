@@ -90,8 +90,17 @@
         blockProps,
         controls.blockTitle('Слайдер услуг', colors.accent),
         controls.textField({
-          label: 'Заголовок',
-          help: 'Если пусто — из настроек темы',
+          label: 'Бейдж над заголовком',
+          help: 'Если пусто — из таба «Слайдер услуг (фильтры)»',
+          value: attributes.subtitle,
+          placeholder: sliderDefaults.subtitle || '',
+          onChange: function (value) {
+            setAttributes({ subtitle: value });
+          },
+        }),
+        controls.textareaField({
+          label: 'Заголовок (HTML, акцентная часть — в <span>)',
+          help: 'Если пусто — из таба «Слайдер услуг (фильтры)»',
           value: attributes.title,
           placeholder: sliderDefaults.title || '',
           onChange: function (value) {
@@ -100,7 +109,7 @@
         }),
         controls.textareaField({
           label: 'Текст',
-          help: 'Если пусто — из настроек темы',
+          help: 'Если пусто — из таба «Слайдер услуг (фильтры)»',
           value: attributes.text,
           placeholder: sliderDefaults.text || '',
           onChange: function (value) {
@@ -111,7 +120,7 @@
           label: 'Услуги',
           help: postIds.length
             ? 'Порядок на сайте — как добавляли записи'
-            : 'Если пусто — услуги из настроек темы',
+            : 'Если пусто — услуги из таба «Слайдер услуг (фильтры)» (или самые новые)',
           postIds: postIds,
           catalog: postCatalog,
           placeholder: 'Начните вводить название услуги…',
@@ -119,7 +128,7 @@
             setAttributes({ postIds: value });
           },
         }),
-        controls.blockHint('Слайдер с AJAX-фильтром по категориям')
+        controls.blockHint('Табы по рубрикам услуг (AJAX). Карточка — метабокс «Карточка услуги» в записи услуги')
       );
     },
     save: function () {
@@ -132,7 +141,7 @@
     edit: function (props) {
       var attributes = props.attributes;
       var setAttributes = props.setAttributes;
-      var sliderDefaults = getDefaults('servicesSlider');
+      var sliderDefaults = getDefaults('servicesSliderSimple');
       var postCatalog = (defaults.posts && defaults.posts.service) || [];
       var postIds = Array.isArray(attributes.postIds) ? attributes.postIds : [];
       var blockProps = useBlockProps({

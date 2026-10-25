@@ -80,7 +80,8 @@ function theme_enqueue_block_editor_assets(): void
             'title' => $acf_get ? ($acf_get('service_section_title', OPTION_ID) ?: '') : '',
             'text'  => $acf_get ? ($acf_get('service_section_text', OPTION_ID) ?: '') : '',
         ],
-        'servicesSlider' => [
+        'servicesSlider' => function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('service_section_filters') : [],
+        'servicesSliderSimple' => [
             'title'   => $acf_get ? ($acf_get('service_section_title', OPTION_ID) ?: '') : '',
             'text'    => $acf_get ? ($acf_get('service_section_text', OPTION_ID) ?: '') : '',
             'postIds' => [],

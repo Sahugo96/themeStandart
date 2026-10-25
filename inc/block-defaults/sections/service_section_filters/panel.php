@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			}
 			tolstenko_render_service_section_defaults_fields( 'service_section_filters', $filters_data );
 			?>
+			<p class="description"><?php esc_html_e( 'Секция «Услуги» (блок «Слайдер услуг»): табы по рубрикам услуг с AJAX-подгрузкой. Заголовок — HTML, акцентная часть — в <span>. Название, текст, стоимость и ссылка «Консультация» карточки — в метабоксе «Карточка услуги» каждой услуги.', 'tolstenko-theme' ); ?></p>
 		</div>
 
 		
