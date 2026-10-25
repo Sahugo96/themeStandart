@@ -4,11 +4,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $out['main_hero'] = array(
+	'badge'           => tolstenko_kses_html( $raw['main_hero']['badge'] ?? '' ),
 	'title'           => tolstenko_kses_html( $raw['main_hero']['title'] ?? '' ),
 	'title_tag'       => tolstenko_kses_html( $raw['main_hero']['title_tag'] ?? 'h1' ),
 	'text'            => tolstenko_kses_html( $raw['main_hero']['text'] ?? '' ),
 	'items'           => array(),
 	'btn_text'        => tolstenko_kses_html( $raw['main_hero']['btn_text'] ?? '' ),
+	'btn_subtext'     => tolstenko_kses_html( $raw['main_hero']['btn_subtext'] ?? '' ),
 	'show_promo'      => ! empty( $raw['main_hero']['show_promo'] ),
 	'promo_text'      => tolstenko_kses_html( $raw['main_hero']['promo_text'] ?? '' ),
 	'present_image'   => isset( $raw['main_hero']['present_image'] ) ? (int) $raw['main_hero']['present_image'] : 0,

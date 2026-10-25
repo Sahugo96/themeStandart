@@ -14,6 +14,10 @@
     "multiple": false
   },
   "attributes": {
+    "block_main_hero_badge": {
+      "type": "string",
+      "default": ""
+    },
     "block_main_hero_title": {
       "type": "string",
       "default": ""
@@ -34,9 +38,13 @@
       "type": "string",
       "default": ""
     },
+    "block_main_hero_btn_subtext": {
+      "type": "string",
+      "default": ""
+    },
     "block_main_hero_show_promo": {
       "type": "string",
-      "default": "0"
+      "default": ""
     },
     "block_main_hero_promo_text": {
       "type": "string",

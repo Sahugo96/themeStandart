@@ -882,9 +882,18 @@
           key: 'note',
           style: { marginTop: 0, marginBottom: '12px', opacity: 0.7, fontSize: '12px' }
         }, 'Пустые поля = дефолты. Кнопка открывает модалку заявки.'),
+        controls.textField({
+          key: 'badge',
+          label: 'Бейдж над заголовком',
+          value: attributes.block_main_hero_badge || '',
+          placeholder: defaults.badge || '',
+          onChange: function (value) {
+            setAttributes({ block_main_hero_badge: value });
+          }
+        }),
         controls.textareaField({
           key: 'title',
-          label: 'Заголовок (HTML)',
+          label: 'Заголовок (HTML, акцентная часть — в <span>)',
           value: attributes.block_main_hero_title || '',
           placeholder: defaults.title || '',
           onChange: function (value) {
@@ -932,7 +941,7 @@
               'div',
               null,
               controls.textField({
-                label: 'Пункт ' + (index + 1),
+                label: 'Пункт ' + (index + 1) + ': акцент (золотым)',
                 value: item.title || '',
                 onChange: function (value) {
                   updateItem(Object.assign({}, item, { title: value }));
@@ -980,9 +989,18 @@
           key: 'btn',
           label: 'Текст кнопки',
           value: attributes.block_main_hero_btn_text || '',
-          placeholder: defaults.btn_text || 'Оставить заявку',
+          placeholder: defaults.btn_text || '',
           onChange: function (value) {
             setAttributes({ block_main_hero_btn_text: value });
+          }
+        }),
+        controls.textField({
+          key: 'btn-subtext',
+          label: 'Подпись под текстом кнопки',
+          value: attributes.block_main_hero_btn_subtext || '',
+          placeholder: defaults.btn_subtext || '',
+          onChange: function (value) {
+            setAttributes({ block_main_hero_btn_subtext: value });
           }
         }),
         controls.toggleField({

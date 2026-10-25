@@ -21,6 +21,13 @@ $data = function_exists('tolstenko_get_block_defaults')
 //     return;
 // }
 
+// 0.1. Бейдж над заголовком
+$badge = (string) (
+    ($attributes['block_main_hero_badge'] ?? '') !== ''
+        ? $attributes['block_main_hero_badge']
+        : ($data['badge'] ?? '')
+);
+
 // 1. Заголовок (HTML)
 $title = (string) (
     ($attributes['block_main_hero_title'] ?? '') !== ''
@@ -79,16 +86,22 @@ if (empty($items) && is_array($data['items'] ?? null)) {
 $btn_text = (string) (
     ($attributes['block_main_hero_btn_text'] ?? '') !== ''
         ? $attributes['block_main_hero_btn_text']
-        : ($data['btn_text'] ?? 'Оставить заявку')
+        : ($data['btn_text'] ?? '')
+);
+
+// 5.1. Подпись под текстом кнопки
+$btn_subtext = (string) (
+    ($attributes['block_main_hero_btn_subtext'] ?? '') !== ''
+        ? $attributes['block_main_hero_btn_subtext']
+        : ($data['btn_subtext'] ?? '')
 );
 
 // 6. Показывать ли промо у кнопки
-$show_promo = filter_var(
-    $attributes['block_main_hero_show_promo'] ?? '',
-    FILTER_VALIDATE_BOOLEAN,
-    FILTER_NULL_ON_FAILURE
-);
-$show_promo = $show_promo ?? !empty($data['show_promo']);
+//    Пусто = как в дефолтах, «1»/«0» — явный выбор в блоке.
+$show_promo_attr = (string) ($attributes['block_main_hero_show_promo'] ?? '');
+$show_promo = $show_promo_attr === ''
+    ? !empty($data['show_promo'])
+    : filter_var($show_promo_attr, FILTER_VALIDATE_BOOLEAN);
 
 // 7. Текст промо (HTML)
 $promo_text = (string) (
@@ -126,11 +139,13 @@ $image_id = (int) (
 );
 
 set_query_var('main_hero_data', array(
+    'badge'          => $badge,
     'title'          => $title,
     'title_tag'      => in_array($title_tag, array('h1','h2','h3','h4','h5','h6'), true) ? $title_tag : 'h1',
     'text'           => $text,
     'items'          => $items,
     'btn_text'       => $btn_text,
+    'btn_subtext'    => $btn_subtext,
     'show_promo'     => (bool) $show_promo,
     'promo_text'     => $promo_text,
     'present_image_id' => $present_image_id,
