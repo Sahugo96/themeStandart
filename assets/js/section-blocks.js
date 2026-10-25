@@ -201,6 +201,25 @@
       });
     }
 
+    // Выбор одной записи (как в «Шаблоне всех полей»): атрибут — id записи, 0 = из настроек темы.
+    if (field.type === 'post') {
+      var postId = parseInt(value, 10) || 0;
+      var catalogs = (window.themeBlockDefaults && window.themeBlockDefaults.posts) || {};
+
+      return controls.singlePostField({
+        label: field.label,
+        help: field.help || 'Если пусто — из настроек темы',
+        postIds: postId > 0 ? [postId] : [],
+        catalog: catalogs[field.postType || 'blog'] || [],
+        placeholder: 'Начните вводить название…',
+        onChange: function (ids) {
+          var patch = {};
+          patch[field.attr] = Array.isArray(ids) && ids.length ? (parseInt(ids[0], 10) || 0) : 0;
+          setAttributes(patch);
+        },
+      });
+    }
+
     if (field.type === 'repeater') {
       return renderRepeater(field, value, field.attr, function (nextItems) {
         var patch = {};

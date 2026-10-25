@@ -12741,6 +12741,11 @@ body {
     padding: 1.042vw;
   }
 }
+@media (min-width: 992px) {
+  .guide__card--no-image {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 .guide__content {
   display: -webkit-box;
   display: -ms-flexbox;

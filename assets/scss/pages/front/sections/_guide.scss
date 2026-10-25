@@ -24,6 +24,13 @@
     }
   }
 
+  // Без миниатюры у статьи — текст на всю ширину карточки.
+  &__card--no-image {
+    @media (min-width: $desk) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
   &__content {
     display: flex;
     flex-direction: column;

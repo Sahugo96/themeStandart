@@ -5,145 +5,132 @@ defined('ABSPATH') || exit;
 /**
  * Секция «Подробнее» (статья-гид).
  *
- * Дефолты — из админки: tolstenko_get_block_defaults('guide')
- * (таб «Секции лендинга → Подробнее»): subtitle, title, post_id.
- * Если выбрана статья (post_id) — карточка собирается из записи,
- * иначе используются статичные дефолты (перекрываются атрибутами блока).
+ * Шапка и подпись кнопки — из админки tolstenko_get_block_defaults('guide')
+ * (таб «Секции лендинга → Подробнее»), перекрываются атрибутами блока.
+ * Карточка целиком собирается из выбранной статьи (post_id, «Выбор одной записи»):
+ * рубрики, время чтения, просмотры, дата, заголовок, текст карточки и миниатюра.
+ * Статья не выбрана — берётся последняя опубликованная; статей нет — секция не выводится.
  */
 
-$admin = function_exists('tolstenko_get_block_defaults')
+$defaults = function_exists('tolstenko_get_block_defaults')
     ? tolstenko_get_block_defaults('guide')
     : [];
-
-$static = [
-    'tags'       => [['text' => 'Счета'], ['text' => 'ОАЭ']],
-    'time'       => '10 мин',
-    'views'      => '234',
-    'date'       => '2026-07-19',
-    'date_label' => '19 июля 2026',
-    'card_title' => 'Почему ОАЭ',
-    'text'       => '<p>Объединённые Арабские Эмираты — одна из самых устойчивых финансовых юрисдикций мира с нулевым личным подоходным налогом и развитой банковской системой под контролем Центрального банка ОАЭ. Резидентский статус открывает доступ к международным сервисам, а компания во фризоне позволяет вести бизнес со 100% иностранным владением.</p><p>Relocate-World помогает пройти этот путь без ошибок: подбираем банк и программу под ваш профиль, готовим документы под требования комплаенса и сопровождаем до результата.</p>',
-    'btn_text'   => 'Читать полностью',
-    'image'      => ['url' => THEME_PATH . '/assets/img/guide.jpg', 'alt' => 'Почему ОАЭ'],
-];
-
-// Дефолты: значения из таба «Дефолты блоков → Подробнее», иначе — статичный фолбэк.
-$defaults = array_merge($static, $admin);
-
-$defaults['subtitle'] = $admin['subtitle'] ?? '';
-$defaults['title']    = $admin['title'] ?? '';
-
-// Если в админке выбрана статья — карточка собирается из записи и перекрывает дефолты.
-$post_id = (int) ($admin['post_id'] ?? 0);
-if ($post_id > 0 && ($guide_post = get_post($post_id))) {
-    $defaults['card_title'] = get_the_title($guide_post);
-    $defaults['date_label'] = get_the_date('j F Y', $guide_post);
-    $defaults['date']       = get_the_date('Y-m-d', $guide_post);
-
-    $excerpt = get_the_excerpt($guide_post);
-    if (is_string($excerpt) && $excerpt !== '') {
-        $defaults['text'] = '<p>' . $excerpt . '</p>';
-    }
-
-    $thumb_id = get_post_thumbnail_id($post_id);
-    if ($thumb_id) {
-        $defaults['image'] = (int) $thumb_id;
-    }
-
-    // Время чтения и рубрики — как в карточках статей.
-    $reading_time = function_exists('theme_get_reading_time_text') ? theme_get_reading_time_text($post_id) : '';
-    if ($reading_time !== '') {
-        $defaults['time'] = $reading_time;
-    }
-
-    $post_terms = get_the_terms($post_id, 'blog_cat');
-    if ($post_terms && !is_wp_error($post_terms)) {
-        $defaults['tags'] = array_map(static function ($term) {
-            return ['text' => $term->name];
-        }, array_slice($post_terms, 0, 2));
-    }
-
-    // «Читать полностью» ведёт на выбранную статью.
-    $defaults['link'] = (string) get_permalink($guide_post);
-}
 
 $overrides = get_query_var('guide_data');
 $overrides = is_array($overrides) ? $overrides : [];
 
 $data = theme_section_merge_defaults($defaults, $overrides);
 
-$tags = isset($data['tags']) && is_array($data['tags']) ? $data['tags'] : [];
-$image = tolstenko_contact_get_image_attrs($data['image'] ?? null);
+$guide_post = null;
+$post_id = (int) ($data['post_id'] ?? 0);
 
-if (empty($image['url'])) {
-    $image = ['url' => THEME_PATH . '/assets/img/guide.jpg', 'srcset' => '', 'sizes' => '', 'alt' => 'Почему ОАЭ'];
+if ($post_id > 0) {
+    $guide_post = get_post($post_id);
+    if (!$guide_post || $guide_post->post_type !== 'blog' || $guide_post->post_status !== 'publish') {
+        $guide_post = null;
+    }
 }
 
-$link = trim((string) ($data['link'] ?? ''));
+if (!$guide_post) {
+    $latest = get_posts([
+        'post_type'           => 'blog',
+        'post_status'         => 'publish',
+        'posts_per_page'      => 1,
+        'ignore_sticky_posts' => true,
+    ]);
+    $guide_post = $latest[0] ?? null;
+}
+
+if (!$guide_post) {
+    return;
+}
+
+$post_id = (int) $guide_post->ID;
+
+// Рубрики — как в карточках статей (не больше двух).
+$tags = get_the_terms($post_id, 'blog_cat');
+$tags = $tags && !is_wp_error($tags) ? array_slice($tags, 0, 2) : [];
+
+$reading_time = function_exists('theme_get_reading_time_text') ? theme_get_reading_time_text($post_id) : '';
+$views = function_exists('pvc_get_post_views') ? (int) pvc_get_post_views($post_id) : 0;
+
+// Текст: «Текст на карточке» из метабокса → отрывок → начало записи.
+$text = function_exists('theme_get_blog_card_text') ? theme_get_blog_card_text($post_id) : '';
+if ($text === '' && has_excerpt($guide_post)) {
+    $text = get_the_excerpt($guide_post);
+}
+if ($text === '') {
+    $text = wp_trim_words(wp_strip_all_tags(strip_shortcodes($guide_post->post_content)), 55, '…');
+}
+
+$thumb_id = (int) get_post_thumbnail_id($post_id);
+$image = $thumb_id ? tolstenko_contact_get_image_attrs($thumb_id) : [];
+
+$card_title = get_the_title($guide_post);
+$btn_text = trim((string) ($data['btn_text'] ?? ''));
+$link = (string) get_permalink($guide_post);
 ?>
 <section class="guide section">
   <div class="container">
     <div class="guide__top section-top">
-      <?php if (trim((string) $data['subtitle']) !== '') : ?>
+      <?php if (trim((string) ($data['subtitle'] ?? '')) !== '') : ?>
         <span class="guide__badge section-subtitle"><?= $data['subtitle']; ?></span>
       <?php endif; ?>
 
-      <?php if (trim((string) $data['title']) !== '') : ?>
+      <?php if (trim((string) ($data['title'] ?? '')) !== '') : ?>
         <h2 class="guide__title section-title"><?= $data['title']; ?></h2>
       <?php endif; ?>
     </div>
 
-    <article class="guide__card br-30">
+    <article class="guide__card<?= empty($image['url']) ? ' guide__card--no-image' : ''; ?> br-30">
       <div class="guide__content">
         <div class="guide__meta">
           <?php if (!empty($tags)) : ?>
             <ul class="guide__tags">
               <?php foreach ($tags as $tag) : ?>
-                <li class="guide__tag"><?= esc_html($tag['text'] ?? ''); ?></li>
+                <li class="guide__tag"><?= esc_html($tag->name); ?></li>
               <?php endforeach; ?>
             </ul>
           <?php endif; ?>
 
           <ul class="guide__info">
-            <?php if (!empty($data['time'])) : ?>
+            <?php if ($reading_time !== '') : ?>
               <li class="guide__info-item">
                 <svg class="guide__info-icon" viewBox="0 0 24 24" aria-hidden="true">
                   <circle cx="12" cy="12" r="9"/>
                   <path d="M12 7v5l3 2"/>
                 </svg>
-                <?= esc_html($data['time']); ?>
+                <?= esc_html($reading_time); ?>
               </li>
             <?php endif; ?>
-            <?php if (!empty($data['views'])) : ?>
+            <?php if ($views > 0) : ?>
               <li class="guide__info-item">
                 <svg class="guide__info-icon" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
                   <circle cx="12" cy="12" r="3"/>
                 </svg>
-                <?= esc_html($data['views']); ?>
+                <?= esc_html(number_format_i18n($views)); ?>
               </li>
             <?php endif; ?>
-            <?php if (!empty($data['date_label'])) : ?>
-              <li class="guide__info-item">
-                <time datetime="<?= esc_attr($data['date']); ?>"><?= esc_html($data['date_label']); ?></time>
-                <svg class="guide__info-icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="3" y="5" width="18" height="16" rx="2"/>
-                  <path d="M3 10h18M8 3v4M16 3v4"/>
-                </svg>
-              </li>
-            <?php endif; ?>
+            <li class="guide__info-item">
+              <time datetime="<?= esc_attr(get_the_date('Y-m-d', $guide_post)); ?>"><?= esc_html(get_the_date('j F Y', $guide_post)); ?></time>
+              <svg class="guide__info-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="16" rx="2"/>
+                <path d="M3 10h18M8 3v4M16 3v4"/>
+              </svg>
+            </li>
           </ul>
         </div>
 
-        <?php if (trim((string) $data['card_title']) !== '') : ?>
-          <h3 class="guide__card-title"><?= $data['card_title']; ?></h3>
+        <h3 class="guide__card-title"><?= esc_html($card_title); ?></h3>
+
+        <?php if ($text !== '') : ?>
+          <div class="guide__text"><?= wpautop(esc_html($text)); ?></div>
         <?php endif; ?>
 
-        <div class="guide__text"><?= theme_section_text_html($data['text'] ?? ''); ?></div>
-
-        <?php if ($link !== '' && trim((string) $data['btn_text']) !== '') : ?>
+        <?php if ($btn_text !== '') : ?>
           <a class="guide__btn" href="<?= esc_url($link); ?>">
-            <span><?= esc_html($data['btn_text']); ?></span>
+            <span><?= esc_html($btn_text); ?></span>
             <svg class="guide__btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 12h16M14 6l6 6-6 6"/>
             </svg>
@@ -151,9 +138,11 @@ $link = trim((string) ($data['link'] ?? ''));
         <?php endif; ?>
       </div>
 
-      <div class="guide__image br-20">
-        <img src="<?= esc_url($image['url']); ?>" <?php if ($image['srcset']) echo 'srcset="' . esc_attr($image['srcset']) . '"'; ?> alt="<?= esc_attr($image['alt']); ?>" loading="lazy">
-      </div>
+      <?php if (!empty($image['url'])) : ?>
+        <div class="guide__image br-20">
+          <img src="<?= esc_url($image['url']); ?>"<?php if (!empty($image['srcset'])) : ?> srcset="<?= esc_attr($image['srcset']); ?>" sizes="<?= esc_attr($image['sizes'] ?: '(min-width: 992px) 560px, 100vw'); ?>"<?php endif; ?> alt="<?= esc_attr($image['alt'] ?: $card_title); ?>" loading="lazy">
+        </div>
+      <?php endif; ?>
     </article>
   </div>
 </section>
