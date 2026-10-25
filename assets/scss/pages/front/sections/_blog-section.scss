@@ -1,0 +1,430 @@
+// Секция «Статьи» на главной (pages/sections/blog-section.php, модификатор --home).
+// Базовые .blog-section / .blog-card (modules/) используются ещё в архиве блога и похожих
+// статьях, поэтому всё переопределяется только внутри .blog-section--home.
+// Мобильные: слайдер, все карточки одинаковые. Десктоп (≥ $desk): слайдер выключен,
+// список — сетка: .blog-card--large слева на всю высоту, остальные — колонкой справа.
+.blog-section--home {
+  .blog-section__title span {
+    display: block;
+  }
+
+  // База .blog-section__top на десктопе ставит margin: 0 auto и съедает отступ section-top.
+  .blog-section__top {
+    @media (min-width: $desk) {
+      margin-bottom: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-bottom: vw(40px, $desktop_large);
+    }
+  }
+
+  // ----- Панель -----
+  .blog-section__panel {
+    padding: vw(12px, $mobile) vw(12px, $mobile) vw(24px, $mobile);
+    border-radius: vw(24px, $mobile);
+    background-color: var(--super-dark-bg-color);
+    @media (min-width: $desk) {
+      padding: vw(20px, $desktop) vw(20px, $desktop) vw(40px, $desktop);
+      border-radius: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(20px, $desktop_large) vw(20px, $desktop_large) vw(40px, $desktop_large);
+      border-radius: vw(40px, $desktop_large);
+    }
+  }
+
+  // splide-core прячет .splide до инициализации, а на десктопе слайдер не запускается.
+  .blog-section__slider {
+    visibility: visible;
+  }
+
+  .splide__track {
+    display: block;
+    width: 100%;
+    max-width: none;
+    @media (min-width: $desk) {
+      max-width: none;
+    }
+    @media (min-width: $desk_large) {
+      max-width: none;
+    }
+  }
+
+  .blog-section__cards {
+    @media (min-width: $desk) {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-gap: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+    }
+  }
+
+  // ----- Карточка (мобильные и маленькие на десктопе) -----
+  .blog-card {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    border-radius: vw(16px, $mobile);
+    background-color: var(--dark-bg-color);
+    @media (min-width: $desk) {
+      border-radius: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      border-radius: vw(20px, $desktop_large);
+    }
+  }
+
+  .blog-card__link {
+    flex-direction: column;
+    grid-gap: vw(16px, $mobile);
+    padding: vw(12px, $mobile);
+    @media (min-width: $desk) {
+      flex-direction: row;
+      grid-gap: vw(20px, $desktop);
+      padding: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      flex-direction: row;
+      grid-gap: vw(20px, $desktop_large);
+      padding: vw(20px, $desktop_large);
+    }
+    @media (any-hover: hover) {
+      &:hover .blog-card__title {
+        color: var(--white-color);
+      }
+    }
+  }
+
+  .blog-card__image {
+    flex: none;
+    height: auto;
+    aspect-ratio: 16/10;
+    border-radius: vw(12px, $mobile);
+    @media (min-width: $desk) {
+      width: vw(140px, $desktop);
+      max-width: vw(140px, $desktop);
+      min-width: vw(140px, $desktop);
+      max-height: none;
+      min-height: 0;
+      aspect-ratio: 1/1;
+      border-radius: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      width: vw(140px, $desktop_large);
+      max-width: vw(140px, $desktop_large);
+      min-width: vw(140px, $desktop_large);
+      max-height: none;
+      min-height: 0;
+      border-radius: vw(10px, $desktop_large);
+    }
+    img {
+      filter: none;
+    }
+  }
+
+  .blog-card__wrapper {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .blog-card__tags {
+    flex-wrap: wrap;
+    grid-gap: vw(8px, $mobile);
+    margin-bottom: vw(14px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+      margin-bottom: vw(14px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+      margin-bottom: vw(14px, $desktop_large);
+    }
+  }
+
+  .blog-card__tag {
+    padding: vw(5px, $mobile) vw(10px, $mobile);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: vw(40px, $mobile);
+    color: var(--gray-70-color);
+    @media (min-width: $desk) {
+      padding: vw(5px, $desktop) vw(8px, $desktop);
+      border-radius: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(5px, $desktop_large) vw(8px, $desktop_large);
+      border-radius: vw(40px, $desktop_large);
+    }
+  }
+
+  .blog-card__title {
+    margin-bottom: vw(6px, $mobile);
+    font-size: vw(15px, $mobile);
+    font-weight: 700;
+    letter-spacing: 0;
+    color: var(--accent-color);
+    transition: color 0.3s linear;
+    @media (min-width: $desk) {
+      margin-bottom: vw(6px, $desktop);
+      font-size: vw(13px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-bottom: vw(6px, $desktop_large);
+      font-size: vw(13px, $desktop_large);
+    }
+  }
+
+  .blog-card__text {
+    margin-bottom: 0;
+    font-size: vw(13px, $mobile);
+    line-height: 1.4;
+    color: var(--white-color);
+    opacity: 0.6;
+    @media (min-width: $desk) {
+      font-size: vw(12px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(12px, $desktop_large);
+    }
+  }
+
+  .blog-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-gap: vw(10px, $mobile);
+    margin-top: auto;
+    padding-top: vw(16px, $mobile);
+    color: var(--gray-45-color);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+      padding-top: vw(12px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+      padding-top: vw(12px, $desktop_large);
+    }
+    .stats {
+      grid-gap: vw(16px, $mobile);
+      color: inherit;
+      @media (min-width: $desk) {
+        grid-gap: vw(20px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        grid-gap: vw(20px, $desktop_large);
+      }
+    }
+    .stats__item svg {
+      fill: currentColor;
+    }
+  }
+
+  .blog-card__date {
+    display: flex;
+    align-items: center;
+    grid-gap: vw(6px, $mobile);
+    font-size: vw(10px, $mobile);
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+    @media (min-width: $desk) {
+      grid-gap: vw(6px, $desktop);
+      font-size: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(6px, $desktop_large);
+      font-size: vw(10px, $desktop_large);
+    }
+    svg {
+      width: vw(10px, $mobile);
+      height: vw(10px, $mobile);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      @media (min-width: $desk) {
+        width: vw(10px, $desktop);
+        height: vw(10px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        width: vw(10px, $desktop_large);
+        height: vw(10px, $desktop_large);
+      }
+    }
+  }
+
+  // ----- Крупная карточка (только десктоп) -----
+  .blog-card--large {
+    @media (min-width: $desk) {
+      grid-column: 1;
+      grid-row: span 3;
+      border-radius: 0;
+      background-color: transparent;
+    }
+
+    .blog-card__link {
+      @media (min-width: $desk) {
+        flex-direction: column;
+        grid-gap: 0;
+        padding: 0;
+      }
+      @media (min-width: $desk_large) {
+        flex-direction: column;
+        grid-gap: 0;
+        padding: 0;
+      }
+    }
+
+    .blog-card__image {
+      @media (min-width: $desk) {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        aspect-ratio: 560/360;
+        border-radius: vw(20px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        border-radius: vw(20px, $desktop_large);
+      }
+    }
+
+    .blog-card__wrapper {
+      @media (min-width: $desk) {
+        padding: vw(30px, $desktop) vw(20px, $desktop) 0;
+      }
+      @media (min-width: $desk_large) {
+        padding: vw(30px, $desktop_large) vw(20px, $desktop_large) 0;
+      }
+    }
+
+    .blog-card__title {
+      @media (min-width: $desk) {
+        margin-bottom: vw(12px, $desktop);
+        font-size: vw(17px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        margin-bottom: vw(12px, $desktop_large);
+        font-size: vw(17px, $desktop_large);
+      }
+    }
+
+    .blog-card__text {
+      @media (min-width: $desk) {
+        font-size: vw(15px, $desktop);
+        line-height: 1.5;
+        @include line-camp(3);
+      }
+      @media (min-width: $desk_large) {
+        font-size: vw(15px, $desktop_large);
+        @include line-camp(3);
+      }
+    }
+
+    .blog-card__meta {
+      @media (min-width: $desk) {
+        padding-top: vw(24px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        padding-top: vw(24px, $desktop_large);
+      }
+    }
+  }
+
+  // ----- Пагинация слайдера (мобильные) -----
+  .splide__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-gap: vw(8px, $mobile);
+    margin-top: vw(20px, $mobile);
+    @media (min-width: $desk) {
+      display: none;
+    }
+  }
+
+  .splide__pagination__page,
+  .splide__pagination__page.is-active {
+    width: vw(5px, $mobile);
+    height: vw(5px, $mobile);
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background-color: var(--accent-color);
+    transition: all 0.3s linear;
+  }
+
+  .splide__pagination__page.is-active {
+    width: vw(25px, $mobile);
+  }
+
+  // ----- Кнопка «Перейти в блог» -----
+  .blog-section__foot {
+    display: flex;
+    justify-content: center;
+    margin-top: vw(24px, $mobile);
+    @media (min-width: $desk) {
+      margin-top: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(40px, $desktop_large);
+    }
+  }
+
+  .blog-section__more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    grid-gap: vw(12px, $mobile);
+    width: 100%;
+    padding: vw(18px, $mobile) vw(28px, $mobile);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: vw(40px, $mobile);
+    font-size: vw(13px, $mobile);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-90-color);
+    transition: all 0.3s linear;
+    @media (min-width: $desk) {
+      width: auto;
+      grid-gap: vw(12px, $desktop);
+      padding: vw(21px, $desktop) vw(30px, $desktop);
+      border-radius: vw(40px, $desktop);
+      font-size: vw(14px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(12px, $desktop_large);
+      padding: vw(21px, $desktop_large) vw(30px, $desktop_large);
+      border-radius: vw(40px, $desktop_large);
+      font-size: vw(14px, $desktop_large);
+    }
+    @media (any-hover: hover) {
+      &:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+      }
+    }
+    svg {
+      width: vw(20px, $mobile);
+      height: vw(20px, $mobile);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      @media (min-width: $desk) {
+        width: vw(20px, $desktop);
+        height: vw(20px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        width: vw(20px, $desktop_large);
+        height: vw(20px, $desktop_large);
+      }
+    }
+  }
+}

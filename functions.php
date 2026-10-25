@@ -34,6 +34,7 @@ require_once get_template_directory() . '/inc/block-defaults-admin.php';
 require_once get_template_directory() . '/inc/contact-data-admin.php';
 require_once get_template_directory() . '/inc/case-metabox.php';
 require_once get_template_directory() . '/inc/review-metabox.php';
+require_once get_template_directory() . '/inc/blog-metabox.php';
 require_once get_template_directory() . '/inc/blog/allowed-blocks.php';
 
 

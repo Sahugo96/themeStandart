@@ -188,6 +188,8 @@
       var attributes = props.attributes;
       var setAttributes = props.setAttributes;
       var blogDefaults = getDefaults('blogSection');
+      var postCatalog = (defaults.posts && defaults.posts.blog) || [];
+      var postIds = Array.isArray(attributes.postIds) ? attributes.postIds : [];
       var blockProps = useBlockProps({
         className: 'theme-block theme-block--blog-section',
         style: controls.blockShell(colors.accent),
@@ -198,24 +200,44 @@
         blockProps,
         controls.blockTitle('Секция статей', colors.accent),
         controls.textField({
-          label: 'Заголовок',
-          help: 'Если пусто — из настроек темы',
+          label: 'Бейдж над заголовком',
+          help: 'Если пусто — из таба «Статьи» в дефолтах блоков',
+          value: attributes.badge,
+          placeholder: blogDefaults.badge || '',
+          onChange: function (value) {
+            setAttributes({ badge: value });
+          },
+        }),
+        controls.textareaField({
+          label: 'Заголовок (HTML, акцентная часть — в <span>)',
+          help: 'Если пусто — из таба «Статьи» в дефолтах блоков',
           value: attributes.title,
           placeholder: blogDefaults.title || '',
           onChange: function (value) {
             setAttributes({ title: value });
           },
         }),
-        controls.textareaField({
-          label: 'Текст',
-          help: 'Если пусто — из настроек темы',
-          value: attributes.text,
-          placeholder: blogDefaults.text || '',
+        controls.postsField({
+          label: 'Статьи',
+          help: postIds.length
+            ? 'Первая статья — крупная карточка'
+            : 'Если пусто — статьи из таба «Статьи» (или самые новые)',
+          postIds: postIds,
+          catalog: postCatalog,
+          placeholder: 'Начните вводить название статьи…',
           onChange: function (value) {
-            setAttributes({ text: value });
+            setAttributes({ postIds: value });
           },
         }),
-        controls.blockHint('Слайдер с AJAX-фильтром по категориям. Кнопка — из настроек темы')
+        controls.textField({
+          label: 'Текст кнопки',
+          help: 'Кнопка ведёт на страницу блога',
+          value: attributes.btn_text,
+          placeholder: blogDefaults.btn_text || '',
+          onChange: function (value) {
+            setAttributes({ btn_text: value });
+          },
+        })
       );
     },
     save: function () {

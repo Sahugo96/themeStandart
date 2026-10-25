@@ -60,14 +60,6 @@ function theme_get_services_slider_simple_data(array $attrs): array
 }
 
 
-function theme_get_blog_section_data(array $attrs): array
-{
-    return [
-        'title' => ($attrs['title'] ?? '') !== '' ? $attrs['title'] : (theme_get_field('blog_section_title', OPTION_ID) ?: ''),
-        'text'  => ($attrs['text'] ?? '') !== '' ? $attrs['text'] : (theme_get_field('blog_section_text', OPTION_ID) ?: ''),
-    ];
-}
-
 function theme_get_blog_slider_data(array $attrs): array
 {
     $title = ($attrs['title'] ?? '') !== ''

@@ -10,17 +10,26 @@
       "wide",
       "full"
     ],
-    "multiple": true
+    "multiple": false
   },
   "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
     "title": {
       "type": "string",
       "default": ""
     },
-    "text": {
+    "postIds": {
+      "type": "array",
+      "default": []
+    },
+    "btn_text": {
       "type": "string",
       "default": ""
     }
   },
-  "render": "file:./template.php"
+  "render": "file:./template.php",
+  "description": "Статьи: крупная карточка + список на десктопе, слайдер на мобильных. Пустые поля — из таба «Статьи» в дефолтах блоков."
 }

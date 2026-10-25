@@ -4,9 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 return array(
-	'title'          => 'Статьи',
-	'text'           => '',
+	'badge'          => 'Статьи и новости',
+	'title'          => 'Следим за изменениями <span>в отрасли</span>',
 	'posts_per_page' => 4,
 	'ids'            => array(),
-	'btn_text'       => 'Все статьи',
+	'btn_text'       => 'Перейти в блог',
 );

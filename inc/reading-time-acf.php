@@ -18,13 +18,20 @@ function theme_disable_reading_time_wp_auto_output(): void
 
 function theme_get_reading_time_text(int $post_id = 0): string
 {
-    if (!shortcode_exists('rt_reading_time')) {
-        return '';
-    }
-
     $post_id = $post_id ?: (int) get_the_ID();
 
     if (!$post_id) {
+        return '';
+    }
+
+    // Время, заданное вручную в метабоксе статьи (inc/blog-metabox.php), важнее плагина.
+    $minutes = function_exists('theme_get_blog_reading_minutes') ? theme_get_blog_reading_minutes($post_id) : 0;
+
+    if ($minutes > 0) {
+        return $minutes . ' мин';
+    }
+
+    if (!shortcode_exists('rt_reading_time')) {
         return '';
     }
 

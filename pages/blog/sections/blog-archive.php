@@ -134,7 +134,7 @@ global $wp_query;
 
                   <h4 class="blog-card__title"><?= get_the_title(); ?></h4>
 
-                  <div class="blog-card__text line-13-15"><?= theme_get_field('blog_card_text', $post_id); ?></div>
+                  <div class="blog-card__text line-13-15"><?= esc_html(theme_get_blog_card_text($post_id)); ?></div>
 
                                   
                   <div class="blog-card__stats">

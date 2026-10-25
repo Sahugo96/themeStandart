@@ -78,7 +78,7 @@ if ($is_same) {
 
       <h4 class="blog-card__title"><?= esc_html(get_the_title($post_id)); ?></h4>
 
-<div class="blog-card__text line-13-15"><?= theme_get_field('blog_card_text', $post_id); ?></div>
+<div class="blog-card__text line-13-15"><?= esc_html(theme_get_blog_card_text($post_id)); ?></div>
 
       <div class="blog-card__stats">
         <?php

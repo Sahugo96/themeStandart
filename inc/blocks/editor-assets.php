@@ -85,10 +85,7 @@ function theme_enqueue_block_editor_assets(): void
             'text'    => $acf_get ? ($acf_get('service_section_text', OPTION_ID) ?: '') : '',
             'postIds' => [],
         ],
-        'blogSection' => [
-            'title' => $acf_get ? ($acf_get('blog_section_title', OPTION_ID) ?: '') : '',
-            'text'  => $acf_get ? ($acf_get('blog_section_text', OPTION_ID) ?: '') : '',
-        ],
+        'blogSection' => function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('blog_section_filters') : [],
         'posts' => [
             'review'  => theme_get_posts_for_block_editor('review'),
             'service' => theme_get_posts_for_block_editor('service'),

@@ -494,7 +494,7 @@ function theme_get_section_blocks_editor_config(): array
         [
             'name'          => 'my-theme/blog-section',
             'title'         => 'Секция статей',
-            'hint'          => 'Заголовок и текст — из блока или настроек темы. Слайдер с AJAX-фильтром',
+            'hint'          => 'Бейдж, заголовок, статьи и кнопка — из блока или таба «Статьи». Десктоп: крупная карточка + список, мобильные: слайдер',
             'color'         => '#2271b1',
             'hasTextFields' => false,
         ],
