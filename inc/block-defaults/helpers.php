@@ -292,3 +292,17 @@ function tolstenko_landing_icon( $section, $index, $attachment_id, $class ) {
 	}
 	return '<svg class="' . esc_attr( $class ) . '" viewBox="0 0 24 24" aria-hidden="true">' . $icons[ $section ][ $index ] . '</svg>';
 }
+
+/**
+ * Рейтинг вида «4.9»: число от 0 до 5 с одним знаком, пусто — если не задан.
+ *
+ * @param mixed $value Значение из формы.
+ * @return string
+ */
+function tolstenko_reviews_sanitize_rating( $value ) {
+	$value = str_replace( ',', '.', trim( (string) $value ) );
+	if ( $value === '' || ! is_numeric( $value ) ) {
+		return '';
+	}
+	return number_format( max( 0, min( 5, (float) $value ) ), 1, '.', '' );
+}

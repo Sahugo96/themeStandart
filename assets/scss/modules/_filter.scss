@@ -212,10 +212,17 @@
     color: var(--filter-accent);
   }
 
-  .filter__link.active .filter__label {
+  // Активный таб: класс .active (кнопки) или отмеченная радио-кнопка внутри label.filter__link.
+  .filter__link.active .filter__label,
+  .filter__link:has(input:checked) .filter__label {
     border-color: var(--filter-accent);
     background-color: var(--filter-accent);
     color: var(--filter-active-color);
+  }
+
+  label.filter__link {
+    position: relative;
+    cursor: pointer;
   }
 
   .filter__more {

@@ -26,89 +26,140 @@ if (is_array($reviews_data) && !empty($reviews_data)) {
 if (empty($reviews) || !is_array($reviews)) {
   return;
 }
+
+// Верх секции (бейдж, общий рейтинг, карточки площадок, кнопка) — из таба «Отзывы» в дефолтах блоков.
+$reviews_tab = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('reviews') : [];
+$badge = trim((string) ($reviews_tab['subtitle'] ?? ''));
+$score = trim((string) ($reviews_tab['score'] ?? ''));
+$score_max = trim((string) ($reviews_tab['score_max'] ?? ''));
+$score_text = trim((string) ($reviews_tab['score_text'] ?? ''));
+$leave_text = trim((string) ($reviews_tab['btn_text'] ?? ''));
+$leave_url = trim((string) ($reviews_tab['btn_url'] ?? '')) ?: '#modal';
+
+// Карточки площадок: из таба, иначе — прежний ACF-список reviews_list.
+$platforms = [];
+$tab_cards = is_array($reviews_tab['cards'] ?? null) ? $reviews_tab['cards'] : [];
+
+if (!empty($tab_cards)) {
+  if (!empty($reviews_tab['show_items'])) {
+    foreach ($tab_cards as $card) {
+      $platforms[] = [
+        'title'  => (string) ($card['title'] ?? ''),
+        'url'    => (string) ($card['url'] ?? ''),
+        'rating' => (string) ($card['rating'] ?? ''),
+        'icon'   => !empty($card['icon']) ? tolstenko_contact_get_image_attrs((int) $card['icon']) : [],
+      ];
+    }
+  }
+} elseif ($reviews_list && $reviews_list_hide) {
+  foreach ((array) $reviews_list as $item) {
+    $platforms[] = [
+      'title'  => (string) ($item['link']['title'] ?? ''),
+      'url'    => (string) ($item['link']['url'] ?? ''),
+      'rating' => number_format((float) ($item['rating'] ?? 0), 1, '.', ''),
+      'icon'   => [],
+    ];
+  }
+}
+
+// Группируем отзывы по типу (порядок — как у табов).
+$grouped_reviews = array(
+  'Текстовые' => array(),
+  'Мессенджеры' => array(),
+  'Видео' => array(),
+);
+
+foreach ($reviews as $review) {
+  $review_type = theme_get_field('review_type', $review->ID);
+  if (isset($grouped_reviews[$review_type])) {
+    $grouped_reviews[$review_type][] = $review;
+  }
+}
+
+// Значение радио-кнопки таба → модификатор слайдера (reviews__splide--<value>).
+$review_tabs = array(
+  'Текстовые' => 'text',
+  'Мессенджеры' => 'thenks',
+  'Видео' => 'video',
+);
+
+$star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z"/></svg>';
 ?>
-<section class="reviews section load-on-vissible--js"
+<section class="reviews section section--white load-on-vissible--js"
   aria-label="Splide direction"
   data-module="./libs/splide.min.js,./modules/reviewsSplideInit.js,./modules/reviewsFancybox.js,./modules/reviewsVideoLightbox.js"
   data-css="<?= THEME_PATH; ?>/assets/css/libs/splide-core.min.css,<?= THEME_PATH; ?>/assets/css/libs/fancybox.css">
   <div class="container">
-    <div class="reviews__inner br-30">
+    <div class="reviews__inner">
       <div class="reviews__top section-top">
-        <h2 class="reviews__title h2"><?= $title; ?></h2>
+        <?php if ($badge !== '') : ?>
+          <span class="reviews__badge section-subtitle"><?= esc_html($badge); ?></span>
+        <?php endif; ?>
+        <h2 class="reviews__title section-title"><?= $title; ?></h2>
       </div>
 
-      <?php
-      if ($reviews_list && $reviews_list_hide) {
-      ?>
-        <div class="reviews__items">
-          <?php
-          foreach ($reviews_list as $item) {
-            $rating = $item['rating'];
-          ?>
-            <a class="reviews__item" href="<?= $item['link']['url']; ?>">
-              <span class="reviews__item-number line-caps-bold-16-15"><span><?= $rating; ?></span>/5</span>
+      <?php if ($score !== '') : ?>
+        <div class="reviews__score">
+          <div class="reviews__score-value">
+            <span class="reviews__score-num"><?= esc_html($score); ?></span>
+            <?php if ($score_max !== '') : ?>
+              <span class="reviews__score-of reg-small-12-15">из</span>
+              <span class="reviews__score-num"><?= esc_html($score_max); ?></span>
+            <?php endif; ?>
+          </div>
 
-              <div class="reviews__list-rating">
-                <?php for ($i = 1; $i <= 5; $i++): ?>
-                  <span class="star <?php echo $i <= $rating ? 'filled' : 'empty'; ?>">★</span>
-                <?php endfor; ?>
-              </div>
+          <div class="reviews__score-stars" aria-label="<?= esc_attr($score . ($score_max !== '' ? ' из ' . $score_max : '')); ?>">
+            <?php for ($i = 1; $i <= 5; $i++) echo $star_svg; ?>
+          </div>
 
-              <div class="reviews__item-link line-caps-bold-16-15"><?= $item['link']['title']; ?></div>
-              </a>
-          <?php
-          }
-          ?>
+          <?php if ($score_text !== '') : ?>
+            <p class="reviews__score-text reg-small-12-15"><?= esc_html($score_text); ?></p>
+          <?php endif; ?>
         </div>
-      <?php
-      }
+      <?php endif; ?>
 
-      // Группируем отзывы по типу
-      $grouped_reviews = array(
-        'Мессенджеры' => array(),
-        'Видео' => array(),
-        'Текстовые' => array()
-      );
+      <div class="reviews__panel">
+        <?php if (!empty($platforms)) : ?>
+          <div class="reviews__items">
+            <?php foreach ($platforms as $platform) : ?>
+              <?php $platform_tag = $platform['url'] !== '' ? 'a' : 'div'; ?>
+              <<?= $platform_tag; ?> class="reviews__item"<?php if ($platform['url'] !== '') : ?> href="<?= esc_url($platform['url']); ?>" target="_blank" rel="noopener"<?php endif; ?>>
+                <?php if (!empty($platform['icon']['url'])) : ?>
+                  <img class="reviews__item-icon" src="<?= esc_url($platform['icon']['url']); ?>" alt="" loading="lazy">
+                <?php endif; ?>
+                <span class="reviews__item-body">
+                  <?php if ($platform['rating'] !== '') : ?>
+                    <span class="reviews__item-number h2-18-20"><?= esc_html($platform['rating']); ?></span>
+                  <?php endif; ?>
+                  <span class="reviews__item-link tag-10-10"><?= esc_html($platform['title']); ?></span>
+                </span>
+              </<?= $platform_tag; ?>>
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
 
-      foreach ($reviews as $review) {
-        $review_type = theme_get_field('review_type', $review->ID);
-        if (isset($grouped_reviews[$review_type])) {
-          $grouped_reviews[$review_type][] = $review;
-        }
-      }
+        <?php $checked = 'checked'; ?>
+        <div class="reviews__tabs filter filter--tabs">
+          <div class="reviews__labels filter__form">
+            <?php foreach ($review_tabs as $tab_name => $tab_value) : ?>
+              <?php if (!empty($grouped_reviews[$tab_name])) : ?>
+                <label class="reviews__label filter__link">
+                  <input type="radio" value="<?= esc_attr($tab_value); ?>" name="reviews" <?= $checked; ?>>
+                  <span class="filter__label"><?= esc_html($tab_name); ?></span>
+                </label>
+                <?php $checked = ''; ?>
+              <?php endif; ?>
+            <?php endforeach; ?>
+          </div>
 
-      $checked = 'checked';
-      ?>
-
-      <div class="reviews__tabs">
-        <div class="reviews__labels">
-          <?php if (!empty($grouped_reviews['Мессенджеры'])): ?>
-            <label class="reviews__label line-caps-bold-13-15">
-              <input type="radio" value="thenks" name="reviews" <?= $checked; ?>>
-              <span>Мессенджеры</span>
-            </label>
-          <?php
-          $checked = '';
-          endif;
-          ?>
-          <?php if (!empty($grouped_reviews['Видео'])): ?>
-            <label class="reviews__label line-caps-bold-13-15">
-              <input type="radio" value="video" name="reviews" <?= $checked; ?>
-                <span>Видео</span>
-            </label>
-          <?php
-          $checked = '';
-          endif;
-          ?>
-          <?php if (!empty($grouped_reviews['Текстовые'])): ?>
-            <label class="reviews__label line-caps-bold-13-15">
-              <input type="radio" value="text" name="reviews" <?= $checked; ?>
-                <span>Текстовые</span>
-            </label>
-          <?php
-          $checked = '';
-          endif;
-          ?>
+          <?php if ($leave_text !== '') : ?>
+            <a class="reviews__leave filter__more" href="<?= esc_url($leave_url); ?>">
+              <span><?= esc_html($leave_text); ?></span>
+              <svg class="filter__more-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 12h16M14 6l6 6-6 6"/>
+              </svg>
+            </a>
+          <?php endif; ?>
         </div>
       </div>
 

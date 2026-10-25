@@ -265,6 +265,8 @@ function theme_get_reviews_section_data(array $attrs, $section = null): array
     }
 
     $title = trim((string) ($attrs['title'] ?? ''));
+    $tab = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('reviews') : [];
+    $tab_title = trim((string) ($tab['title'] ?? ''));
     $post_ids = [];
 
     if (!empty($attrs['postIds']) && is_array($attrs['postIds'])) {
@@ -287,7 +289,8 @@ function theme_get_reviews_section_data(array $attrs, $section = null): array
     }
 
     return [
-        'title'             => $title !== '' ? $title : (theme_get_field('reviews_title', OPTION_ID) ?: 'Отзывы'),
+        // Заголовок: блок → таб «Отзывы» в дефолтах блоков → ACF-опция.
+        'title'             => $title !== '' ? $title : ($tab_title !== '' ? $tab_title : (theme_get_field('reviews_title', OPTION_ID) ?: 'Отзывы')),
         'reviews_list'      => theme_get_field('reviews_list', OPTION_ID) ?: [],
         'reviews_list_hide' => (bool) theme_get_field('reviews_list_hide', OPTION_ID),
         'reviews'           => $reviews,
