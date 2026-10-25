@@ -58,6 +58,7 @@ function theme_get_block_category_map(): array
         'banks'                 => 'tolstenko-general',
         'flagship'              => 'tolstenko-general',
         'europe'                => 'tolstenko-general',
+        'quiz'                  => 'tolstenko-general',
         'faq'                    => 'tolstenko-general',
         'field-template'         => 'tolstenko-general',
         'hidden-block'           => 'tolstenko-general',

@@ -45,6 +45,7 @@ require_once __DIR__ . '/inc/rewrite/primary-term-permalinks.php';
 require_once __DIR__ . '/inc/rewrite/blog-rewrite.php';
 require_once __DIR__ . '/inc/rewrite/service-rewrite.php';
 require_once __DIR__ . '/inc/cf7/custom-elements.php';
+require_once __DIR__ . '/inc/cf7/quiz-answers.php';
 
 require_once __DIR__ . '/inc/ajax/blog-section.php';
 require_once __DIR__ . '/inc/ajax/service-section.php';

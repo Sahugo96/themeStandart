@@ -28,6 +28,7 @@ get_header();
     theme_render_front_section('hero-stats'); // +
     theme_render_front_section('situations'); // +
     theme_render_front_section('services-slider');
+    theme_render_front_section('quiz');
 
     theme_render_front_section('process'); // +
     theme_render_front_section('about'); // +

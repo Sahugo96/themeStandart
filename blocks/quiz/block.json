@@ -1,0 +1,29 @@
+{
+  "apiVersion": 3,
+  "title": "Квиз-диагностика",
+  "name": "my-theme/quiz",
+  "category": "tolstenko-general",
+  "icon": "editor-help",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": { "type": "string", "default": "" },
+    "title": { "type": "string", "default": "" },
+    "text": { "type": "string", "default": "" },
+    "stats": { "type": "array", "default": [] },
+    "steps": { "type": "array", "default": [] },
+    "final_thanks": { "type": "string", "default": "" },
+    "final_title": { "type": "string", "default": "" },
+    "final_text": { "type": "string", "default": "" },
+    "form_shortcode": { "type": "string", "default": "" },
+    "btn_text": { "type": "string", "default": "" },
+    "final_note": { "type": "string", "default": "" }
+  },
+  "render": "file:./template.php"
+}

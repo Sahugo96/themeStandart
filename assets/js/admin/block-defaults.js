@@ -10,6 +10,7 @@
 			banks: 'landing',
 			flagship: 'landing',
 			europe: 'landing',
+			quiz: 'landing',
 			hero_stats: 'landing',
 			situations: 'landing',
 			process: 'landing',
@@ -167,6 +168,15 @@
 					var rk = Date.now() + idx;
 					var rp = 'tolstenko_block_defaults[flagship][rows][' + rk + ']';
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="' + rp + '[name]" placeholder="Название (подпись — в &lt;span&gt;)" style="flex:1"><input type="hidden" class="tolstenko-defaults-icon-id" name="' + rp + '[flag]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Флаг</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview" style="margin-top:8px;"></div><div class="cols"><input type="text" name="' + rp + '[price]" placeholder="Стоимость"><input type="text" name="' + rp + '[term]" placeholder="Срок оформления"><input type="text" name="' + rp + '[link]" placeholder="Ссылка кнопки (пусто = #modal)"></div><div class="muted">Преимущества</div><div data-repeater-list="flagship-benefits-list" data-name-prefix="' + rp + '[benefits]"></div><div class="actions"><button type="button" class="button" data-add-item="flagship-benefits-list">Добавить преимущество</button></div></div>';
+				} else if (key === 'quiz-stats-list') {
+					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[quiz][stats][' + idx + '][value]" placeholder="Значение (1 мин)"><input type="text" name="tolstenko_block_defaults[quiz][stats][' + idx + '][label]" placeholder="Подпись (на прохождение)" style="flex:1"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
+				} else if (key === 'quiz-steps-list') {
+					var qp = 'tolstenko_block_defaults[quiz][steps][' + (Date.now() + idx) + ']';
+					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="' + qp + '[question]" placeholder="Вопрос" style="flex:1"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="muted">Варианты ответа</div><div data-repeater-list="quiz-options-list" data-name-prefix="' + qp + '[options]"></div><div class="actions"><button type="button" class="button" data-add-item="quiz-options-list">Добавить вариант</button></div></div>';
+				} else if (key === 'quiz-options-list') {
+					var op = list.getAttribute('data-name-prefix') || '';
+					if (!op) return;
+					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="' + op + '[' + (Date.now() + idx) + '][text]" placeholder="Вариант ответа" style="flex:1"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
 				} else if (key === 'flagship-benefits-list') {
 					var bp = list.getAttribute('data-name-prefix') || '';
 					if (!bp) return;

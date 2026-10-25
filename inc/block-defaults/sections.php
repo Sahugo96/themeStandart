@@ -66,6 +66,7 @@ function tolstenko_block_defaults_tab_groups() {
 				'banks'      => 'Банки-партнёры',
 				'flagship'   => 'Флагманские программы',
 				'europe'     => 'ВНЖ в Европе',
+				'quiz'       => 'Квиз',
 			),
 		),
 	);

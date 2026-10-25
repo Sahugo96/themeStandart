@@ -1,0 +1,301 @@
+// Секция «Квиз-диагностика» (pages/sections/quiz.php).
+// Бейдж — общий section-subtitle, скругления карточек — br-30, типографика — общие утилиты.
+.quiz {
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(10px, $mobile);
+    @media (min-width: $desk) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 0;
+    }
+  }
+
+  // ----- Левая карточка -----
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    padding: vw(24px, $mobile) vw(20px, $mobile);
+    background-color: var(--dark-bg-plank-color);
+    @media (min-width: $desk) {
+      padding: vw(40px, $desktop) vw(60px, $desktop) vw(40px, $desktop) vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(40px, $desktop_large) vw(60px, $desktop_large) vw(40px, $desktop_large) vw(40px, $desktop_large);
+    }
+  }
+
+  &__title {
+    font-family: $Unbounded;
+    font-weight: 800;
+    font-size: vw(22px, $mobile);
+    line-height: 1.1;
+    color: var(--light-bg-color);
+    @media (min-width: $desk) {
+      font-size: vw(32px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(32px, $desktop_large);
+    }
+    span {
+      color: var(--accent-color);
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(10px, $mobile);
+    margin-top: vw(12px, $mobile);
+    color: var(--additional-gray-color);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+      margin-top: vw(15px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+      margin-top: vw(15px, $desktop_large);
+    }
+  }
+
+  &__stats {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: vw(16px, $mobile) vw(40px, $mobile);
+    margin-top: vw(24px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(16px, $desktop) vw(50px, $desktop);
+      margin-top: auto;
+      padding-top: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(16px, $desktop_large) vw(50px, $desktop_large);
+      padding-top: vw(40px, $desktop_large);
+    }
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(4px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(4px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(4px, $desktop_large);
+    }
+  }
+
+  &__stat-value {
+    text-transform: uppercase;
+    color: var(--accent-color);
+  }
+
+  &__stat-label {
+    color: var(--additional-gray-color);
+  }
+
+  // ----- Правая карточка: шаги -----
+  &__body {
+    position: relative;
+    padding: vw(24px, $mobile) vw(20px, $mobile);
+    background-color: var(--super-dark-bg-color);
+    @media (min-width: $desk) {
+      // Заходит на скругление левой карточки, как в макете.
+      margin-left: vw(-30px, $desktop);
+      padding: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-left: vw(-30px, $desktop_large);
+      padding: vw(40px, $desktop_large);
+    }
+  }
+
+  &__progress {
+    display: flex;
+    grid-gap: vw(10px, $mobile);
+    margin-bottom: vw(30px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(20px, $desktop);
+      margin-bottom: vw(45px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+      margin-bottom: vw(45px, $desktop_large);
+    }
+  }
+
+  &__progress-bar {
+    flex: 1 1 0;
+    height: 4px;
+    border-radius: 4px;
+    background-color: var(--dark-bg-stoke-color);
+    transition: background-color 0.3s linear;
+    &.active {
+      background-color: var(--accent-color);
+    }
+  }
+
+  &__step {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__question {
+    font-family: $Unbounded;
+    text-transform: uppercase;
+    color: var(--accent-color);
+  }
+
+  &__options {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-gap: vw(10px, $mobile);
+    width: 100%;
+    margin-top: vw(24px, $mobile);
+    @media (min-width: $desk) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-gap: vw(10px, $desktop);
+      margin-top: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+      margin-top: vw(40px, $desktop_large);
+    }
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    min-height: vw(50px, $mobile);
+    padding: vw(10px, $mobile) vw(24px, $mobile);
+    border: 1px solid var(--dark-bg-stoke-color);
+    border-radius: vw(40px, $mobile);
+    text-align: left;
+    color: var(--additional-gray-color);
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s linear;
+    @media (min-width: $desk) {
+      min-height: vw(60px, $desktop);
+      padding: vw(10px, $desktop) vw(30px, $desktop);
+      border-radius: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      min-height: vw(60px, $desktop_large);
+      padding: vw(10px, $desktop_large) vw(30px, $desktop_large);
+      border-radius: vw(40px, $desktop_large);
+    }
+    &.active {
+      border-color: var(--accent-color);
+      color: var(--light-bg-color);
+      background-color: var(--accent-20-color);
+    }
+    @media (any-hover: hover) {
+      &:hover {
+        border-color: var(--accent-color);
+        color: var(--light-bg-color);
+      }
+    }
+    &:focus-visible {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+  }
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    grid-gap: vw(6px, $mobile);
+    margin-top: vw(20px, $mobile);
+    color: var(--gray-50-color);
+    background-color: transparent;
+    cursor: pointer;
+    transition: color 0.3s linear;
+    @media (min-width: $desk) {
+      grid-gap: vw(6px, $desktop);
+      margin-top: vw(24px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(6px, $desktop_large);
+      margin-top: vw(24px, $desktop_large);
+    }
+    svg {
+      width: vw(16px, $mobile);
+      height: vw(16px, $mobile);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      @media (min-width: $desk) {
+        width: vw(16px, $desktop);
+        height: vw(16px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        width: vw(16px, $desktop_large);
+        height: vw(16px, $desktop_large);
+      }
+    }
+    @media (any-hover: hover) {
+      &:hover {
+        color: var(--accent-color);
+      }
+    }
+  }
+
+  // ----- Финальный экран -----
+  &__thanks {
+    text-transform: uppercase;
+    color: var(--accent-color);
+  }
+
+  &__final-title {
+    margin-top: vw(16px, $mobile);
+    color: var(--light-bg-color);
+    @media (min-width: $desk) {
+      margin-top: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(20px, $desktop_large);
+    }
+  }
+
+  &__final-text {
+    margin-top: vw(10px, $mobile);
+    color: var(--additional-gray-color);
+    @media (min-width: $desk) {
+      margin-top: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(10px, $desktop_large);
+    }
+  }
+
+  &__form {
+    width: 100%;
+    margin-top: vw(20px, $mobile);
+    @media (min-width: $desk) {
+      margin-top: vw(24px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(24px, $desktop_large);
+    }
+  }
+
+  &__note {
+    margin-top: vw(12px, $mobile);
+    color: var(--gray-50-color);
+    @media (min-width: $desk) {
+      margin-top: vw(14px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(14px, $desktop_large);
+    }
+  }
+}
