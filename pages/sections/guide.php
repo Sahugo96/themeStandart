@@ -49,6 +49,22 @@ if ($post_id > 0 && ($guide_post = get_post($post_id))) {
     if ($thumb_id) {
         $defaults['image'] = (int) $thumb_id;
     }
+
+    // Время чтения и рубрики — как в карточках статей.
+    $reading_time = function_exists('theme_get_reading_time_text') ? theme_get_reading_time_text($post_id) : '';
+    if ($reading_time !== '') {
+        $defaults['time'] = $reading_time;
+    }
+
+    $post_terms = get_the_terms($post_id, 'blog_cat');
+    if ($post_terms && !is_wp_error($post_terms)) {
+        $defaults['tags'] = array_map(static function ($term) {
+            return ['text' => $term->name];
+        }, array_slice($post_terms, 0, 2));
+    }
+
+    // «Читать полностью» ведёт на выбранную статью.
+    $defaults['link'] = (string) get_permalink($guide_post);
 }
 
 $overrides = get_query_var('guide_data');
@@ -63,25 +79,31 @@ if (empty($image['url'])) {
     $image = ['url' => THEME_PATH . '/assets/img/guide.jpg', 'srcset' => '', 'sizes' => '', 'alt' => 'Почему ОАЭ'];
 }
 
+$link = trim((string) ($data['link'] ?? ''));
 ?>
 <section class="guide section">
   <div class="container">
-    <div class="guide__top">
-      <span class="guide__badge"><?= $data['subtitle']; ?></span>
-      <h2 class="guide__title"><?= $data['title']; ?></h2>
+    <div class="guide__top section-top">
+      <?php if (trim((string) $data['subtitle']) !== '') : ?>
+        <span class="guide__badge section-subtitle"><?= $data['subtitle']; ?></span>
+      <?php endif; ?>
+
+      <?php if (trim((string) $data['title']) !== '') : ?>
+        <h2 class="guide__title section-title"><?= $data['title']; ?></h2>
+      <?php endif; ?>
     </div>
 
-    <article class="guide__card" data-read-more>
+    <article class="guide__card br-30">
       <div class="guide__content">
-
         <div class="guide__meta">
           <?php if (!empty($tags)) : ?>
             <ul class="guide__tags">
               <?php foreach ($tags as $tag) : ?>
-                <li class="guide__tag"><?= $tag['text'] ?? ''; ?></li>
+                <li class="guide__tag"><?= esc_html($tag['text'] ?? ''); ?></li>
               <?php endforeach; ?>
             </ul>
           <?php endif; ?>
+
           <ul class="guide__info">
             <?php if (!empty($data['time'])) : ?>
               <li class="guide__info-item">
@@ -89,7 +111,7 @@ if (empty($image['url'])) {
                   <circle cx="12" cy="12" r="9"/>
                   <path d="M12 7v5l3 2"/>
                 </svg>
-                <?= $data['time']; ?>
+                <?= esc_html($data['time']); ?>
               </li>
             <?php endif; ?>
             <?php if (!empty($data['views'])) : ?>
@@ -98,12 +120,12 @@ if (empty($image['url'])) {
                   <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
                   <circle cx="12" cy="12" r="3"/>
                 </svg>
-                <?= $data['views']; ?>
+                <?= esc_html($data['views']); ?>
               </li>
             <?php endif; ?>
             <?php if (!empty($data['date_label'])) : ?>
               <li class="guide__info-item">
-                <time datetime="<?= esc_attr($data['date']); ?>"><?= $data['date_label']; ?></time>
+                <time datetime="<?= esc_attr($data['date']); ?>"><?= esc_html($data['date_label']); ?></time>
                 <svg class="guide__info-icon" viewBox="0 0 24 24" aria-hidden="true">
                   <rect x="3" y="5" width="18" height="16" rx="2"/>
                   <path d="M3 10h18M8 3v4M16 3v4"/>
@@ -113,27 +135,24 @@ if (empty($image['url'])) {
           </ul>
         </div>
 
-        <h3 class="guide__card-title"><?= $data['card_title']; ?></h3>
+        <?php if (trim((string) $data['card_title']) !== '') : ?>
+          <h3 class="guide__card-title"><?= $data['card_title']; ?></h3>
+        <?php endif; ?>
 
-        <div class="guide__text">
-          <?= theme_section_text_html($data['text'] ?? ''); ?>
+        <div class="guide__text"><?= theme_section_text_html($data['text'] ?? ''); ?></div>
 
-          <div class="guide__more">
-            <!-- Продолжение статьи: показывается по кнопке «Читать полностью» -->
-          </div>
-        </div>
-
-        <button class="guide__btn" type="button" aria-expanded="false" data-read-more-btn>
-          <span data-read-more-label><?= $data['btn_text']; ?></span>
-          <svg class="guide__btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="m6 9 6 6 6-6"/>
-          </svg>
-        </button>
-
+        <?php if ($link !== '' && trim((string) $data['btn_text']) !== '') : ?>
+          <a class="guide__btn" href="<?= esc_url($link); ?>">
+            <span><?= esc_html($data['btn_text']); ?></span>
+            <svg class="guide__btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h16M14 6l6 6-6 6"/>
+            </svg>
+          </a>
+        <?php endif; ?>
       </div>
 
-      <div class="guide__image">
-        <img src="<?= $image['url']; ?>" <?php if ($image['srcset']) echo 'srcset="' . $image['srcset'] . '"'; ?> alt="<?= $image['alt']; ?>" loading="lazy">
+      <div class="guide__image br-20">
+        <img src="<?= esc_url($image['url']); ?>" <?php if ($image['srcset']) echo 'srcset="' . esc_attr($image['srcset']) . '"'; ?> alt="<?= esc_attr($image['alt']); ?>" loading="lazy">
       </div>
     </article>
   </div>

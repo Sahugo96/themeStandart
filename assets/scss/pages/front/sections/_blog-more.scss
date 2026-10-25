@@ -1,6 +1,7 @@
 .blog-more {
+  // Цвета — из палитры темы.
   --blog-more-line: rgba(255, 255, 255, 0.12);
-  --blog-more-text: var(--gray-50-color, #b9bdc0);
+  --blog-more-text: var(--gray-50-color);
 
   .container {
     display: flex;
@@ -34,8 +35,8 @@
     }
     @media (any-hover: hover) {
       &:hover {
-        border-color: var(--gold-color, #b89a68);
-        color: var(--gold-color, #b89a68);
+        border-color: var(--accent-color);
+        color: var(--accent-color);
       }
     }
   }

@@ -1,24 +1,34 @@
 .consult {
-  --consult-bg: var(--beige-color, #f2efe8);
-  --consult-gold: var(--gold-color, #b8996a);
-  --consult-dark: var(--dark-color, #1a2027);
-  --consult-text: var(--gray-60-color, #8a8d90);
-  --consult-border: var(--gray-30-color, #e6e0d5);
-  --consult-check: var(--gray-40-color, #bdb8ae);
+  // Цвета — из палитры темы.
+  --consult-gold: var(--accent-color);
+  --consult-dark: var(--main-text-color);
+  --consult-text: var(--gray-50-color);
+  --consult-border: var(--additional-gray-30-color);
+  --consult-check: var(--additional-gray-color);
 
+  // Обёртка — как у «Кратко о нас» (about): светлая плашка br-30 с отступом от краёв экрана.
   margin: 0 vw(10px, $mobile);
-  padding: vw(20px, $mobile);
-  border-radius: vw(24px, $mobile);
-  background-color: var(--consult-bg);
   @media (min-width: $desk) {
-    margin: 0 vw(30px, $desktop);
-    padding: vw(100px, $desktop) 0;
-    border-radius: vw(40px, $desktop);
+    margin: 0 auto;
+    max-width: vw(1440px, $desktop);
+    padding-left: vw(30px, $desktop);
+    padding-right: vw(30px, $desktop);
   }
   @media (min-width: $desk_large) {
-    margin: 0 vw(30px, $desktop_large);
-    padding: vw(100px, $desktop_large) 0;
-    border-radius: vw(40px, $desktop_large);
+    max-width: vw(1440px, $desktop_large);
+    padding-left: vw(30px, $desktop_large);
+    padding-right: vw(30px, $desktop_large);
+  }
+
+  &__wrapper {
+    padding: vw(20px, $mobile) 0;
+    background-color: var(--light-bg-color);
+    @media (min-width: $desk) {
+      padding: vw(100px, $desktop) 0;
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(100px, $desktop_large) 0;
+    }
   }
 
   &__inner {
@@ -33,6 +43,12 @@
     @media (min-width: $desk_large) {
       grid-template-columns: 1fr vw(490px, $desktop_large);
       grid-gap: vw(150px, $desktop_large);
+    }
+  }
+
+  &__inner--no-image {
+    @media (min-width: $desk) {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
@@ -51,10 +67,6 @@
     @media (min-width: $desk_large) {
       margin-top: vw(18px, $desktop_large);
     }
-  }
-
-  &__title-accent {
-    color: var(--consult-gold);
   }
 
   &__text {
@@ -240,14 +252,7 @@
   &__image {
     width: 100%;
     aspect-ratio: 490/440;
-    border-radius: vw(20px, $mobile);
     overflow: hidden;
-    @media (min-width: $desk) {
-      border-radius: vw(32px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      border-radius: vw(32px, $desktop_large);
-    }
     img {
       width: 100%;
       height: 100%;

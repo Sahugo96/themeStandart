@@ -1,85 +1,26 @@
 .guide {
-  --guide-card: var(--navy-light-color, #18202b);
-  --guide-gold: var(--gold-color, #b8996a);
-  --guide-text: var(--gray-60-color, #8e959c);
+  // Цвета — из палитры темы; бейдж и заголовок — общие section-subtitle / section-title.
+  --guide-card: var(--dark-bg-plank-color);
+  --guide-gold: var(--accent-color);
+  --guide-text: rgba(255, 255, 255, 0.55);
   --guide-line: rgba(255, 255, 255, 0.2);
-
-  &__top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    grid-gap: vw(20px, $mobile);
-    margin-bottom: vw(30px, $mobile);
-    @media (min-width: $desk) {
-      grid-gap: vw(24px, $desktop);
-      margin-bottom: vw(40px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(24px, $desktop_large);
-      margin-bottom: vw(40px, $desktop_large);
-    }
-  }
-
-  &__badge {
-    padding: vw(8px, $mobile) vw(18px, $mobile);
-    border: 1px solid var(--guide-line);
-    border-radius: 999px;
-    font-size: vw(10px, $mobile);
-    line-height: 1.2;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--guide-text);
-    @media (min-width: $desk) {
-      padding: vw(8px, $desktop) vw(18px, $desktop);
-      font-size: vw(10px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      padding: vw(8px, $desktop_large) vw(18px, $desktop_large);
-      font-size: vw(10px, $desktop_large);
-    }
-  }
-
-  &__title {
-    margin-top: vw(20px, $mobile);
-    text-align: center;
-    font-weight: 800;
-    font-size: vw(22px, $mobile);
-    line-height: 1.1;
-    color: var(--white-color);
-    @media (min-width: $desk) {
-      margin-top: vw(24px, $desktop);
-      font-size: vw(32px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-top: vw(24px, $desktop_large);
-      font-size: vw(32px, $desktop_large);
-    }
-  }
-
-  &__title-accent {
-    display: block;
-    color: var(--guide-gold);
-  }
 
   &__card {
     display: flex;
     flex-direction: column;
     grid-gap: vw(20px, $mobile);
     padding: vw(12px, $mobile);
-    border-radius: vw(24px, $mobile);
     background-color: var(--guide-card);
     @media (min-width: $desk) {
       display: grid;
       grid-template-columns: 1fr vw(560px, $desktop);
       grid-gap: vw(40px, $desktop);
       padding: vw(20px, $desktop);
-      border-radius: vw(32px, $desktop);
     }
     @media (min-width: $desk_large) {
       grid-template-columns: 1fr vw(560px, $desktop_large);
       grid-gap: vw(40px, $desktop_large);
       padding: vw(20px, $desktop_large);
-      border-radius: vw(32px, $desktop_large);
     }
   }
 
@@ -223,22 +164,6 @@
     }
   }
 
-  &__more {
-    display: none;
-    flex-direction: column;
-    grid-gap: vw(10px, $mobile);
-    @media (min-width: $desk) {
-      grid-gap: vw(10px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(10px, $desktop_large);
-    }
-  }
-
-  &__card.is-open &__more {
-    display: flex;
-  }
-
   &__btn {
     display: inline-flex;
     align-items: center;
@@ -286,7 +211,6 @@
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
-    transition: transform 0.3s linear;
     @media (min-width: $desk) {
       max-width: vw(16px, $desktop);
       min-width: vw(16px, $desktop);
@@ -297,21 +221,10 @@
     }
   }
 
-  &__card.is-open &__btn-arrow {
-    transform: rotate(180deg);
-  }
-
   &__image {
     width: 100%;
     aspect-ratio: 560/500;
-    border-radius: vw(16px, $mobile);
     overflow: hidden;
-    @media (min-width: $desk) {
-      border-radius: vw(20px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      border-radius: vw(20px, $desktop_large);
-    }
     img {
       width: 100%;
       height: 100%;

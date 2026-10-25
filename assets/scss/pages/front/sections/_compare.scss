@@ -1,21 +1,27 @@
 .compare {
-  --compare-gold: var(--gold-color, #b8996a);
-  --compare-dark: var(--dark-color, #1a2027);
-  --compare-text: var(--gray-60-color, #8a8d90);
-  --compare-line: var(--beige-line-color, #ebe7df);
+  // Цвета — из палитры темы; фон, бейдж, заголовок и лид — section--white и общие section-*.
+  --compare-gold: var(--accent-color);
+  --compare-dark: var(--main-text-color);
+  --compare-text: var(--gray-50-color);
+  --compare-line: var(--light-bg-color);
+  // Зебра строк таблицы — оттенки светлого фона из макета.
   --compare-row-odd: #f7f5f0;
   --compare-row-even: #fcfbf9;
-  --compare-border: var(--gray-30-color, #dcd7cd);
 
+  &__lead {
+    p + p {
+      margin-top: vw(8px, $mobile);
+    }
+  }
 
   // На мобильных таблица скроллится внутри своего блока
   &__table-wrap {
     overflow-x: auto;
-    
     width: vw(387px, $mobile);
     padding: 0 vw(16px, $mobile);
     margin: 0 vw(-16px, $mobile);
     background-color: var(--white-color);
+    // На мобильных таблица на всю ширину экрана, без скругления br-30.
     @media (max-width: $desk) {
       border-radius: 0;
     }
@@ -23,10 +29,6 @@
       width: auto;
       padding: 0;
       margin: 0;
-      // border-radius: vw(40px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      // border-radius: vw(40px, $desktop_large);
     }
   }
 
@@ -36,7 +38,6 @@
     border-collapse: collapse;
     table-layout: fixed;
     text-align: left;
-    // background-color: var(--white-color);
     @media (min-width: $desk) {
       min-width: 0;
     }
@@ -193,20 +194,5 @@
       max-width: vw(20px, $desktop_large);
       min-width: vw(20px, $desktop_large);
     }
-  }
-}
-/* ---------- Абзацы в лиде (редактор) ---------- */
-.compare__lead {
-  p {
-    margin: 0;
-  }
-
-  p + p {
-    margin-top: vw(8px, $mobile);
-  }
-
-  em,
-  i {
-    font-style: italic;
   }
 }

@@ -57,21 +57,29 @@ if (empty($rows)) {
 
 $columns = array_pad($columns, 4, '');
 $btn_link = isset($data['btn_link']) && is_array($data['btn_link']) ? $data['btn_link'] : ['url' => '', 'title' => '', 'target' => ''];
-$btn_url = $btn_link['url'] ?? '';
+$btn_url = trim((string) ($btn_link['url'] ?? ''));
+$btn_text = trim((string) ($data['btn_text'] ?? ''));
+$foot_text = trim((string) ($data['foot_text'] ?? ''));
+$compare_lead = theme_section_text_html($data['text'] ?? '');
 ?>
 <section class="compare section section--white">
     <div class="container">
         <div class="compare__top section-top">
-            <span class="compare__badge section-subtitle"><?= $data['subtitle']; ?></span>
-            <h2 class="compare__title section-title"><?= $data['title']; ?></h2>
-            <?php $compare_lead = theme_section_text_html($data['text'] ?? ''); ?>
+            <?php if (trim((string) $data['subtitle']) !== '') : ?>
+                <span class="compare__badge section-subtitle"><?= $data['subtitle']; ?></span>
+            <?php endif; ?>
+
+            <?php if (trim((string) $data['title']) !== '') : ?>
+                <h2 class="compare__title section-title"><?= $data['title']; ?></h2>
+            <?php endif; ?>
+
             <?php if ($compare_lead !== '') : ?>
                 <div class="compare__lead section-text"><?= $compare_lead; ?></div>
             <?php endif; ?>
         </div>
 
         <div class="compare__table-wrap br-30">
-            <table class="compare__table ">
+            <table class="compare__table">
                 <thead>
                     <tr>
                         <th class="compare__th" scope="col"><?= $columns[0]; ?></th>
@@ -93,18 +101,21 @@ $btn_url = $btn_link['url'] ?? '';
             </table>
         </div>
 
-        <div class="compare__foot">
-            <p class="compare__foot-text">
-                <?= $data['foot_text']; ?>
-            </p>
-            <?php if ($btn_url !== '' || !empty($data['btn_text'])) : ?>
-                <a class="compare__btn" href="<?= esc_url($btn_url !== '' ? $btn_url : '#'); ?>">
-                    <span><?= $data['btn_text']; ?></span>
-                    <svg class="compare__btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M4 12h16M14 6l6 6-6 6" />
-                    </svg>
-                </a>
-            <?php endif; ?>
-        </div>
+        <?php if ($foot_text !== '' || $btn_text !== '') : ?>
+            <div class="compare__foot">
+                <?php if ($foot_text !== '') : ?>
+                    <p class="compare__foot-text"><?= $foot_text; ?></p>
+                <?php endif; ?>
+
+                <?php if ($btn_text !== '') : ?>
+                    <a class="compare__btn" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
+                        <span><?= esc_html($btn_text); ?></span>
+                        <svg class="compare__btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M4 12h16M14 6l6 6-6 6" />
+                        </svg>
+                    </a>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
     </div>
 </section>

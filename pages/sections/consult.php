@@ -36,46 +36,54 @@ $phone = trim((string) ($data['phone'] ?? ''));
 $phone_href = preg_replace('/[^0-9+]/', '', $phone);
 $image = tolstenko_contact_get_image_attrs($data['image'] ?? null);
 
-if (empty($image['url'])) {
-    $image = ['url' => THEME_PATH . '/assets/img/consult.jpg', 'srcset' => '', 'sizes' => '', 'alt' => 'Консультант Relocate-World'];
-}
+$text = theme_section_text_html($data['text'] ?? '');
 ?>
 <section class="consult section">
-  <div class="container">
-    <div class="consult__inner">
-
-      <div class="consult__content">
-        <span class="consult__badge section-subtitle"><?= $data['subtitle']; ?></span>
-        <h2 class="consult__title section-title"><?= $data['title']; ?></h2>
-        <div class="consult__text">
-          <div class="consult__text-inner"><?= theme_section_text_html($data['text'] ?? ''); ?></div>
-          <?php if ($phone !== '') : ?>
-            <p><?= $data['contact_label']; ?> <a href="tel:<?= esc_attr($phone_href); ?>"><?= esc_html($phone); ?></a></p>
+  <div class="consult__wrapper br-30">
+    <div class="container">
+      <div class="consult__inner<?= $image['url'] === '' ? ' consult__inner--no-image' : ''; ?>">
+        <div class="consult__content">
+          <?php if (trim((string) $data['subtitle']) !== '') : ?>
+            <span class="consult__badge section-subtitle"><?= $data['subtitle']; ?></span>
           <?php endif; ?>
+
+          <?php if (trim((string) $data['title']) !== '') : ?>
+            <h2 class="consult__title section-title"><?= $data['title']; ?></h2>
+          <?php endif; ?>
+
+          <?php if ($text !== '' || $phone !== '') : ?>
+            <div class="consult__text">
+              <?= $text; ?>
+              <?php if ($phone !== '') : ?>
+                <p><?= esc_html($data['contact_label']); ?> <a href="tel:<?= esc_attr($phone_href); ?>"><?= esc_html($phone); ?></a></p>
+              <?php endif; ?>
+            </div>
+          <?php endif; ?>
+
+          <form class="consult__form" action="" method="post">
+            <div class="consult__field">
+              <input class="consult__input" type="text" name="contact" placeholder="<?= esc_attr($data['input_placeholder']); ?>" autocomplete="tel" required>
+              <button class="consult__submit" type="submit"><?= esc_html($data['btn_text']); ?></button>
+            </div>
+
+            <?php foreach ($consents as $consent_index => $consent) :
+                $consent = is_array($consent) ? $consent : [];
+            ?>
+              <label class="consult__check">
+                <input class="consult__check-input" type="checkbox" name="agree_<?= (int) $consent_index; ?>" <?= $consent_index === 0 ? 'checked' : ''; ?> required>
+                <span class="consult__check-box"></span>
+                <span class="consult__check-text"><?= $consent['text'] ?? ''; ?> <a href="<?= esc_url($consent['link_url'] ?? ''); ?>" target="_blank" rel="noopener"><?= esc_html($consent['link_text'] ?? ''); ?></a></span>
+              </label>
+            <?php endforeach; ?>
+          </form>
         </div>
 
-        <form class="consult__form" action="" method="post">
-          <div class="consult__field">
-            <input class="consult__input" type="text" name="contact" placeholder="<?= esc_attr($data['input_placeholder']); ?>" autocomplete="tel" required>
-            <button class="consult__submit" type="submit"><?= $data['btn_text']; ?></button>
+        <?php if ($image['url'] !== '') : ?>
+          <div class="consult__image br-30">
+            <img src="<?= esc_url($image['url']); ?>" <?php if ($image['srcset']) echo 'srcset="' . esc_attr($image['srcset']) . '"'; ?> alt="<?= esc_attr($image['alt']); ?>" loading="lazy">
           </div>
-
-          <?php foreach ($consents as $consent_index => $consent) :
-              $consent = is_array($consent) ? $consent : [];
-          ?>
-            <label class="consult__check">
-              <input class="consult__check-input" type="checkbox" name="agree_<?= (int) $consent_index; ?>" <?= $consent_index === 0 ? 'checked' : ''; ?> required>
-              <span class="consult__check-box"></span>
-              <span class="consult__check-text"><?= $consent['text'] ?? ''; ?> <a href="<?= esc_url($consent['link_url'] ?? ''); ?>" target="_blank"><?= $consent['link_text'] ?? ''; ?></a></span>
-            </label>
-          <?php endforeach; ?>
-        </form>
+        <?php endif; ?>
       </div>
-
-      <div class="consult__image">
-        <img src="<?= $image['url']; ?>" <?php if ($image['srcset']) echo 'srcset="' . $image['srcset'] . '"'; ?> alt="<?= $image['alt']; ?>" loading="lazy">
-      </div>
-
     </div>
   </div>
 </section>

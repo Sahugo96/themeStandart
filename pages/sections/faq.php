@@ -67,7 +67,7 @@ if ($teammate_id > 0 && ($teammate_post = get_post($teammate_id))) {
       <div class="faq__items" data-accordion>
 
         <?php foreach ($items as $index => $item) : ?>
-          <div class="faq__item br-20<?= $index === 0 ? ' active' : ''; ?>" data-accordion-item>
+          <div class="faq__item<?= $index === 0 ? ' active' : ''; ?>" data-accordion-item>
             <button type="button" class="faq__item-top" data-accordion-btn aria-expanded="<?= $index === 0 ? 'true' : 'false'; ?>">
               <p class="faq__item-title h4-16-20"><?= $item['quest'] ?? ''; ?></p>
 
@@ -91,7 +91,6 @@ if ($teammate_id > 0 && ($teammate_post = get_post($teammate_id))) {
           <?php if (trim((string) $form_text) !== '') : ?>
             <div class="faq__form-text line-13-15"><?= $form_text; ?></div>
           <?php endif; ?>
-          <!-- <div class="faq__form-subtitle line-caps-bold-13-15">Где с вами связаться?</div> -->
           <?php echo do_shortcode('[contact-form-7 id="a80aad5" title="Телефон"]'); ?>
         </div>
 
@@ -144,6 +143,3 @@ if ($teammate_id > 0 && ($teammate_post = get_post($teammate_id))) {
     </div>
   </div>
 </section>
-
-<?php
-?>
