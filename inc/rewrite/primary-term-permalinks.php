@@ -18,6 +18,13 @@ function theme_get_primary_term_post_configs(): array
 
 function theme_get_primary_term_slug(int $post_id, string $taxonomy): string
 {
+    // Основная категория из правой колонки редактора (inc/primary-term-metabox.php).
+    if (function_exists('theme_get_primary_term')) {
+        $term = theme_get_primary_term($post_id, $taxonomy);
+
+        return $term instanceof WP_Term ? $term->slug : '';
+    }
+
     if (function_exists('yoast_get_primary_term_id')) {
         $term_id = yoast_get_primary_term_id($taxonomy, $post_id);
 

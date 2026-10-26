@@ -7,13 +7,13 @@ defined('ABSPATH') || exit;
  *
  * Мета-поля записи (inc/service-metabox.php): service_card_title, service_card_text,
  * service_card_price, service_card_consult_url. Изображение — миниатюра записи,
- * метка — первая рубрика service_cat.
+ * метка — основная рубрика service_cat (правая колонка редактора, inc/primary-term-metabox.php).
  */
 
 $service_id = get_the_ID();
 $card       = theme_get_service_card_data($service_id);
-$terms      = get_the_terms($service_id, 'service_cat');
-$tag        = ($terms && !is_wp_error($terms)) ? (string) $terms[0]->name : '';
+$term       = function_exists('theme_get_primary_term') ? theme_get_primary_term($service_id, 'service_cat') : null;
+$tag        = $term instanceof WP_Term ? (string) $term->name : '';
 $link       = (string) get_permalink($service_id);
 ?>
 <article class="services__card splide__slide">

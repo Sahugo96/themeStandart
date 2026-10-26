@@ -44,6 +44,31 @@ function register_service_cpt()
             'rewrite' => array('slug' => 'service'),
         )
     );
+
+    // Категории услуг — по образцу «Категорий кейсов». Если таксономию уже
+    // регистрирует плагин, не перезаписываем её. URL рубрик — inc/rewrite/service-rewrite.php.
+    if (!taxonomy_exists('service_cat')) {
+        register_taxonomy(
+            'service_cat',
+            array('service'),
+            array(
+                'labels' => array(
+                    'name' => 'Категории услуг',
+                    'singular_name' => 'Категория услуги',
+                    'menu_name' => 'Категории услуг',
+                    'all_items' => 'Все категории',
+                    'add_new_item' => 'Добавить категорию',
+                    'edit_item' => 'Редактировать категорию',
+                ),
+                'public' => true,
+                'show_ui' => true,
+                'show_admin_column' => true,
+                'show_in_rest' => true,
+                'hierarchical' => true,
+                'rewrite' => array('slug' => 'service'),
+            )
+        );
+    }
 }
 
 

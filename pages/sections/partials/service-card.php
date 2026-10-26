@@ -39,6 +39,12 @@ $selected_category = isset($args['selected_category'])
           if ($selected_term) {
             $tags = array_merge([$selected_term], $other_terms);
           }
+        } elseif ($taxonomy === 'service_cat' && function_exists('theme_get_primary_term')) {
+          // Без фильтра в метке — основная категория (правая колонка редактора).
+          $primary_term = theme_get_primary_term($post_id, $taxonomy);
+          if ($primary_term) {
+            $tags = [$primary_term];
+          }
         }
 
         $tags = array_slice($tags, 0, 1);
