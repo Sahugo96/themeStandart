@@ -261,7 +261,7 @@ $split_lines = static function ($value): array {
         <?php endif; ?>
 
         <?php if (trim((string) $data['btn_text']) !== '') : ?>
-          <a class="flagship__more" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
+          <a class="flagship__more default-btn default-btn--transparent" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
             <span><?= esc_html($data['btn_text']); ?></span>
             <svg class="flagship__more-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
           </a>

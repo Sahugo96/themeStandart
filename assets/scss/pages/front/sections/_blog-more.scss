@@ -8,56 +8,21 @@
     justify-content: center;
   }
 
+  // Кнопка — общий default-btn default-btn--transparent.
   &__btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    grid-gap: vw(12px, $mobile);
-    padding: vw(18px, $mobile) vw(28px, $mobile);
-    border: 1px solid var(--blog-more-line);
-    border-radius: 999px;
-    font-weight: 500;
-    font-size: vw(13px, $mobile);
-    line-height: 1.2;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--blog-more-text);
-    transition: all 0.3s linear;
-    @media (min-width: $desk) {
-      grid-gap: vw(12px, $desktop);
-      padding: vw(21px, $desktop) vw(30px, $desktop);
-      font-size: vw(13px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(12px, $desktop_large);
-      padding: vw(21px, $desktop_large) vw(30px, $desktop_large);
-      font-size: vw(13px, $desktop_large);
-    }
-    @media (any-hover: hover) {
-      &:hover {
-        border-color: var(--accent-color);
-        color: var(--accent-color);
-      }
+    --btn-border: var(--blog-more-line);
+    --btn-color: var(--blog-more-text);
+    width: auto;
+
+    svg.blog-more__arrow {
+      fill: none;
     }
   }
 
   &__arrow {
-    max-width: vw(20px, $mobile);
-    min-width: vw(20px, $mobile);
-    height: auto;
-    aspect-ratio: 1/1;
-    fill: none;
     stroke: currentColor;
     stroke-width: 1.8;
     stroke-linecap: round;
     stroke-linejoin: round;
-    @media (min-width: $desk) {
-      max-width: vw(20px, $desktop);
-      min-width: vw(20px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      max-width: vw(20px, $desktop_large);
-      min-width: vw(20px, $desktop_large);
-    }
   }
 }

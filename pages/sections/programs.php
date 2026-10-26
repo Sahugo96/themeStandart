@@ -94,7 +94,7 @@ $btn_url = (string) $data['btn_url'];
 
     <?php if (trim((string) $data['btn_text']) !== '') : ?>
       <div class="programs__foot">
-        <a class="programs__btn" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
+        <a class="programs__btn default-btn default-btn--brown" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
           <span><?= $data['btn_text']; ?></span>
           <svg class="programs__btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M4 12h16M14 6l6 6-6 6"/>

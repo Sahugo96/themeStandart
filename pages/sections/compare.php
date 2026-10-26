@@ -108,7 +108,7 @@ $compare_lead = theme_section_text_html($data['text'] ?? '');
                 <?php endif; ?>
 
                 <?php if ($btn_text !== '') : ?>
-                    <a class="compare__btn" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
+                    <a class="compare__btn default-btn default-btn--brown" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
                         <span><?= esc_html($btn_text); ?></span>
                         <svg class="compare__btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M4 12h16M14 6l6 6-6 6" />

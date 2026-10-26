@@ -140,7 +140,7 @@ $btn_url = (string) $data['btn_url'];
         <?php endif; ?>
 
         <?php if (trim((string) $data['btn_text']) !== '') : ?>
-          <a class="cases__btn" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
+          <a class="cases__btn default-btn default-btn--brown" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
             <span><?= $data['btn_text']; ?></span>
             <svg class="cases__btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 12h16M14 6l6 6-6 6"/>

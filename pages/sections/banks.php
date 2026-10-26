@@ -140,7 +140,7 @@ $btn_url  = trim((string) ($data['btn_url'] ?? ''));
 
     <?php if ($btn_text !== '') : ?>
       <div class="banks__foot">
-        <a class="banks__btn" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
+        <a class="banks__btn default-btn default-btn--brown" href="<?= esc_url($btn_url !== '' ? $btn_url : '#modal'); ?>">
           <span><?= esc_html($btn_text); ?></span>
           <svg class="banks__btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M4 12h16M14 6l6 6-6 6"/>

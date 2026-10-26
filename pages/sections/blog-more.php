@@ -36,7 +36,7 @@ if ($url === '') {
 ?>
 <div class="blog-more">
   <div class="container">
-    <a class="blog-more__btn" href="<?= esc_url($url); ?>">
+    <a class="blog-more__btn default-btn default-btn--transparent" href="<?= esc_url($url); ?>">
       <span><?= esc_html($data['text']); ?></span>
       <svg class="blog-more__arrow" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M4 12h16M14 6l6 6-6 6"/>
