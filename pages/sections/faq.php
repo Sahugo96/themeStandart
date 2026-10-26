@@ -35,6 +35,19 @@ $teammate_name = '';
 $teammate_image = ['url' => '', 'srcset' => '', 'sizes' => '', 'alt' => ''];
 $teammate_tags = [];
 
+// Сотрудник не выбран — первый из «Команды».
+if ($teammate_id <= 0) {
+  $teammate_first = get_posts([
+    'post_type'      => 'teammate',
+    'post_status'    => 'publish',
+    'posts_per_page' => 1,
+    'orderby'        => 'menu_order date',
+    'order'          => 'ASC',
+    'fields'         => 'ids',
+  ]);
+  $teammate_id = (int) ($teammate_first[0] ?? 0);
+}
+
 if ($teammate_id > 0 && ($teammate_post = get_post($teammate_id))) {
     $teammate_name = trim((string) get_post_meta($teammate_id, 'teammate_name', true));
 
@@ -83,62 +96,59 @@ if ($teammate_id > 0 && ($teammate_post = get_post($teammate_id))) {
         <?php endforeach; ?>
       </div>
 
-      <div class="faq__right">
-        <div class="faq__form form br-20">
-          <?php if (trim((string) $form_title) !== '') : ?>
-            <div class="faq__form-title line-caps-bold-16-15"><?= $form_title; ?></div>
-          <?php endif; ?>
-          <?php if (trim((string) $form_text) !== '') : ?>
-            <div class="faq__form-text line-13-15"><?= $form_text; ?></div>
-          <?php endif; ?>
+      <div class="faq__right br-30">
+        <?php if (trim((string) $form_title) !== '' || trim((string) $form_text) !== '') : ?>
+          <div class="faq__right-top">
+            <?php if (trim((string) $form_title) !== '') : ?>
+              <div class="faq__form-title"><?= $form_title; ?></div>
+            <?php endif; ?>
+            <?php if (trim((string) $form_text) !== '') : ?>
+              <div class="faq__form-text reg-par-14-20"><?= $form_text; ?></div>
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
+
+        <div class="faq__form form form--dark br-20">
           <?php echo do_shortcode('[contact-form-7 id="a80aad5" title="Телефон"]'); ?>
         </div>
 
-        <div class="faq__teammate br-20">
-          <?php if ($teammate_name !== '') : ?>
-            <div class="faq__teammate-head">
-              <?php if ($teammate_image['url'] !== '') : ?>
-                <div class="faq__teammate-avatar">
-                  <img src="<?= $teammate_image['url']; ?>" alt="<?= esc_attr($teammate_name); ?>" loading="lazy">
+        <?php if ($teammate_name !== '' || $faq_phone !== '' || $faq_tg_link !== '') : ?>
+          <div class="faq__teammate br-20">
+            <?php if ($teammate_name !== '') : ?>
+              <div class="faq__teammate-head">
+                <?php if ($teammate_image['url'] !== '') : ?>
+                  <div class="faq__teammate-avatar">
+                    <img src="<?= esc_url($teammate_image['url']); ?>" alt="<?= esc_attr($teammate_name); ?>" loading="lazy">
+                  </div>
+                <?php endif; ?>
+
+                <div class="faq__teammate-info">
+                  <div class="faq__teammate-name"><?= esc_html($teammate_name); ?></div>
+
+                  <?php if (!empty($teammate_tags)) : ?>
+                    <ul class="faq__teammate-tags">
+                      <?php foreach ($teammate_tags as $tag) : ?>
+                        <li class="faq__teammate-tag"><?= esc_html($tag); ?></li>
+                      <?php endforeach; ?>
+                    </ul>
+                  <?php endif; ?>
                 </div>
-              <?php endif; ?>
+              </div>
+            <?php endif; ?>
 
-              <div class="faq__teammate-info">
-                <div class="faq__teammate-name"><?= esc_html($teammate_name); ?></div>
+            <?php if ($faq_phone !== '' || $faq_tg_link !== '') : ?>
+              <div class="faq__contact-links">
+                <?php if ($faq_phone !== '' && $faq_phone_href !== '') : ?>
+                  <a class="faq__contact-link default-btn" href="tel:<?= esc_attr($faq_phone_href); ?>">Позвонить</a>
+                <?php endif; ?>
 
-                <?php if (!empty($teammate_tags)) : ?>
-                  <ul class="faq__teammate-tags">
-                    <?php foreach ($teammate_tags as $tag) : ?>
-                      <li class="faq__teammate-tag"><?= esc_html($tag); ?></li>
-                    <?php endforeach; ?>
-                  </ul>
+                <?php if ($faq_tg_link !== '') : ?>
+                  <a class="faq__contact-link faq__contact-link--outline default-btn" href="<?= esc_url($faq_tg_link); ?>" target="_blank" rel="noopener noreferrer">Телеграм</a>
                 <?php endif; ?>
               </div>
-            </div>
-          <?php endif; ?>
-
-          <?php if ($faq_phone !== '' || $faq_tg_link !== '') : ?>
-            <div class="faq__contact-links">
-            <?php if ($faq_phone !== '' && $faq_phone_href !== '') : ?>
-              <a class="faq__contact-link faq__contact-link--phone default-btn" href="tel:<?= esc_attr($faq_phone_href); ?>">
-                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.4677 11.6429C15.3953 11.1565 15.0073 10.7774 14.5077 10.6644C12.5658 10.2239 12.079 9.14185 11.9969 7.94164C11.6525 7.87966 11.0399 7.81258 10 7.81258C8.96012 7.81258 8.34749 7.87966 8.00312 7.94164C7.92099 9.14185 7.4342 10.2239 5.49233 10.6644C4.99273 10.7781 4.60466 11.1565 4.53232 11.6429L4.15781 14.1527C4.02594 15.0364 4.69659 15.8334 5.62947 15.8334H14.3705C15.3027 15.8334 15.9741 15.0364 15.8422 14.1527L15.4677 11.6429ZM10 14.0047C8.94882 14.0047 8.09656 13.188 8.09656 12.1817C8.09656 11.1755 8.94882 10.3588 10 10.3588C11.0512 10.3588 11.9034 11.1755 11.9034 12.1817C11.9034 13.188 11.0504 14.0047 10 14.0047ZM17.4977 7.08341C17.4796 5.98966 14.6026 4.16748 10 4.16675C5.39663 4.16748 2.51962 5.98966 2.50228 7.08341C2.48495 8.17717 2.51811 9.6005 4.41251 9.36352C6.62867 9.08571 6.49228 8.33685 6.49228 7.26644C6.49228 6.51977 8.29474 6.33966 10 6.33966C11.7053 6.33966 13.507 6.51977 13.5077 7.26644C13.5077 8.33685 13.3713 9.08571 15.5875 9.36352C17.4811 9.6005 17.5151 8.17717 17.4977 7.08341Z"></path>
-                </svg>
-                Позвонить
-              </a>
             <?php endif; ?>
-
-            <?php if ($faq_tg_link !== '') : ?>
-              <a class="faq__contact-link default-btn" href="<?= esc_url($faq_tg_link); ?>" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10.0001 1.66602C5.40008 1.66602 1.66675 5.39935 1.66675 9.99935C1.66675 14.5993 5.40008 18.3327 10.0001 18.3327C14.6001 18.3327 18.3334 14.5993 18.3334 9.99935C18.3334 5.39935 14.6001 1.66602 10.0001 1.66602ZM13.8667 7.33268C13.7417 8.64935 13.2001 11.8493 12.9251 13.3243C12.8084 13.9493 12.5751 14.1577 12.3584 14.1827C11.8751 14.2243 11.5084 13.866 11.0417 13.5577C10.3084 13.0743 9.89175 12.7743 9.18341 12.3077C8.35841 11.766 8.89175 11.466 9.36675 10.9827C9.49175 10.8577 11.6251 8.91602 11.6667 8.74102C11.6725 8.71451 11.6718 8.68699 11.6645 8.66085C11.6572 8.63471 11.6437 8.61074 11.6251 8.59102C11.5751 8.54935 11.5084 8.56602 11.4501 8.57435C11.3751 8.59102 10.2084 9.36602 7.93341 10.8993C7.60008 11.1243 7.30008 11.241 7.03341 11.2327C6.73341 11.2243 6.16675 11.066 5.74175 10.9243C5.21675 10.7577 4.80841 10.666 4.84175 10.3743C4.85841 10.2243 5.06675 10.0743 5.45841 9.91602C7.89175 8.85768 9.50841 8.15768 10.3167 7.82435C12.6334 6.85768 13.1084 6.69102 13.4251 6.69102C13.4917 6.69102 13.6501 6.70768 13.7501 6.79102C13.8334 6.85768 13.8584 6.94935 13.8667 7.01602C13.8584 7.06602 13.8751 7.21602 13.8667 7.33268Z"></path>
-                </svg>
-                Telegram
-              </a>
-            <?php endif; ?>
-            </div>
-          <?php endif; ?>
-        </div>
+          </div>
+        <?php endif; ?>
       </div>
     </div>
   </div>

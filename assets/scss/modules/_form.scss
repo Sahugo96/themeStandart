@@ -347,3 +347,148 @@
     display: none;
   }
 }
+// Тёмный вариант формы CF7 для карточек на тёмном фоне (FAQ, модальное окно).
+// Разметка формы та же (.form__label / .form__input / .form__submit.default-btn / .form__checkbox),
+// меняется только вид: поля с рамкой на тёмном фоне, золотая кнопка со стрелкой, скругление 15px.
+.form--dark {
+  --form-field-bg: var(--super-dark-bg-color);
+  --form-border: var(--dark-bg-stoke-color);
+  --form-accent: var(--accent-color);
+  --form-text: var(--light-bg-color);
+  --form-muted: var(--gray-50-color);
+
+  .form__label + .form__label {
+    margin-top: vw(10px, $mobile);
+    @media (min-width: $desk) {
+      margin-top: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(10px, $desktop_large);
+    }
+  }
+
+  .form__input {
+    height: vw(56px, $mobile);
+    padding: 0 vw(20px, $mobile);
+    border: 1px solid var(--form-border);
+    border-radius: vw(15px, $mobile);
+    font-size: vw(14px, $mobile);
+    color: var(--form-text);
+    background-color: var(--form-field-bg);
+    @media (min-width: $desk) {
+      height: vw(60px, $desktop);
+      padding: 0 vw(20px, $desktop);
+      border-radius: vw(15px, $desktop);
+      font-size: vw(14px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      height: vw(60px, $desktop_large);
+      padding: 0 vw(20px, $desktop_large);
+      border-radius: vw(15px, $desktop_large);
+      font-size: vw(14px, $desktop_large);
+    }
+    &::placeholder {
+      color: var(--form-muted);
+    }
+    &:focus {
+      border-color: var(--form-accent);
+    }
+    @media (any-hover: hover) {
+      &:hover {
+        border-color: var(--form-accent);
+      }
+    }
+  }
+
+  .form__textarea {
+    height: vw(140px, $mobile);
+    padding-top: vw(16px, $mobile);
+    padding-bottom: vw(16px, $mobile);
+    @media (min-width: $desk) {
+      height: vw(140px, $desktop);
+      padding-top: vw(18px, $desktop);
+      padding-bottom: vw(18px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      height: vw(140px, $desktop_large);
+      padding-top: vw(18px, $desktop_large);
+      padding-bottom: vw(18px, $desktop_large);
+    }
+  }
+
+  .form__radio label {
+    border: 1px solid var(--form-border);
+    border-radius: vw(15px, $mobile);
+    color: var(--form-muted);
+    background-color: transparent;
+    @media (min-width: $desk) {
+      border-radius: vw(15px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      border-radius: vw(15px, $desktop_large);
+    }
+    &:has(input:checked) {
+      border-color: var(--form-accent);
+      color: var(--white-color);
+      background-color: var(--form-accent);
+      span.wpcf7-list-item-label svg {
+        fill: var(--white-color);
+      }
+    }
+  }
+
+  .form__submit.default-btn {
+    height: vw(56px, $mobile);
+    margin: vw(10px, $mobile) 0 vw(16px, $mobile);
+    border-radius: vw(15px, $mobile);
+    color: var(--white-color);
+    background-color: var(--form-accent);
+    @media (min-width: $desk) {
+      height: vw(60px, $desktop);
+      margin: vw(10px, $desktop) 0 vw(20px, $desktop);
+      border-radius: vw(15px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      height: vw(60px, $desktop_large);
+      margin: vw(10px, $desktop_large) 0 vw(20px, $desktop_large);
+      border-radius: vw(15px, $desktop_large);
+    }
+    // Стрелка после текста (для <button>; у input[type=submit] псевдоэлементов нет).
+    &::after {
+      content: "";
+      flex: none;
+      width: vw(18px, $mobile);
+      height: vw(18px, $mobile);
+      background-color: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h16M14 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h16M14 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+      @media (min-width: $desk) {
+        width: vw(18px, $desktop);
+        height: vw(18px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        width: vw(18px, $desktop_large);
+        height: vw(18px, $desktop_large);
+      }
+    }
+    @media (any-hover: hover) {
+      &:hover {
+        color: var(--main-text-color);
+        background-color: var(--light-bg-color);
+      }
+    }
+  }
+
+  .form__checkbox label {
+    color: var(--form-muted);
+  }
+
+  .form__checkbox a {
+    color: var(--additional-gray-color);
+    @media (any-hover: hover) {
+      &:hover {
+        color: var(--form-accent);
+      }
+    }
+  }
+}

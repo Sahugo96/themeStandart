@@ -28,7 +28,7 @@ $thanks_btn = trim((string) ($cd['modal_btn'] ?? '')) ?: 'На главную';
 
       <p class="modal__subtitle reg-par-14-20"><?= $text; ?></p>
 
-      <div class="modal__form form">
+      <div class="modal__form form form--dark">
         <?php echo do_shortcode('[contact-form-7 id="1cd1085" title="Модалка"]'); ?>
       </div>
     </div>
