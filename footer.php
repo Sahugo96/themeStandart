@@ -90,6 +90,8 @@ $footer_company = [
     </div>
   </div>
 </footer>
+
+<?php get_template_part('modules/modal/modal'); ?>
 </div>
 
 

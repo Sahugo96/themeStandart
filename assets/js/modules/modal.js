@@ -33,6 +33,15 @@ export default function modal() {
         });
       });
 
+    // Закрытие по Esc.
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("active")) {
+        modal.classList.remove("active");
+        document.querySelector("body").classList.remove("lock");
+        modal.classList.remove("success");
+      }
+    });
+
     document.addEventListener(
       "wpcf7mailsent",
       function (e) {

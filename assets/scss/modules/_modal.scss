@@ -1,112 +1,265 @@
+// Модальное окно заявки (modules/modal/modal.php): тёмная карточка br-30 по стилю секций лендинга.
+// Бейдж — общий section-subtitle, кнопка «На главную» — default-btn--brown.
 .modal {
   position: fixed;
   z-index: -10;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow-y: auto;
   display: flex;
-  opacity: 0;
-  pointer-events: none;
   align-items: flex-start;
   justify-content: center;
-  background-color: rgba(#000000, 0.65);
-  backdrop-filter: blur(vw(8px, $mobile));
+  width: 100vw;
+  height: 100vh;
+  padding: vw(16px, $mobile) vw(10px, $mobile);
+  overflow-y: auto;
+  opacity: 0;
+  pointer-events: none;
+  background-color: rgba(7, 15, 24, 0.75);
+  backdrop-filter: blur(8px);
+  transition: opacity 0.3s linear;
   @media (min-width: $desk) {
-    padding: vw(52px, $desktop);
-    backdrop-filter: blur(vw(8px, $desktop));
+    padding: vw(40px, $desktop);
   }
   @media (min-width: $desk_large) {
-    padding: vw(52px, $desktop_large);
-    backdrop-filter: blur(vw(8px, $desktop_large));
+    padding: vw(40px, $desktop_large);
   }
+
   &__inner {
-    display: flex;
-    min-height: min-content;
-    flex-direction: column;
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    background-color: var(--gray-10-color);
+    min-height: min-content;
     margin: auto;
-    padding: vw(64px, $mobile) vw(16px, $mobile) vw(52px, $mobile);
+    padding: vw(50px, $mobile) vw(20px, $mobile) vw(30px, $mobile);
+    border: 1px solid var(--dark-bg-stoke-color);
+    background-color: var(--dark-bg-plank-color);
+    transform: translateY(vw(20px, $mobile));
+    transition: transform 0.3s ease;
     @media (min-width: $desk) {
-      position: static;
-      max-width: vw(525px, $desktop);
-      padding: vw(50px, $desktop);
-      border-radius: vw(16px, $desktop);
+      max-width: vw(520px, $desktop);
+      padding: vw(50px, $desktop) vw(40px, $desktop) vw(40px, $desktop);
+      transform: translateY(vw(20px, $desktop));
     }
     @media (min-width: $desk_large) {
-      position: static;
-      max-width: vw(525px, $desktop_large);
-      padding: vw(50px, $desktop_large);
-      border-radius: vw(16px, $desktop_large);
+      max-width: vw(520px, $desktop_large);
+      padding: vw(50px, $desktop_large) vw(40px, $desktop_large) vw(40px, $desktop_large);
+      transform: translateY(vw(20px, $desktop_large));
     }
   }
-  &__wrapper {
-    width: 100%;
-  }
-  &__title {
-    text-align: center;
-    margin-bottom: vw(16px, $mobile);
-    @media (min-width: $desk) {
-      margin-bottom: vw(16px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-bottom: vw(16px, $desktop_large);
-    }
-  }
-  &__subtitle {
-    display: block;
-    text-align: center;
-    margin-bottom: vw(32px, $mobile);
-    @media (min-width: $desk) {
-      margin-bottom: vw(40px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-bottom: vw(40px, $desktop_large);
-    }
-  }
+
+  &__wrapper,
   &__thanks {
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 100%;
-    padding: vw(16px, $mobile) 0;
+    text-align: center;
+  }
+
+  &__thanks {
+    display: none;
+  }
+
+  &__title {
+    margin-top: vw(14px, $mobile);
+    font-family: $Unbounded;
+    font-weight: 800;
+    font-size: vw(20px, $mobile);
+    line-height: 1.15;
+    color: var(--light-bg-color);
     @media (min-width: $desk) {
-      padding: vw(16px, $desktop) 0;
+      margin-top: vw(16px, $desktop);
+      font-size: vw(24px, $desktop);
     }
     @media (min-width: $desk_large) {
-      padding: vw(16px, $desktop_large) 0;
+      margin-top: vw(16px, $desktop_large);
+      font-size: vw(24px, $desktop_large);
+    }
+    span {
+      color: var(--accent-color);
     }
   }
+
+  &__subtitle {
+    margin-top: vw(10px, $mobile);
+    color: var(--additional-gray-color);
+    @media (min-width: $desk) {
+      margin-top: vw(12px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(12px, $desktop_large);
+    }
+  }
+
+  &__form {
+    width: 100%;
+    margin-top: vw(24px, $mobile);
+    text-align: left;
+    @media (min-width: $desk) {
+      margin-top: vw(30px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(30px, $desktop_large);
+    }
+
+    // Поля CF7 — в стиле темы: «пилюли» на тёмном фоне.
+    .form__input {
+      border-color: var(--dark-bg-stoke-color);
+      border-radius: vw(40px, $mobile);
+      padding: vw(14px, $mobile) vw(20px, $mobile);
+      color: var(--light-bg-color);
+      background-color: var(--super-dark-bg-color);
+      @media (min-width: $desk) {
+        border-radius: vw(40px, $desktop);
+        padding: vw(15px, $desktop) vw(22px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        border-radius: vw(40px, $desktop_large);
+        padding: vw(15px, $desktop_large) vw(22px, $desktop_large);
+      }
+      &::placeholder {
+        color: var(--gray-50-color);
+      }
+      &:focus {
+        border-color: var(--accent-color);
+      }
+      @media (any-hover: hover) {
+        &:hover {
+          border-color: var(--accent-color);
+        }
+      }
+    }
+
+    .form__textarea {
+      border-radius: vw(20px, $mobile);
+      @media (min-width: $desk) {
+        border-radius: vw(20px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        border-radius: vw(20px, $desktop_large);
+      }
+    }
+
+    .form__radio label {
+      border: 1px solid var(--dark-bg-stoke-color);
+      border-radius: vw(40px, $mobile);
+      color: var(--additional-gray-color);
+      background-color: transparent;
+      @media (min-width: $desk) {
+        border-radius: vw(40px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        border-radius: vw(40px, $desktop_large);
+      }
+      &:has(input:checked) {
+        border-color: var(--accent-color);
+        color: var(--white-color);
+        background-color: var(--accent-color);
+        span.wpcf7-list-item-label svg {
+          fill: var(--white-color);
+        }
+      }
+    }
+
+    .form__submit.default-btn {
+      color: var(--white-color);
+      background-color: var(--accent-color);
+      @media (any-hover: hover) {
+        &:hover {
+          color: var(--main-text-color);
+          background-color: var(--light-bg-color);
+        }
+      }
+    }
+
+    .form__checkbox label {
+      color: var(--gray-50-color);
+      a {
+        color: var(--additional-gray-color);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__thanks-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: vw(56px, $mobile);
+    height: vw(56px, $mobile);
+    border-radius: 50%;
+    background-color: var(--accent-20-color);
+    @media (min-width: $desk) {
+      width: vw(64px, $desktop);
+      height: vw(64px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      width: vw(64px, $desktop_large);
+      height: vw(64px, $desktop_large);
+    }
+    svg {
+      width: 45%;
+      height: 45%;
+      fill: none;
+      stroke: var(--accent-color);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
   &__link {
-  }
-  &__close {
-    width: vw(32px, $mobile);
-    height: vw(32px, $mobile);
-    position: absolute;
-    top: vw(16px, $mobile);
-    right: vw(16px, $mobile);
-    left: auto;
-    stroke: var(--gray-35-color);
+    margin-top: vw(24px, $mobile);
     @media (min-width: $desk) {
-      width: vw(48px, $desktop);
-      height: vw(48px, $desktop);
-      top: vw(44px, $desktop);
-      right: vw(44px, $desktop);
+      margin-top: vw(30px, $desktop);
     }
     @media (min-width: $desk_large) {
-      width: vw(48px, $desktop_large);
-      height: vw(48px, $desktop_large);
-      top: vw(44px, $desktop_large);
-      right: vw(44px, $desktop_large);
+      margin-top: vw(30px, $desktop_large);
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: vw(12px, $mobile);
+    right: vw(12px, $mobile);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: vw(40px, $mobile);
+    height: vw(40px, $mobile);
+    border: 1px solid var(--dark-bg-stoke-color);
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s linear;
+    @media (min-width: $desk) {
+      top: vw(16px, $desktop);
+      right: vw(16px, $desktop);
+      width: vw(40px, $desktop);
+      height: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      top: vw(16px, $desktop_large);
+      right: vw(16px, $desktop_large);
+      width: vw(40px, $desktop_large);
+      height: vw(40px, $desktop_large);
+    }
+    svg {
+      width: 50%;
+      height: 50%;
+      fill: none;
+      stroke: var(--additional-gray-color);
+      stroke-width: 2;
+      stroke-linecap: round;
+      transition: stroke 0.3s linear;
     }
     @media (any-hover: hover) {
-      transition: all .3s linear;
       &:hover {
-        stroke: var(--white-color);
+        border-color: var(--accent-color);
+        svg {
+          stroke: var(--accent-color);
+        }
       }
     }
   }
@@ -115,31 +268,17 @@
     z-index: 20;
     opacity: 1;
     pointer-events: all;
+    .modal__inner {
+      transform: none;
+    }
   }
+
   &.active.success {
     .modal__wrapper {
       display: none;
     }
     .modal__thanks {
       display: flex;
-    }
-    .modal__title {
-      margin-bottom: vw(24px, $mobile);
-      @media (min-width: $desk) {
-        margin-bottom: vw(24px, $desktop);
-      }
-      @media (min-width: $desk_large) {
-        margin-bottom: vw(24px, $desktop_large);
-      }
-    }
-    .modal__subtitle {
-      margin-bottom: vw(32px, $mobile);
-      @media (min-width: $desk) {
-        margin-bottom: vw(40px, $desktop);
-      }
-      @media (min-width: $desk_large) {
-        margin-bottom: vw(40px, $desktop_large);
-      }
     }
   }
 }
