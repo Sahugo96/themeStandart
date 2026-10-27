@@ -1,0 +1,31 @@
+.lang{
+    &__item{
+        display: flex;
+        gap: vw(5px, $mobile);
+        align-items: center;
+        text-transform: capitalize;
+        font-size: vw(12px, $mobile);
+        @media(min-width:$tab) {
+            font-size: vw(14px, $tablet);
+            gap: vw(5px, $tablet);
+        }
+        @media(min-width:$desk) {
+            font-size: vw(14px, $desktop);
+            gap: vw(5px, $desktop);
+        }
+    }
+    &__item img{
+        width: vw(14px, $mobile);
+        height: vw(14px, $mobile);
+        object-fit: contain;
+        border-radius: 50%;
+        @media(min-width:$tab) {
+            width: vw(14px, $tablet);
+            height: vw(14px, $tablet);
+        }   
+        @media(min-width:$desk) {
+            width: vw(14px, $desktop);
+            height: vw(14px, $desktop);
+        }
+    }
+}

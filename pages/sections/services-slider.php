@@ -70,7 +70,7 @@ $section_id = 'services_slider_' . wp_unique_id();
 <section class="services services--slider section"
   data-posts-per-page="<?= esc_attr($posts_per_page); ?>"
   data-post-ids="<?= esc_attr(implode(',', $post_ids)); ?>">
-  <div class="services__box br-30">
+  <div class="container">
     <div class="services__top section-top">
       <?php if (trim((string) $data['subtitle']) !== '') : ?>
         <span class="services__badge section-subtitle"><?= wp_kses_post($data['subtitle']); ?></span>

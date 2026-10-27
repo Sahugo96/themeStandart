@@ -8,6 +8,8 @@ const banks_Splide = new Splide(".banks__splide", {
   updateOnMove: true,
   breakpoints: {
     991.9: {
+      autoWidth: false,
+      perPage: 1,
       arrows: false,
     },
   },

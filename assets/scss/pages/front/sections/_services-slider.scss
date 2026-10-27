@@ -1,39 +1,12 @@
 // Секция «Услуги» — слайдер с фильтром (pages/sections/services-slider.php).
 // .services без модификатора — архив услуг (pages/services/), поэтому всё под .services--slider.
-.services--slider {
-  margin: 0 vw(10px, $mobile);
-  @media (min-width: $desk) {
-    margin: 0 auto;
-    max-width: vw(1440px, $desktop);
-    padding-left: vw(30px, $desktop);
-    padding-right: vw(30px, $desktop);
-  }
-  @media (min-width: $desk_large) {
-    max-width: vw(1440px, $desktop_large);
-    padding-left: vw(30px, $desktop_large);
-    padding-right: vw(30px, $desktop_large);
-  }
+.services {
 
-  // Плашка секции; слайдер уходит за правый край и обрезается ей.
-  .services__box {
-    overflow: hidden;
-    padding: vw(30px, $mobile) vw(16px, $mobile);
-    background-color: var(--dark-bg-color);
-    @media (min-width: $desk) {
-      padding: vw(80px, $desktop) vw(100px, $desktop);
-      border-radius: vw(40px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      padding: vw(80px, $desktop_large) vw(100px, $desktop_large);
-      border-radius: vw(40px, $desktop_large);
-    }
-  }
-
-  .services__title span {
+  &__title span {
     display: block;
   }
 
-  .services__text {
+  &__text {
     color: var(--white-color);
     opacity: 0.6;
     @media (min-width: $desk) {
@@ -47,7 +20,7 @@
   }
 
   // ----- Фильтр -----
-  .services__filter {
+  &__filter {
     --filter-panel-bg: var(--super-dark-bg-color);
     --filter-active-color: var(--dark-bg-color);
     @media (min-width: $desk) {
@@ -61,7 +34,7 @@
 
   // ----- Слайдер -----
   // splide-core прячет .splide до инициализации — без JS карточки всё равно видны.
-  .services__slider {
+  &__slider {
     visibility: visible;
     transition: opacity 0.3s linear;
     &.loading {
@@ -76,7 +49,7 @@
     }
   }
 
-  .services__empty {
+  &__empty {
     padding: vw(40px, $mobile) 0;
     text-align: center;
     color: var(--gray-70-color);
@@ -89,7 +62,7 @@
   }
 
   // ----- Карточка -----
-  .services__card {
+  &__card {
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -103,7 +76,7 @@
     }
   }
 
-  .services__card-image {
+  &__card-image {
     position: relative;
     display: block;
     flex: none;
@@ -132,7 +105,7 @@
     }
   }
 
-  .services__card-tag {
+  &__card-tag {
     position: absolute;
     top: vw(12px, $mobile);
     left: vw(12px, $mobile);
@@ -160,7 +133,7 @@
     }
   }
 
-  .services__card-body {
+  &__card-body {
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
@@ -173,7 +146,7 @@
     }
   }
 
-  .services__card-title {
+  &__card-title {
     font-family: $Unbounded;
     font-size: vw(15px, $mobile);
     font-weight: 700;
@@ -196,7 +169,7 @@
     }
   }
 
-  .services__card-text {
+  &__card-text {
     margin-top: vw(12px, $mobile);
     font-size: vw(13px, $mobile);
     line-height: 1.5;
@@ -212,7 +185,7 @@
     }
   }
 
-  .services__card-price {
+  &__card-price {
     margin-top: vw(16px, $mobile);
     font-size: vw(13px, $mobile);
     line-height: 1.2;
@@ -233,7 +206,7 @@
     }
   }
 
-  .services__card-actions {
+  &__card-actions {
     display: flex;
     flex-direction: column;
     grid-gap: vw(10px, $mobile);
@@ -249,7 +222,7 @@
     }
   }
 
-  .services__card-btn {
+  &__card-btn {
     display: flex;
     align-items: center;
     justify-content: center;

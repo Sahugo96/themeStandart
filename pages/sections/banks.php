@@ -72,7 +72,7 @@ $btn_url  = trim((string) ($data['btn_url'] ?? ''));
               $fact_2_label = trim((string) ($item['fact_2_label'] ?? ''));
               $fact_2_value = trim((string) ($item['fact_2_value'] ?? ''));
             ?>
-              <article class="banks__card fade-in-element splide__slide">
+              <article class="banks__card br-20 fade-in-element splide__slide">
                 <?php if (trim((string) ($item['title'] ?? '')) !== '') : ?>
                   <h3 class="banks__card-title"><?= $item['title']; ?></h3>
                 <?php endif; ?>
@@ -84,14 +84,14 @@ $btn_url  = trim((string) ($data['btn_url'] ?? ''));
                 <?php endif; ?>
 
                 <?php if ($type_text !== '') : ?>
-                  <div class="banks__type">
+                  <div class="banks__type br-20">
                     <svg class="banks__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.8 10.3 2.7 2.7 5.2-5.6"/></svg>
-                    <span class="banks__type-text"><?= esc_html($type_text); ?></span>
+                    <span class="banks__type-text tag-10-10"><?= esc_html($type_text); ?></span>
                   </div>
                 <?php endif; ?>
 
                 <?php if ($fact_1_label !== '' || $fact_2_label !== '') : ?>
-                  <ul class="banks__facts">
+                  <ul class="banks__facts br-20">
                     <?php if ($fact_1_label !== '' || $fact_1_value !== '') : ?>
                       <li class="banks__fact">
                         <span class="banks__fact-label"><?= esc_html($fact_1_label); ?></span>

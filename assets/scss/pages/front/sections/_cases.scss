@@ -16,7 +16,7 @@
 
   &__inner {
     overflow: hidden;
-    padding: vw(30px, $mobile) vw(20px, $mobile) vw(20px, $mobile);
+    padding: vw(30px, $mobile) vw(15px, $mobile) vw(20px, $mobile);
     background-color: var(--light-bg-color);
     @media (min-width: $desk) {
       padding: vw(80px, $desktop) vw(100px, $desktop) vw(40px, $desktop);

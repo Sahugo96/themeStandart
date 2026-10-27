@@ -59,8 +59,9 @@
   }
 
   &__title {
+    text-align: left;
     margin-top: vw(16px, $mobile);
-    color: var(--consult-dark);
+    color: var(--main-text-color);
     @media (min-width: $desk) {
       margin-top: vw(18px, $desktop);
     }

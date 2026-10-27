@@ -399,6 +399,7 @@
     text-align: left;
     @media (min-width: $desk) {
       min-width: 0;
+      overflow: hidden;
     }
   }
 

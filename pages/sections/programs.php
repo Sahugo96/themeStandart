@@ -44,11 +44,11 @@ $btn_url = (string) $data['btn_url'];
       <?php endif; ?>
 
       <?php if (trim((string) $data['title']) !== '') : ?>
-        <h2 class="programs__title"><?= $data['title']; ?></h2>
+        <h2 class="programs__title section-title"><?= $data['title']; ?></h2>
       <?php endif; ?>
 
       <?php if ($lead !== '') : ?>
-        <div class="programs__lead"><?= $lead; ?></div>
+        <div class="programs__lead section-text"><?= $lead; ?></div>
       <?php endif; ?>
     </div>
 
