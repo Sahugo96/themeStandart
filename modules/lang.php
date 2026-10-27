@@ -1,34 +1,62 @@
 <?php
-$translations = pll_the_languages(['raw' => 1]);
+/**
+ * Переключатель языков (шапка, мобильное меню).
+ *
+ * Языки — из Polylang: текущий подсвечен, остальные ведут на перевод текущей страницы
+ * (GET-параметры сохраняются). Без Polylang выводится только текущий язык.
+ *
+ * @var array $args {
+ *   @type string $class Дополнительный класс обёртки.
+ * }
+ */
 
-$alternate_lang = '';
-$alternate_url = '';
-$query_string = '';
+defined('ABSPATH') || exit;
 
-if (!empty($_GET)) {
-    $query_string = '?' . http_build_query($_GET);
-}
+// Короткие подписи по slug языка, как в макете.
+$lang_labels = [
+    'ru' => 'Ру',
+    'en' => 'Eng',
+];
 
-foreach ($translations as $slug => $translation) {
-    if (!$translation['current_lang']) {
-        $alternate_lang = $slug;
-        $alternate_url = $translation['url'] . $query_string;
-        break;
+$lang_items = [];
+
+if (function_exists('pll_the_languages')) {
+    $translations = pll_the_languages(['raw' => 1, 'hide_if_empty' => 0, 'hide_if_no_translation' => 0]);
+    $query_string = !empty($_GET) ? '?' . http_build_query(wp_unslash($_GET)) : '';
+
+    foreach ((array) $translations as $slug => $translation) {
+        $is_current = !empty($translation['current_lang']);
+
+        $lang_items[] = [
+            'label'   => $lang_labels[$slug] ?? ucfirst((string) $slug),
+            'url'     => $is_current ? '' : (string) ($translation['url'] ?? '') . $query_string,
+            'current' => $is_current,
+            'locale'  => (string) ($translation['locale'] ?? $slug),
+        ];
     }
+} else {
+    $current_slug = substr((string) get_locale(), 0, 2);
+
+    $lang_items[] = [
+        'label'   => $lang_labels[$current_slug] ?? ucfirst($current_slug),
+        'url'     => '',
+        'current' => true,
+        'locale'  => (string) get_locale(),
+    ];
 }
 
-$current_option_id = Get::option_id();
-$alternate_option_id = pll_get_post($current_option_id, $alternate_lang);
-$header_lang_img = get_field('header_lang_img', $alternate_option_id);
-?>
+if (empty($lang_items)) {
+    return;
+}
 
-<?php if ($alternate_lang && $alternate_url): ?>
-    <div class="lang">
-        <a class="lang__item" href="<?= esc_url($alternate_url); ?>">
-            <?= esc_html($alternate_lang); ?>
-            <?php if (!empty($header_lang_img)): ?>
-                <img src="<?= esc_url($header_lang_img); ?>" alt="Lang image">
-            <?php endif; ?>
-        </a>
-    </div>
-<?php endif; ?>
+$lang_class = trim('lang ' . (string) ($args['class'] ?? ''));
+?>
+<div class="<?= esc_attr($lang_class); ?>">
+    <?php foreach ($lang_items as $lang_item) : ?>
+        <?php if ($lang_item['current'] || $lang_item['url'] === '') : ?>
+            <span class="lang__item<?= $lang_item['current'] ? ' is-current' : ''; ?>" aria-current="<?= $lang_item['current'] ? 'true' : 'false'; ?>"><?= esc_html($lang_item['label']); ?></span>
+        <?php else : ?>
+            <a class="lang__item" href="<?= esc_url($lang_item['url']); ?>" hreflang="<?= esc_attr(str_replace('_', '-', $lang_item['locale'])); ?>"><?= esc_html($lang_item['label']); ?></a>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>

@@ -94,7 +94,54 @@ function tolstenko_contact_data_defaults() {
 		),
 		'socials'                  => array(),
 		'socials_rgb'              => array(),
+		'header_address'           => '',
+		'header_hours'             => '',
+		'header_phones_title'      => '',
+		'header_phones'            => array(),
+		'header_services_btn'      => '',
+		'header_btn_text'          => '',
+		'header_btn_url'           => '',
 	);
+}
+
+/**
+ * Телефоны шапки (выпадающий список у номера): номер, подпись страны, флаг.
+ *
+ * @param mixed $rows Raw rows.
+ * @return array<int, array{phone: string, label: string, flag: int}>
+ */
+function tolstenko_sanitize_contact_header_phones( $rows ) {
+	if ( ! is_array( $rows ) ) {
+		return array();
+	}
+	$out = array();
+	foreach ( $rows as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+		$phone = sanitize_text_field( (string) ( $row['phone'] ?? '' ) );
+		if ( $phone === '' ) {
+			continue;
+		}
+		$out[] = array(
+			'phone' => $phone,
+			'label' => sanitize_text_field( (string) ( $row['label'] ?? '' ) ),
+			'flag'  => max( 0, (int) ( $row['flag'] ?? 0 ) ),
+		);
+	}
+	return $out;
+}
+
+/**
+ * Номер для ссылки tel: (только цифры и ведущий +).
+ *
+ * @param string $phone Номер в любом формате.
+ * @return string
+ */
+function tolstenko_contact_phone_href( $phone ) {
+	$phone = trim( (string) $phone );
+	$plus  = strpos( $phone, '+' ) === 0 ? '+' : '';
+	return $plus . preg_replace( '/\D/', '', $phone );
 }
 
 
@@ -249,6 +296,46 @@ function tolstenko_sanitize_contact_data( $raw ) {
 	$base['footer_links']     = tolstenko_sanitize_contact_footer_links( $raw['footer_links'] ?? array() );
 	$base['socials']          = tolstenko_sanitize_contact_social_rows( $raw['socials'] ?? array() );
 	$base['socials_rgb']      = tolstenko_sanitize_contact_social_rows( $raw['socials_rgb'] ?? array() );
+
+	// Иконки (ID вложения или URL) и ссылки VK / MAX.
+	foreach ( array( 'phone_ico', 'email_ico', 'whatsapp_ico', 'telegram_ico', 'vk_ico', 'max_ico' ) as $key ) {
+		$base[ $key ] = tolstenko_sanitize_contact_icon( $raw[ $key ] ?? '' );
+	}
+	$base['vk_link']  = esc_url_raw( trim( (string) ( $raw['vk_link'] ?? '' ) ) );
+	$base['max_link'] = esc_url_raw( trim( (string) ( $raw['max_link'] ?? '' ) ) );
+
+	// Логотипы (ID вложений).
+	foreach ( array( 'logo_header', 'logo_short', 'logo_footer', 'footer_audit_img' ) as $key ) {
+		$base[ $key ] = max( 0, (int) ( $raw[ $key ] ?? 0 ) );
+	}
+
+	// Модальное окно (в заголовках допустим <span> для акцента).
+	$base['modal_title']        = tolstenko_kses_html( (string) ( $raw['modal_title'] ?? '' ) );
+	$base['modal_text']         = sanitize_textarea_field( (string) ( $raw['modal_text'] ?? '' ) );
+	$base['modal_thanks_title'] = tolstenko_kses_html( (string) ( $raw['modal_thanks_title'] ?? '' ) );
+	$base['modal_thanks_text']  = sanitize_textarea_field( (string) ( $raw['modal_thanks_text'] ?? '' ) );
+	$base['modal_btn']          = sanitize_text_field( (string) ( $raw['modal_btn'] ?? '' ) );
+
+	// Шапка.
+	$base['header_address']      = sanitize_text_field( (string) ( $raw['header_address'] ?? '' ) );
+	$base['header_hours']        = sanitize_text_field( (string) ( $raw['header_hours'] ?? '' ) );
+	$base['header_phones_title'] = sanitize_text_field( (string) ( $raw['header_phones_title'] ?? '' ) );
+	$base['header_phones']       = tolstenko_sanitize_contact_header_phones( $raw['header_phones'] ?? array() );
+	$base['header_services_btn'] = sanitize_text_field( (string) ( $raw['header_services_btn'] ?? '' ) );
+	$base['header_btn_text']     = sanitize_text_field( (string) ( $raw['header_btn_text'] ?? '' ) );
+	$base['header_btn_url']      = esc_url_raw( trim( (string) ( $raw['header_btn_url'] ?? '' ) ) );
+
+	// Панель услуг в шапке: на этой странице её полей нет — сохраняем как есть.
+	$base['header_services_menu']        = tolstenko_sanitize_contact_services_menu( $raw['header_services_menu'] ?? array() );
+	$base['header_services_right_title'] = sanitize_text_field( (string) ( $raw['header_services_right_title'] ?? '' ) );
+	$base['header_services_right_text']  = sanitize_textarea_field( (string) ( $raw['header_services_right_text'] ?? '' ) );
+	$right_link = is_array( $raw['header_services_right_link'] ?? null ) ? $raw['header_services_right_link'] : array();
+	$base['header_services_right_link']  = array(
+		'url'    => esc_url_raw( trim( (string) ( $right_link['url'] ?? '' ) ) ),
+		'title'  => sanitize_text_field( (string) ( $right_link['title'] ?? '' ) ),
+		'target' => sanitize_text_field( (string) ( $right_link['target'] ?? '' ) ),
+	);
+
 	return $base;
 }
 
@@ -472,6 +559,16 @@ function tolstenko_handle_save_contact_data() {
 		? wp_unslash( $_POST['tolstenko_contact_data'] )
 		: array();
 
+	// Поля панели услуг на этой форме не редактируются — берём сохранённые значения.
+	$saved = get_option( TOLSTENKO_CONTACT_DATA_OPTION, array() );
+	if ( is_array( $saved ) ) {
+		foreach ( array( 'header_services_menu', 'header_services_right_title', 'header_services_right_text', 'header_services_right_link' ) as $key ) {
+			if ( ! isset( $raw[ $key ] ) && isset( $saved[ $key ] ) ) {
+				$raw[ $key ] = $saved[ $key ];
+			}
+		}
+	}
+
 	update_option( TOLSTENKO_CONTACT_DATA_OPTION, tolstenko_sanitize_contact_data( $raw ), false );
 
 	wp_safe_redirect(
@@ -579,6 +676,105 @@ function tolstenko_render_contact_social_group( $group, $title, $hint, $rows ) {
 	<?php
 }
 
+/**
+ * Поле иконки: ID вложения или URL (кнопки «Выбрать / Вставить URL / Очистить» — общий JS страницы).
+ *
+ * @param string $key   Ключ в tolstenko_contact_data.
+ * @param string $label Подпись.
+ * @param string $value Текущее значение.
+ */
+function tolstenko_render_contact_icon_field( $key, $label, $value ) {
+	$value   = (string) $value;
+	$preview = tolstenko_contact_resolve_icon_url( $value, 'thumbnail' );
+	$state   = $value !== ''
+		? ( ctype_digit( $value ) ? 'ID: ' . $value : __( 'URL задан', 'tolstenko-theme' ) )
+		: __( 'Не выбрана', 'tolstenko-theme' );
+	?>
+	<div class="row tolstenko-cd-row tolstenko-cd-row--single">
+		<label><?php echo esc_html( $label ); ?></label>
+		<div class="tolstenko-cd-icon-controls">
+			<img class="tolstenko-cd-icon-preview" data-cd-icon-preview src="<?php echo esc_url( $preview ); ?>" alt="">
+			<input type="hidden" data-cd-icon-input name="<?php echo esc_attr( 'tolstenko_contact_data[' . $key . ']' ); ?>" value="<?php echo esc_attr( $value ); ?>">
+			<span class="tolstenko-cd-icon-value" data-cd-icon-value><?php echo esc_html( $state ); ?></span>
+			<button type="button" class="button button-small" data-cd-pick-icon><?php esc_html_e( 'Выбрать', 'tolstenko-theme' ); ?></button>
+			<button type="button" class="button button-small" data-cd-set-url><?php esc_html_e( 'Вставить URL', 'tolstenko-theme' ); ?></button>
+			<button type="button" class="button button-small" data-cd-clear-icon><?php esc_html_e( 'Очистить', 'tolstenko-theme' ); ?></button>
+		</div>
+	</div>
+	<?php
+}
+
+/**
+ * Поле изображения (ID вложения).
+ *
+ * @param string $key   Ключ в tolstenko_contact_data.
+ * @param string $label Подпись.
+ * @param int    $id    ID вложения.
+ */
+function tolstenko_render_contact_image_field( $key, $label, $id ) {
+	$id  = (int) $id;
+	$url = $id ? (string) wp_get_attachment_image_url( $id, 'medium' ) : '';
+	?>
+	<div class="row">
+		<label><?php echo esc_html( $label ); ?></label>
+		<div class="tolstenko-cd-image" data-cd-image>
+			<input type="hidden" name="<?php echo esc_attr( 'tolstenko_contact_data[' . $key . ']' ); ?>" value="<?php echo (int) $id; ?>" data-cd-image-id>
+			<div class="tolstenko-cd-image__preview" data-cd-image-preview>
+				<?php if ( $url !== '' ) : ?>
+					<img src="<?php echo esc_url( $url ); ?>" alt="" style="max-width:220px;height:auto;display:block;margin:6px 0;">
+				<?php endif; ?>
+			</div>
+			<p>
+				<button type="button" class="button" data-cd-image-pick><?php esc_html_e( 'Выбрать', 'tolstenko-theme' ); ?></button>
+				<button type="button" class="button-link-delete" data-cd-image-clear <?php echo $id ? '' : 'style="display:none"'; ?>><?php esc_html_e( 'Убрать', 'tolstenko-theme' ); ?></button>
+			</p>
+		</div>
+	</div>
+	<?php
+}
+
+/**
+ * Строка повторителя «Телефоны в шапке».
+ *
+ * @param string $index Индекс строки.
+ * @param array  $row   phone / label / flag.
+ */
+function tolstenko_render_contact_header_phone_row( $index, $row ) {
+	$name    = 'tolstenko_contact_data[header_phones][' . $index . ']';
+	$flag    = (int) ( $row['flag'] ?? 0 );
+	$preview = $flag ? (string) wp_get_attachment_image_url( $flag, 'thumbnail' ) : '';
+	?>
+	<div class="tolstenko-cd-row tolstenko-cd-row--phone">
+		<div class="field tolstenko-cd-field-link">
+			<label><?php esc_html_e( 'Номер', 'tolstenko-theme' ); ?></label>
+			<input type="text" name="<?php echo esc_attr( $name . '[phone]' ); ?>" value="<?php echo esc_attr( (string) ( $row['phone'] ?? '' ) ); ?>" placeholder="+971 (55) 43 52 459">
+		</div>
+		<div class="field tolstenko-cd-field-text">
+			<label><?php esc_html_e( 'Подпись (страна)', 'tolstenko-theme' ); ?></label>
+			<input type="text" name="<?php echo esc_attr( $name . '[label]' ); ?>" value="<?php echo esc_attr( (string) ( $row['label'] ?? '' ) ); ?>" placeholder="ОАЭ">
+		</div>
+		<div class="field tolstenko-cd-field-actions field-actions">
+			<label>&nbsp;</label>
+			<div class="tolstenko-cd-row-btns">
+				<button type="button" class="button button-small" data-cd-up>↑</button>
+				<button type="button" class="button button-small" data-cd-down>↓</button>
+				<button type="button" class="button button-small" data-cd-remove><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
+			</div>
+		</div>
+		<div class="field tolstenko-cd-field-icon">
+			<label><?php esc_html_e( 'Флаг', 'tolstenko-theme' ); ?></label>
+			<div class="tolstenko-cd-icon-controls">
+				<img class="tolstenko-cd-icon-preview" data-cd-icon-preview src="<?php echo esc_url( $preview ); ?>" alt="">
+				<input type="hidden" data-cd-icon-input name="<?php echo esc_attr( $name . '[flag]' ); ?>" value="<?php echo $flag ? (int) $flag : ''; ?>">
+				<span class="tolstenko-cd-icon-value" data-cd-icon-value><?php echo $flag ? esc_html( 'ID: ' . $flag ) : esc_html__( 'Не выбран', 'tolstenko-theme' ); ?></span>
+				<button type="button" class="button button-small" data-cd-pick-icon><?php esc_html_e( 'Выбрать', 'tolstenko-theme' ); ?></button>
+				<button type="button" class="button button-small" data-cd-clear-icon><?php esc_html_e( 'Очистить', 'tolstenko-theme' ); ?></button>
+			</div>
+		</div>
+	</div>
+	<?php
+}
+
 function tolstenko_render_contact_data_admin_page() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
@@ -652,6 +848,8 @@ function tolstenko_render_contact_data_admin_page() {
 			.tolstenko-cd-actions{display:flex;gap:8px;align-items:center}
 			.tolstenko-cd-empty{color:#777;font-style:italic}
 			.tolstenko-cd .submit{margin-top:8px}
+			.tolstenko-cd-row--single{display:block;border:0;background:none;padding:0}
+			.tolstenko-cd-row--phone{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;grid-template-areas:"link text actions" "icon icon icon"}
 			@media (max-width:960px){
 				.tolstenko-cd-row{grid-template-columns:1fr auto;grid-template-areas:"enabled actions" "link link" "text text" "icon icon"}
 			}
@@ -741,6 +939,51 @@ function tolstenko_render_contact_data_admin_page() {
 						<?php endfor; ?>
 					</div>
 				</div>
+			</div>
+
+			<div class="tolstenko-cd-card">
+				<h2 style="margin-top:0;"><?php esc_html_e( 'Шапка', 'tolstenko-theme' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'Меню верхней строки и меню рядом с поиском — в Внешний вид → Меню (header-menu / header-service-menu). Иконки соцсетей — из блока «Социальные сети» ниже, Telegram-кнопка — из поля Telegram выше.', 'tolstenko-theme' ); ?></p>
+				<div class="row">
+					<label for="tolstenko-cd-header-address"><?php esc_html_e( 'Адрес', 'tolstenko-theme' ); ?></label>
+					<input type="text" id="tolstenko-cd-header-address" name="tolstenko_contact_data[header_address]" value="<?php echo esc_attr( $data['header_address'] ); ?>" placeholder="502, Al Hawai Tower, DIFC, Dubai">
+				</div>
+				<div class="row">
+					<label for="tolstenko-cd-header-hours"><?php esc_html_e( 'Часы работы', 'tolstenko-theme' ); ?></label>
+					<input type="text" id="tolstenko-cd-header-hours" name="tolstenko_contact_data[header_hours]" value="<?php echo esc_attr( $data['header_hours'] ); ?>" placeholder="Пн–Сб, 08:00–19:00">
+				</div>
+				<div class="row">
+					<label for="tolstenko-cd-header-services-btn"><?php esc_html_e( 'Кнопка панели услуг', 'tolstenko-theme' ); ?></label>
+					<input type="text" id="tolstenko-cd-header-services-btn" name="tolstenko_contact_data[header_services_btn]" value="<?php echo esc_attr( $data['header_services_btn'] ); ?>" placeholder="Все услуги">
+				</div>
+				<div class="row">
+					<label for="tolstenko-cd-header-btn-text"><?php esc_html_e( 'Кнопка справа: текст и ссылка (пусто = #modal)', 'tolstenko-theme' ); ?></label>
+					<div class="tolstenko-cd-link-row">
+						<input type="text" id="tolstenko-cd-header-btn-text" name="tolstenko_contact_data[header_btn_text]" value="<?php echo esc_attr( $data['header_btn_text'] ); ?>" placeholder="Оставить заявку">
+						<input type="text" name="tolstenko_contact_data[header_btn_url]" value="<?php echo esc_attr( $data['header_btn_url'] ); ?>" placeholder="#modal">
+					</div>
+				</div>
+			</div>
+
+			<div class="tolstenko-cd-group" data-cd-group>
+				<h2 class="tolstenko-cd-group-title"><?php esc_html_e( 'Телефоны в шапке', 'tolstenko-theme' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'Первый номер показывается в шапке, по клику открывается весь список. Пусто — выводится основной телефон из «Контактов».', 'tolstenko-theme' ); ?></p>
+				<div class="row">
+					<label for="tolstenko-cd-header-phones-title"><?php esc_html_e( 'Заголовок списка', 'tolstenko-theme' ); ?></label>
+					<input type="text" id="tolstenko-cd-header-phones-title" name="tolstenko_contact_data[header_phones_title]" value="<?php echo esc_attr( $data['header_phones_title'] ); ?>" placeholder="Нажмите для вызова">
+				</div>
+				<div class="tolstenko-cd-list" data-cd-list>
+					<?php foreach ( (array) $data['header_phones'] as $i => $phone_row ) : ?>
+						<?php tolstenko_render_contact_header_phone_row( (string) $i, is_array( $phone_row ) ? $phone_row : array() ); ?>
+					<?php endforeach; ?>
+				</div>
+				<p class="tolstenko-cd-empty"><?php esc_html_e( 'Пока нет элементов.', 'tolstenko-theme' ); ?></p>
+				<p class="tolstenko-cd-actions">
+					<button type="button" class="button" data-cd-add><?php esc_html_e( 'Добавить телефон', 'tolstenko-theme' ); ?></button>
+				</p>
+				<template>
+					<?php tolstenko_render_contact_header_phone_row( '__INDEX__', array() ); ?>
+				</template>
 			</div>
 
 			<?php

@@ -62,12 +62,13 @@ body {
 
 .main {
   flex: 1 1 auto;
+  // Отступ под фиксированную шапку (верхняя строка + плашка, common/_header.scss).
   padding-top: vw(100px, $mobile);
   @media (min-width: $desk) {
-    padding-top: vw(120px, $desktop);
+    padding-top: vw(160px, $desktop);
   }
   @media (min-width: $desk_large) {
-    padding-top: vw(120px, $desktop_large);
+    padding-top: vw(160px, $desktop_large);
   }
 }
 
