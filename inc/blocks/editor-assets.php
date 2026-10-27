@@ -4,6 +4,42 @@ defined('ABSPATH') || exit;
 
 function theme_enqueue_block_editor_assets(): void
 {
+    // Плейсхолдеры полей блоков — дефолты на языке редактируемой страницы (inc/settings-i18n.php).
+    if (function_exists('theme_settings_set_lang')) {
+        theme_settings_set_lang(theme_get_editor_post_lang());
+    }
+
+    theme_enqueue_block_editor_assets_localized();
+
+    if (function_exists('theme_settings_set_lang')) {
+        theme_settings_set_lang(null);
+    }
+}
+
+/**
+ * Язык редактируемой записи (Polylang): существующая запись или новая (?new_lang=).
+ *
+ * @return string|null Slug или null — язык по умолчанию.
+ */
+function theme_get_editor_post_lang(): ?string
+{
+    // phpcs:disable WordPress.Security.NonceVerification.Recommended -- только чтение параметров экрана.
+    $post_id = isset($_GET['post']) ? (int) $_GET['post'] : 0;
+    if ($post_id > 0 && function_exists('pll_get_post_language')) {
+        $lang = pll_get_post_language($post_id, 'slug');
+        if (is_string($lang) && $lang !== '') {
+            return $lang;
+        }
+    }
+    if (!empty($_GET['new_lang'])) {
+        return sanitize_key(wp_unslash($_GET['new_lang']));
+    }
+    // phpcs:enable
+    return null;
+}
+
+function theme_enqueue_block_editor_assets_localized(): void
+{
     $controls_js = get_template_directory() . '/assets/js/block-controls.js';
     $blocks_js = get_template_directory() . '/assets/js/blocks.js';
     $section_blocks_js = get_template_directory() . '/assets/js/section-blocks.js';

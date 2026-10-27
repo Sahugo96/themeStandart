@@ -30,6 +30,7 @@ require_once __DIR__ . '/inc/blog-plugins-display.php';
 
 
 require_once get_template_directory() . '/inc/admin-menu/cpt.php';
+require_once get_template_directory() . '/inc/settings-i18n.php';
 require_once get_template_directory() . '/inc/block-defaults-admin.php';
 require_once get_template_directory() . '/inc/contact-data-admin.php';
 require_once get_template_directory() . '/inc/case-metabox.php';

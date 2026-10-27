@@ -87,8 +87,10 @@ function tolstenko_render_block_defaults_admin_page() {
 		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Дефолты блоков сохранены.', 'tolstenko-theme' ) . '</p></div>';
 	}
 
+	$settings_lang = function_exists( 'theme_settings_admin_lang' ) ? theme_settings_admin_lang() : '';
 	$all = tolstenko_block_defaults_schema();
-	$saved = get_option( 'tolstenko_block_defaults', array() );
+	// Для перевода форма показывает основной язык + уже переведённое (inc/settings-i18n.php).
+	$saved = tolstenko_block_defaults_saved( $settings_lang );
 	if ( ! is_array( $saved ) ) {
 		$saved = array();
 	}
@@ -105,8 +107,16 @@ function tolstenko_render_block_defaults_admin_page() {
 	?>
 	<div class="wrap">
 	<h1><?php esc_html_e( 'Настройки сайта: дефолты блоков', 'tolstenko-theme' ); ?></h1>
-	<form method="post" action="">
+	<?php
+	if ( function_exists( 'theme_settings_render_lang_tabs' ) ) {
+		theme_settings_render_lang_tabs( admin_url( 'admin.php?page=tolstenko-site-settings' ), array( __( 'выбранные статьи, услуги, кейсы, отзывы и сотрудники', 'tolstenko-theme' ) ) );
+	}
+	?>
+	<form method="post" action="" class="tolstenko-df-form">
 	<?php wp_nonce_field( 'tolstenko_block_defaults_save', 'tolstenko_block_defaults_nonce' ); ?>
+	<?php if ( $settings_lang !== '' ) : ?>
+		<input type="hidden" name="settings_lang" value="<?php echo esc_attr( $settings_lang ); ?>">
+	<?php endif; ?>
 	<p class="description"><?php esc_html_e( 'Редактируйте дефолтные значения блоков. Они используются, когда у конкретной страницы/блока нет своих значений.', 'tolstenko-theme' ); ?></p>
 	<link rel="stylesheet" href="<?php echo esc_url( tolstenko_block_defaults_asset_url( 'assets/css/admin/block-defaults.css' ) ); ?>">
 	<?php tolstenko_post_select_print_assets(); ?>
@@ -148,6 +158,11 @@ function tolstenko_render_block_defaults_admin_page() {
 	<?php submit_button( __( 'Сохранить дефолты', 'tolstenko-theme' ) ); ?>
 	<script src="<?php echo esc_url( tolstenko_block_defaults_asset_url( 'assets/js/admin/block-defaults.js' ) ); ?>"></script>
 	</form>
+	<?php
+	if ( function_exists( 'theme_settings_render_shared_fields_script' ) ) {
+		theme_settings_render_shared_fields_script( '.tolstenko-df-form', theme_settings_post_id_keys() );
+	}
+	?>
 	</div>
 	<?php
 }

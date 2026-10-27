@@ -133,6 +133,22 @@ function tolstenko_sanitize_contact_header_phones( $rows ) {
 }
 
 /**
+ * Поля «Контактных данных», общие для всех языков (номера, ссылки, иконки, логотипы).
+ * В переводе хранятся только текстовые поля (inc/settings-i18n.php).
+ *
+ * @return string[]
+ */
+function tolstenko_contact_data_shared_keys() {
+	return array(
+		'phone', 'email', 'whatsapp', 'telegram', 'vk_link', 'max_link',
+		'phone_ico', 'email_ico', 'whatsapp_ico', 'telegram_ico', 'vk_ico', 'max_ico',
+		'logo_header', 'logo_short', 'logo_footer', 'footer_audit_img', 'footer_bottom_logo',
+		'socials', 'socials_rgb', 'header_btn_url',
+		'header_services_menu', 'header_services_right_title', 'header_services_right_text', 'header_services_right_link',
+	);
+}
+
+/**
  * Номер для ссылки tel: (только цифры и ведущий +).
  *
  * @param string $phone Номер в любом формате.
@@ -352,12 +368,16 @@ function tolstenko_sanitize_contact_data( $raw ) {
  * }
  */
 function tolstenko_get_contact_data( $only_enabled = true ) {
-	static $cache = null;
-	if ( $cache !== null && $only_enabled ) {
-		return $cache;
+	static $cache = array();
+	$lang = function_exists( 'theme_settings_lang' ) ? theme_settings_lang() : '';
+	if ( isset( $cache[ $lang ] ) && $only_enabled ) {
+		return $cache[ $lang ];
 	}
 
-	$saved = get_option( TOLSTENKO_CONTACT_DATA_OPTION, array() );
+	// Основной язык + отличия перевода (inc/settings-i18n.php).
+	$saved = function_exists( 'theme_settings_get_saved' )
+		? theme_settings_get_saved( TOLSTENKO_CONTACT_DATA_OPTION, $lang )
+		: get_option( TOLSTENKO_CONTACT_DATA_OPTION, array() );
 	$data  = tolstenko_sanitize_contact_data( $saved );
 
 	$digits = preg_replace( '/\D/', '', $data['phone'] );
@@ -390,7 +410,7 @@ function tolstenko_get_contact_data( $only_enabled = true ) {
 			}
 			$data[ $key ] = $filtered;
 		}
-		$cache = $data;
+		$cache[ $lang ] = $data;
 	}
 
 	return $data;
@@ -559,8 +579,11 @@ function tolstenko_handle_save_contact_data() {
 		? wp_unslash( $_POST['tolstenko_contact_data'] )
 		: array();
 
+	$lang = function_exists( 'theme_settings_admin_lang' ) ? theme_settings_admin_lang() : '';
+	$is_translation = function_exists( 'theme_settings_is_translation' ) && theme_settings_is_translation( $lang );
+
 	// Поля панели услуг на этой форме не редактируются — берём сохранённые значения.
-	$saved = get_option( TOLSTENKO_CONTACT_DATA_OPTION, array() );
+	$saved = $is_translation ? theme_settings_get_saved( TOLSTENKO_CONTACT_DATA_OPTION, $lang ) : get_option( TOLSTENKO_CONTACT_DATA_OPTION, array() );
 	if ( is_array( $saved ) ) {
 		foreach ( array( 'header_services_menu', 'header_services_right_title', 'header_services_right_text', 'header_services_right_link' ) as $key ) {
 			if ( ! isset( $raw[ $key ] ) && isset( $saved[ $key ] ) ) {
@@ -569,17 +592,22 @@ function tolstenko_handle_save_contact_data() {
 		}
 	}
 
-	update_option( TOLSTENKO_CONTACT_DATA_OPTION, tolstenko_sanitize_contact_data( $raw ), false );
+	if ( $is_translation ) {
+		// Перевод: только отличия от основного языка, без общих полей.
+		theme_settings_save_translation( TOLSTENKO_CONTACT_DATA_OPTION, $lang, tolstenko_sanitize_contact_data( $raw ), tolstenko_contact_data_shared_keys() );
+	} else {
+		update_option( TOLSTENKO_CONTACT_DATA_OPTION, tolstenko_sanitize_contact_data( $raw ), false );
+	}
 
-	wp_safe_redirect(
-		add_query_arg(
-			array(
-				'page'    => 'tolstenko-contact-data',
-				'updated' => '1',
-			),
-			admin_url( 'admin.php' )
-		)
+	$redirect_args = array(
+		'page'    => 'tolstenko-contact-data',
+		'updated' => '1',
 	);
+	if ( $lang !== '' ) {
+		$redirect_args['settings_lang'] = $lang;
+	}
+
+	wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'admin.php' ) ) );
 	exit;
 }
 
@@ -780,7 +808,12 @@ function tolstenko_render_contact_data_admin_page() {
 		return;
 	}
 
+	$settings_lang = function_exists( 'theme_settings_admin_lang' ) ? theme_settings_admin_lang() : '';
 	$saved = get_option( TOLSTENKO_CONTACT_DATA_OPTION, null );
+	if ( is_array( $saved ) && function_exists( 'theme_settings_is_translation' ) && theme_settings_is_translation( $settings_lang ) ) {
+		// Перевод: основной язык + уже переведённое.
+		$saved = theme_settings_get_saved( TOLSTENKO_CONTACT_DATA_OPTION, $settings_lang );
+	}
 	$data  = is_array( $saved )
 		? tolstenko_sanitize_contact_data( $saved )
 		: tolstenko_contact_data_defaults();
@@ -806,6 +839,11 @@ function tolstenko_render_contact_data_admin_page() {
 	?>
 	<div class="wrap tolstenko-cd">
 		<h1><?php esc_html_e( 'Контактные данные', 'tolstenko-theme' ); ?></h1>
+		<?php
+		if ( function_exists( 'theme_settings_render_lang_tabs' ) ) {
+			theme_settings_render_lang_tabs( admin_url( 'admin.php?page=tolstenko-contact-data' ), array( __( 'телефоны, почта, ссылки, иконки, логотипы, соцсети', 'tolstenko-theme' ) ) );
+		}
+		?>
 		<?php if ( $updated ) : ?>
 			<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Сохранено.', 'tolstenko-theme' ); ?></p></div>
 		<?php endif; ?>
@@ -855,8 +893,11 @@ function tolstenko_render_contact_data_admin_page() {
 			}
 		</style>
 
-		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="tolstenko-cd-form">
 			<input type="hidden" name="action" value="tolstenko_save_contact_data">
+			<?php if ( $settings_lang !== '' ) : ?>
+				<input type="hidden" name="settings_lang" value="<?php echo esc_attr( $settings_lang ); ?>">
+			<?php endif; ?>
 			<?php wp_nonce_field( 'tolstenko_contact_data_save', 'tolstenko_contact_data_nonce' ); ?>
 
 			<div class="tolstenko-cd-card">
@@ -1204,4 +1245,10 @@ function tolstenko_render_contact_data_admin_page() {
 	})();
 	</script>
 	<?php
+	if ( function_exists( 'theme_settings_render_shared_fields_script' ) ) {
+		// Номер в строках «Телефонов в шапке» не блокируем: без него строка не сохранится
+		// (подпись переводится), а сам номер всё равно берётся из основного языка.
+		$shared_keys = array_diff( tolstenko_contact_data_shared_keys(), array( 'phone' ) );
+		theme_settings_render_shared_fields_script( '.tolstenko-cd-form', array_merge( $shared_keys, array( 'link', 'icon', 'enabled' ) ), array( 'tolstenko_contact_data[phone]' ) );
+	}
 }

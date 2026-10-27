@@ -77,7 +77,8 @@ function tolstenko_merge_block_defaults_data( $base, $saved ) {
  */
 function tolstenko_get_merged_defaults_for_keys( $keys ) {
 	$schema = function_exists( 'tolstenko_block_defaults_schema' ) ? tolstenko_block_defaults_schema() : array();
-	$saved  = get_option( 'tolstenko_block_defaults', array() );
+	$lang   = function_exists( 'theme_settings_lang' ) ? theme_settings_lang() : '';
+	$saved  = tolstenko_block_defaults_saved( $lang );
 	if ( ! is_array( $saved ) ) {
 		$saved = array();
 	}
@@ -88,15 +89,47 @@ function tolstenko_get_merged_defaults_for_keys( $keys ) {
 		$all[ $key ] = function_exists( 'tolstenko_merge_block_defaults_data' )
 			? tolstenko_merge_block_defaults_data( $base, $cur )
 			: array_replace_recursive( $base, $cur );
+		if ( function_exists( 'theme_settings_translate_post_ids' ) ) {
+			$all[ $key ] = theme_settings_translate_post_ids( $all[ $key ], $lang );
+		}
 	}
 	return $all;
 }
 
 
+/**
+ * Сохранённые дефолты для языка: основной язык + отличия перевода (inc/settings-i18n.php).
+ *
+ * @param string $lang Slug языка ('' — основной).
+ * @return array
+ */
+function tolstenko_block_defaults_saved( $lang = '' ) {
+	if ( function_exists( 'theme_settings_get_saved' ) ) {
+		return theme_settings_get_saved( 'tolstenko_block_defaults', $lang );
+	}
+	$saved = get_option( 'tolstenko_block_defaults', array() );
+	return is_array( $saved ) ? $saved : array();
+}
+
 function tolstenko_get_block_defaults( $block ) {
+	$data = tolstenko_get_block_defaults_raw( $block );
+	// Выборы записей общие для языков: подставляем перевод записи, если он есть.
+	if ( function_exists( 'theme_settings_translate_post_ids' ) ) {
+		$data = theme_settings_translate_post_ids( $data, theme_settings_lang() );
+	}
+	return $data;
+}
+
+/**
+ * Дефолты блока на текущем языке без подстановки переводов записей.
+ *
+ * @param string $block Ключ блока.
+ * @return array
+ */
+function tolstenko_get_block_defaults_raw( $block ) {
 	$schema = tolstenko_block_defaults_schema();
 	$base = isset( $schema[ $block ] ) ? $schema[ $block ] : array();
-	$saved = get_option( 'tolstenko_block_defaults', array() );
+	$saved = tolstenko_block_defaults_saved( function_exists( 'theme_settings_lang' ) ? theme_settings_lang() : '' );
 	if ( ! is_array( $saved ) || ! isset( $saved[ $block ] ) || ! is_array( $saved[ $block ] ) ) {
 		if ( $block === 'service_section_filters' && is_array( $saved ) && isset( $saved['service_section'] ) && is_array( $saved['service_section'] ) ) {
 			$data = tolstenko_merge_block_defaults_data( $base, $saved['service_section'] );
