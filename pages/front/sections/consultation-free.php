@@ -22,7 +22,7 @@ $img = Image::get_image_attrs($img);
             <?= theme_get_field('consultation_free_subtitle', OPTION_ID);  ?>
           </div>
 
-          <?php echo do_shortcode('[contact-form-7 id="5d6571e" title="Бесплатная консультация"]'); ?>
+          <?php echo do_shortcode('[contact-form-7 id="d0819d8" title="Бесплатная консультация"]'); ?>
         </div>
 
         <div class="consultation-free__btns">
