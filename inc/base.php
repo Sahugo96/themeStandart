@@ -112,6 +112,43 @@ add_theme_support('title-tag');
 add_theme_support('custom-logo');
 add_theme_support( 'menus' );
 
+// Области меню шапки. Меню назначаются в Внешний вид → Меню → «Управление областями»;
+// с Polylang у каждой области своё меню на каждом языке.
+add_action('after_setup_theme', function () {
+    register_nav_menus([
+        'header_top' => __('Шапка — верхняя строка', 'tolstenko-theme'),
+        'header_bar' => __('Шапка — плашка (рядом с поиском)', 'tolstenko-theme'),
+    ]);
+});
+
+/**
+ * Меню области: назначенное в области (на текущем языке — через Polylang),
+ * иначе — меню с прежним именем (header-menu / header-service-menu), иначе пусто.
+ *
+ * @param string $location    Область меню.
+ * @param string $legacy_name Имя меню до появления областей.
+ * @param string $menu_class  Класс списка.
+ * @return string HTML меню или ''.
+ */
+function theme_get_nav_menu_html(string $location, string $legacy_name, string $menu_class): string
+{
+    $args = [
+        'container'   => false,
+        'menu_class'  => $menu_class,
+        'fallback_cb' => false,
+        'echo'        => false,
+    ];
+
+    if (has_nav_menu($location)) {
+        return (string) wp_nav_menu($args + ['theme_location' => $location]);
+    }
+
+    // Без проверки wp_nav_menu() подставил бы первое попавшееся меню сайта.
+    $legacy_menu = $legacy_name !== '' ? wp_get_nav_menu_object($legacy_name) : false;
+
+    return $legacy_menu ? (string) wp_nav_menu($args + ['menu' => $legacy_menu]) : '';
+}
+
 
 function true_register_wp_sidebars() {
 	register_sidebar(

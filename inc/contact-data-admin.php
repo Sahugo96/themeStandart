@@ -848,7 +848,7 @@ function tolstenko_render_contact_data_admin_page() {
 			<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Сохранено.', 'tolstenko-theme' ); ?></p></div>
 		<?php endif; ?>
 		<p class="description">
-			<?php esc_html_e( 'Телефон, почта, реквизиты и низ футера. Меню «Услуги» и «О нас» — в Внешний вид → Меню (области footer_menu_1 / footer_menu_2).', 'tolstenko-theme' ); ?>
+			<?php esc_html_e( 'Телефоны, почта, ссылки, тексты шапки, футера и модального окна. Меню шапки — Внешний вид → Меню → «Управление областями».', 'tolstenko-theme' ); ?>
 		</p>
 
 		<style>
@@ -984,7 +984,7 @@ function tolstenko_render_contact_data_admin_page() {
 
 			<div class="tolstenko-cd-card">
 				<h2 style="margin-top:0;"><?php esc_html_e( 'Шапка', 'tolstenko-theme' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'Меню верхней строки и меню рядом с поиском — в Внешний вид → Меню (header-menu / header-service-menu). Иконки соцсетей — из блока «Социальные сети» ниже, Telegram-кнопка — из поля Telegram выше.', 'tolstenko-theme' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Меню верхней строки и меню в плашке — Внешний вид → Меню → «Управление областями» (свои для каждого языка). Иконки соцсетей — из блока «Социальные сети» ниже, Telegram-кнопка — из поля Telegram выше.', 'tolstenko-theme' ); ?></p>
 				<div class="row">
 					<label for="tolstenko-cd-header-address"><?php esc_html_e( 'Адрес', 'tolstenko-theme' ); ?></label>
 					<input type="text" id="tolstenko-cd-header-address" name="tolstenko_contact_data[header_address]" value="<?php echo esc_attr( $data['header_address'] ); ?>" placeholder="502, Al Hawai Tower, DIFC, Dubai">

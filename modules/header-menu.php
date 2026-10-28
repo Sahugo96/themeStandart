@@ -4,7 +4,7 @@
  * (логотип, «Все услуги», поиск, меню, Telegram, кнопка заявки), плюс мобильное меню.
  *
  * Данные — «Настройки сайта → Контактные данные» (блок «Шапка» и «Телефоны в шапке»),
- * меню — Внешний вид → Меню: header-menu (верхняя строка) и header-service-menu (в плашке).
+ * меню — Внешний вид → Меню → области «Шапка — верхняя строка» и «Шапка — плашка».
  */
 
 defined('ABSPATH') || exit;
@@ -13,21 +13,9 @@ $cd = tolstenko_get_contact_data();
 $logo_img = tolstenko_contact_get_image_attrs($cd['logo_header']);
 $theme_uri = get_template_directory_uri();
 
-$header_menu = wp_nav_menu([
-    'menu'       => 'header-menu',
-    'container'  => false,
-    'menu_class' => 'header__menu-list menu__list',
-    'fallback_cb' => false,
-    'echo'       => false,
-]);
-
-$header_service_menu = wp_nav_menu([
-    'menu'       => 'header-service-menu',
-    'container'  => false,
-    'menu_class' => 'header__nav-list menu__list',
-    'fallback_cb' => false,
-    'echo'       => false,
-]);
+// Меню — из областей «Шапка — верхняя строка» / «Шапка — плашка» (свои на каждом языке, inc/base.php).
+$header_menu = theme_get_nav_menu_html('header_top', 'header-menu', 'header__menu-list menu__list');
+$header_service_menu = theme_get_nav_menu_html('header_bar', 'header-service-menu', 'header__nav-list menu__list');
 
 // Телефоны: список из «Телефонов в шапке», иначе — основной телефон.
 $phones = [];
