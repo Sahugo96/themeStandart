@@ -26,24 +26,24 @@ get_header();
     
     theme_render_front_section('main-hero'); // +
     theme_render_front_section('hero-stats'); // +
+    theme_render_front_section('situations'); // +
     theme_render_front_section('services-slider');
     theme_render_front_section('quiz');
     theme_render_front_section('banks'); // +
     theme_render_front_section('flagship'); // +
-    theme_render_front_section('situations'); // +
+    theme_render_front_section('programs'); // +
 
     theme_render_front_section('process'); // +
     theme_render_front_section('about'); // +
     theme_render_front_section('result'); // +
     
     theme_render_front_section('compare');
-    theme_render_front_section('programs'); // +
-    theme_render_front_section('cases'); // +
-
     theme_render_front_section('why-us'); // +
     theme_render_front_section('infra'); // +
     theme_render_front_section('documents'); // +
     theme_render_front_section('cost'); // +
+    theme_render_front_section('cases'); // +
+
 
 
     theme_render_front_section('guide');

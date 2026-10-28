@@ -36,7 +36,7 @@ if (empty($columns) && empty($rows)) {
 $lead = theme_section_text_html($data['lead'] ?? '');
 $btn_url = (string) $data['btn_url'];
 ?>
-<section class="programs section">
+<section class="programs section section--white">
   <div class="container">
     <div class="programs__top section-top">
       <?php if (trim((string) $data['badge']) !== '') : ?>
