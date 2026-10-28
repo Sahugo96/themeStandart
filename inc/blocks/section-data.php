@@ -284,8 +284,21 @@ function theme_get_reviews_section_data(array $attrs, $section = null): array
             }
         }
     } else {
-        $fallback = theme_get_field('reviews_review', OPTION_ID);
+        // Без выбора в блоке: отзывы из таба «Отзывы» (пусто = все), затем прежняя ACF-опция.
+        $tab_ids = array_values(array_filter(array_map('intval', (array) ($tab['ids'] ?? []))));
+        $fallback = $tab_ids ? [] : theme_get_field('reviews_review', OPTION_ID);
         $reviews = is_array($fallback) ? $fallback : [];
+
+        if (empty($reviews)) {
+            $reviews = get_posts([
+                'post_type'      => 'review',
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'post__in'       => $tab_ids,
+                'orderby'        => $tab_ids ? 'post__in' : 'menu_order date',
+                'order'          => $tab_ids ? 'ASC' : 'DESC',
+            ]);
+        }
     }
 
     return [

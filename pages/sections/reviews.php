@@ -62,6 +62,26 @@ if (!empty($tab_cards)) {
   }
 }
 
+// Поля отзыва — из нативного метабокса (inc/review-metabox.php), прежние ACF-поля — запасной вариант.
+$review_field = static function (int $review_id, string $key) {
+  $value = get_post_meta($review_id, $key, true);
+  return ($value !== '' && $value !== false && $value !== null) ? $value : theme_get_field($key, $review_id);
+};
+$review_image = static function (int $review_id, string $key) use ($review_field): array {
+  $value = $review_field($review_id, $key);
+  return is_numeric($value) ? tolstenko_contact_get_image_attrs((int) $value) : Image::get_image_attrs($value);
+};
+
+// Тип отзыва: ключи метабокса (text / thanks / video) или прежние подписи ACF.
+$review_type_groups = array(
+  'text' => 'Текстовые',
+  'thanks' => 'Мессенджеры',
+  'video' => 'Видео',
+  'Текстовые' => 'Текстовые',
+  'Мессенджеры' => 'Мессенджеры',
+  'Видео' => 'Видео',
+);
+
 // Группируем отзывы по типу (порядок — как у табов).
 $grouped_reviews = array(
   'Текстовые' => array(),
@@ -70,10 +90,8 @@ $grouped_reviews = array(
 );
 
 foreach ($reviews as $review) {
-  $review_type = theme_get_field('review_type', $review->ID);
-  if (isset($grouped_reviews[$review_type])) {
-    $grouped_reviews[$review_type][] = $review;
-  }
+  $review_type = $review_type_groups[(string) $review_field((int) $review->ID, 'review_type')] ?? 'Текстовые';
+  $grouped_reviews[$review_type][] = $review;
 }
 
 // Значение радио-кнопки таба → модификатор слайдера (reviews__splide--<value>).
@@ -171,8 +189,7 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
             <div class="reviews__list splide__list">
               <?php
               foreach ($grouped_reviews['Мессенджеры'] as $review) {
-                $image = theme_get_field('review_thenks', $review->ID);
-                $image = Image::get_image_attrs($image);
+                $image = $review_image((int) $review->ID, 'review_thenks');
               ?>
                 <div class="reviews__list-item splide__slide">
                   <div class="reviews__list-image">
@@ -187,20 +204,6 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
 
           <div class="splide__bottom">
             <ul class="splide__pagination"></ul>
-
-            <div class="splide__arrows splide__arrows--ltr">
-              <button class="splide__arrow splide__arrow--prev" type="button" aria-label="Previous slide">
-                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.8332 10H4.99987M9.16654 5L4.7558 9.41074C4.43036 9.73618 4.43036 10.2638 4.7558 10.5893L9.16654 15" stroke-width="2" stroke-linecap="round" />
-                </svg>
-              </button>
-
-              <button class="splide__arrow splide__arrow--next" type="button" aria-label="Next slide">
-                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.8332 10H4.99987M9.16654 5L4.7558 9.41074C4.43036 9.73618 4.43036 10.2638 4.7558 10.5893L9.16654 15" stroke-width="2" stroke-linecap="round" />
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
       <?php endif; ?>
@@ -212,7 +215,7 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
             <div class="reviews__list splide__list">
               <?php
               foreach ($grouped_reviews['Видео'] as $review) {
-                $video = html_entity_decode(trim((string) theme_get_field('review_video', $review->ID)), ENT_QUOTES, 'UTF-8');
+                $video = html_entity_decode(trim((string) $review_field((int) $review->ID, 'review_video')), ENT_QUOTES, 'UTF-8');
 
                 if ($video === '') {
                   continue;
@@ -232,12 +235,11 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
 
                 $video_poster = theme_get_video_embed_poster($video_src);
                 $rutube_id = theme_get_rutube_video_id($video_src);
-                $video_name = trim((string) theme_get_field('review_video_name', $review->ID));
-                $video_text = trim((string) theme_get_field('review_video_text', $review->ID));
+                $video_name = trim((string) $review_field((int) $review->ID, 'review_video_name'));
+                $video_text = trim((string) $review_field((int) $review->ID, 'review_video_text'));
                 $video_has_meta = $video_name !== '' && $video_text !== '';
 
-                $logo = theme_get_field('review_logo', $review->ID);
-                $logo = Image::get_image_attrs($logo);
+                $logo = $review_image((int) $review->ID, 'review_logo');
               ?>
                 <div class="reviews__list-item reviews__list-item--video<?= $video_has_meta ? ' reviews__list-item--video-meta' : ''; ?> splide__slide">
                   <button
@@ -295,20 +297,6 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
 
           <div class="splide__bottom">
             <ul class="splide__pagination"></ul>
-
-            <div class="splide__arrows splide__arrows--ltr">
-              <button class="splide__arrow splide__arrow--prev" type="button" aria-label="Previous slide">
-                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.8332 10H4.99987M9.16654 5L4.7558 9.41074C4.43036 9.73618 4.43036 10.2638 4.7558 10.5893L9.16654 15" stroke-width="2" stroke-linecap="round" />
-                </svg>
-              </button>
-
-              <button class="splide__arrow splide__arrow--next" type="button" aria-label="Next slide">
-                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.8332 10H4.99987M9.16654 5L4.7558 9.41074C4.43036 9.73618 4.43036 10.2638 4.7558 10.5893L9.16654 15" stroke-width="2" stroke-linecap="round" />
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
       <?php endif; ?>
@@ -319,12 +307,12 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
           <div class="splide__track">
             <div class="reviews__list splide__list">
               <?php foreach ($grouped_reviews['Текстовые'] as $review) {
-                $name = theme_get_field('review_name', $review->ID);
-                $position = theme_get_field('review_position', $review->ID);
-                $rating = theme_get_field('review_rating', $review->ID);
-                $redactor = theme_get_field('review_redactor', $review->ID);
-                $icon = Image::get_image_attrs(theme_get_field('review_platform_icon', $review->ID));
-                $platform_name = theme_get_field('review_platform_name', $review->ID);
+                $name = (string) $review_field((int) $review->ID, 'review_name');
+                $position = (string) $review_field((int) $review->ID, 'review_position');
+                $rating = (int) $review_field((int) $review->ID, 'review_rating') ?: 5;
+                $redactor = (string) $review_field((int) $review->ID, 'review_redactor');
+                $icon = $review_image((int) $review->ID, 'review_platform_icon');
+                $platform_name = (string) $review_field((int) $review->ID, 'review_platform_name');
                 $publish_date = '';
                 if ( $pub_time = get_post_time('U', false, $review->ID) ) {
                     $day = date('j', $pub_time);
@@ -334,8 +322,7 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
                     $publish_date = sprintf( '%s %s. %s', $day, empty($months[$month]) ? $month : $months[$month], $year );
                 }
 
-                $photo = theme_get_field('review_photo', $review->ID);
-                $photo = Image::get_image_attrs($photo);
+                $photo = $review_image((int) $review->ID, 'review_photo');
               ?>
                 <div class="reviews__list-item reviews__list-item--text splide__slide">
                   <div class="reviews__list-top">
@@ -380,64 +367,9 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
 
           <div class="splide__bottom">
             <ul class="splide__pagination"></ul>
-
-            <div class="splide__arrows splide__arrows--ltr">
-              <button class="splide__arrow splide__arrow--prev" type="button" aria-label="Previous slide">
-                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.8332 10H4.99987M9.16654 5L4.7558 9.41074C4.43036 9.73618 4.43036 10.2638 4.7558 10.5893L9.16654 15" stroke-width="2" stroke-linecap="round" />
-                </svg>
-              </button>
-
-              <button class="splide__arrow splide__arrow--next" type="button" aria-label="Next slide">
-                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.8332 10H4.99987M9.16654 5L4.7558 9.41074C4.43036 9.73618 4.43036 10.2638 4.7558 10.5893L9.16654 15" stroke-width="2" stroke-linecap="round" />
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
       <?php endif; ?>
-
-
-      <div class="reviews__splide splide">
-        <div class="splide__track">
-          <div class="reviews__list splide__list">
-            <?php
-            foreach ($items as $item) {
-              $image = $item['image'];
-              $image = Image::get_image_attrs($image);
-            ?>
-              <div class="reviews__list-item splide__slide">
-                <div class="reviews__list-image">
-                  <img src="<?= $image['url']; ?>" alt="<?= $item['title']; ?>" data-fancybox="reviews">
-                </div>
-              </div>
-            <?php
-            }
-            ?>
-          </div>
-        </div>
-
-        <div class="splide__bottom">
-          <ul class="splide__pagination"></ul>
-
-          <div class="splide__arrows splide__arrows--ltr">
-            <button class="splide__arrow splide__arrow--prev" type="button" aria-label="Previous slide">
-              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15.8332 10H4.99987M9.16654 5L4.7558 9.41074C4.43036 9.73618 4.43036 10.2638 4.7558 10.5893L9.16654 15" stroke-width="2" stroke-linecap="round" />
-              </svg>
-            </button>
-
-            <button class="splide__arrow splide__arrow--next" type="button" aria-label="Next slide">
-              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15.8332 10H4.99987M9.16654 5L4.7558 9.41074C4.43036 9.73618 4.43036 10.2638 4.7558 10.5893L9.16654 15" stroke-width="2" stroke-linecap="round" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
-<?php
-?>

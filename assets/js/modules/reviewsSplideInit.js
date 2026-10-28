@@ -1,60 +1,32 @@
-if (document.querySelector(".reviews__splide--thenks")) {
-  const reviews_splide_thenks = new Splide(".reviews__splide--thenks", {
-    // type: "loop",
-    perPage: 5,
-    perMove: 1,
-    gap: "20px",
-    arrows: true,
-    pagination: false,
-    updateOnMove: true,
-    breakpoints: {
-      991.9: {
-        perPage: 1,
-        perMove: 1,
-        arrows: false,
-        pagination: true,
-      },
-    },
-  }).mount();
-}
+// Слайдеры секции «Отзывы» (pages/sections/reviews.php): по одному на тип отзывов,
+// переключаются табами (CSS :has по радио-кнопкам). Пагинация — точки, как в «Кейсах».
+const reviewsSliders = {
+  ".reviews__splide--thenks": { perPage: 5 },
+  ".reviews__splide--video": { perPage: 3 },
+  // Текстовые: ширина карточки задаётся в CSS, карточки уходят за край контейнера.
+  ".reviews__splide--text": { autoWidth: true },
+};
 
-if (document.querySelector(".reviews__splide--video")) {
-  const reviews_splide_video = new Splide(".reviews__splide--video", {
-    // type: "loop",
-    perPage: 3,
-    perMove: 1,
-    gap: "30px",
-    arrows: true,
-    pagination: false,
-    updateOnMove: true,
-    breakpoints: {
-      991.9: {
-        perPage: 1,
-        perMove: 1,
-        arrows: false,
-        pagination: true,
-      },
-    },
-  }).mount();
-}
+Object.keys(reviewsSliders).forEach((selector) => {
+  document.querySelectorAll(selector).forEach((el) => {
+    if (el.splide) {
+      return;
+    }
 
-if (document.querySelector(".reviews__splide--text")) {
-  const reviews_splide_text = new Splide(".reviews__splide--text", {
-    // type: "loop",
-    perPage: 2,
-    perMove: 1,
-    gap: "30px",
-    arrows: true,
-    pagination: false,
-    updateOnMove: true,
-    breakpoints: {
-      991.9: {
-        perPage: 1,
-        perMove: 1,
-        arrows: false,
-        pagination: true,
+    el.splide = new Splide(el, Object.assign({
+      perMove: 1,
+      gap: "20px",
+      arrows: false,
+      pagination: true,
+      updateOnMove: true,
+      breakpoints: {
+        991.9: {
+          autoWidth: false,
+          perPage: 1,
+          perMove: 1,
+          gap: "16px",
+        },
       },
-    },
-  }).mount();
-}
-
+    }, reviewsSliders[selector])).mount();
+  });
+});
