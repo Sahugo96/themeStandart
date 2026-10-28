@@ -10301,44 +10301,12 @@ body {
 }
 .banks__btn svg.banks__btn-arrow {
   fill: none;
-  grid-gap: 0.938vw;
-  padding: 1.641vw 2.344vw;
-  font-size: 1.016vw;
-}
-@media (min-width: 1441px) {
-  .banks__btn {
-    grid-gap: 0.625vw;
-    padding: 1.094vw 1.563vw;
-    font-size: 0.677vw;
-  }
-}
-@media (any-hover: hover) {
-  .banks__btn:hover {
-    background-color: var(--banks-dark);
-  }
 }
 .banks__btn-arrow {
-  max-width: 5.168vw;
-  min-width: 5.168vw;
-  height: auto;
-  aspect-ratio: 1/1;
-  fill: none;
   stroke: currentColor;
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-@media (min-width: 992px) {
-  .banks__btn-arrow {
-    max-width: 1.563vw;
-    min-width: 1.563vw;
-  }
-}
-@media (min-width: 1441px) {
-  .banks__btn-arrow {
-    max-width: 1.042vw;
-    min-width: 1.042vw;
-  }
 }
 
 .flagship {
