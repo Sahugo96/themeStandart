@@ -127,6 +127,8 @@ function theme_enqueue_block_editor_assets_localized(): void
             'review'  => theme_get_posts_for_block_editor('review'),
             'service' => theme_get_posts_for_block_editor('service'),
             'blog'    => theme_get_posts_for_block_editor('blog'),
+            'case'    => theme_get_posts_for_block_editor('case'),
+            'teammate' => theme_get_posts_for_block_editor('teammate'),
         ],
     ]);
 }

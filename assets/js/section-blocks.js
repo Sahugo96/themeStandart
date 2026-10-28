@@ -220,6 +220,25 @@
       });
     }
 
+    // Множественный выбор записей: атрибут — массив id (порядок как добавляли), пусто = из настроек темы.
+    if (field.type === 'posts') {
+      var postIdsValue = Array.isArray(value) ? value.map(function (id) { return parseInt(id, 10) || 0; }).filter(Boolean) : [];
+      var postsCatalogs = (window.themeBlockDefaults && window.themeBlockDefaults.posts) || {};
+
+      return controls.postsField({
+        label: field.label,
+        help: field.help || (postIdsValue.length ? 'Порядок — как добавляли записи' : 'Если пусто — из настроек темы'),
+        postIds: postIdsValue,
+        catalog: postsCatalogs[field.postType || 'blog'] || [],
+        placeholder: 'Начните вводить название…',
+        onChange: function (ids) {
+          var patch = {};
+          patch[field.attr] = Array.isArray(ids) ? ids.map(function (id) { return parseInt(id, 10) || 0; }).filter(Boolean) : [];
+          setAttributes(patch);
+        },
+      });
+    }
+
     if (field.type === 'repeater') {
       return renderRepeater(field, value, field.attr, function (nextItems) {
         var patch = {};
