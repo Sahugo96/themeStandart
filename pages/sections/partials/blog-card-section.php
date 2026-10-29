@@ -6,7 +6,9 @@ defined('ABSPATH') || exit;
  * Карточка статьи для секции «Статьи» (pages/sections/blog-section.php).
  *
  * @var array $args {
- *   @type bool $large Первая карточка: на десктопе — крупная (blog-card--large).
+ *   @type bool   $large   Первая карточка: на десктопе — крупная (blog-card--large).
+ *   @type string $class   Доп. класс карточки (по умолчанию splide__slide — для слайдера).
+ *   @type string $heading Тег заголовка (h2 / h3, по умолчанию h3).
  * }
  *
  * Текст карточки и время чтения — метабокс «Карточка статьи» (inc/blog-metabox.php),
@@ -15,11 +17,13 @@ defined('ABSPATH') || exit;
 
 $post_id  = get_the_ID();
 $is_large = !empty($args['large']);
+$class    = isset($args['class']) ? (string) $args['class'] : 'splide__slide';
+$heading  = ($args['heading'] ?? '') === 'h2' ? 'h2' : 'h3';
 $text     = theme_get_blog_card_text($post_id);
 $tags     = get_the_terms($post_id, 'blog_cat');
 $tags     = ($tags && !is_wp_error($tags)) ? array_slice($tags, 0, 2) : [];
 ?>
-<article class="blog-section__card blog-card<?= $is_large ? ' blog-card--large' : ''; ?> splide__slide">
+<article class="blog-section__card blog-card<?= $is_large ? ' blog-card--large' : ''; ?><?= $class !== '' ? ' ' . esc_attr($class) : ''; ?>">
   <a class="blog-card__link" href="<?= esc_url(get_permalink()); ?>">
     <?php if (has_post_thumbnail()) : ?>
       <div class="blog-card__image">
@@ -36,7 +40,7 @@ $tags     = ($tags && !is_wp_error($tags)) ? array_slice($tags, 0, 2) : [];
         </div>
       <?php endif; ?>
 
-      <h3 class="blog-card__title"><?= esc_html(get_the_title()); ?></h3>
+      <<?= $heading; ?> class="blog-card__title"><?= esc_html(get_the_title()); ?></<?= $heading; ?>>
 
       <?php if ($text !== '') : ?>
         <p class="blog-card__text"><?= esc_html($text); ?></p>

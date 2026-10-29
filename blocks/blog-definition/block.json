@@ -1,0 +1,41 @@
+{
+  "apiVersion": 3,
+  "title": "Статья: определение",
+  "name": "my-theme/blog-definition",
+  "category": "tolstenko-blog",
+  "icon": "book-alt",
+  "parent": [
+    "my-theme/blog-content"
+  ],
+  "supports": {
+    "html": false,
+    "multiple": true
+  },
+  "attributes": {
+    "mode": {
+      "type": "string",
+      "default": ""
+    },
+    "kicker": {
+      "type": "string",
+      "default": ""
+    },
+    "term": {
+      "type": "string",
+      "default": ""
+    },
+    "suffix": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}

@@ -1,0 +1,21 @@
+{
+  "apiVersion": 3,
+  "title": "Статья: нумерованный список",
+  "name": "my-theme/blog-number-list",
+  "category": "tolstenko-blog",
+  "icon": "editor-ol",
+  "parent": [
+    "my-theme/blog-content"
+  ],
+  "supports": {
+    "html": false,
+    "multiple": true
+  },
+  "attributes": {
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

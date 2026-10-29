@@ -63,3 +63,153 @@
     }
   }
 }
+
+// Постраничная навигация (paginate_links): круглые кнопки в стиле стрелок
+// и точек слайдеров темы — тонкая обводка, золотой акцент у текущей страницы.
+.pagination-page {
+  display: flex;
+  justify-content: center;
+  margin-top: vw(30px, $mobile);
+  @media (min-width: $desk) {
+    margin-top: vw(50px, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    margin-top: vw(50px, $desktop_large);
+  }
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  grid-gap: vw(8px, $mobile);
+  @media (min-width: $desk) {
+    grid-gap: vw(10px, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    grid-gap: vw(10px, $desktop_large);
+  }
+
+  .page-numbers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: vw(40px, $mobile);
+    height: vw(40px, $mobile);
+    padding: 0 vw(6px, $mobile);
+    border: 1px solid var(--dark-bg-stoke-color);
+    border-radius: 999px;
+    background-color: var(--dark-bg-plank-color);
+    color: var(--light-bg-color);
+    font-family: $Montserrat;
+    font-size: vw(14px, $mobile);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+    transition: all 0.3s linear;
+    @media (min-width: $desk) {
+      min-width: vw(48px, $desktop);
+      height: vw(48px, $desktop);
+      padding: 0 vw(8px, $desktop);
+      font-size: vw(15px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      min-width: vw(48px, $desktop_large);
+      height: vw(48px, $desktop_large);
+      padding: 0 vw(8px, $desktop_large);
+      font-size: vw(15px, $desktop_large);
+    }
+
+    &.current {
+      min-width: vw(56px, $mobile);
+      border-color: var(--accent-color);
+      background-color: var(--accent-color);
+      color: var(--white-color);
+      @media (min-width: $desk) {
+        min-width: vw(64px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        min-width: vw(64px, $desktop_large);
+      }
+    }
+
+    &.dots {
+      min-width: auto;
+      padding: 0 vw(2px, $mobile);
+      border-color: transparent;
+      background-color: transparent;
+      color: var(--additional-gray-color);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+
+    @media (any-hover: hover) {
+      &:not(.current):not(.dots):hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+      }
+    }
+  }
+
+  .prev,
+  .next {
+    border-color: var(--accent-20-color);
+    background-color: transparent;
+    color: var(--accent-color);
+
+    svg {
+      width: vw(18px, $mobile);
+      height: auto;
+      aspect-ratio: 1/1;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      @media (min-width: $desk) {
+        width: vw(18px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        width: vw(18px, $desktop_large);
+      }
+    }
+
+    @media (any-hover: hover) {
+      &:hover {
+        border-color: var(--accent-color);
+        background-color: var(--accent-color);
+        color: var(--white-color);
+      }
+    }
+  }
+
+  .prev {
+    margin-right: vw(4px, $mobile);
+    @media (min-width: $desk) {
+      margin-right: vw(8px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-right: vw(8px, $desktop_large);
+    }
+  }
+
+  .next {
+    margin-left: vw(4px, $mobile);
+    @media (min-width: $desk) {
+      margin-left: vw(8px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-left: vw(8px, $desktop_large);
+    }
+  }
+}
+
+// Светлые секции.
+.section--white .pagination .page-numbers:not(.current):not(.prev):not(.next) {
+  border-color: var(--additional-gray-30-color);
+  background-color: transparent;
+  color: var(--main-text-color);
+}

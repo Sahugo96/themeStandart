@@ -1,0 +1,38 @@
+{
+  "apiVersion": 3,
+  "title": "Сетка статей",
+  "name": "my-theme/blog-grid",
+  "category": "tolstenko-blog",
+  "icon": "grid-view",
+  "description": "Архив статей: первая статья крупно + автор, сетка остальных, фильтр по рубрикам и пагинация",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "postsPerPage": {
+      "type": "number"
+    },
+    "showFilter": {
+      "type": "boolean",
+      "default": true
+    },
+    "showAuthor": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "render": "file:./template.php"
+}

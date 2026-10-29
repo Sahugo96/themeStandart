@@ -1,0 +1,18 @@
+{
+  "apiVersion": 3,
+  "title": "Комментарии статьи",
+  "name": "my-theme/blog-comments",
+  "category": "tolstenko-blog",
+  "icon": "admin-comments",
+  "description": "Форма комментария и одобренные комментарии текущей статьи",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {},
+  "render": "file:./template.php"
+}

@@ -123,6 +123,7 @@ function theme_enqueue_block_editor_assets_localized(): void
             'postIds' => [],
         ],
         'blogSection' => function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('blog_section_filters') : [],
+        'blogContentAllowed' => tolstenko_get_blog_content_inner_blocks(),
         'posts' => [
             'review'  => theme_get_posts_for_block_editor('review'),
             'service' => theme_get_posts_for_block_editor('service'),

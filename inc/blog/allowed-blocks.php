@@ -73,14 +73,14 @@ function tolstenko_adapt_single_content_classes( $html ) {
  */
 function tolstenko_get_blog_theme_blocks_catalog() {
 	$catalog = array(
-		'tolstenko/blog-large-img'   => __( 'Крупное фото', 'tolstenko-theme' ),
-		'tolstenko/blog-video'       => __( 'Видео', 'tolstenko-theme' ),
-		'tolstenko/blog-blockquote'  => __( 'Цитата', 'tolstenko-theme' ),
-		'tolstenko/blog-number-list' => __( 'Нумерованный список', 'tolstenko-theme' ),
-		'tolstenko/blog-warning'     => __( 'Предупреждения', 'tolstenko-theme' ),
-		'tolstenko/blog-pros-cons'   => __( 'Плюсы и минусы', 'tolstenko-theme' ),
-		'tolstenko/blog-definition'  => __( 'Определение', 'tolstenko-theme' ),
-		'tolstenko/blog-seo'         => __( 'SEO / CTA', 'tolstenko-theme' ),
+		'my-theme/blog-large-img'   => __( 'Крупное фото', 'tolstenko-theme' ),
+		'my-theme/blog-video'       => __( 'Видео', 'tolstenko-theme' ),
+		'my-theme/blog-blockquote'  => __( 'Цитата', 'tolstenko-theme' ),
+		'my-theme/blog-number-list' => __( 'Нумерованный список', 'tolstenko-theme' ),
+		'my-theme/blog-warning'     => __( 'Предупреждения', 'tolstenko-theme' ),
+		'my-theme/blog-pros-cons'   => __( 'Плюсы и минусы', 'tolstenko-theme' ),
+		'my-theme/blog-definition'  => __( 'Определение', 'tolstenko-theme' ),
+		'my-theme/blog-seo'         => __( 'SEO / CTA', 'tolstenko-theme' ),
 		'tolstenko/consultation-tg'       => __( 'Консультация Telegram', 'tolstenko-theme' ),
 	);
 

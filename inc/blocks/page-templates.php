@@ -17,6 +17,7 @@ function theme_get_blog_single_block_template(): array
         ['my-theme/services-slider-simple'],
         ['my-theme/faq'],
         ['my-theme/blog-related'],
+        ['my-theme/blog-comments'],
     ];
 }
 
@@ -53,7 +54,7 @@ function theme_is_service_archive_page(WP_Post $post): bool
 function theme_get_blog_archive_block_template(): array
 {
     return [
-        ['my-theme/blog-archive'],
+        ['my-theme/blog-grid'],
         ['my-theme/faq'],
     ];
 }

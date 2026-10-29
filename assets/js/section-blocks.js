@@ -25,6 +25,8 @@
         item[itemField.key] = { id: 0, url: '', alt: '' };
       } else if (itemField.type === 'repeater') {
         item[itemField.key] = [];
+      } else if (itemField.type === 'select') {
+        item[itemField.key] = itemField.options && itemField.options.length ? itemField.options[0].value : '';
       } else {
         item[itemField.key] = '';
       }
@@ -79,6 +81,17 @@
                 value: imgValue && imgValue.url
                   ? imgValue
                   : { id: imgValue && imgValue.id ? imgValue.id : 0, url: '', alt: '' },
+                onChange: function (next) {
+                  setValue(itemField.key, next);
+                },
+              });
+            }
+
+            if (itemField.type === 'select') {
+              return controls.selectField({
+                label: itemField.label,
+                value: item[itemField.key] || '',
+                options: itemField.options || [],
                 onChange: function (next) {
                   setValue(itemField.key, next);
                 },
@@ -175,6 +188,36 @@
       });
     }
 
+    if (field.type === 'select') {
+      return controls.selectField({
+        label: field.label,
+        help: field.help || '',
+        value: value || '',
+        options: field.options || [],
+        onChange: function (next) {
+          var patch = {};
+          patch[field.attr] = next;
+          setAttributes(patch);
+        },
+      });
+    }
+
+    if (field.type === 'number') {
+      return controls.numberField({
+        label: field.label,
+        help: field.help || '',
+        value: value,
+        min: field.min,
+        max: field.max,
+        placeholder: field.placeholder !== undefined ? String(field.placeholder) : '',
+        onChange: function (next) {
+          var patch = {};
+          patch[field.attr] = next;
+          setAttributes(patch);
+        },
+      });
+    }
+
     if (field.type === 'link') {
       return controls.linkField({
         label: field.label,
@@ -259,7 +302,7 @@
     registerBlockType(block.name, {
       apiVersion: 3,
       title: block.title,
-      icon: 'layout',
+      icon: block.icon || 'layout',
       category: block.category || 'tolstenko-general',
       edit: function (props) {
         var attributes = props.attributes;

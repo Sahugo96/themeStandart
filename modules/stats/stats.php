@@ -28,6 +28,16 @@ $show_views = !isset($args['show_views']) || $args['show_views'];
     </span>
   <?php endif; ?>
 
+  <?php if (get_post_type() === 'blog') : ?>
+    <span class="stats__item stats__item--comment">
+      <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M3.12435 9.79167C3.0203 9.79167 3.33268 8.95833 2.92108 8.1475H2.03566C1.06887 8.1475 0.416016 7.48607 0.416016 6.48161V2.85304C0.416016 1.84429 1.06887 1.25 2.03566 1.25H7.66066C8.66512 1.25 9.2803 1.84857 9.2803 2.85304V6.48161C9.2803 7.48196 8.66512 8.14732 7.66066 8.14732H5.28572C4.87852 8.43914 3.2284 9.79167 3.12435 9.79167Z" />
+      </svg>
+
+      <?= (int) tolstenko_get_blog_comments_count(); ?>
+    </span>
+  <?php endif; ?>
+
   <?php if ($show_views) : ?>
   <span class="stats__item stats__item--view">
     <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">

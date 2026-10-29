@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * «Контент статьи»: текст и блоки тела (InnerBlocks) + шапка, оглавление, сайдбар.
+ *
+ * @var string $content Inner blocks HTML.
+ */
+
 defined('ABSPATH') || exit;
 
 $post = get_post();
@@ -9,5 +15,7 @@ if (!$post instanceof WP_Post) {
 }
 
 setup_postdata($post);
-get_template_part('pages/single-blog/sections/single-blog');
+get_template_part('pages/single-blog/sections/single-blog', null, [
+    'body_html' => isset($content) ? (string) $content : '',
+]);
 wp_reset_postdata();

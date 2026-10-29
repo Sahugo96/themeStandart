@@ -70,6 +70,16 @@ function theme_get_block_category_map(): array
         'blog-content'           => 'tolstenko-blog',
         'single-blog'            => 'tolstenko-blog',
         'blog-related'           => 'tolstenko-blog',
+        'blog-grid'              => 'tolstenko-blog',
+        'blog-comments'          => 'tolstenko-blog',
+        'blog-large-img'         => 'tolstenko-blog',
+        'blog-video'             => 'tolstenko-blog',
+        'blog-blockquote'        => 'tolstenko-blog',
+        'blog-number-list'       => 'tolstenko-blog',
+        'blog-warning'           => 'tolstenko-blog',
+        'blog-pros-cons'         => 'tolstenko-blog',
+        'blog-definition'        => 'tolstenko-blog',
+        'blog-seo'               => 'tolstenko-blog',
 
         // Услуги / кейсы
         'services-hero'          => 'tolstenko-services',
@@ -164,9 +174,49 @@ function theme_allowed_block_types($allowed_block_types, $editor_context)
         'core/html',
     ]);
 
+    // Текст статьи внутри «Контент статьи»: картинки, таблицы, embed и т.п.
+    $post = isset($editor_context->post) ? $editor_context->post : null;
+
+    if ($post instanceof WP_Post && $post->post_type === 'blog') {
+        $allowed = array_merge($allowed, tolstenko_get_blog_content_inner_blocks());
+    }
+
     return array_values(array_unique($allowed));
 }
 add_filter('allowed_block_types_all', 'theme_allowed_block_types', 10, 2);
+
+/**
+ * Глубина вложенности внутри блоков темы (my-theme/* с InnerBlocks).
+ * Внутренние блоки рендерятся раньше родителя, поэтому счётчик поднимаем
+ * в render_block_data родителя и опускаем в его render_block.
+ */
+function theme_nested_blocks_depth(int $delta = 0): int
+{
+    static $depth = 0;
+
+    $depth = max(0, $depth + $delta);
+
+    return $depth;
+}
+
+add_filter('render_block_data', function (array $parsed_block): array {
+    $name = $parsed_block['blockName'] ?? '';
+
+    if (is_string($name) && strpos($name, THEME_BLOCKS_NAMESPACE . '/') === 0 && !empty($parsed_block['innerBlocks'])) {
+        theme_nested_blocks_depth(1);
+        $parsed_block['themeHasInner'] = true;
+    }
+
+    return $parsed_block;
+});
+
+add_filter('render_block', function (string $block_content, array $block): string {
+    if (!empty($block['themeHasInner'])) {
+        theme_nested_blocks_depth(-1);
+    }
+
+    return $block_content;
+}, 5, 2);
 
 /**
  * Обычный текст редактора (не my-theme/*) на статьях и акциях
@@ -174,7 +224,7 @@ add_filter('allowed_block_types_all', 'theme_allowed_block_types', 10, 2);
  */
 function theme_wrap_non_theme_blocks_in_container(string $block_content, array $block): string
 {
-    if (is_admin() || trim($block_content) === '') {
+    if (is_admin() || trim($block_content) === '' || theme_nested_blocks_depth() > 0) {
         return $block_content;
     }
 

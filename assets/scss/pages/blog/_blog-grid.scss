@@ -1,0 +1,138 @@
+// «Сетка статей» (pages/blog/sections/blog-grid.php). Панель и карточки — от
+// .blog-section--home (pages/front/sections/_blog-section.scss); здесь — сетка
+// без слайдера и карточка автора. Десктоп: крупная статья слева на 3 ряда,
+// справа автор и две статьи, дальше — по две в ряд.
+.blog-section--grid {
+  .blog-section__filter {
+    margin-bottom: vw(16px, $mobile);
+    @media (min-width: $desk) {
+      margin-bottom: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-bottom: vw(20px, $desktop_large);
+    }
+  }
+
+  .blog-section__cards {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-gap: vw(10px, $mobile);
+  }
+
+  .blog-section__author {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(14px, $mobile);
+    padding: vw(16px, $mobile);
+    border-radius: vw(16px, $mobile);
+    background-color: var(--dark-bg-color);
+    @media (min-width: $desk) {
+      grid-column: 2;
+      grid-gap: vw(14px, $desktop);
+      padding: vw(20px, $desktop);
+      border-radius: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(14px, $desktop_large);
+      padding: vw(20px, $desktop_large);
+      border-radius: vw(20px, $desktop_large);
+    }
+  }
+
+  .blog-section__author-head {
+    display: flex;
+    align-items: center;
+    grid-gap: vw(12px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(14px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(14px, $desktop_large);
+    }
+  }
+
+  .blog-section__author-photo {
+    flex: none;
+    width: vw(56px, $mobile);
+    height: vw(56px, $mobile);
+    border-radius: 50%;
+    object-fit: cover;
+    @media (min-width: $desk) {
+      width: vw(56px, $desktop);
+      height: vw(56px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      width: vw(56px, $desktop_large);
+      height: vw(56px, $desktop_large);
+    }
+  }
+
+  .blog-section__author-info {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(4px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(4px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(4px, $desktop_large);
+    }
+  }
+
+  .blog-section__author-name {
+    font-size: vw(15px, $mobile);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--light-bg-color);
+    @media (min-width: $desk) {
+      font-size: vw(15px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(15px, $desktop_large);
+    }
+  }
+
+  .blog-section__author-job {
+    font-size: vw(12px, $mobile);
+    line-height: 1.3;
+    color: var(--accent-color);
+    @media (min-width: $desk) {
+      font-size: vw(12px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(12px, $desktop_large);
+    }
+  }
+
+  .blog-section__author-text {
+    font-size: vw(13px, $mobile);
+    line-height: 1.45;
+    color: var(--white-color);
+    opacity: 0.6;
+    @media (min-width: $desk) {
+      font-size: vw(12px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(12px, $desktop_large);
+    }
+    p + p {
+      margin-top: 0.6em;
+    }
+  }
+
+  .blog-section__author-btn {
+    margin-top: auto;
+  }
+
+  .blog-section__empty {
+    padding: vw(30px, $mobile) 0;
+    text-align: center;
+    color: var(--gray-70-color);
+    @media (min-width: $desk) {
+      padding: vw(40px, $desktop) 0;
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(40px, $desktop_large) 0;
+    }
+  }
+}

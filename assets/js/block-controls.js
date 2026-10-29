@@ -159,6 +159,51 @@
     );
   }
 
+  function selectField(options) {
+    return fieldWrap(
+      options.label,
+      options.help,
+      el(
+        'select',
+        {
+          value: options.value || '',
+          onChange: function (event) {
+            options.onChange(event.target.value);
+          },
+          onClick: stopBubble,
+          onFocus: stopBubble,
+          onKeyDown: stopBubble,
+          style: styles.input,
+        },
+        (options.options || []).map(function (option) {
+          return el('option', { key: option.value, value: option.value }, option.label);
+        })
+      )
+    );
+  }
+
+  function numberField(options) {
+    return fieldWrap(
+      options.label,
+      options.help,
+      el('input', {
+        type: 'number',
+        min: options.min !== undefined ? options.min : 1,
+        max: options.max !== undefined ? options.max : 100,
+        value: options.value !== undefined && options.value !== null ? options.value : '',
+        placeholder: options.placeholder || '',
+        onChange: function (event) {
+          var next = parseInt(event.target.value, 10);
+          options.onChange(isNaN(next) ? undefined : next);
+        },
+        onClick: stopBubble,
+        onFocus: stopBubble,
+        onKeyDown: stopBubble,
+        style: styles.input,
+      })
+    );
+  }
+
   function linkField(options) {
     var value = options.value || { url: '', title: '', target: '' };
 
@@ -593,6 +638,8 @@
     fieldWrap: fieldWrap,
     textField: textField,
     textareaField: textareaField,
+    selectField: selectField,
+    numberField: numberField,
     linkField: linkField,
     imageField: imageField,
     repeaterField: repeaterField,

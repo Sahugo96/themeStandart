@@ -1,0 +1,25 @@
+{
+  "apiVersion": 3,
+  "title": "Статья: крупное фото",
+  "name": "my-theme/blog-large-img",
+  "category": "tolstenko-blog",
+  "icon": "format-image",
+  "parent": [
+    "my-theme/blog-content"
+  ],
+  "supports": {
+    "html": false,
+    "multiple": true
+  },
+  "attributes": {
+    "image": {
+      "type": "object",
+      "default": {
+        "id": 0,
+        "url": "",
+        "alt": ""
+      }
+    }
+  },
+  "render": "file:./template.php"
+}

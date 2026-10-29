@@ -3,6 +3,7 @@
 // статьях, поэтому всё переопределяется только внутри .blog-section--home.
 // Мобильные: слайдер, все карточки одинаковые. Десктоп (≥ $desk): слайдер выключен,
 // список — сетка: .blog-card--large слева на всю высоту, остальные — колонкой справа.
+// Те же панель и карточки использует «Сетка статей» (.blog-section--grid, pages/blog/_blog-grid.scss).
 .blog-section--home {
   .blog-section__title span {
     display: block;
