@@ -37,6 +37,18 @@
     }
   }
 
+  &__logo-img {
+    display: block;
+    width: auto;
+    height: vw(40px, $mobile);
+    @media (min-width: $desk) {
+      height: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      height: vw(40px, $desktop_large);
+    }
+  }
+
   &__logo {
     font-family: $Unbounded;
     font-weight: 800;
@@ -118,9 +130,19 @@
     }
   }
 
-  &__menu-link {
+  // Пункты меню (wp_nav_menu: ul.footer__menu-list > li > a).
+  &__menu-list a {
+    font-family: $Montserrat;
+    font-size: vw(14px, $mobile);
+    line-height: 1.425;
     color: var(--additional-gray-color);
     transition: color 0.3s linear;
+    @media (min-width: $desk) {
+      font-size: vw(14px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(14px, $desktop_large);
+    }
     @media (any-hover: hover) {
       &:hover {
         color: var(--light-bg-color);
@@ -216,9 +238,17 @@
     }
   }
 
-  &__social {
+  // Иконки — модуль modules/socials/socials.php (блок «Социальные сети» в контактных данных).
+  &__socials .socials {
     display: flex;
-    svg {
+    align-items: center;
+    grid-gap: inherit;
+  }
+
+  &__socials .socials__link {
+    display: flex;
+    svg,
+    img {
       width: vw(26px, $mobile);
       height: vw(26px, $mobile);
       fill: var(--gray-30-color);

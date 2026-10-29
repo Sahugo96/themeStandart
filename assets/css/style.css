@@ -1934,6 +1934,21 @@ body {
     grid-column: auto;
   }
 }
+.footer__logo-img {
+  display: block;
+  width: auto;
+  height: 10.336vw;
+}
+@media (min-width: 992px) {
+  .footer__logo-img {
+    height: 3.125vw;
+  }
+}
+@media (min-width: 1441px) {
+  .footer__logo-img {
+    height: 2.083vw;
+  }
+}
 .footer__logo {
   font-family: "Unbounded";
   font-weight: 800;
@@ -2034,13 +2049,26 @@ body {
     margin-top: 1.25vw;
   }
 }
-.footer__menu-link {
+.footer__menu-list a {
+  font-family: "Montserrat";
+  font-size: 3.618vw;
+  line-height: 1.425;
   color: var(--additional-gray-color);
   -webkit-transition: color 0.3s linear;
   transition: color 0.3s linear;
 }
+@media (min-width: 992px) {
+  .footer__menu-list a {
+    font-size: 1.094vw;
+  }
+}
+@media (min-width: 1441px) {
+  .footer__menu-list a {
+    font-size: 0.729vw;
+  }
+}
 @media (any-hover: hover) {
-  .footer__menu-link:hover {
+  .footer__menu-list a:hover {
     color: var(--light-bg-color);
   }
 }
@@ -2160,12 +2188,22 @@ body {
     margin-top: 1.563vw;
   }
 }
-.footer__social {
+.footer__socials .socials {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  grid-gap: inherit;
+}
+.footer__socials .socials__link {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
-.footer__social svg {
+.footer__socials .socials__link svg,
+.footer__socials .socials__link img {
   width: 6.718vw;
   height: 6.718vw;
   fill: var(--gray-30-color);
@@ -2173,19 +2211,21 @@ body {
   transition: fill 0.3s linear;
 }
 @media (min-width: 992px) {
-  .footer__social svg {
+  .footer__socials .socials__link svg,
+  .footer__socials .socials__link img {
     width: 2.031vw;
     height: 2.031vw;
   }
 }
 @media (min-width: 1441px) {
-  .footer__social svg {
+  .footer__socials .socials__link svg,
+  .footer__socials .socials__link img {
     width: 1.354vw;
     height: 1.354vw;
   }
 }
 @media (any-hover: hover) {
-  .footer__social:hover svg {
+  .footer__socials .socials__link:hover svg {
     fill: var(--accent-color);
   }
 }

@@ -112,12 +112,14 @@ add_theme_support('title-tag');
 add_theme_support('custom-logo');
 add_theme_support( 'menus' );
 
-// Области меню шапки. Меню назначаются в Внешний вид → Меню → «Управление областями»;
+// Области меню шапки и футера. Меню назначаются в Внешний вид → Меню → «Управление областями»;
 // с Polylang у каждой области своё меню на каждом языке.
 add_action('after_setup_theme', function () {
     register_nav_menus([
         'header_top' => __('Шапка — верхняя строка', 'tolstenko-theme'),
         'header_bar' => __('Шапка — плашка (рядом с поиском)', 'tolstenko-theme'),
+        'footer_menu_1' => __('Футер — колонка 1 (Услуги)', 'tolstenko-theme'),
+        'footer_menu_2' => __('Футер — колонка 2 (О нас)', 'tolstenko-theme'),
     ]);
 });
 
