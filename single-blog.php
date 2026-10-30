@@ -37,18 +37,29 @@ get_header();
           get_template_part('pages/sections/faq');
       }
 
+      // Похожие статьи — секция «Статьи» с главной (крупная карточка + колонка, на мобильных — слайдер).
       $related = tolstenko_get_blog_related_overrides();
       if ($related !== null) {
-          set_query_var('blog_related_data', theme_get_blog_related_data($related));
-          get_template_part('pages/sections/blog-section-related');
+          $related_data = theme_get_blog_related_data($related);
+
+          set_query_var('blog_section_data', [
+              'title' => $related['title'] !== '' ? $related['title'] : 'Похожие <span>статьи</span>',
+              'ids'   => $related_data['post_ids'],
+          ]);
+          get_template_part('pages/sections/blog-section');
+          set_query_var('blog_section_data', []);
       }
 
+      // Услуги — секция «Услуги» (карточки services-card, табы рубрик, слайдер).
       $services = tolstenko_get_blog_services_overrides();
       if ($services !== null) {
-          set_query_var('services_slider_simple_data', theme_get_services_slider_simple_data($services));
-          get_template_part('pages/sections/service-section-simple', null, [
-              'section_id' => 'service_slider_simple_' . wp_unique_id(),
+          set_query_var('services_slider_data', [
+              'title' => $services['title'],
+              'text'  => $services['text'],
+              'ids'   => $services['postIds'],
           ]);
+          get_template_part('pages/sections/services-slider');
+          set_query_var('services_slider_data', []);
       }
 
       get_template_part('pages/single-blog/sections/comments');

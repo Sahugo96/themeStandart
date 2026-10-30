@@ -3,7 +3,8 @@
 // Перенесено из tolstenko.marketing (assets/js/script.js).
 
 const section = document.getElementById('comments');
-const formWrap = section ? section.querySelector('.comments__form') : null;
+// Карточка справа: заголовок, подсказка «Ответ для…» и форма CF7.
+const formWrap = section ? section.querySelector('.comments__right') : null;
 
 if (section && formWrap) {
   const titleEl = formWrap.querySelector('[data-comments-form-title]');
@@ -41,7 +42,7 @@ if (section && formWrap) {
     }
 
     if (titleEl) {
-      titleEl.textContent = id ? 'ОТВЕТИТЬ' : defaultTitle;
+      titleEl.textContent = id ? 'Ответить на комментарий' : defaultTitle;
     }
 
     formWrap.classList.toggle('is-reply', !!id);
