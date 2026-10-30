@@ -28,6 +28,14 @@ function theme_get_section_blocks_editor_config(): array
 {
     return [
         [
+            'name'          => 'my-theme/breadcrumbs',
+            'title'         => 'Хлебные крошки',
+            'icon'          => 'admin-links',
+            'hint'          => 'Путь до страницы строится автоматически: Главная → раздел → текущая страница',
+            'color'         => '#2271b1',
+            'hasTextFields' => false,
+        ],
+        [
             'name'          => 'my-theme/result',
 'defaultsKey'   => 'result',
             'title'         => 'Что вы получаете',

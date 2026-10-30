@@ -38,6 +38,7 @@ function theme_get_block_category_map(): array
 {
     return [
         // Главная / общие секции
+        'breadcrumbs'            => 'tolstenko-general',
         'main-hero'              => 'tolstenko-general',
         'result'                 => 'tolstenko-general',
         'compare'                => 'tolstenko-general',

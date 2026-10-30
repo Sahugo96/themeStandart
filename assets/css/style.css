@@ -2398,6 +2398,190 @@ body {
   }
 }
 
+.breadcrumbs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  grid-gap: 1.55vw;
+  margin-top: 2.584vw;
+  margin-bottom: 2.584vw;
+  font-family: "Montserrat";
+  font-size: 3.101vw;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--additional-gray-color);
+}
+@media (min-width: 992px) {
+  .breadcrumbs {
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+    grid-gap: 0.625vw;
+    margin-top: 0.781vw;
+    margin-bottom: 1.563vw;
+    font-size: 1.016vw;
+  }
+}
+@media (min-width: 1441px) {
+  .breadcrumbs {
+    grid-gap: 0.417vw;
+    margin-top: 0.521vw;
+    margin-bottom: 1.042vw;
+    font-size: 0.677vw;
+  }
+}
+.breadcrumbs .line-13-15 {
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.breadcrumbs svg {
+  display: block;
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+  width: 3.618vw;
+  height: 3.618vw;
+  fill: none;
+  stroke: currentColor;
+  -webkit-transition: stroke 0.3s linear;
+  transition: stroke 0.3s linear;
+}
+@media (min-width: 992px) {
+  .breadcrumbs svg {
+    width: 1.172vw;
+    height: 1.172vw;
+  }
+}
+@media (min-width: 1441px) {
+  .breadcrumbs svg {
+    width: 0.781vw;
+    height: 0.781vw;
+  }
+}
+.breadcrumbs__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  grid-gap: 1.55vw;
+  min-width: 0;
+}
+@media (min-width: 992px) {
+  .breadcrumbs__item {
+    grid-gap: 0.625vw;
+  }
+}
+@media (min-width: 1441px) {
+  .breadcrumbs__item {
+    grid-gap: 0.417vw;
+  }
+}
+.breadcrumbs__item > svg {
+  color: var(--gray-45-color);
+}
+.breadcrumbs__item:first-child .breadcrumbs__link {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 7.752vw;
+  height: 7.752vw;
+  border: 1px solid var(--dark-bg-stoke-color);
+  border-radius: 50%;
+}
+@media (min-width: 992px) {
+  .breadcrumbs__item:first-child .breadcrumbs__link {
+    width: 2.656vw;
+    height: 2.656vw;
+  }
+}
+@media (min-width: 1441px) {
+  .breadcrumbs__item:first-child .breadcrumbs__link {
+    width: 1.771vw;
+    height: 1.771vw;
+  }
+}
+.breadcrumbs__link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  grid-gap: 1.55vw;
+  color: var(--additional-gray-color);
+  -webkit-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+@media (min-width: 992px) {
+  .breadcrumbs__link {
+    grid-gap: 0.625vw;
+  }
+}
+@media (min-width: 1441px) {
+  .breadcrumbs__link {
+    grid-gap: 0.417vw;
+  }
+}
+@media (any-hover: hover) {
+  .breadcrumbs__link:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+  }
+}
+.breadcrumbs__current {
+  color: var(--light-bg-color);
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.breadcrumbs__item:has(> .breadcrumbs__current) {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 auto;
+          flex: 0 1 auto;
+  max-width: 100%;
+}
+@media (min-width: 992px) {
+  .breadcrumbs__item:has(> .breadcrumbs__current) {
+    max-width: 60%;
+  }
+}
+.breadcrumbs .breadcrumbs__link--back {
+  display: none;
+}
+@media (min-width: 992px) {
+  .breadcrumbs .breadcrumbs__link--back {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 0;
+        -ms-flex: none;
+            flex: none;
+    margin-left: auto;
+    padding: 0.625vw 1.25vw;
+    border: 1px solid var(--dark-bg-stoke-color);
+    border-radius: 999px;
+    font-size: 0.859vw;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+}
+@media (min-width: 1441px) {
+  .breadcrumbs .breadcrumbs__link--back {
+    padding: 0.417vw 0.833vw;
+    font-size: 0.573vw;
+  }
+}
+
 .br-30 {
   border-radius: 7.752vw;
   background-color: var(--gray-15-color);

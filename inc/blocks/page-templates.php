@@ -2,11 +2,29 @@
 
 defined('ABSPATH') || exit;
 
+/**
+ * Страница услуги заполняется как главная: секции-блоки с дефолтами из
+ * «Дефолтов блоков», порядок и состав меняются в редакторе.
+ */
 function theme_get_service_single_block_template(): array
 {
     return [
-        ['my-theme/faq'],
+        ['my-theme/breadcrumbs'],
+        ['my-theme/main-hero'],
+        ['my-theme/hero-stats'],
+        ['my-theme/situations'],
+        ['my-theme/flagship'],
+        ['my-theme/programs'],
+        ['my-theme/compare'],
+        ['my-theme/result'],
+        ['my-theme/why-us'],
+        ['my-theme/cases'],
+        ['my-theme/quiz'],
+        ['my-theme/documents'],
+        ['my-theme/team'],
         ['my-theme/reviews-section'],
+        ['my-theme/faq'],
+        ['my-theme/consult'],
     ];
 }
 
