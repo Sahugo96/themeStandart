@@ -28,6 +28,67 @@ function theme_get_section_blocks_editor_config(): array
 {
     return [
         [
+            'name'        => 'my-theme/seo-section',
+            'title'       => 'SEO-наполнение',
+            'icon'        => 'text-page',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → SEO-наполнение. Тексты — HTML; на сайте секция свёрнута, раскрывается кнопкой',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'seo_section',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                ['attr' => 'more_text', 'label' => 'Кнопка раскрытия', 'type' => 'text'],
+                [
+                    'attr'       => 'rows',
+                    'label'      => 'Содержимое',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить блок',
+                    'itemLabel'  => 'Блок',
+                    'itemFields' => [
+                        [
+                            'key'     => 'layout',
+                            'label'   => 'Вид',
+                            'type'    => 'select',
+                            'options' => [
+                                ['value' => 'text', 'label' => 'Текст'],
+                                ['value' => 'image_text', 'label' => 'Фото + текст'],
+                                ['value' => 'text_image', 'label' => 'Текст + фото'],
+                                ['value' => 'two_columns', 'label' => 'Две колонки'],
+                                ['value' => 'gallery', 'label' => 'Галерея'],
+                            ],
+                        ],
+                        ['key' => 'title', 'label' => 'Заголовок блока', 'type' => 'text'],
+                        ['key' => 'image', 'label' => 'Фото (Фото + текст)', 'type' => 'image'],
+                        ['key' => 'text', 'label' => 'Текст (HTML)', 'type' => 'textarea'],
+                        ['key' => 'text_2', 'label' => 'Текст 2 — правая колонка (Две колонки)', 'type' => 'textarea'],
+                        [
+                            'key'        => 'items',
+                            'label'      => 'Пункты (Две колонки)',
+                            'type'       => 'repeater',
+                            'addLabel'   => 'Добавить пункт',
+                            'itemLabel'  => 'Пункт',
+                            'itemFields' => [
+                                ['key' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                                ['key' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                            ],
+                        ],
+                        [
+                            'key'        => 'gallery',
+                            'label'      => 'Фото галереи (Галерея)',
+                            'type'       => 'repeater',
+                            'addLabel'   => 'Добавить фото',
+                            'itemLabel'  => 'Фото',
+                            'itemFields' => [
+                                ['key' => 'image', 'label' => 'Фото', 'type' => 'image'],
+                            ],
+                        ],
+                        ['key' => 'btn_text', 'label' => 'Кнопка (Фото + текст)', 'type' => 'text'],
+                        ['key' => 'btn_url', 'label' => 'Ссылка кнопки (пусто = #modal)', 'type' => 'text'],
+                    ],
+                ],
+            ],
+        ],
+        [
             'name'          => 'my-theme/breadcrumbs',
             'title'         => 'Хлебные крошки',
             'icon'          => 'admin-links',

@@ -63,6 +63,7 @@ function theme_get_block_category_map(): array
         'faq'                    => 'tolstenko-general',
         'field-template'         => 'tolstenko-general',
         'hidden-block'           => 'tolstenko-general',
+        'seo-section'            => 'tolstenko-general',
 
         // Блог
         'blog-archive'           => 'tolstenko-blog',

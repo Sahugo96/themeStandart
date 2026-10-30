@@ -67,6 +67,7 @@ function tolstenko_block_defaults_tab_groups() {
 				'flagship'   => 'Флагманские программы',
 				'europe'     => 'ВНЖ в Европе',
 				'quiz'       => 'Квиз',
+				'seo_section' => 'SEO-наполнение',
 			),
 		),
 	);
