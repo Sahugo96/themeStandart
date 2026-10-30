@@ -1,0 +1,30 @@
+{
+  "apiVersion": 3,
+  "title": "Статья: плюсы и минусы",
+  "name": "my-theme/blog-pros-cons",
+  "category": "tolstenko-blog",
+  "icon": "editor-table",
+  "supports": {
+    "html": false,
+    "multiple": true
+  },
+  "attributes": {
+    "pros_title": {
+      "type": "string",
+      "default": ""
+    },
+    "cons_title": {
+      "type": "string",
+      "default": ""
+    },
+    "pros": {
+      "type": "array",
+      "default": []
+    },
+    "cons": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

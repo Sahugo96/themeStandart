@@ -1,0 +1,49 @@
+{
+  "apiVersion": 3,
+  "title": "Статья: цитата",
+  "name": "my-theme/blog-blockquote",
+  "category": "tolstenko-blog",
+  "icon": "format-quote",
+  "supports": {
+    "html": false,
+    "multiple": true
+  },
+  "attributes": {
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "link": {
+      "type": "string",
+      "default": ""
+    },
+    "show_author": {
+      "type": "boolean"
+    },
+    "image": {
+      "type": "object",
+      "default": {
+        "id": 0,
+        "url": "",
+        "alt": ""
+      }
+    },
+    "author": {
+      "type": "string",
+      "default": ""
+    },
+    "author_under": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_text": {
+      "type": "string",
+      "default": ""
+    },
+    "btn_url": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}

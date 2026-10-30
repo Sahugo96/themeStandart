@@ -1,0 +1,30 @@
+{
+  "apiVersion": 3,
+  "title": "Статья: видео",
+  "name": "my-theme/blog-video",
+  "category": "tolstenko-blog",
+  "icon": "video-alt3",
+  "supports": {
+    "html": false,
+    "multiple": true
+  },
+  "attributes": {
+    "preview": {
+      "type": "object",
+      "default": {
+        "id": 0,
+        "url": "",
+        "alt": ""
+      }
+    },
+    "url": {
+      "type": "string",
+      "default": ""
+    },
+    "iframe": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}

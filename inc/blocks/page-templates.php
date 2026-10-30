@@ -10,13 +10,15 @@ function theme_get_service_single_block_template(): array
     ];
 }
 
+/**
+ * Редактор статьи заполняет только тело статьи (.single-blog__content-blocks):
+ * текст и блоки «Статья: …». Шапка, сайдбар, FAQ, слайдеры и комментарии
+ * собирает single-blog.php по мета-полям статьи.
+ */
 function theme_get_blog_single_block_template(): array
 {
     return [
-        ['my-theme/blog-content'],
-        ['my-theme/services-slider-simple'],
-        ['my-theme/faq'],
-        ['my-theme/blog-related'],
+        ['core/paragraph'],
     ];
 }
 
@@ -53,7 +55,7 @@ function theme_is_service_archive_page(WP_Post $post): bool
 function theme_get_blog_archive_block_template(): array
 {
     return [
-        ['my-theme/blog-archive'],
+        ['my-theme/blog-grid'],
         ['my-theme/faq'],
     ];
 }
