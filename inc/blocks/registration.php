@@ -71,7 +71,6 @@ function theme_get_block_category_map(): array
         'single-blog'            => 'tolstenko-blog',
         'blog-related'           => 'tolstenko-blog',
         'blog-grid'              => 'tolstenko-blog',
-        'blog-comments'          => 'tolstenko-blog',
         'blog-large-img'         => 'tolstenko-blog',
         'blog-video'             => 'tolstenko-blog',
         'blog-blockquote'        => 'tolstenko-blog',
@@ -174,12 +173,15 @@ function theme_allowed_block_types($allowed_block_types, $editor_context)
         'core/html',
     ]);
 
-    // Текст статьи внутри «Контент статьи»: картинки, таблицы, embed и т.п.
+    // В статье редактируется только тело: текст и блоки «Статья: …».
     $post = isset($editor_context->post) ? $editor_context->post : null;
 
     if ($post instanceof WP_Post && $post->post_type === 'blog') {
-        $allowed = array_merge($allowed, tolstenko_get_blog_content_inner_blocks());
+        return tolstenko_get_blog_content_inner_blocks();
     }
+
+    // Блоки тела статьи на других страницах не нужны.
+    $allowed = array_diff($allowed, tolstenko_get_blog_content_block_names());
 
     return array_values(array_unique($allowed));
 }

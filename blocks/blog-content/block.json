@@ -13,6 +13,5 @@
     "multiple": false
   },
   "attributes": {},
-  "render": "file:./template.php",
-  "description": "Шапка статьи, оглавление и сайдбар. Внутри — текст статьи и блоки «Статья: …»"
+  "render": "file:./template.php"
 }

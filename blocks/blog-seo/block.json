@@ -4,9 +4,6 @@
   "name": "my-theme/blog-seo",
   "category": "tolstenko-blog",
   "icon": "megaphone",
-  "parent": [
-    "my-theme/blog-content"
-  ],
   "supports": {
     "html": false,
     "multiple": true

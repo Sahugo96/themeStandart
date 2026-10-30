@@ -4,9 +4,6 @@
   "name": "my-theme/blog-warning",
   "category": "tolstenko-blog",
   "icon": "warning",
-  "parent": [
-    "my-theme/blog-content"
-  ],
   "supports": {
     "html": false,
     "multiple": true

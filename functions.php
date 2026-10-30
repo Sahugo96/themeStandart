@@ -39,10 +39,12 @@ require_once get_template_directory() . '/inc/blog-metabox.php';
 require_once get_template_directory() . '/inc/service-metabox.php';
 require_once get_template_directory() . '/inc/primary-term-metabox.php';
 require_once get_template_directory() . '/inc/blog/allowed-blocks.php';
-// Статьи: хелперы, авторы, метабокс, блоки тела, комментарии с модерацией
+// Статьи: хелперы, авторы, группы мета-полей, блоки тела, комментарии с модерацией
 require_once get_template_directory() . '/inc/blog/helpers.php';
 require_once get_template_directory() . '/inc/blog/authors-admin.php';
 require_once get_template_directory() . '/inc/blog/metabox.php';
+require_once get_template_directory() . '/inc/blog/faq-metabox.php';
+require_once get_template_directory() . '/inc/blog/sliders-metabox.php';
 require_once get_template_directory() . '/inc/blog/content-blocks.php';
 require_once get_template_directory() . '/inc/blog/comment-queue.php';
 require_once get_template_directory() . '/inc/blog/grid.php';

@@ -533,46 +533,6 @@
     },
   });
 
-  // Тело статьи: текст Gutenberg + блоки «Статья: …» внутри шапки/оглавления/сайдбара.
-  registerBlockType('my-theme/blog-content', {
-    apiVersion: 3,
-    title: 'Контент статьи',
-    icon: 'text-page',
-    edit: function () {
-      var blockProps = useBlockProps({
-        className: 'theme-block theme-block--blog-content',
-        style: controls.blockShell(colors.accent),
-      });
-
-      return el(
-        'div',
-        blockProps,
-        controls.blockTitle('Контент статьи', colors.accent),
-        controls.blockHint('Текст статьи: заголовки H2/H3 попадают в оглавление. Шапка (фото, заголовок, лид, автор) и сайдбар собираются автоматически — поля в метабоксе «Статья блога».'),
-        el(
-          'div',
-          {
-            style: {
-              marginTop: '12px',
-              padding: '12px',
-              border: '1px dashed ' + colors.border,
-              background: '#fff',
-              minHeight: '120px',
-            },
-          },
-          el(InnerBlocks, {
-            allowedBlocks: defaults.blogContentAllowed || HIDDEN_BLOCK_ALLOWED,
-            template: [['core/paragraph', {}]],
-            templateLock: false,
-          })
-        )
-      );
-    },
-    save: function () {
-      return el(InnerBlocks.Content);
-    },
-  });
-
   // —— Rich-text редактор (как «Фото + текст» в editor-blocks.js) ——
   // Превью + модалка с настоящим wp.editor (TinyMCE), как у FAQ.
   var TOLSTENKO_MCE = {

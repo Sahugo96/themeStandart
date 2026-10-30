@@ -4,9 +4,6 @@
   "name": "my-theme/blog-blockquote",
   "category": "tolstenko-blog",
   "icon": "format-quote",
-  "parent": [
-    "my-theme/blog-content"
-  ],
   "supports": {
     "html": false,
     "multiple": true

@@ -667,3 +667,24 @@ function tolstenko_get_blog_card_text( $post_id ) {
 
 	return wp_trim_words( wp_strip_all_tags( (string) $content ), 20, '…' );
 }
+
+/**
+ * HTML тела статьи из редактора (текст + блоки «Статья: …»).
+ * Обычные блоки здесь не оборачиваются в .container (это делает
+ * theme_wrap_non_theme_blocks_in_container для страниц из секций).
+ *
+ * @param int $post_id Post ID.
+ * @return string
+ */
+function tolstenko_get_blog_body_html( $post_id ) {
+	$content = (string) get_post_field( 'post_content', (int) $post_id );
+	if ( trim( $content ) === '' ) {
+		return '';
+	}
+
+	theme_nested_blocks_depth( 1 );
+	$html = (string) apply_filters( 'the_content', $content );
+	theme_nested_blocks_depth( -1 );
+
+	return $html;
+}

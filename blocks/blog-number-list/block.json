@@ -4,9 +4,6 @@
   "name": "my-theme/blog-number-list",
   "category": "tolstenko-blog",
   "icon": "editor-ol",
-  "parent": [
-    "my-theme/blog-content"
-  ],
   "supports": {
     "html": false,
     "multiple": true

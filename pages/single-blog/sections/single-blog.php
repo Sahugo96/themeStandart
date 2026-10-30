@@ -4,10 +4,10 @@
  * Статья: шапка (фото, заголовок, лид, статистика, автор) + оглавление +
  * тело + сайдбар с автором.
  *
- * Тело — внутренние блоки «Контент статьи» (my-theme/blog-content).
- * Если их нет, выводится старое ACF-поле single-blog_content.
+ * Тело — содержимое редактора статьи (single-blog.php передаёт его в body_html).
+ * Если тела нет, выводится старое ACF-поле single-blog_content.
  *
- * @var array $args { @type string $body_html HTML внутренних блоков. }
+ * @var array $args { @type string $body_html HTML тела статьи из редактора. }
  */
 
 defined('ABSPATH') || exit;

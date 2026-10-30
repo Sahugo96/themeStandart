@@ -4,9 +4,6 @@
   "name": "my-theme/blog-video",
   "category": "tolstenko-blog",
   "icon": "video-alt3",
-  "parent": [
-    "my-theme/blog-content"
-  ],
   "supports": {
     "html": false,
     "multiple": true

@@ -605,14 +605,6 @@ function theme_get_section_blocks_editor_config(): array
             ],
         ],
         [
-            'name'          => 'my-theme/blog-comments',
-            'title'         => 'Комментарии статьи',
-            'icon'          => 'admin-comments',
-            'hint'          => 'Форма CF7 «Комментарий» и одобренные комментарии. Новые комментарии — в меню «Комментарии с сайта»',
-            'color'         => '#27AE60',
-            'hasTextFields' => false,
-        ],
-        [
             'name'   => 'my-theme/blog-large-img',
             'title'  => 'Статья: крупное фото',
             'icon'   => 'format-image',
@@ -768,6 +760,13 @@ function theme_get_section_blocks_editor_config(): array
                 ['attr' => 'btn', 'label' => 'Кнопка', 'type' => 'text', 'help' => ' '],
                 ['attr' => 'btn_url', 'label' => 'Ссылка кнопки', 'type' => 'text', 'help' => 'Пусто — открывает форму (#modal)'],
             ],
+        ],
+        [
+            'name'          => 'my-theme/blog-content',
+            'title'         => 'Контент статьи',
+            'hint'          => 'Текст статьи и сайдбар из ACF текущей записи',
+            'color'         => '#2271b1',
+            'hasTextFields' => false,
         ],
         [
             'name'          => 'my-theme/blog-related',
