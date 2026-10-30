@@ -97,7 +97,6 @@ if ( ! function_exists( 'tolstenko_render_blog_comment_item' ) ) {
 	}
 }
 
-$form_title = 'Оставить комментарий';
 ?>
 
 <section class="comments section load-on-vissible--js" id="comments" data-module="./modules/blogComments.js">
@@ -112,13 +111,6 @@ $form_title = 'Оставить комментарий';
 						<span><?php echo (int) $count; ?></span>
 					<?php endif; ?>
 					</h2>
-				</div>
-
-				<div class="comments__right-top">
-					<div class="comments__form-title" data-comments-form-title data-default-title="<?php echo esc_attr( $form_title ); ?>"><?php echo esc_html( $form_title ); ?></div>
-					<div class="comments__form-text reg-par-14-20">
-						<?php esc_html_e( 'Комментарий появится после проверки модератором. Email на сайте не показывается.', 'tolstenko-theme' ); ?>
-					</div>
 				</div>
 
 				<div class="comments__reply-hint" data-comments-reply-hint hidden>

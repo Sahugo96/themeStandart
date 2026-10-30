@@ -19906,7 +19906,11 @@ body {
     padding: 2.604vw;
   }
 }
-.comments__right-top {
+.comments .comments__form {
+  padding: 0;
+  background-color: transparent;
+}
+.comments .comments__form .wpcf7-form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -19914,51 +19918,341 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  grid-gap: 3.101vw;
+  grid-gap: 2.584vw;
 }
 @media (min-width: 992px) {
-  .comments__right-top {
+  .comments .comments__form .wpcf7-form {
+    grid-gap: 0.938vw;
+  }
+}
+@media (min-width: 1441px) {
+  .comments .comments__form .wpcf7-form {
     grid-gap: 0.625vw;
   }
 }
-@media (min-width: 1441px) {
-  .comments__right-top {
-    grid-gap: 0.417vw;
-  }
+.comments .comments__form p,
+.comments .comments__form label {
+  margin: 0;
 }
-.comments__form-title {
-  font-family: "Montserrat";
-  font-weight: 800;
-  font-size: 4.651vw;
-  line-height: 1.2;
-  color: var(--light-bg-color);
+.comments .comments__form br {
+  display: none;
 }
-@media (min-width: 992px) {
-  .comments__form-title {
-    font-size: 1.563vw;
-  }
+.comments .comments__form .wpcf7-form-control-wrap {
+  display: block;
+  width: 100%;
 }
-@media (min-width: 1441px) {
-  .comments__form-title {
-    font-size: 1.042vw;
-  }
-}
-.comments__form-text {
-  color: var(--additional-gray-color);
-}
-.comments__form {
-  padding: 4.134vw;
+.comments .comments__form input[type=text],
+.comments .comments__form input[type=email],
+.comments .comments__form input[type=tel],
+.comments .comments__form input[type=url],
+.comments .comments__form textarea {
+  display: block;
+  width: 100%;
+  height: 14.47vw;
+  margin: 0;
+  padding: 0 5.168vw;
+  border: 1px solid var(--dark-bg-stoke-color);
+  border-radius: 3.876vw;
+  outline: none;
   background-color: var(--dark-bg-color);
+  font-family: "Montserrat";
+  font-size: 3.618vw;
+  line-height: 1.4;
+  color: var(--light-bg-color);
+  -webkit-transition: border-color 0.3s linear;
+  transition: border-color 0.3s linear;
 }
 @media (min-width: 992px) {
-  .comments__form {
-    padding: 1.563vw;
+  .comments .comments__form input[type=text],
+  .comments .comments__form input[type=email],
+  .comments .comments__form input[type=tel],
+  .comments .comments__form input[type=url],
+  .comments .comments__form textarea {
+    height: 4.688vw;
+    padding: 0 1.563vw;
+    border-radius: 1.172vw;
+    font-size: 1.094vw;
   }
 }
 @media (min-width: 1441px) {
-  .comments__form {
-    padding: 1.042vw;
+  .comments .comments__form input[type=text],
+  .comments .comments__form input[type=email],
+  .comments .comments__form input[type=tel],
+  .comments .comments__form input[type=url],
+  .comments .comments__form textarea {
+    height: 3.125vw;
+    padding: 0 1.042vw;
+    border-radius: 0.781vw;
+    font-size: 0.729vw;
   }
+}
+.comments .comments__form input[type=text]::-webkit-input-placeholder, .comments .comments__form input[type=email]::-webkit-input-placeholder, .comments .comments__form input[type=tel]::-webkit-input-placeholder, .comments .comments__form input[type=url]::-webkit-input-placeholder, .comments .comments__form textarea::-webkit-input-placeholder {
+  color: var(--gray-45-color);
+}
+.comments .comments__form input[type=text]::-moz-placeholder, .comments .comments__form input[type=email]::-moz-placeholder, .comments .comments__form input[type=tel]::-moz-placeholder, .comments .comments__form input[type=url]::-moz-placeholder, .comments .comments__form textarea::-moz-placeholder {
+  color: var(--gray-45-color);
+}
+.comments .comments__form input[type=text]:-ms-input-placeholder, .comments .comments__form input[type=email]:-ms-input-placeholder, .comments .comments__form input[type=tel]:-ms-input-placeholder, .comments .comments__form input[type=url]:-ms-input-placeholder, .comments .comments__form textarea:-ms-input-placeholder {
+  color: var(--gray-45-color);
+}
+.comments .comments__form input[type=text]::-ms-input-placeholder, .comments .comments__form input[type=email]::-ms-input-placeholder, .comments .comments__form input[type=tel]::-ms-input-placeholder, .comments .comments__form input[type=url]::-ms-input-placeholder, .comments .comments__form textarea::-ms-input-placeholder {
+  color: var(--gray-45-color);
+}
+.comments .comments__form input[type=text]::placeholder,
+.comments .comments__form input[type=email]::placeholder,
+.comments .comments__form input[type=tel]::placeholder,
+.comments .comments__form input[type=url]::placeholder,
+.comments .comments__form textarea::placeholder {
+  color: var(--gray-45-color);
+}
+.comments .comments__form input[type=text]:focus,
+.comments .comments__form input[type=email]:focus,
+.comments .comments__form input[type=tel]:focus,
+.comments .comments__form input[type=url]:focus,
+.comments .comments__form textarea:focus {
+  border-color: var(--accent-color);
+}
+@media (any-hover: hover) {
+  .comments .comments__form input[type=text]:hover,
+  .comments .comments__form input[type=email]:hover,
+  .comments .comments__form input[type=tel]:hover,
+  .comments .comments__form input[type=url]:hover,
+  .comments .comments__form textarea:hover {
+    border-color: var(--accent-color);
+  }
+}
+.comments .comments__form input[type=text].wpcf7-not-valid,
+.comments .comments__form input[type=email].wpcf7-not-valid,
+.comments .comments__form input[type=tel].wpcf7-not-valid,
+.comments .comments__form input[type=url].wpcf7-not-valid,
+.comments .comments__form textarea.wpcf7-not-valid {
+  border-color: var(--brand-accent-red-m-color);
+}
+.comments .comments__form textarea {
+  height: 38.76vw;
+  padding-top: 4.134vw;
+  padding-bottom: 4.134vw;
+  resize: vertical;
+}
+@media (min-width: 992px) {
+  .comments .comments__form textarea {
+    height: 12.5vw;
+    padding-top: 1.406vw;
+    padding-bottom: 1.406vw;
+  }
+}
+@media (min-width: 1441px) {
+  .comments .comments__form textarea {
+    height: 8.333vw;
+    padding-top: 0.938vw;
+    padding-bottom: 0.938vw;
+  }
+}
+.comments .comments__form .wpcf7-acceptance,
+.comments .comments__form .wpcf7-checkbox {
+  display: block;
+}
+.comments .comments__form .wpcf7-list-item {
+  display: block;
+  margin: 0;
+}
+.comments .comments__form .wpcf7-list-item label,
+.comments .comments__form .form__checkbox label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  grid-gap: 2.584vw;
+  height: auto;
+  padding: 0;
+  background: none;
+  font-size: 3.101vw;
+  line-height: 1.35;
+  color: var(--additional-gray-color);
+  cursor: pointer;
+}
+@media (min-width: 992px) {
+  .comments .comments__form .wpcf7-list-item label,
+  .comments .comments__form .form__checkbox label {
+    grid-gap: 0.781vw;
+    font-size: 0.938vw;
+  }
+}
+@media (min-width: 1441px) {
+  .comments .comments__form .wpcf7-list-item label,
+  .comments .comments__form .form__checkbox label {
+    grid-gap: 0.521vw;
+    font-size: 0.625vw;
+  }
+}
+.comments .comments__form input[type=checkbox] {
+  position: static;
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+  width: 4.651vw;
+  height: 4.651vw;
+  margin: 0;
+  border: 1px solid var(--dark-bg-stoke-color);
+  border-radius: 1.292vw;
+  background: var(--dark-bg-color) center/70% no-repeat;
+  opacity: 1;
+  pointer-events: auto;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  cursor: pointer;
+  -webkit-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+@media (min-width: 992px) {
+  .comments .comments__form input[type=checkbox] {
+    width: 1.406vw;
+    height: 1.406vw;
+    border-radius: 0.391vw;
+  }
+}
+@media (min-width: 1441px) {
+  .comments .comments__form input[type=checkbox] {
+    width: 0.938vw;
+    height: 0.938vw;
+    border-radius: 0.26vw;
+  }
+}
+.comments .comments__form input[type=checkbox]:checked {
+  border-color: var(--accent-color);
+  background-color: var(--accent-color);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.2l2.3 2.3L9.5 3.8'/%3E%3C/svg%3E");
+}
+.comments .comments__form input[type=checkbox]:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+.comments .comments__form .wpcf7-list-item label a,
+.comments .comments__form .form__checkbox a {
+  color: var(--light-bg-color);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+@media (any-hover: hover) {
+  .comments .comments__form .wpcf7-list-item label a:hover,
+  .comments .comments__form .form__checkbox a:hover {
+    color: var(--accent-color);
+  }
+}
+.comments .comments__form input[type=submit],
+.comments .comments__form button[type=submit],
+.comments .comments__form .wpcf7-submit {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  height: 14.47vw;
+  margin: 1.55vw 0 0;
+  padding: 0 7.752vw;
+  border: 1px solid var(--accent-color);
+  border-radius: 999px;
+  background-color: var(--accent-color);
+  font-family: "Montserrat";
+  font-size: 3.618vw;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--light-bg-color);
+  cursor: pointer;
+  -webkit-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+@media (min-width: 992px) {
+  .comments .comments__form input[type=submit],
+  .comments .comments__form button[type=submit],
+  .comments .comments__form .wpcf7-submit {
+    width: auto;
+    min-width: 21.875vw;
+    height: 4.688vw;
+    margin-top: 0.625vw;
+    padding: 0 3.125vw;
+    font-size: 1.094vw;
+  }
+}
+@media (min-width: 1441px) {
+  .comments .comments__form input[type=submit],
+  .comments .comments__form button[type=submit],
+  .comments .comments__form .wpcf7-submit {
+    min-width: 14.583vw;
+    height: 3.125vw;
+    margin-top: 0.417vw;
+    padding: 0 2.083vw;
+    font-size: 0.729vw;
+  }
+}
+@media (any-hover: hover) {
+  .comments .comments__form input[type=submit]:hover,
+  .comments .comments__form button[type=submit]:hover,
+  .comments .comments__form .wpcf7-submit:hover {
+    border-color: var(--light-bg-color);
+    background-color: var(--light-bg-color);
+    color: var(--main-text-color);
+  }
+}
+.comments .comments__form input[type=submit]:disabled,
+.comments .comments__form button[type=submit]:disabled,
+.comments .comments__form .wpcf7-submit:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.comments .comments__form .wpcf7-spinner {
+  margin: 2.584vw auto 0;
+}
+@media (min-width: 992px) {
+  .comments .comments__form .wpcf7-spinner {
+    margin: 0 0 0 1.25vw;
+  }
+}
+.comments .comments__form .wpcf7-response-output {
+  display: none;
+  margin: 0;
+  padding: 3.101vw 4.134vw;
+  border: 1px solid var(--accent-20-color);
+  border-radius: 3.876vw;
+  font-size: 3.359vw;
+  line-height: 1.4;
+  color: var(--accent-color);
+}
+@media (min-width: 992px) {
+  .comments .comments__form .wpcf7-response-output {
+    padding: 0.938vw 1.563vw;
+    border-radius: 1.172vw;
+    font-size: 1.016vw;
+  }
+}
+@media (min-width: 1441px) {
+  .comments .comments__form .wpcf7-response-output {
+    padding: 0.625vw 1.042vw;
+    border-radius: 0.781vw;
+    font-size: 0.677vw;
+  }
+}
+.comments .comments__form .wpcf7-form.sent .wpcf7-response-output,
+.comments .comments__form .wpcf7-form.invalid .wpcf7-response-output,
+.comments .comments__form .wpcf7-form.unaccepted .wpcf7-response-output,
+.comments .comments__form .wpcf7-form.failed .wpcf7-response-output {
+  display: block;
+}
+.comments .comments__form .wpcf7-form.invalid .wpcf7-response-output,
+.comments .comments__form .wpcf7-form.unaccepted .wpcf7-response-output,
+.comments .comments__form .wpcf7-form.failed .wpcf7-response-output {
+  border-color: var(--brand-accent-red-color);
+  color: var(--brand-accent-red-m-color);
 }
 .comments__reply-hint {
   display: -webkit-box;
