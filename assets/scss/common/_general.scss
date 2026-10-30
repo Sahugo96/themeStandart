@@ -64,6 +64,7 @@ body {
   flex: 1 1 auto;
   // Отступ под фиксированную шапку (верхняя строка + плашка, common/_header.scss).
   padding-top: vw(100px, $mobile);
+  background-color: var(--dark-bg-color);
   @media (min-width: $desk) {
     padding-top: vw(160px, $desktop);
   }

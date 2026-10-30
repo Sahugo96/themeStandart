@@ -233,6 +233,7 @@ body {
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
   padding-top: 25.84vw;
+  background-color: var(--dark-bg-color);
 }
 @media (min-width: 992px) {
   .main {
