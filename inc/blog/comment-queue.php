@@ -3,8 +3,9 @@
  * Комментарии к статьям: форма CF7 → очередь модерации («Комментарии с сайта»)
  * → «Одобрить» добавляет комментарий в meta blog_comments статьи.
  *
- * Форма CF7 ищется по заголовку «Комментарий» (можно переопределить
+ * Форма CF7: [contact-form-7 id="afee4fc" title="Комментарий"] (другую можно задать
  * константой THEME_BLOG_COMMENT_CF7_ID или фильтром tolstenko_blog_comment_cf7_id).
+ * Письма авторам при одобрении — inc/blog/comment-mail.php.
  * Поля формы: имя (your-name), email (your-email / email-*), текст (your-message / textarea-*).
  *
  * Перенесено из tolstenko.marketing (inc/blog/comment-queue.php).
@@ -16,18 +17,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 const TOLSTENKO_BLOG_COMMENT_QUEUE_PT  = 'blog_cmt_mod';
 const TOLSTENKO_BLOG_COMMENT_CF7_TITLE = 'Комментарий';
+const TOLSTENKO_BLOG_COMMENT_CF7_HASH  = 'afee4fc';
 
 /**
- * ID формы CF7 для комментариев (0 = искать по заголовку).
+ * ID формы CF7 для комментариев: хеш из шорткода (id="afee4fc") или числовой ID.
+ * Переопределяется константой THEME_BLOG_COMMENT_CF7_ID или фильтром.
  *
- * @return int
+ * @return string
  */
 function tolstenko_blog_comment_cf7_id() {
-	$id = defined( 'THEME_BLOG_COMMENT_CF7_ID' ) ? (int) THEME_BLOG_COMMENT_CF7_ID : 0;
-	return (int) apply_filters( 'tolstenko_blog_comment_cf7_id', $id );
+	$id = defined( 'THEME_BLOG_COMMENT_CF7_ID' ) ? (string) THEME_BLOG_COMMENT_CF7_ID : TOLSTENKO_BLOG_COMMENT_CF7_HASH;
+	return trim( (string) apply_filters( 'tolstenko_blog_comment_cf7_id', $id ) );
 }
 
 /**
+ * Это форма комментариев? Сверяем хеш или числовой ID, запасной вариант — название.
+ *
  * @param WPCF7_ContactForm|object $contact_form CF7 form.
  * @return bool
  */
@@ -36,10 +41,12 @@ function tolstenko_is_blog_comment_cf7( $contact_form ) {
 		return false;
 	}
 
-	$id        = method_exists( $contact_form, 'id' ) ? (int) $contact_form->id() : 0;
-	$config_id = tolstenko_blog_comment_cf7_id();
-	if ( $config_id ) {
-		return $id === $config_id;
+	$config = tolstenko_blog_comment_cf7_id();
+	$id     = method_exists( $contact_form, 'id' ) ? (string) $contact_form->id() : '';
+	$hash   = method_exists( $contact_form, 'hash' ) ? (string) $contact_form->hash() : '';
+
+	if ( $config !== '' && ( $config === $id || ( $hash !== '' && strpos( $hash, $config ) === 0 ) ) ) {
+		return true;
 	}
 
 	$title = method_exists( $contact_form, 'title' ) ? (string) $contact_form->title() : '';
@@ -52,11 +59,11 @@ function tolstenko_is_blog_comment_cf7( $contact_form ) {
  * @return string
  */
 function tolstenko_blog_comment_form_shortcode() {
-	$id = tolstenko_blog_comment_cf7_id();
-	if ( $id ) {
-		return sprintf( '[contact-form-7 id="%d"]', $id );
-	}
-	return sprintf( '[contact-form-7 title="%s"]', TOLSTENKO_BLOG_COMMENT_CF7_TITLE );
+	return sprintf(
+		'[contact-form-7 id="%s" title="%s"]',
+		esc_attr( tolstenko_blog_comment_cf7_id() ),
+		TOLSTENKO_BLOG_COMMENT_CF7_TITLE
+	);
 }
 
 /**
@@ -650,7 +657,8 @@ function tolstenko_comment_queue_approve( $queue_id ) {
 }
 
 /**
- * Письма: автору — комментарий опубликован; автору родителя — появился ответ.
+ * Письма после одобрения: автору — «комментарий опубликован»;
+ * если это ответ — автору комментария, на который ответили (inc/blog/comment-mail.php).
  *
  * @param int    $queue_id  Queue post ID.
  * @param int    $target_id Article ID.
@@ -658,92 +666,18 @@ function tolstenko_comment_queue_approve( $queue_id ) {
  * @param string $new_id    New comment id.
  */
 function tolstenko_comment_queue_notify_on_approve( $queue_id, $target_id, $parent_id, $new_id ) {
-	$queue_id  = (int) $queue_id;
 	$target_id = (int) $target_id;
-	$permalink = $target_id ? (string) get_permalink( $target_id ) : '';
-	if ( $permalink && $new_id !== '' ) {
-		$permalink .= '#comment-' . rawurlencode( $new_id );
-	}
-	$post_title = $target_id ? wp_strip_all_tags( (string) get_the_title( $target_id ) ) : '';
-	$site       = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
-	$author     = (string) get_post_meta( $queue_id, '_tolstenko_cmt_name', true );
-	$email      = sanitize_email( (string) get_post_meta( $queue_id, '_tolstenko_cmt_email', true ) );
-	$text       = (string) get_post_meta( $queue_id, '_tolstenko_cmt_text', true );
-	if ( function_exists( 'mb_substr' ) ) {
-		$excerpt = trim( mb_substr( wp_strip_all_tags( $text ), 0, 220 ) );
-	} else {
-		$excerpt = trim( substr( wp_strip_all_tags( $text ), 0, 220 ) );
-	}
-
-	$headers = array( 'Content-Type: text/plain; charset=UTF-8' );
-
-	if ( is_email( $email ) ) {
-		$subject = sprintf(
-			/* translators: 1: site name */
-			__( '[%s] Ваш комментарий опубликован', 'tolstenko-theme' ),
-			$site
-		);
-		$lines = array(
-			$author !== '' ? sprintf( __( 'Здравствуйте, %s!', 'tolstenko-theme' ), $author ) : __( 'Здравствуйте!', 'tolstenko-theme' ),
-			'',
-			$post_title !== ''
-				? sprintf( __( 'Ваш комментарий к материалу «%s» опубликован.', 'tolstenko-theme' ), $post_title )
-				: __( 'Ваш комментарий опубликован.', 'tolstenko-theme' ),
-		);
-		if ( $excerpt !== '' ) {
-			$lines[] = '';
-			$lines[] = $excerpt;
-		}
-		if ( $permalink !== '' ) {
-			$lines[] = '';
-			$lines[] = __( 'Ссылка:', 'tolstenko-theme' );
-			$lines[] = $permalink;
-		}
-		wp_mail( $email, $subject, implode( "\n", $lines ), $headers );
-	}
-
-	$parent_id = (string) $parent_id;
-	if ( $parent_id === '' || ! function_exists( 'tolstenko_blog_get_comment' ) ) {
+	$comment   = tolstenko_blog_get_comment( $target_id, $new_id );
+	if ( ! is_array( $comment ) ) {
 		return;
 	}
 
-	$parent = tolstenko_blog_get_comment( $target_id, $parent_id );
-	if ( ! is_array( $parent ) ) {
-		return;
-	}
-	$parent_email = function_exists( 'tolstenko_blog_comment_sanitize_email' )
-		? tolstenko_blog_comment_sanitize_email( $parent['email'] ?? '' )
-		: ( is_email( (string) ( $parent['email'] ?? '' ) ) ? (string) $parent['email'] : '' );
-	if ( $parent_email === '' || ( is_email( $email ) && strcasecmp( $parent_email, $email ) === 0 ) ) {
-		return;
-	}
+	tolstenko_blog_comment_mail_published( $target_id, $comment, $new_id );
 
-	$parent_name = trim( (string) ( $parent['name'] ?? '' ) );
-	$subject     = sprintf(
-		/* translators: 1: site name */
-		__( '[%s] Новый ответ на ваш комментарий', 'tolstenko-theme' ),
-		$site
-	);
-	$lines = array(
-		$parent_name !== '' ? sprintf( __( 'Здравствуйте, %s!', 'tolstenko-theme' ), $parent_name ) : __( 'Здравствуйте!', 'tolstenko-theme' ),
-		'',
-		$post_title !== ''
-			? sprintf( __( 'На ваш комментарий к материалу «%s» появился ответ.', 'tolstenko-theme' ), $post_title )
-			: __( 'На ваш комментарий появился ответ.', 'tolstenko-theme' ),
-	);
-	if ( $author !== '' ) {
-		$lines[] = sprintf( __( 'Автор ответа: %s', 'tolstenko-theme' ), $author );
+	$parent = $parent_id !== '' ? tolstenko_blog_get_comment( $target_id, $parent_id ) : null;
+	if ( is_array( $parent ) ) {
+		tolstenko_blog_comment_mail_reply( $target_id, $parent, $comment, $new_id );
 	}
-	if ( $excerpt !== '' ) {
-		$lines[] = '';
-		$lines[] = $excerpt;
-	}
-	if ( $permalink !== '' ) {
-		$lines[] = '';
-		$lines[] = __( 'Ссылка:', 'tolstenko-theme' );
-		$lines[] = $permalink;
-	}
-	wp_mail( $parent_email, $subject, implode( "\n", $lines ), $headers );
 }
 
 add_action( 'admin_post_tolstenko_approve_blog_comment', 'tolstenko_comment_queue_handle_approve' );

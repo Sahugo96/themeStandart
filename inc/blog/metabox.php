@@ -138,6 +138,7 @@ function tolstenko_blog_article_render_metabox( $post ) {
 			<h3><?php esc_html_e( 'Комментарии', 'tolstenko-theme' ); ?></h3>
 			<p class="description"><?php esc_html_e( 'Выводятся под статьёй. Комментарии с сайта попадают сюда после одобрения в «Комментарии с сайта».', 'tolstenko-theme' ); ?></p>
 
+			<input type="hidden" name="tolstenko_blog_comments_loaded" value="<?php echo esc_attr( implode( ',', array_keys( tolstenko_blog_comments_flatten( $comments ) ) ) ); ?>">
 			<div data-bc-list>
 				<?php foreach ( $comments as $i => $comment ) : ?>
 					<?php tolstenko_blog_render_comment_admin_row( (string) $i, is_array( $comment ) ? $comment : array(), 0 ); ?>
@@ -364,5 +365,63 @@ function tolstenko_blog_article_save_metabox( $post_id, $post ) {
 	$comments_raw = isset( $_POST['tolstenko_blog_comments'] ) && is_array( $_POST['tolstenko_blog_comments'] )
 		? wp_unslash( $_POST['tolstenko_blog_comments'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized below.
 		: array();
-	update_post_meta( $post_id, 'blog_comments', tolstenko_blog_sanitize_comments( $comments_raw ) );
+	$before = get_post_meta( $post_id, 'blog_comments', true );
+	$before = is_array( $before ) ? $before : array();
+	$after  = tolstenko_blog_sanitize_comments( $comments_raw );
+
+	// Комментарии, одобренные из очереди, пока статья была открыта, в форме отсутствуют —
+	// возвращаем их, чтобы сохранение статьи их не стёрло.
+	if ( isset( $_POST['tolstenko_blog_comments_loaded'] ) ) {
+		$loaded = array_filter( array_map( 'tolstenko_blog_comment_normalize_id', explode( ',', sanitize_text_field( wp_unslash( $_POST['tolstenko_blog_comments_loaded'] ) ) ) ) );
+		$after  = tolstenko_blog_comments_restore_unseen( $before, $after, $loaded );
+	}
+
+	update_post_meta( $post_id, 'blog_comments', $after );
+
+	// Ответ, добавленный здесь, — письмо автору комментария, на который ответили.
+	if ( get_post_status( $post_id ) === 'publish' ) {
+		tolstenko_blog_comments_notify_new_replies( $post_id, $before, $after );
+	}
+}
+
+/**
+ * Вернуть в дерево комментарии, которых не было в форме при открытии статьи
+ * (одобрены из очереди позже). Удалённые в форме не возвращаются: они были в $loaded.
+ *
+ * @param array    $before Tree in DB before save.
+ * @param array    $after  Tree from the form.
+ * @param string[] $loaded Ids rendered in the form.
+ * @return array
+ */
+function tolstenko_blog_comments_restore_unseen( array $before, array $after, array $loaded ) {
+	$loaded = array_flip( $loaded );
+	$known  = tolstenko_blog_comments_flatten( $after );
+
+	foreach ( tolstenko_blog_comments_flatten( $before ) as $id => $row ) {
+		if ( isset( $loaded[ $id ] ) || isset( $known[ $id ] ) ) {
+			continue;
+		}
+
+		$item   = $row['comment'];
+		$parent = is_array( $row['parent'] ) ? tolstenko_blog_comment_normalize_id( $row['parent']['id'] ?? '' ) : '';
+
+		if ( $parent === '' ) {
+			$after[] = $item;
+		} else {
+			$found = tolstenko_blog_find_comment( $after, $parent );
+			if ( ! $found || $found['depth'] >= 2 ) {
+				continue;
+			}
+			if ( $found['kind'] === 'reply' ) {
+				unset( $item['replies'] );
+				$after[ $found['root_index'] ]['replies'][ $found['reply_index'] ]['replies'][] = $item;
+			} else {
+				$after[ $found['root_index'] ]['replies'][] = $item;
+			}
+		}
+
+		$known = tolstenko_blog_comments_flatten( $after );
+	}
+
+	return $after;
 }

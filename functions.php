@@ -46,6 +46,7 @@ require_once get_template_directory() . '/inc/blog/metabox.php';
 require_once get_template_directory() . '/inc/blog/faq-metabox.php';
 require_once get_template_directory() . '/inc/blog/sliders-metabox.php';
 require_once get_template_directory() . '/inc/blog/content-blocks.php';
+require_once get_template_directory() . '/inc/blog/comment-mail.php';
 require_once get_template_directory() . '/inc/blog/comment-queue.php';
 require_once get_template_directory() . '/inc/blog/grid.php';
 
