@@ -25,6 +25,6 @@ if ($title === '' && $btn_text === '') {
   <?php endif; ?>
 
   <?php if ($btn_text !== '') : ?>
-    <a class="article-cta__btn default-btn" href="<?= esc_url($btn_url ?: '#modal'); ?>"><?= esc_html($btn_text); ?></a>
+    <a class="article-cta__btn default-btn default-btn--brown" href="<?= esc_url($btn_url ?: '#modal'); ?>"><?= esc_html($btn_text); ?></a>
   <?php endif; ?>
 </div>

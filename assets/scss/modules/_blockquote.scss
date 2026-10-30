@@ -24,7 +24,7 @@
     min-width: vw(25px, $mobile);
     height: auto;
     aspect-ratio: 35/30;
-    fill: var(--gray-20-color);
+    fill: var(--accent-color);
     margin-left: auto;
     @media (min-width: $desk) {
       max-width: vw(35px, $desktop);
@@ -98,6 +98,6 @@
   }
   &__right-wrapper span {
     @include line-camp(3);
-    color: var(--gray-70-color);
+    color: var(--additional-gray-color);
   }
 }

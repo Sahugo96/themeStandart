@@ -67,7 +67,7 @@ $quote_svg = '<svg viewBox="0 0 35 30" fill="none" xmlns="http://www.w3.org/2000
       <?php endif; ?>
 
       <?php if ($btn_t !== '') : ?>
-        <a class="blockquote__right-btn default-btn" href="<?= esc_url($btn_u); ?>"><?= esc_html($btn_t); ?></a>
+        <a class="blockquote__right-btn default-btn default-btn--brown" href="<?= esc_url($btn_u); ?>"><?= esc_html($btn_t); ?></a>
       <?php endif; ?>
     </div>
   <?php endif; ?>
