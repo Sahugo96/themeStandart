@@ -1,25 +1,35 @@
 // Комментарии статьи (pages/single-blog/sections/comments.php).
-// Раскладка как у FAQ: список слева, справа — карточка с формой (.form--dark).
+// Сверху карточка с формой (.form--dark), под ней — карточка со списком.
+// Комментарий: аватар слева; справа имя и дата в строку, текст, линия-разделитель.
+// Ответы — сдвинуты к колонке текста.
 // Шапка — общие section-subtitle / section-title, скругления — br-20 / br-30.
 .comments {
   &__inner {
     display: flex;
-    flex-direction: column-reverse;
-    grid-gap: vw(20px, $mobile);
+    flex-direction: column;
+    grid-gap: vw(16px, $mobile);
     @media (min-width: $desk) {
-      flex-direction: row;
-      align-items: flex-start;
-      grid-gap: vw(60px, $desktop);
+      grid-gap: vw(30px, $desktop);
     }
     @media (min-width: $desk_large) {
-      grid-gap: vw(60px, $desktop_large);
+      grid-gap: vw(30px, $desktop_large);
     }
+  }
 
-    // Комментариев ещё нет — форма по центру.
-    &--empty {
-      @media (min-width: $desk) {
-        justify-content: center;
-      }
+  // Заголовок секции — внутри карточки с формой.
+  &__top {
+    margin-bottom: 0;
+  }
+
+  // Карточка со списком — как карточка формы.
+  &__list-card {
+    padding: vw(20px, $mobile) vw(16px, $mobile);
+    background-color: var(--super-dark-bg-color);
+    @media (min-width: $desk) {
+      padding: vw(50px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(50px, $desktop_large);
     }
   }
 
@@ -28,71 +38,83 @@
   &__children {
     display: flex;
     flex-direction: column;
-    grid-gap: vw(10px, $mobile);
+    grid-gap: vw(20px, $mobile);
     margin: 0;
     padding: 0;
     list-style: none;
     @media (min-width: $desk) {
-      grid-gap: vw(12px, $desktop);
+      grid-gap: vw(20px, $desktop);
     }
     @media (min-width: $desk_large) {
-      grid-gap: vw(12px, $desktop_large);
+      grid-gap: vw(20px, $desktop_large);
     }
   }
 
-  &__list {
-    width: 100%;
-  }
-
-  // Ответы — с отступом и золотой линией слева.
   &__children {
-    margin-top: vw(10px, $mobile);
-    padding-left: vw(14px, $mobile);
-    border-left: 1px solid var(--accent-20-color);
+    margin-top: vw(20px, $mobile);
     @media (min-width: $desk) {
-      margin-top: vw(12px, $desktop);
-      margin-left: vw(24px, $desktop);
-      padding-left: vw(20px, $desktop);
+      margin-top: vw(20px, $desktop);
     }
     @media (min-width: $desk_large) {
-      margin-top: vw(12px, $desktop_large);
-      margin-left: vw(24px, $desktop_large);
-      padding-left: vw(20px, $desktop_large);
+      margin-top: vw(20px, $desktop_large);
     }
+  }
+
+  // Комментарий: аватар | колонка с текстом и ответами.
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    grid-gap: vw(12px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+    }
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   &__card {
     display: flex;
     flex-direction: column;
-    grid-gap: vw(12px, $mobile);
-    padding: vw(16px, $mobile);
-    border: 1px solid transparent;
-    background-color: var(--dark-bg-plank-color);
+    grid-gap: vw(10px, $mobile);
+    padding-bottom: vw(16px, $mobile);
+    border-bottom: 1px solid var(--dark-bg-stoke-color);
     transition: border-color 0.3s linear;
     @media (min-width: $desk) {
-      grid-gap: vw(14px, $desktop);
-      padding: vw(20px, $desktop);
+      grid-gap: vw(12px, $desktop);
+      padding-bottom: vw(20px, $desktop);
     }
     @media (min-width: $desk_large) {
-      grid-gap: vw(14px, $desktop_large);
-      padding: vw(20px, $desktop_large);
+      grid-gap: vw(12px, $desktop_large);
+      padding-bottom: vw(20px, $desktop_large);
     }
   }
 
   // Комментарий, на который сейчас отвечают.
-  &__item.is-reply-target > &__card {
-    border-color: var(--accent-color);
+  &__item.is-reply-target > &__body > &__card {
+    border-bottom-color: var(--accent-color);
   }
 
+  // Имя слева, дата справа.
   &__head {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    grid-gap: vw(12px, $mobile);
+    justify-content: space-between;
+    grid-gap: vw(6px, $mobile) vw(12px, $mobile);
+    min-height: vw(44px, $mobile);
     @media (min-width: $desk) {
-      grid-gap: vw(14px, $desktop);
+      grid-gap: vw(16px, $desktop);
+      min-height: vw(64px, $desktop);
     }
     @media (min-width: $desk_large) {
-      grid-gap: vw(14px, $desktop_large);
+      grid-gap: vw(16px, $desktop_large);
+      min-height: vw(64px, $desktop_large);
     }
   }
 
@@ -110,31 +132,19 @@
     font-weight: 700;
     font-size: vw(16px, $mobile);
     @media (min-width: $desk) {
-      width: vw(48px, $desktop);
-      height: vw(48px, $desktop);
-      font-size: vw(16px, $desktop);
+      width: vw(64px, $desktop);
+      height: vw(64px, $desktop);
+      font-size: vw(20px, $desktop);
     }
     @media (min-width: $desk_large) {
-      width: vw(48px, $desktop_large);
-      height: vw(48px, $desktop_large);
-      font-size: vw(16px, $desktop_large);
+      width: vw(64px, $desktop_large);
+      height: vw(64px, $desktop_large);
+      font-size: vw(20px, $desktop_large);
     }
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-  }
-
-  &__meta {
-    display: flex;
-    flex-direction: column;
-    grid-gap: vw(4px, $mobile);
-    @media (min-width: $desk) {
-      grid-gap: vw(6px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(6px, $desktop_large);
     }
   }
 
@@ -243,27 +253,20 @@
     }
   }
 
-  // ----- Правая колонка: карточка с формой (как .faq__right) -----
+  // ----- Карточка с формой (сверху) -----
   &__right {
     display: flex;
     flex-direction: column;
     grid-gap: vw(16px, $mobile);
-    width: 100%;
-    padding: vw(16px, $mobile);
+    padding: vw(20px, $mobile) vw(16px, $mobile);
     background-color: var(--super-dark-bg-color);
     @media (min-width: $desk) {
-      position: sticky;
-      top: vw(100px, $desktop);
-      flex: none;
-      width: vw(430px, $desktop);
       grid-gap: vw(20px, $desktop);
-      padding: vw(20px, $desktop);
+      padding: vw(50px, $desktop);
     }
     @media (min-width: $desk_large) {
-      top: vw(100px, $desktop_large);
-      width: vw(430px, $desktop_large);
       grid-gap: vw(20px, $desktop_large);
-      padding: vw(20px, $desktop_large);
+      padding: vw(50px, $desktop_large);
     }
   }
 
@@ -271,15 +274,11 @@
     display: flex;
     flex-direction: column;
     grid-gap: vw(12px, $mobile);
-    padding: vw(8px, $mobile) vw(8px, $mobile) 0;
-    text-align: center;
     @media (min-width: $desk) {
-      grid-gap: vw(15px, $desktop);
-      padding: vw(10px, $desktop) vw(10px, $desktop) 0;
+      grid-gap: vw(8px, $desktop);
     }
     @media (min-width: $desk_large) {
-      grid-gap: vw(15px, $desktop_large);
-      padding: vw(10px, $desktop_large) vw(10px, $desktop_large) 0;
+      grid-gap: vw(8px, $desktop_large);
     }
   }
 

@@ -1,7 +1,7 @@
 <?php
 /**
- * Комментарии статьи: одобренные комментарии слева, справа — карточка с формой CF7
- * (как правая колонка FAQ: .form--dark на тёмной подложке). Новые комментарии
+ * Комментарии статьи: сверху карточка с формой CF7 (.form--dark), под ней —
+ * карточка с одобренными комментариями (аватар, имя, дата, текст, ответы). Новые комментарии
  * попадают в очередь «Комментарии с сайта» (inc/blog/comment-queue.php).
  * Ответить можно на комментарий и на ответ (два уровня вложенности).
  *
@@ -43,17 +43,17 @@ if ( ! function_exists( 'tolstenko_render_blog_comment_item' ) ) {
 				data-comment-id="<?php echo esc_attr( $cid ); ?>"
 			<?php endif; ?>
 		>
-			<article class="comments__card br-20">
-				<div class="comments__head">
-					<div class="comments__avatar">
-						<?php if ( $photo ) : ?>
-							<img src="<?php echo esc_url( $photo['url'] ); ?>" alt="<?php echo esc_attr( $photo['alt'] ?: $name ); ?>" loading="lazy" decoding="async">
-						<?php else : ?>
-							<span aria-hidden="true"><?php echo esc_html( $initial ); ?></span>
-						<?php endif; ?>
-					</div>
+			<div class="comments__avatar">
+				<?php if ( $photo ) : ?>
+					<img src="<?php echo esc_url( $photo['url'] ); ?>" alt="<?php echo esc_attr( $photo['alt'] ?: $name ); ?>" loading="lazy" decoding="async">
+				<?php else : ?>
+					<span aria-hidden="true"><?php echo esc_html( $initial ); ?></span>
+				<?php endif; ?>
+			</div>
 
-					<div class="comments__meta">
+			<div class="comments__body">
+				<article class="comments__card">
+					<div class="comments__head">
 						<?php if ( $name !== '' ) : ?>
 							<div class="comments__author"><?php echo esc_html( $name ); ?></div>
 						<?php endif; ?>
@@ -65,33 +65,33 @@ if ( ! function_exists( 'tolstenko_render_blog_comment_item' ) ) {
 							</span>
 						<?php endif; ?>
 					</div>
-				</div>
 
-				<?php if ( $text !== '' ) : ?>
-					<div class="comments__text reg-par-14-20"><?php echo nl2br( esc_html( $text ) ); ?></div>
+					<?php if ( $text !== '' ) : ?>
+						<div class="comments__text reg-par-14-20"><?php echo nl2br( esc_html( $text ) ); ?></div>
+					<?php endif; ?>
+
+					<?php if ( $can_reply ) : ?>
+						<button
+							type="button"
+							class="comments__reply"
+							data-comment-reply
+							data-comment-id="<?php echo esc_attr( $cid ); ?>"
+							data-comment-author="<?php echo esc_attr( $name ); ?>"
+						>
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+							<?php esc_html_e( 'Ответить', 'tolstenko-theme' ); ?>
+						</button>
+					<?php endif; ?>
+				</article>
+
+				<?php if ( $replies ) : ?>
+					<ol class="comments__children">
+						<?php foreach ( $replies as $reply ) : ?>
+							<?php tolstenko_render_blog_comment_item( $reply, $depth + 1 ); ?>
+						<?php endforeach; ?>
+					</ol>
 				<?php endif; ?>
-
-				<?php if ( $can_reply ) : ?>
-					<button
-						type="button"
-						class="comments__reply"
-						data-comment-reply
-						data-comment-id="<?php echo esc_attr( $cid ); ?>"
-						data-comment-author="<?php echo esc_attr( $name ); ?>"
-					>
-						<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
-						<?php esc_html_e( 'Ответить', 'tolstenko-theme' ); ?>
-					</button>
-				<?php endif; ?>
-			</article>
-
-			<?php if ( $replies ) : ?>
-				<ol class="comments__children">
-					<?php foreach ( $replies as $reply ) : ?>
-						<?php tolstenko_render_blog_comment_item( $reply, $depth + 1 ); ?>
-					<?php endforeach; ?>
-				</ol>
-			<?php endif; ?>
+			</div>
 		</li>
 		<?php
 	}
@@ -102,28 +102,18 @@ $form_title = 'Оставить комментарий';
 
 <section class="comments section load-on-vissible--js" id="comments" data-module="./modules/blogComments.js">
 	<div class="container">
-		<div class="comments__top section-top">
-			<span class="comments__badge section-subtitle"><?php esc_html_e( 'Обсуждение', 'tolstenko-theme' ); ?></span>
-			<h2 class="comments__title section-title">
-				<?php esc_html_e( 'Комментарии', 'tolstenko-theme' ); ?>
-				<?php if ( $count ) : ?>
-					<span><?php echo (int) $count; ?></span>
-				<?php endif; ?>
-			</h2>
-		</div>
-
-		<div class="comments__inner<?php echo $comments ? '' : ' comments__inner--empty'; ?>">
-			<?php if ( $comments ) : ?>
-				<ol class="comments__list">
-					<?php foreach ( $comments as $comment ) : ?>
-						<?php if ( is_array( $comment ) ) : ?>
-							<?php tolstenko_render_blog_comment_item( $comment, 0 ); ?>
-						<?php endif; ?>
-					<?php endforeach; ?>
-				</ol>
-			<?php endif; ?>
-
+		<div class="comments__inner">
 			<div class="comments__right br-30">
+				<div class="comments__top section-top">
+					<span class="comments__badge section-subtitle"><?php esc_html_e( 'Обсуждение', 'tolstenko-theme' ); ?></span>
+					<h2 class="comments__title section-title">
+					<?php esc_html_e( 'Комментарии', 'tolstenko-theme' ); ?>
+					<?php if ( $count ) : ?>
+						<span><?php echo (int) $count; ?></span>
+					<?php endif; ?>
+					</h2>
+				</div>
+
 				<div class="comments__right-top">
 					<div class="comments__form-title" data-comments-form-title data-default-title="<?php echo esc_attr( $form_title ); ?>"><?php echo esc_html( $form_title ); ?></div>
 					<div class="comments__form-text reg-par-14-20">
@@ -142,6 +132,18 @@ $form_title = 'Оставить комментарий';
 					<?php echo do_shortcode( tolstenko_blog_comment_form_shortcode() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CF7 markup. ?>
 				</div>
 			</div>
+
+			<?php if ( $comments ) : ?>
+				<div class="comments__list-card br-30">
+					<ol class="comments__list">
+						<?php foreach ( $comments as $comment ) : ?>
+							<?php if ( is_array( $comment ) ) : ?>
+								<?php tolstenko_render_blog_comment_item( $comment, 0 ); ?>
+							<?php endif; ?>
+						<?php endforeach; ?>
+					</ol>
+				</div>
+			<?php endif; ?>
 		</div>
 	</div>
 </section>
