@@ -3,16 +3,17 @@
 defined('ABSPATH') || exit;
 
 /**
- * Секция «Статьи» (blog-section) — на главной после «ВНЖ в Европе».
+ * Секция «Статьи» (blog-section) — разметка как в tolstenko.marketing
+ * (template-parts/blocks/blog-section.php): первая статья крупно, до трёх следующих —
+ * в .splide__track (на мобильных — слайдер, assets/js/modules/blogSectionSplideInit.js),
+ * в конце трека — кнопка в блог. Карточки — pages/sections/partials/blog-section-card.php.
  *
  * Дефолты — из админки: tolstenko_get_block_defaults('blog_section_filters')
  * (таб «Дефолты блоков → Слайдера записей → Статьи»). Атрибуты блока
- * my-theme/blog-section имеют приоритет.
+ * my-theme/blog-section (и данные «Похожих статей» на статье) имеют приоритет.
  *
- * Все карточки — в одном родителе (.splide__list). На десктопе слайдер
- * отключён и список раскладывается сеткой: первая карточка — blog-card--large,
- * остальные — колонкой справа. На мобильных — слайдер по одной карточке
- * (assets/js/modules/blogSectionSplideInit.js).
+ * Фильтр по рубрикам (флажок в табе) — REST /theme/v1/blog-section
+ * (inc/blog/blog-section.php, assets/js/modules/blogSectionFilter.js).
  */
 
 $admin = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('blog_section_filters') : [];
@@ -20,9 +21,11 @@ $admin = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_d
 $defaults = [
     'badge'          => $admin['badge'] ?? '',
     'title'          => $admin['title'] ?? '',
+    'text'           => $admin['text'] ?? '',
     'ids'            => is_array($admin['ids'] ?? null) ? $admin['ids'] : [],
-    'posts_per_page' => (int) ($admin['posts_per_page'] ?? 4),
+    'posts_per_page' => (int) ($admin['posts_per_page'] ?? THEME_BLOG_SECTION_MAX_POSTS),
     'btn_text'       => $admin['btn_text'] ?? '',
+    'show_filter'    => !empty($admin['show_filter']),
 ];
 
 $overrides = get_query_var('blog_section_data');
@@ -30,81 +33,95 @@ $overrides = is_array($overrides) ? $overrides : [];
 
 $data = theme_section_merge_defaults($defaults, $overrides);
 
-$post_ids       = array_values(array_filter(array_map('intval', (array) $data['ids'])));
-$posts_per_page = max(1, min(12, (int) $data['posts_per_page']));
+$badge          = trim((string) $data['badge']);
+$title          = trim((string) $data['title']);
+$text           = trim((string) $data['text']);
+$post_ids       = array_slice(tolstenko_sanitize_ids($data['ids']), 0, THEME_BLOG_SECTION_MAX_POSTS);
+$posts_per_page = max(1, min(THEME_BLOG_SECTION_MAX_POSTS, (int) $data['posts_per_page']));
+$btn_text       = trim((string) $data['btn_text']);
 
-$query_args = [
-    'post_type'           => 'blog',
-    'post_status'         => 'publish',
-    'ignore_sticky_posts' => true,
-    'no_found_rows'       => true,
-];
+$section_id = 'blog_' . wp_unique_id();
+$taxonomy   = 'blog_cat';
+$post_type  = 'blog';
 
-if ($post_ids) {
-    $query_args['post__in']       = $post_ids;
-    $query_args['orderby']        = 'post__in';
-    $query_args['posts_per_page'] = count($post_ids);
-} else {
-    $query_args['posts_per_page'] = $posts_per_page;
-    $query_args['orderby']        = 'date';
-    $query_args['order']          = 'DESC';
-}
+$categories_with_posts = !empty($data['show_filter']) && !$post_ids ? theme_get_blog_section_terms() : [];
 
-$section_query = new WP_Query($query_args);
+$items_html = theme_render_blog_section_items([
+    'posts_per_page' => $posts_per_page,
+    'post_ids'       => $post_ids,
+    'btn_text'       => $btn_text,
+]);
 
-if (!$section_query->have_posts()) {
+if ($title === '' && $text === '' && $items_html === '') {
     return;
 }
-
-// Кнопка всегда ведёт на страницу блога.
-$blog_page_id = function_exists('theme_get_blog_page_id') ? theme_get_blog_page_id() : 0;
-$blog_url     = $blog_page_id ? (string) get_permalink($blog_page_id) : (string) get_post_type_archive_link('blog');
-$blog_url     = $blog_url !== '' ? $blog_url : home_url('/blog/');
 ?>
-<section class="blog-section blog-section--home section">
-  <div class="container">
-    <div class="blog-section__top section-top">
-      <?php if (trim((string) $data['badge']) !== '') : ?>
-        <span class="blog-section__badge section-subtitle"><?= wp_kses_post($data['badge']); ?></span>
-      <?php endif; ?>
+<section
+	class="blog-section section"
+	data-tolstenko-filter
+	data-section-id="<?= esc_attr($section_id); ?>"
+	data-taxonomy="<?= esc_attr($taxonomy); ?>"
+	data-post-type="<?= esc_attr($post_type); ?>"
+	data-posts-per-page="<?= esc_attr((string) $posts_per_page); ?>"
+	data-card="blog_slider"
+	data-post-ids="<?= esc_attr(implode(',', $post_ids)); ?>"
+	data-btn-text="<?= esc_attr($btn_text); ?>"
+>
+	<div class="container">
+		<div class="blog-section__top section-top">
+			<?php if ($badge !== '') : ?>
+				<span class="blog-section__badge section-subtitle"><?= wp_kses_post($badge); ?></span>
+			<?php endif; ?>
+			<?php if ($title !== '') : ?>
+				<h2 class="blog-section__title h2"><?= tolstenko_kses_html($title); ?></h2>
+			<?php endif; ?>
+			<?php if ($text !== '') : ?>
+				<p class="blog-section__text paragraph-15-15"><?= tolstenko_kses_html($text); ?></p>
+			<?php endif; ?>
+		</div>
 
-      <?php if (trim((string) $data['title']) !== '') : ?>
-        <h2 class="blog-section__title section-title"><?= wp_kses_post($data['title']); ?></h2>
-      <?php endif; ?>
-    </div>
+		<?php if (!empty($categories_with_posts)) : ?>
+			<div class="blog-section__filter filter filter--slider load-on-vissible--js" data-module="./modules/blogSectionFilter.js">
+				<div class="filter__form swiper">
+					<div class="swiper-wrapper">
+							<label class="filter__radio swiper-slide">
+								<input
+									type="radio"
+									name="<?= esc_attr($section_id); ?>_category"
+									value=""
+									data-section-id="<?= esc_attr($section_id); ?>"
+									class="tolstenko-filter-radio"
+									checked
+								>
+								<span class="filter__label">Все записи</span>
+							</label>
+						<?php foreach ($categories_with_posts as $cat) : ?>
+								<label class="filter__radio swiper-slide">
+									<input
+										type="radio"
+										name="<?= esc_attr($section_id); ?>_category"
+										value="<?= esc_attr($cat->slug); ?>"
+										data-section-id="<?= esc_attr($section_id); ?>"
+										class="tolstenko-filter-radio"
+									>
+									<span class="filter__label"><?= esc_html($cat->name); ?></span>
+								</label>
+						<?php endforeach; ?>
+					</div>
+				</div>
+			</div>
+		<?php endif; ?>
 
-    <div class="blog-section__panel">
-      <div class="blog-section__slider splide load-on-vissible--js"
-        aria-label="<?= esc_attr(wp_strip_all_tags((string) $data['title'])); ?>"
-        data-module="./libs/splide.min.js,./modules/blogSectionSplideInit.js"
-        data-css="<?= THEME_PATH; ?>/assets/css/libs/splide-core.min.css">
-        <div class="splide__track">
-          <div class="blog-section__cards splide__list">
-            <?php
-            $index = 0;
-
-            while ($section_query->have_posts()) {
-                $section_query->the_post();
-                get_template_part('pages/sections/partials/blog-card-section', null, ['large' => $index === 0]);
-                $index++;
-            }
-
-            wp_reset_postdata();
-            ?>
-          </div>
-        </div>
-
-        <div class="splide__pagination"></div>
-      </div>
-
-      <?php if (trim((string) $data['btn_text']) !== '') : ?>
-        <div class="blog-section__foot">
-          <a class="blog-section__more" href="<?= esc_url($blog_url); ?>">
-            <span><?= esc_html($data['btn_text']); ?></span>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-      <?php endif; ?>
-    </div>
-  </div>
+		<?php if ($items_html !== '') : ?>
+			<div
+				class="fade-in-container blog-section__splide splide load-on-vissible--js"
+				id="<?= esc_attr($section_id); ?>-container"
+				aria-label="Статьи"
+				data-module="./libs/splide.min.js,./modules/blogSectionSplideInit.js"
+				data-css="<?= THEME_PATH; ?>/assets/css/libs/splide-core.min.css"
+			>
+				<?= $items_html; ?>
+			</div>
+		<?php endif; ?>
+	</div>
 </section>

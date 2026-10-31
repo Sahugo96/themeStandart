@@ -50,6 +50,7 @@ require_once get_template_directory() . '/inc/blog/content-blocks.php';
 require_once get_template_directory() . '/inc/blog/comment-mail.php';
 require_once get_template_directory() . '/inc/blog/comment-queue.php';
 require_once get_template_directory() . '/inc/blog/grid.php';
+require_once get_template_directory() . '/inc/blog/blog-section.php';
 
 
 

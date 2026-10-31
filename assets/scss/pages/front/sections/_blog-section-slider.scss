@@ -1,0 +1,539 @@
+// Секция «Статьи» (pages/sections/blog-section.php) — разметка из tolstenko.marketing,
+// вид — текущая тема: тёмная панель, крупная статья слева, три карточки справа,
+// под ними кнопка «Перейти в блог». Стили привязаны к атрибуту секции
+// data-card="blog_slider", чтобы не менять разметку и перебить старые
+// modules/_blog-section.scss и modules/_blog-card.scss.
+.blog-section[data-card="blog_slider"] {
+  // ----- Шапка -----
+  .blog-section__top {
+    margin-bottom: vw(30px, $mobile);
+    @media (min-width: $desk) {
+      max-width: none;
+      margin-bottom: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-bottom: vw(40px, $desktop_large);
+    }
+  }
+
+  .blog-section__title {
+    @extend .section-title;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .blog-section__text {
+    max-width: vw(600px, $desktop);
+    margin: 0 auto;
+    color: var(--additional-gray-color);
+  }
+
+  // ----- Фильтр по рубрикам (флажок в табе «Статьи») -----
+  .blog-section__filter {
+    width: auto;
+    margin: 0 0 vw(16px, $mobile);
+    padding: 0;
+    @media (min-width: $desk) {
+      margin: 0 0 vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin: 0 0 vw(20px, $desktop_large);
+    }
+
+    .filter__form {
+      display: flex;
+      width: auto;
+      overflow-x: auto;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .swiper-wrapper {
+      display: flex;
+      grid-gap: vw(8px, $mobile);
+      @media (min-width: $desk) {
+        flex-wrap: wrap;
+        justify-content: center;
+        grid-gap: vw(10px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        grid-gap: vw(10px, $desktop_large);
+      }
+    }
+
+    .filter__label {
+      border: 1px solid var(--dark-bg-stoke-color);
+      color: var(--additional-gray-color);
+      background-color: transparent;
+    }
+
+    .filter__radio:hover .filter__label,
+    .filter__radio input:checked + .filter__label {
+      border-color: var(--accent-color);
+      color: var(--white-color);
+      background-color: var(--accent-color);
+    }
+  }
+
+  // ----- Панель: крупная статья слева, трек справа, кнопка снизу -----
+  .blog-section__splide.splide {
+    visibility: visible;
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(16px, $mobile);
+    padding: vw(12px, $mobile) vw(12px, $mobile) vw(24px, $mobile);
+    border-radius: vw(24px, $mobile);
+    background-color: var(--super-dark-bg-color);
+    @media (min-width: $desk) {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+      grid-gap: vw(20px, $desktop);
+      padding: vw(20px, $desktop) vw(20px, $desktop) vw(40px, $desktop);
+      border-radius: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+      padding: vw(20px, $desktop_large) vw(20px, $desktop_large) vw(40px, $desktop_large);
+      border-radius: vw(40px, $desktop_large);
+    }
+
+    &.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  // На десктопе трек «растворяется»: список встаёт в правую колонку, кнопка — под обеими.
+  .splide__track {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(16px, $mobile);
+    max-width: none;
+    @media (min-width: $desk) {
+      display: contents;
+    }
+  }
+
+  // Пока слайдер на мобильных не запущен (или карточка одна) — список колонкой с отступами.
+  .blog-section__splide:not(.is-initialized) .blog-section__splide-list.splide__list {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(16px, $mobile);
+  }
+
+  .blog-section__splide-list.splide__list {
+    @media (min-width: $desk) {
+      display: flex;
+      flex-direction: column;
+      grid-column: 2;
+      grid-row: 1;
+      grid-gap: vw(20px, $desktop);
+      transform: none !important;
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+    }
+  }
+
+  .splide__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-gap: vw(8px, $mobile);
+    @media (min-width: $desk) {
+      display: none;
+    }
+  }
+
+  .splide__pagination__page {
+    width: vw(8px, $mobile);
+    height: vw(8px, $mobile);
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background-color: var(--white-opa-50-color);
+    transition: all 0.3s linear;
+    &.is-active {
+      width: vw(20px, $mobile);
+      background-color: var(--accent-color);
+    }
+  }
+
+  // Кнопка: тёмная пилюля с обводкой, стрелка из разметки повёрнута «вправо».
+  .blog-section__btn.default-btn {
+    align-self: center;
+    width: 100%;
+    height: vw(56px, $mobile);
+    margin: 0;
+    border: 1px solid var(--dark-bg-stoke-color);
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--light-bg-color);
+    background-color: transparent;
+    @media (min-width: $desk) {
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: auto;
+      height: vw(60px, $desktop);
+      margin-top: vw(20px, $desktop);
+      padding: 0 vw(30px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      height: vw(60px, $desktop_large);
+      margin-top: vw(20px, $desktop_large);
+      padding: 0 vw(30px, $desktop_large);
+    }
+    svg {
+      width: vw(20px, $mobile);
+      height: vw(20px, $mobile);
+      transform: rotate(45deg);
+      fill: none;
+      @media (min-width: $desk) {
+        width: vw(20px, $desktop);
+        height: vw(20px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        width: vw(20px, $desktop_large);
+        height: vw(20px, $desktop_large);
+      }
+      path {
+        stroke: currentColor;
+        transition: stroke 0.3s linear;
+      }
+    }
+    @media (any-hover: hover) {
+      &:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+        background-color: transparent;
+      }
+    }
+  }
+
+  // ----- Карточка (маленькая: фото слева, текст справа) -----
+  .blog-card {
+    display: flex;
+    align-items: stretch;
+    border-radius: vw(16px, $mobile);
+    background-color: var(--dark-bg-color);
+    @media (min-width: $desk) {
+      border-radius: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      border-radius: vw(20px, $desktop_large);
+    }
+  }
+
+  .blog-card__link {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(14px, $mobile);
+    padding: vw(12px, $mobile);
+    @media (min-width: $desk) {
+      flex-direction: row;
+      grid-gap: vw(20px, $desktop);
+      padding: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+      padding: vw(20px, $desktop_large);
+    }
+    @media (any-hover: hover) {
+      &:hover .blog-card__title {
+        color: var(--light-bg-color);
+      }
+      &:hover .blog-card__image img {
+        transform: scale(1.04);
+      }
+    }
+  }
+
+  .blog-card__image {
+    flex: none;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/10;
+    border-radius: vw(12px, $mobile);
+    background-color: var(--dark-bg-plank-color);
+    @media (min-width: $desk) {
+      width: vw(140px, $desktop);
+      max-width: vw(140px, $desktop);
+      min-width: vw(140px, $desktop);
+      max-height: none;
+      min-height: 0;
+      aspect-ratio: 1/1;
+      border-radius: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      width: vw(140px, $desktop_large);
+      max-width: vw(140px, $desktop_large);
+      min-width: vw(140px, $desktop_large);
+      border-radius: vw(10px, $desktop_large);
+    }
+    img {
+      filter: none;
+      transition: transform 0.3s linear;
+    }
+    // Логотип-водяной знак из разметки в текущем дизайне не нужен.
+    svg {
+      display: none;
+    }
+  }
+
+  .blog-card__wrapper {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .blog-card__tags {
+    flex-wrap: wrap;
+    grid-gap: vw(8px, $mobile);
+    margin-bottom: vw(14px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+      margin-bottom: vw(14px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+      margin-bottom: vw(14px, $desktop_large);
+    }
+  }
+
+  .blog-card__tag {
+    padding: vw(5px, $mobile) vw(10px, $mobile);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: vw(40px, $mobile);
+    color: var(--gray-70-color);
+    @media (min-width: $desk) {
+      padding: vw(5px, $desktop) vw(8px, $desktop);
+      border-radius: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding: vw(5px, $desktop_large) vw(8px, $desktop_large);
+      border-radius: vw(40px, $desktop_large);
+    }
+
+    // Дата — внизу справа, в одной строке со статистикой, с иконкой календаря.
+    &--date {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      grid-gap: vw(6px, $mobile);
+      margin: 0;
+      padding: 0;
+      border: 0;
+      color: var(--gray-45-color);
+      @media (min-width: $desk) {
+        grid-gap: vw(6px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        grid-gap: vw(6px, $desktop_large);
+      }
+      &::after {
+        content: '';
+        width: vw(10px, $mobile);
+        height: vw(10px, $mobile);
+        background-color: currentColor;
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 2h2v2h6V2h2v2h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3V2Zm12 8H5v9h14v-9Z'/%3E%3C/svg%3E") center / contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 2h2v2h6V2h2v2h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3V2Zm12 8H5v9h14v-9Z'/%3E%3C/svg%3E") center / contain no-repeat;
+        @media (min-width: $desk) {
+          width: vw(10px, $desktop);
+          height: vw(10px, $desktop);
+        }
+        @media (min-width: $desk_large) {
+          width: vw(10px, $desktop_large);
+          height: vw(10px, $desktop_large);
+        }
+      }
+    }
+  }
+
+  .blog-card__title {
+    margin-bottom: vw(6px, $mobile);
+    font-size: vw(15px, $mobile);
+    font-weight: 700;
+    letter-spacing: 0;
+    color: var(--accent-color);
+    transition: color 0.3s linear;
+    @media (min-width: $desk) {
+      margin-bottom: vw(6px, $desktop);
+      font-size: vw(13px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-bottom: vw(6px, $desktop_large);
+      font-size: vw(13px, $desktop_large);
+    }
+  }
+
+  .blog-card__text {
+    margin-bottom: 0;
+    font-size: vw(13px, $mobile);
+    line-height: 1.4;
+    color: var(--white-color);
+    opacity: 0.6;
+    @media (min-width: $desk) {
+      font-size: vw(12px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(12px, $desktop_large);
+    }
+  }
+
+  // Статистика (время, просмотры) внизу слева.
+  .blog-card__stats {
+    margin-top: auto;
+    padding-top: vw(16px, $mobile);
+    padding-right: vw(110px, $mobile);
+    @media (min-width: $desk) {
+      padding-top: vw(12px, $desktop);
+      padding-right: vw(110px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding-top: vw(12px, $desktop_large);
+      padding-right: vw(110px, $desktop_large);
+    }
+  }
+
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    grid-gap: vw(16px, $mobile);
+    font-size: vw(10px, $mobile);
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--gray-45-color);
+    @media (min-width: $desk) {
+      grid-gap: vw(20px, $desktop);
+      font-size: vw(10px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+      font-size: vw(10px, $desktop_large);
+    }
+  }
+
+  .stats__item {
+    display: flex;
+    align-items: center;
+    grid-gap: vw(5px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(5px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(5px, $desktop_large);
+    }
+    svg {
+      width: vw(10px, $mobile);
+      height: vw(10px, $mobile);
+      fill: currentColor;
+      @media (min-width: $desk) {
+        width: vw(10px, $desktop);
+        height: vw(10px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        width: vw(10px, $desktop_large);
+        height: vw(10px, $desktop_large);
+      }
+    }
+    // На макете — только время и просмотры.
+    &--comment {
+      display: none;
+    }
+  }
+
+  // ----- Крупная карточка (первая, вне трека) -----
+  .blog-section__splide > .blog-card {
+    max-width: none;
+    min-height: 0;
+    @media (min-width: $desk) {
+      grid-column: 1;
+      grid-row: 1;
+      border-radius: 0;
+      background-color: transparent;
+    }
+
+    .blog-card__link {
+      @media (min-width: $desk) {
+        flex-direction: column;
+        grid-gap: 0;
+        padding: 0;
+      }
+    }
+
+    .blog-card__image {
+      @media (min-width: $desk) {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        height: auto;
+        max-height: none;
+        min-height: 0;
+        aspect-ratio: 560/360;
+        border-radius: vw(20px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        border-radius: vw(20px, $desktop_large);
+      }
+    }
+
+    .blog-card__wrapper {
+      @media (min-width: $desk) {
+        padding: vw(30px, $desktop) vw(20px, $desktop) 0;
+      }
+      @media (min-width: $desk_large) {
+        padding: vw(30px, $desktop_large) vw(20px, $desktop_large) 0;
+      }
+    }
+
+    .blog-card__tag--date {
+      @media (min-width: $desk) {
+        right: vw(20px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        right: vw(20px, $desktop_large);
+      }
+    }
+
+    .blog-card__title {
+      font-size: vw(16px, $mobile);
+      @media (min-width: $desk) {
+        margin-bottom: vw(12px, $desktop);
+        font-size: vw(17px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        margin-bottom: vw(12px, $desktop_large);
+        font-size: vw(17px, $desktop_large);
+      }
+    }
+
+    .blog-card__text {
+      @media (min-width: $desk) {
+        font-size: vw(15px, $desktop);
+        line-height: 1.5;
+        @include line-camp(3);
+      }
+      @media (min-width: $desk_large) {
+        font-size: vw(15px, $desktop_large);
+        @include line-camp(3);
+      }
+    }
+
+    .blog-card__stats {
+      @media (min-width: $desk) {
+        padding-top: vw(24px, $desktop);
+      }
+      @media (min-width: $desk_large) {
+        padding-top: vw(24px, $desktop_large);
+      }
+    }
+  }
+}

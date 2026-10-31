@@ -33,5 +33,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<div class="muted"><?php esc_html_e( '5. Текст кнопки (ведёт на страницу блога)', 'tolstenko-theme' ); ?></div>
 			<div class="row"><input type="text" name="tolstenko_block_defaults[blog_section_filters][btn_text]" value="<?php echo esc_attr( $bsf['btn_text'] ?? '' ); ?>" style="width:100%" placeholder="Перейти в блог"></div>
+
+			<div class="row">
+				<label>
+					<input type="checkbox" name="tolstenko_block_defaults[blog_section_filters][show_filter]" value="1" <?php checked( ! empty( $bsf['show_filter'] ) ); ?>>
+					<?php esc_html_e( 'Фильтр по рубрикам над статьями (переключение без перезагрузки)', 'tolstenko-theme' ); ?>
+				</label>
+			</div>
 		</div>
 
