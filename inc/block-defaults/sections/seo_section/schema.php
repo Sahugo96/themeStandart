@@ -8,13 +8,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * rows — гибкое содержимое; layout: text | image_text | text_image | two_columns | gallery.
  */
 return array(
-	'badge'     => 'Полезно знать',
+	'badge'     => 'Подробнее',
 	'title'     => 'Подробнее <span>об услуге</span>',
-	'more_text' => 'Читать далее',
+	'more_text' => 'Читать полностью',
 	'rows'      => array(
 		array(
 			'layout'   => 'text',
 			'title'    => '',
+			'tags'     => '',
 			'image'    => 0,
 			'text'     => '<p>SEO-текст секции. Заполните его в «Дефолтах блоков → SEO-наполнение» или в блоке на странице.</p>',
 			'text_2'   => '',

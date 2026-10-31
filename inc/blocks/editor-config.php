@@ -37,7 +37,7 @@ function theme_get_section_blocks_editor_config(): array
             'name'        => 'my-theme/seo-section',
             'title'       => 'SEO-наполнение',
             'icon'        => 'text-page',
-            'hint'        => 'Если пусто — из админки: Дефолты блоков → SEO-наполнение. Тексты — HTML; на сайте секция свёрнута, раскрывается кнопкой',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → SEO-наполнение. Тексты — HTML. На сайте виден первый блок, остальные — по кнопке «Читать полностью»',
             'color'       => '#2271b1',
             'defaultsKey' => 'seo_section',
             'fields'      => [
@@ -64,6 +64,7 @@ function theme_get_section_blocks_editor_config(): array
                             ],
                         ],
                         ['key' => 'title', 'label' => 'Заголовок блока', 'type' => 'text'],
+                        ['key' => 'tags', 'label' => 'Теги через запятую (Счета, ОАЭ)', 'type' => 'text'],
                         ['key' => 'image', 'label' => 'Фото', 'type' => 'image', 'showIf' => $seo_show('image')],
                         ['key' => 'text', 'label' => 'Текст (HTML; в «Двух колонках» — левая колонка)', 'type' => 'textarea', 'showIf' => $seo_show('text')],
                         ['key' => 'text_2', 'label' => 'Правая колонка (HTML)', 'type' => 'textarea', 'showIf' => $seo_show('text_2')],

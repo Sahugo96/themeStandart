@@ -75,6 +75,7 @@ function theme_seo_section_render_admin_row( $prefix, array $row ) {
 			<button type="button" class="button move-btn" data-move-down title="Вниз">↓</button>
 			<button type="button" class="button" data-remove-item><?php esc_html_e( 'Удалить', 'tolstenko-theme' ); ?></button>
 		</div>
+		<div class="row"><input type="text" name="<?php echo esc_attr( $prefix ); ?>[tags]" value="<?php echo esc_attr( $row['tags'] ?? '' ); ?>" placeholder="Теги через запятую (Счета, ОАЭ)" style="width:100%"></div>
 
 		<div class="tolstenko-defaults-image-row"<?php $show( 'image' ); ?>>
 			<div class="cols">
@@ -189,6 +190,7 @@ function theme_seo_section_sanitize_rows( $raw ) {
 		$clean = array(
 			'layout'   => isset( $layouts[ $layout ] ) ? $layout : 'text',
 			'title'    => sanitize_text_field( $row['title'] ?? '' ),
+			'tags'     => sanitize_text_field( $row['tags'] ?? '' ),
 			'image'    => (int) ( $row['image'] ?? 0 ),
 			'text'     => tolstenko_kses_redactor( $row['text'] ?? '' ),
 			'text_2'   => tolstenko_kses_redactor( $row['text_2'] ?? '' ),
@@ -247,6 +249,7 @@ function theme_seo_section_normalize_row( $row ) {
 	$data = array(
 		'layout'   => $layout,
 		'title'    => trim( (string) ( $row['title'] ?? '' ) ),
+		'tags'     => theme_seo_section_parse_tags( $row['tags'] ?? '' ),
 		'image'    => theme_seo_section_image_id( $row['image'] ?? 0 ),
 		'text'     => (string) ( $row['text'] ?? '' ),
 		'text_2'   => (string) ( $row['text_2'] ?? '' ),
@@ -281,6 +284,17 @@ function theme_seo_section_normalize_row( $row ) {
 	}
 
 	return $data;
+}
+
+/**
+ * Теги строки: «Счета, ОАЭ» → ['Счета', 'ОАЭ'].
+ *
+ * @param mixed $value Строка через запятую (или массив).
+ * @return string[]
+ */
+function theme_seo_section_parse_tags( $value ) {
+	$parts = is_array( $value ) ? $value : explode( ',', (string) $value );
+	return array_values( array_filter( array_map( 'trim', array_map( 'strval', $parts ) ), 'strlen' ) );
 }
 
 /**
