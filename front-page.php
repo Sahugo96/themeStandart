@@ -49,6 +49,7 @@ get_header();
     theme_render_front_section('guide');
     theme_render_front_section('team'); // +
     theme_render_front_section('reviews-section');
+    theme_render_front_section('seo-section');
     theme_render_front_section('faq');
     theme_render_front_section('blog-more');
     theme_render_front_section('consult');
