@@ -31,7 +31,8 @@ if (!$rows && $title === '') {
     return;
 }
 
-$gallery_group = 'seo-gallery-' . wp_unique_id();
+$section_uid   = wp_unique_id();
+$gallery_group = 'seo-gallery-' . $section_uid;
 
 $row_title = static function (array $row): void {
     if ($row['title'] !== '') {
@@ -57,7 +58,7 @@ $row_title = static function (array $row): void {
       <div class="seo-section__panel br-30 load-on-vissible--js"
         data-module="./modules/seoSection.js"
         data-css="<?= THEME_PATH; ?>/assets/css/libs/fancybox.css">
-        <div class="seo-section__body" data-seo-body>
+        <div class="seo-section__body" id="seo-body-<?= (int) $section_uid; ?>" data-seo-body>
           <?php foreach ($rows as $row) : ?>
             <?php if ($row['layout'] === 'image_text' || $row['layout'] === 'text_image') :
               $image = $row['image'] ? tolstenko_get_image_attrs($row['image'], 'large') : null;
@@ -142,7 +143,7 @@ $row_title = static function (array $row): void {
         </div>
 
         <div class="seo-section__foot">
-          <button type="button" class="seo-section__more default-btn default-btn--transparent" data-seo-more data-less="Свернуть" aria-expanded="false">
+          <button type="button" class="seo-section__more default-btn default-btn--transparent" data-seo-more data-less="Свернуть" aria-expanded="false" aria-controls="seo-body-<?= (int) $section_uid; ?>">
             <span data-seo-more-label><?= esc_html($more_text); ?></span>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
           </button>

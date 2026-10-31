@@ -576,8 +576,7 @@ function tolstenko_prepare_blog_toc( $html ) {
 			$body  = (string) $matches[3];
 			$text  = trim( wp_strip_all_tags( $body ) );
 
-			// Заголовки внутри плашек статьи (CTA и т.п.) в оглавление не попадают.
-			if ( $text === '' || preg_match( '/class=(["\'])[^"\']*article-cta__title/i', $attrs ) ) {
+			if ( $text === '' ) {
 				return $matches[0];
 			}
 

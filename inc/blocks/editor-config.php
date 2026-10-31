@@ -713,25 +713,6 @@ function theme_get_section_blocks_editor_config(): array
             ],
         ],
         [
-            'name'   => 'my-theme/blog-number-list',
-            'title'  => 'Статья: нумерованный список',
-            'icon'   => 'editor-ol',
-            'hint'   => 'Пункты нумеруются автоматически',
-            'color'  => '#2271b1',
-            'fields' => [
-                [
-                    'attr'       => 'items',
-                    'label'      => 'Пункты',
-                    'type'       => 'repeater',
-                    'addLabel'   => 'Добавить пункт',
-                    'itemLabel'  => 'Пункт',
-                    'itemFields' => [
-                        ['key' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
-                    ],
-                ],
-            ],
-        ],
-        [
             'name'   => 'my-theme/blog-warning',
             'title'  => 'Статья: предупреждения',
             'icon'   => 'warning',
@@ -816,18 +797,6 @@ function theme_get_section_blocks_editor_config(): array
                 ['attr' => 'suffix', 'label' => 'Пояснение после тире', 'type' => 'textarea', 'help' => ' '],
                 ['attr' => 'title', 'label' => 'Заголовок (вид «Карточка»)', 'type' => 'text', 'help' => ' '],
                 ['attr' => 'text', 'label' => 'Текст (вид «Карточка»)', 'type' => 'textarea', 'help' => ' '],
-            ],
-        ],
-        [
-            'name'   => 'my-theme/blog-seo',
-            'title'  => 'Статья: SEO / CTA',
-            'icon'   => 'megaphone',
-            'hint'   => 'Плашка с призывом и кнопкой. Пустые поля — из «Настройки сайта → Блоки для статей»',
-            'color'  => '#2271b1',
-            'fields' => [
-                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'textarea', 'help' => ' '],
-                ['attr' => 'btn', 'label' => 'Кнопка', 'type' => 'text', 'help' => ' '],
-                ['attr' => 'btn_url', 'label' => 'Ссылка кнопки', 'type' => 'text', 'help' => 'Пусто — открывает форму (#modal)'],
             ],
         ],
         [

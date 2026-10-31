@@ -29,6 +29,16 @@ document.querySelectorAll('.seo-section__panel').forEach((panel) => {
   syncOverflow();
   window.addEventListener('resize', syncOverflow, { passive: true });
 
+  // Высота может вырасти после загрузки шрифтов и картинок — проверяем ещё раз.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncOverflow);
+  }
+  body.querySelectorAll('img').forEach((img) => {
+    if (!img.complete) {
+      img.addEventListener('load', syncOverflow, { once: true });
+    }
+  });
+
   btn.addEventListener('click', () => {
     const expanded = panel.classList.toggle('is-expanded');
 

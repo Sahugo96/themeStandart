@@ -76,12 +76,9 @@ function tolstenko_get_blog_theme_blocks_catalog() {
 		'my-theme/blog-large-img'   => __( 'Крупное фото', 'tolstenko-theme' ),
 		'my-theme/blog-video'       => __( 'Видео', 'tolstenko-theme' ),
 		'my-theme/blog-blockquote'  => __( 'Цитата', 'tolstenko-theme' ),
-		'my-theme/blog-number-list' => __( 'Нумерованный список', 'tolstenko-theme' ),
 		'my-theme/blog-warning'     => __( 'Предупреждения', 'tolstenko-theme' ),
 		'my-theme/blog-pros-cons'   => __( 'Плюсы и минусы', 'tolstenko-theme' ),
 		'my-theme/blog-definition'  => __( 'Определение', 'tolstenko-theme' ),
-		'my-theme/blog-seo'         => __( 'SEO / CTA', 'tolstenko-theme' ),
-		'tolstenko/consultation-tg'       => __( 'Консультация Telegram', 'tolstenko-theme' ),
 	);
 
 	return apply_filters( 'tolstenko_blog_theme_blocks_catalog', $catalog );
@@ -232,9 +229,6 @@ function tolstenko_blog_content_defaults_schema() {
 			'btn_text'     => '',
 			'btn_url'      => '',
 		),
-		'blog_number_list' => array(
-			'items' => array(),
-		),
 		'blog_warning' => array(
 			'items' => array(),
 		),
@@ -252,20 +246,6 @@ function tolstenko_blog_content_defaults_schema() {
 			'title'  => 'Семантическое ядро',
 			'text'   => 'Набор поисковых запросов, по которым пользователи ищут ваш продукт.',
 		),
-		'blog_seo' => array(
-			'title'   => 'Нужна помощь с продвижением?',
-			'btn'     => 'Получить консультацию',
-			'btn_url' => '',
-		),
-		'article_consultation_tg' => array(
-			'title'       => 'Консультация в Telegram',
-			'text'        => 'Быстрые ответы и удобное общение в мессенджере.',
-			'btn_text'    => 'Написать в Telegram',
-			'btn_url'     => '',
-			'text_btn'    => 'Обычно отвечаем в течение 15 минут',
-			'color'       => '#2AABEE',
-			'color_hover' => '#229ED9',
-		),
 	);
 }
 
@@ -281,32 +261,6 @@ function tolstenko_get_blog_content_defaults( $key ) {
 		if ( is_array( $saved ) && $saved ) {
 			return array_replace_recursive( $base, $saved );
 		}
-	}
-	return $base;
-}
-
-/**
- * Дефолты плашки в статье — отдельный ключ, не секция страницы.
- * Если article-ключ ещё не сохраняли, читаем старый общий ключ (миграция).
- *
- * @param string $article_key article_consultation_tg.
- * @param string $page_key    consultation_tg.
- * @return array
- */
-function tolstenko_get_article_consultation_defaults( $article_key, $page_key ) {
-	$schema = tolstenko_blog_content_defaults_schema();
-	$base   = isset( $schema[ $article_key ] ) && is_array( $schema[ $article_key ] ) ? $schema[ $article_key ] : array();
-	$saved  = get_option( 'tolstenko_block_defaults', array() );
-	if ( ! is_array( $saved ) ) {
-		$saved = array();
-	}
-	if ( ! empty( $saved[ $article_key ] ) && is_array( $saved[ $article_key ] ) ) {
-		return array_replace_recursive( $base, $saved[ $article_key ] );
-	}
-	if ( ! empty( $saved[ $page_key ] ) && is_array( $saved[ $page_key ] ) ) {
-		$page = $saved[ $page_key ];
-		unset( $page['image'] );
-		return array_replace_recursive( $base, $page );
 	}
 	return $base;
 }
