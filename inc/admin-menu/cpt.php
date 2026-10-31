@@ -93,7 +93,8 @@ function register_case_cpt()
             'show_in_menu' => true,
             'menu_icon' => 'dashicons-awards',
             'menu_position' => -4,
-            'supports' => array('title', 'thumbnail'),
+            // Без «Изображения записи»: карточка кейса выводит только текст и иконки фактов.
+            'supports' => array('title'),
             'show_in_rest' => true,
             'has_archive' => false,
             'rewrite' => array('slug' => 'cases'),
