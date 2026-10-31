@@ -144,9 +144,27 @@ function theme_seo_section_normalize_row( $row ) {
 		'btn_url'  => trim( (string) ( $row['btn_url'] ?? '' ) ),
 	);
 
-	$has_text = trim( wp_strip_all_tags( $data['text'] . ' ' . $data['text_2'] ) ) !== '';
+	// Пусто ли то, что этот вид действительно выводит (лишние поля других видов не считаются).
+	$has_text   = trim( wp_strip_all_tags( $data['text'] ) ) !== '';
+	$has_text_2 = trim( wp_strip_all_tags( $data['text_2'] ) ) !== '';
+	$has_title  = $data['title'] !== '';
 
-	if ( $layout === 'gallery' ? ! $gallery : ( $data['title'] === '' && ! $has_text && ! $data['image'] && ! $items ) ) {
+	switch ( $layout ) {
+		case 'gallery':
+			$has_content = (bool) $gallery;
+			break;
+		case 'image_text':
+		case 'text_image':
+			$has_content = $has_title || $has_text || $data['image'] > 0 || $data['btn_text'] !== '';
+			break;
+		case 'two_columns':
+			$has_content = $has_title || $has_text || $has_text_2 || (bool) $items;
+			break;
+		default:
+			$has_content = $has_title || $has_text;
+	}
+
+	if ( ! $has_content ) {
 		return null;
 	}
 
