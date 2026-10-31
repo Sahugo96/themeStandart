@@ -169,8 +169,9 @@
 					var rp = 'tolstenko_block_defaults[flagship][rows][' + rk + ']';
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="' + rp + '[name]" placeholder="Название (подпись — в &lt;span&gt;)" style="flex:1"><input type="hidden" class="tolstenko-defaults-icon-id" name="' + rp + '[flag]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Флаг</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview" style="margin-top:8px;"></div><div class="cols"><input type="text" name="' + rp + '[price]" placeholder="Стоимость"><input type="text" name="' + rp + '[term]" placeholder="Срок оформления"><input type="text" name="' + rp + '[link]" placeholder="Ссылка кнопки (пусто = #modal)"></div><div class="muted">Преимущества</div><div data-repeater-list="flagship-benefits-list" data-name-prefix="' + rp + '[benefits]"></div><div class="actions"><button type="button" class="button" data-add-item="flagship-benefits-list">Добавить преимущество</button></div></div>';
 				} else if (key === 'seo-rows-list') {
-					var sp = 'tolstenko_block_defaults[seo_section][rows][' + (Date.now() + idx) + ']';
-					html = '<div class="repeater-item" data-repeater-item><div class="cols"><select name="' + sp + '[layout]"><option value="text">Текст</option><option value="image_text">Фото + текст</option><option value="text_image">Текст + фото</option><option value="two_columns">Две колонки</option><option value="gallery">Галерея</option></select><input type="text" name="' + sp + '[title]" placeholder="Заголовок блока" style="flex:1"><input type="hidden" class="tolstenko-defaults-icon-id" name="' + sp + '[image]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Фото</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview" style="margin-top:8px;"></div><div class="row"><textarea name="' + sp + '[text]" rows="5" placeholder="Текст (HTML)"></textarea></div><div class="row"><textarea name="' + sp + '[text_2]" rows="3" placeholder="Текст 2 — правая колонка (для «Две колонки»)"></textarea></div><div class="cols"><input type="text" name="' + sp + '[btn_text]" placeholder="Кнопка (для «Фото + текст»)"><input type="text" name="' + sp + '[btn_url]" placeholder="Ссылка кнопки (пусто = #modal)" style="flex:1"></div><div class="muted">Пункты (для «Две колонки»)</div><div data-repeater-list="seo-items-list" data-name-prefix="' + sp + '[items]"></div><div class="actions"><button type="button" class="button" data-add-item="seo-items-list">Добавить пункт</button></div><div class="muted">Фото галереи (для «Галерея»)</div><div data-repeater-list="seo-gallery-list" data-name-prefix="' + sp + '[gallery]"></div><div class="actions"><button type="button" class="button" data-add-item="seo-gallery-list">Добавить фото</button></div></div>';
+					// Разметка строки — из <template> (theme_seo_section_render_admin_row в inc/seo-section.php).
+					var seoTpl = document.getElementById('seo-row-template');
+					if (seoTpl) html = seoTpl.innerHTML.replace(/__i__/g, String(Date.now() + idx));
 				} else if (key === 'seo-items-list') {
 					var sip = list.getAttribute('data-name-prefix') || '';
 					if (!sip) return;
@@ -317,6 +318,22 @@
 			});
 		}
 		bindIconPicker(document);
+
+		// «SEO-наполнение»: в строке видны только поля выбранного вида (data-seo-show).
+		function syncSeoRow(row){
+			var select = row.querySelector('[data-seo-layout]');
+			if (!select) return;
+			row.querySelectorAll('[data-seo-show]').forEach(function(box){
+				if (box.closest('[data-seo-row]') !== row) return;
+				box.hidden = box.getAttribute('data-seo-show').split(' ').indexOf(select.value) === -1;
+			});
+		}
+		document.querySelectorAll('[data-seo-row]').forEach(syncSeoRow);
+		document.addEventListener('change', function(e){
+			if (e.target.matches && e.target.matches('[data-seo-layout]')) {
+				syncSeoRow(e.target.closest('[data-seo-row]'));
+			}
+		});
 		document.addEventListener('click', function(e){
 			var btn = e.target;
 			if (btn.matches && btn.matches('[data-add-item]')) {

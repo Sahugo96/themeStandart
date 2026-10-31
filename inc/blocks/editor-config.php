@@ -26,6 +26,12 @@ function theme_get_posts_for_block_editor(string $post_type): array
 
 function theme_get_section_blocks_editor_config(): array
 {
+    // «SEO-наполнение»: поле строки видно только для своих видов (общая карта с табом).
+    $seo_fields = theme_seo_section_field_layouts();
+    $seo_show = static function (string $field) use ($seo_fields): array {
+        return ['key' => 'layout', 'values' => $seo_fields[$field]];
+    };
+
     return [
         [
             'name'        => 'my-theme/seo-section',
@@ -58,15 +64,16 @@ function theme_get_section_blocks_editor_config(): array
                             ],
                         ],
                         ['key' => 'title', 'label' => 'Заголовок блока', 'type' => 'text'],
-                        ['key' => 'image', 'label' => 'Фото (Фото + текст)', 'type' => 'image'],
-                        ['key' => 'text', 'label' => 'Текст (HTML)', 'type' => 'textarea'],
-                        ['key' => 'text_2', 'label' => 'Текст 2 — правая колонка (Две колонки)', 'type' => 'textarea'],
+                        ['key' => 'image', 'label' => 'Фото', 'type' => 'image', 'showIf' => $seo_show('image')],
+                        ['key' => 'text', 'label' => 'Текст (HTML; в «Двух колонках» — левая колонка)', 'type' => 'textarea', 'showIf' => $seo_show('text')],
+                        ['key' => 'text_2', 'label' => 'Правая колонка (HTML)', 'type' => 'textarea', 'showIf' => $seo_show('text_2')],
                         [
                             'key'        => 'items',
-                            'label'      => 'Пункты (Две колонки)',
+                            'label'      => 'Пункты под колонками',
                             'type'       => 'repeater',
                             'addLabel'   => 'Добавить пункт',
                             'itemLabel'  => 'Пункт',
+                            'showIf'     => $seo_show('items'),
                             'itemFields' => [
                                 ['key' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
                                 ['key' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
@@ -74,16 +81,17 @@ function theme_get_section_blocks_editor_config(): array
                         ],
                         [
                             'key'        => 'gallery',
-                            'label'      => 'Фото галереи (Галерея)',
+                            'label'      => 'Фото галереи',
                             'type'       => 'repeater',
                             'addLabel'   => 'Добавить фото',
                             'itemLabel'  => 'Фото',
+                            'showIf'     => $seo_show('gallery'),
                             'itemFields' => [
                                 ['key' => 'image', 'label' => 'Фото', 'type' => 'image'],
                             ],
                         ],
-                        ['key' => 'btn_text', 'label' => 'Кнопка (Фото + текст)', 'type' => 'text'],
-                        ['key' => 'btn_url', 'label' => 'Ссылка кнопки (пусто = #modal)', 'type' => 'text'],
+                        ['key' => 'btn_text', 'label' => 'Кнопка (пусто — без кнопки)', 'type' => 'text', 'showIf' => $seo_show('btn')],
+                        ['key' => 'btn_url', 'label' => 'Ссылка кнопки (пусто = #modal)', 'type' => 'text', 'showIf' => $seo_show('btn')],
                     ],
                 ],
             ],
