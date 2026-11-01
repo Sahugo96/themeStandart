@@ -94,8 +94,9 @@ function theme_is_service_archive_page(WP_Post $post): bool
 function theme_get_blog_archive_block_template(): array
 {
     return [
-        ['my-theme/blog-grid'],
-        ['my-theme/faq'],
+        ['my-theme/breadcrumbs'],
+        ['my-theme/main-hero'],
+        ['my-theme/blog-tiles'],
     ];
 }
 

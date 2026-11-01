@@ -72,6 +72,7 @@ function theme_get_block_category_map(): array
         'single-blog'            => 'tolstenko-blog',
         'blog-related'           => 'tolstenko-blog',
         'blog-grid'              => 'tolstenko-blog',
+        'blog-tiles'             => 'tolstenko-blog',
         'blog-large-img'         => 'tolstenko-blog',
         'blog-video'             => 'tolstenko-blog',
         'blog-blockquote'        => 'tolstenko-blog',

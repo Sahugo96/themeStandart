@@ -34,6 +34,19 @@ function theme_get_section_blocks_editor_config(): array
 
     return [
         [
+            'name'        => 'my-theme/blog-tiles',
+            'title'       => 'Плитка статей',
+            'icon'        => 'grid-view',
+            'hint'        => 'Архив блога: все статьи по 3 в ряд и пагинация (12 на странице). Если пусто — из админки: Дефолты блоков → Статьи',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'blog_section_filters',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+            ],
+        ],
+        [
             'name'        => 'my-theme/reviews-tiles',
             'title'       => 'Плитка отзывов',
             'icon'        => 'grid-view',

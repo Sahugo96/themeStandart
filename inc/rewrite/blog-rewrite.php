@@ -96,6 +96,11 @@ add_action('edited_blog_cat', 'theme_blog_flush_rewrite_rules');
 add_action('delete_blog_cat', 'theme_blog_flush_rewrite_rules');
 add_action('after_switch_theme', 'theme_blog_flush_rewrite_rules');
 
+// Статей на странице архива блога и рубрик (плитка/сетка статей, пагинация).
+if (!defined('THEME_BLOG_ARCHIVE_PER_PAGE')) {
+    define('THEME_BLOG_ARCHIVE_PER_PAGE', 12);
+}
+
 function theme_blog_posts_per_page($query)
 {
     if (is_admin() || !$query->is_main_query()) {
@@ -103,7 +108,7 @@ function theme_blog_posts_per_page($query)
     }
 
     if (is_post_type_archive('blog') || is_tax('blog_cat')) {
-        $query->set('posts_per_page', 17);
+        $query->set('posts_per_page', THEME_BLOG_ARCHIVE_PER_PAGE);
     }
 }
 add_action('pre_get_posts', 'theme_blog_posts_per_page');
