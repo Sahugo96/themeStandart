@@ -43,6 +43,7 @@ function theme_get_blog_single_block_template(): array
 function theme_get_reviews_page_block_template(): array
 {
     return [
+        ['my-theme/breadcrumbs'],
         ['my-theme/main-hero'],
         ['my-theme/reviews-tiles'],
         ['my-theme/quiz'],
