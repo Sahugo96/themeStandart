@@ -90,6 +90,7 @@ function theme_get_block_category_map(): array
 
         // Отзывы
         'reviews-section'        => 'tolstenko-reviews',
+        'reviews-grid'           => 'tolstenko-reviews',
         'reviews-slider'         => 'tolstenko-reviews',
     ];
 }

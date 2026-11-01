@@ -824,3 +824,103 @@
     }
   }
 }
+
+// ----- Сетка отзывов (блок my-theme/reviews-grid, страница «Reviews page») -----
+// Та же разметка, что у слайдеров, но без Splide: карточки сеткой, сверх лимита —
+// по кнопке «Показать ещё» (.is-all, modules/reviewsGrid.js).
+.reviews--grid {
+  .reviews__list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    grid-gap: vw(16px, $mobile);
+    @media (min-width: $desk) {
+      grid-gap: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(20px, $desktop_large);
+    }
+  }
+
+  .reviews__splide--text .reviews__list,
+  .reviews__splide--video .reviews__list {
+    @media (min-width: $desk) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .reviews__splide--thenks .reviews__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    @media (min-width: $desk) {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+
+  // В слайдере ширину текстовой карточки задаёт CSS — в сетке её задаёт колонка.
+  .reviews__list-item--text {
+    width: auto;
+    @media (min-width: $desk) {
+      width: auto;
+    }
+    @media (min-width: $desk_large) {
+      width: auto;
+    }
+  }
+
+  .splide__bottom {
+    display: none !important;
+  }
+
+  .reviews__splide:not(.is-all) .reviews__list-item--more {
+    display: none !important;
+  }
+
+  // «Показать ещё» — контурная кнопка по центру под сеткой.
+  .reviews__more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    max-width: 100%;
+    margin: vw(24px, $mobile) auto 0;
+    padding: 0 vw(25px, $mobile);
+    height: vw(45px, $mobile);
+    // Цвета — как у «Оставить отзыв» (.filter__more) на светлом фоне.
+    border: 1px solid var(--additional-gray-30-color);
+    border-radius: 999px;
+    font-family: $Montserrat;
+    font-weight: 600;
+    font-size: vw(13px, $mobile);
+    line-height: 1.15;
+    text-transform: uppercase;
+    color: var(--gray-50-color);
+    background-color: transparent;
+    cursor: pointer;
+    transition: border-color 0.3s linear, color 0.3s linear;
+    @media (min-width: $desk) {
+      margin-top: vw(30px, $desktop);
+      padding: 0 vw(25px, $desktop);
+      height: vw(45px, $desktop);
+      font-size: vw(13px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(30px, $desktop_large);
+      padding: 0 vw(25px, $desktop_large);
+      height: vw(45px, $desktop_large);
+      font-size: vw(13px, $desktop_large);
+    }
+    @media (any-hover: hover) {
+      &:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+      }
+    }
+  }
+
+  .reviews__splide.is-all .reviews__more {
+    display: none;
+  }
+}
