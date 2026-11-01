@@ -20152,6 +20152,19 @@ body {
     max-width: 8.49vw;
   }
 }
+.single-blog__content-contents :is(h2, h3)[id] {
+  scroll-margin-top: 31.008vw;
+}
+@media (min-width: 992px) {
+  .single-blog__content-contents :is(h2, h3)[id] {
+    scroll-margin-top: 14.063vw;
+  }
+}
+@media (min-width: 1441px) {
+  .single-blog__content-contents :is(h2, h3)[id] {
+    scroll-margin-top: 9.375vw;
+  }
+}
 .single-blog__content-article {
   position: relative;
   overflow: hidden;
