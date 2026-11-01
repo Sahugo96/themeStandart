@@ -44,6 +44,8 @@ function theme_get_reviews_page_block_template(): array
 {
     return [
         ['my-theme/reviews-tiles'],
+        ['my-theme/quiz'],
+        ['my-theme/consult'],
         ['my-theme/faq'],
     ];
 }
