@@ -57,6 +57,24 @@ function theme_is_reviews_page(WP_Post $post): bool
 }
 
 
+/**
+ * Текстовая страница (шаблон «Text page», page-text.php).
+ */
+function theme_get_text_page_block_template(): array
+{
+    return [
+        ['my-theme/breadcrumbs'],
+        ['my-theme/main-hero'],
+        ['my-theme/seo-section'],
+        ['my-theme/consult'],
+    ];
+}
+
+function theme_is_text_page(WP_Post $post): bool
+{
+    return $post->post_type === 'page' && get_page_template_slug($post) === 'page-text.php';
+}
+
 function theme_get_service_archive_block_template(): array
 {
     return [
@@ -174,6 +192,9 @@ function theme_filter_page_block_editor_settings(array $settings, $context): arr
         $settings['templateLock'] = false;
     } elseif (theme_is_reviews_page($post)) {
         $settings['template'] = theme_get_reviews_page_block_template();
+        $settings['templateLock'] = false;
+    } elseif (theme_is_text_page($post)) {
+        $settings['template'] = theme_get_text_page_block_template();
         $settings['templateLock'] = false;
     }
 
