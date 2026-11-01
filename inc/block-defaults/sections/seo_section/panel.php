@@ -11,7 +11,7 @@ $seo_layouts = theme_seo_section_layout_labels();
 	<div class="row"><input type="text" name="tolstenko_block_defaults[seo_section][title]" value="<?php echo esc_attr( $seo['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок (HTML, акцент — <span>&hellip;</span>)"></div>
 	<div class="row"><input type="text" name="tolstenko_block_defaults[seo_section][more_text]" value="<?php echo esc_attr( $seo['more_text'] ?? '' ); ?>" style="width:100%" placeholder="Кнопка раскрытия (Читать полностью)"></div>
 
-	<div class="muted"><?php esc_html_e( 'Содержимое (на сайте виден первый блок, остальные — по кнопке)', 'tolstenko-theme' ); ?></div>
+	<div class="muted"><?php esc_html_e( 'Содержимое (на сайте свёрнуто по высоте с затемнением, раскрывается кнопкой)', 'tolstenko-theme' ); ?></div>
 	<p class="description"><?php esc_html_e( 'Выберите вид блока — появятся только его поля. Тексты — HTML (абзацы <p>, списки, <h3>).', 'tolstenko-theme' ); ?></p>
 	<div data-repeater-list="seo-rows-list">
 		<?php foreach ( (array) ( $seo['rows'] ?? array() ) as $idx => $row ) : ?>

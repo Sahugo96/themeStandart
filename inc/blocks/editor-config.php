@@ -37,7 +37,7 @@ function theme_get_section_blocks_editor_config(): array
             'name'        => 'my-theme/seo-section',
             'title'       => 'SEO-наполнение',
             'icon'        => 'text-page',
-            'hint'        => 'Если пусто — из админки: Дефолты блоков → SEO-наполнение. Тексты — HTML. На сайте виден первый блок, остальные — по кнопке «Читать полностью»',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → SEO-наполнение. Тексты — HTML. На сайте содержимое свёрнуто по высоте, раскрывается кнопкой',
             'color'       => '#2271b1',
             'defaultsKey' => 'seo_section',
             'fields'      => [
@@ -91,8 +91,6 @@ function theme_get_section_blocks_editor_config(): array
                                 ['key' => 'image', 'label' => 'Фото', 'type' => 'image'],
                             ],
                         ],
-                        ['key' => 'btn_text', 'label' => 'Кнопка (пусто — без кнопки)', 'type' => 'text', 'showIf' => $seo_show('btn')],
-                        ['key' => 'btn_url', 'label' => 'Ссылка кнопки (пусто = #modal)', 'type' => 'text', 'showIf' => $seo_show('btn')],
                     ],
                 ],
             ],

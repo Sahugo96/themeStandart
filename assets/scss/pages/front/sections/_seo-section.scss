@@ -1,7 +1,8 @@
 // Секция «SEO-наполнение» (pages/sections/seo-section.php).
-// Шапка — общие section-subtitle / section-title по центру. Карточка (br-30):
-// первая строка — теги, заголовок, текст и «Читать полностью» слева, фото справа;
-// остальные строки раскрываются кнопкой (.is-expanded, modules/seoSection.js).
+// Шапка — общие section-subtitle / section-title по центру. Карточка (br-30) со строками
+// свёрнута по высоте с затемнением снизу; кнопка-раскрывашка по центру под карточкой
+// (как в tolstenko.marketing): .is-expanded снимает обрезку и прячет кнопку,
+// .is-short — содержимое помещается, обрезки и кнопки нет (modules/seoSection.js).
 
 // Размер: мобильный макет / десктоп (то же значение и на $desk_large).
 @mixin seo-fluid($prop, $m, $d) {
@@ -18,6 +19,43 @@
   &__panel {
     @include seo-fluid(padding, 10px, 20px);
     background-color: var(--dark-bg-plank-color);
+  }
+
+  // ----- Свёрнутое тело -----
+  &__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    @include seo-fluid(max-height, 480px, 560px);
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(180deg, rgba(22, 34, 45, 0) 0%, var(--dark-bg-plank-color) 100%);
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      @include seo-fluid(height, 120px, 120px);
+    }
+  }
+
+  &__wrap.is-expanded &__body,
+  &__wrap.is-short &__body {
+    max-height: none;
+
+    &::after {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  // Строки разделены линией.
+  &__body > &__row + &__row {
+    border-top: 1px solid var(--dark-bg-stoke-color);
+    @include seo-fluid(margin-top, 10px, 20px);
   }
 
   // ----- Строки -----
@@ -164,56 +202,54 @@
     }
   }
 
-  &__btn {
-    @include seo-fluid(margin-top, 20px, 30px);
-    @media (min-width: $desk) {
-      align-self: flex-start;
-      width: auto;
-    }
-  }
-
-  // «Читать полностью» — внизу текстовой колонки.
-  &__foot {
-    display: flex;
-    margin-top: auto;
-    @include seo-fluid(padding-top, 24px, 40px);
-  }
-
+  // ----- Кнопка-раскрывашка: по центру под карточкой (как .more-btn в tolstenko.marketing) -----
   &__more {
-    @media (min-width: $desk) {
-      width: auto;
-    }
-    svg {
-      fill: none !important;
-      stroke: currentColor;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: transform 0.3s linear;
-      @include seo-fluid(width, 18px, 18px);
-      @include seo-fluid(height, 18px, 18px);
-    }
-  }
-
-  &__panel.is-expanded &__more svg {
-    transform: rotate(180deg);
-  }
-
-  // ----- Остальные строки: скрыты до «Читать полностью» -----
-  &__rest {
-    display: none;
-    flex-direction: column;
-    border-top: 1px solid var(--dark-bg-stoke-color);
-    @include seo-fluid(grid-gap, 10px, 20px);
-    @include seo-fluid(margin-top, 10px, 20px);
-    @include seo-fluid(padding-top, 10px, 20px);
-  }
-
-  &__panel.is-expanded &__rest {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid var(--dark-bg-stoke-color);
+    border-radius: 999px;
+    font-family: $Montserrat;
+    font-weight: 600;
+    line-height: 1.15;
+    text-transform: uppercase;
+    color: var(--additional-gray-color);
+    background-color: transparent;
+    cursor: pointer;
+    transition: border-color 0.3s linear, color 0.3s linear;
+    @include seo-fluid(height, 45px, 45px);
+    @include seo-fluid(margin-top, 24px, 30px);
+    @include seo-fluid(padding-inline, 25px, 25px);
+    @include seo-fluid(grid-gap, 6px, 6px);
+    @include seo-fluid(font-size, 13px, 13px);
+
+    svg {
+      flex-shrink: 0;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      @include seo-fluid(width, 15px, 15px);
+      @include seo-fluid(height, 15px, 15px);
+    }
+
+    @media (any-hover: hover) {
+      &:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+      }
+    }
   }
 
-// Две колонки + пункты-карточки.
+  &__wrap.is-expanded &__more,
+  &__wrap.is-short &__more {
+    display: none;
+  }
+
+  // Две колонки + пункты-карточки.
   &__columns {
     display: grid;
     grid-template-columns: minmax(0, 1fr);

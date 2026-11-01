@@ -35,7 +35,6 @@ function theme_seo_section_field_layouts() {
 		'image'    => array( 'image_text', 'text_image' ),
 		'text'     => array( 'text', 'image_text', 'text_image', 'two_columns' ),
 		'text_2'   => array( 'two_columns' ),
-		'btn'      => array( 'image_text', 'text_image' ),
 		'items'    => array( 'two_columns' ),
 		'gallery'  => array( 'gallery' ),
 	);
@@ -87,11 +86,6 @@ function theme_seo_section_render_admin_row( $prefix, array $row ) {
 
 		<div class="row"<?php $show( 'text' ); ?>><textarea name="<?php echo esc_attr( $prefix ); ?>[text]" rows="5" placeholder="Текст (HTML); в «Двух колонках» — левая колонка"><?php echo esc_textarea( $row['text'] ?? '' ); ?></textarea></div>
 		<div class="row"<?php $show( 'text_2' ); ?>><textarea name="<?php echo esc_attr( $prefix ); ?>[text_2]" rows="5" placeholder="Правая колонка (HTML)"><?php echo esc_textarea( $row['text_2'] ?? '' ); ?></textarea></div>
-
-		<div class="cols"<?php $show( 'btn' ); ?>>
-			<input type="text" name="<?php echo esc_attr( $prefix ); ?>[btn_text]" value="<?php echo esc_attr( $row['btn_text'] ?? '' ); ?>" placeholder="Кнопка (пусто — без кнопки)">
-			<input type="text" name="<?php echo esc_attr( $prefix ); ?>[btn_url]" value="<?php echo esc_attr( $row['btn_url'] ?? '' ); ?>" placeholder="Ссылка кнопки (пусто = #modal)" style="flex:1">
-		</div>
 
 		<div<?php $show( 'items' ); ?>>
 			<div class="muted"><?php esc_html_e( 'Пункты под колонками', 'tolstenko-theme' ); ?></div>
@@ -196,8 +190,6 @@ function theme_seo_section_sanitize_rows( $raw ) {
 			'text_2'   => tolstenko_kses_redactor( $row['text_2'] ?? '' ),
 			'items'    => $items,
 			'gallery'  => $gallery,
-			'btn_text' => sanitize_text_field( $row['btn_text'] ?? '' ),
-			'btn_url'  => esc_url_raw( trim( (string) ( $row['btn_url'] ?? '' ) ) ),
 		);
 
 		if ( theme_seo_section_normalize_row( $clean ) !== null ) {
@@ -255,8 +247,6 @@ function theme_seo_section_normalize_row( $row ) {
 		'text_2'   => (string) ( $row['text_2'] ?? '' ),
 		'items'    => $items,
 		'gallery'  => $gallery,
-		'btn_text' => trim( (string) ( $row['btn_text'] ?? '' ) ),
-		'btn_url'  => trim( (string) ( $row['btn_url'] ?? '' ) ),
 	);
 
 	// Пусто ли то, что этот вид действительно выводит (лишние поля других видов не считаются).
@@ -270,7 +260,7 @@ function theme_seo_section_normalize_row( $row ) {
 			break;
 		case 'image_text':
 		case 'text_image':
-			$has_content = $has_title || $has_text || $data['image'] > 0 || $data['btn_text'] !== '';
+			$has_content = $has_title || $has_text || $data['image'] > 0;
 			break;
 		case 'two_columns':
 			$has_content = $has_title || $has_text || $has_text_2 || (bool) $items;

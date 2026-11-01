@@ -21,8 +21,6 @@ return array(
 			'text_2'   => '',
 			'items'    => array(),
 			'gallery'  => array(),
-			'btn_text' => '',
-			'btn_url'  => '',
 		),
 	),
 );

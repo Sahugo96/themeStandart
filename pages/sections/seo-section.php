@@ -9,9 +9,10 @@ defined('ABSPATH') || exit;
  * (таб «Дефолты блоков → SEO-наполнение»). Атрибуты блока имеют приоритет.
  *
  * Содержимое — строки разных видов (текст, фото + текст, две колонки, галерея).
- * Карточка: первая строка видна сразу (теги, заголовок, текст, фото справа),
- * «Читать полностью» раскрывает остальные строки (modules/seoSection.js);
- * фото галереи открываются в Fancybox.
+ * Как в tolstenko.marketing: всё содержимое в карточке, свёрнутой по высоте с затемнением
+ * снизу; кнопка из поля «Кнопка раскрытия» (more_text) — по центру под карточкой,
+ * по клику секция раскрывается целиком, кнопка скрывается (modules/seoSection.js).
+ * Фото галереи открываются в Fancybox.
  *
  * Перенесено из tolstenko.marketing («SEO продвижение»).
  */
@@ -33,25 +34,13 @@ if (!$rows && $title === '') {
 }
 
 $section_uid   = wp_unique_id();
-$rest_id       = 'seo-rest-' . $section_uid;
+$body_id       = 'seo-body-' . $section_uid;
 $gallery_group = 'seo-gallery-' . $section_uid;
 
-// Первая строка видна сразу, остальные — по кнопке (modules/seoSection.js).
-$lead_row  = $rows ? array_shift($rows) : null;
-$rest_rows = $rows;
-
-$more_button = '';
-if ($rest_rows) {
-    $more_button = '<button type="button" class="seo-section__more default-btn default-btn--transparent" data-seo-more data-less="Свернуть" aria-expanded="false" aria-controls="' . esc_attr($rest_id) . '">'
-        . '<span data-seo-more-label>' . esc_html($more_text) . '</span>'
-        . '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>'
-        . '</button>';
-}
-
 /**
- * Строка содержимого. $after — HTML в конце текстовой колонки (кнопка «Читать полностью»).
+ * Строка содержимого.
  */
-$render_row = static function (array $row, string $after = '') use ($gallery_group): void {
+$render_row = static function (array $row) use ($gallery_group): void {
     $head = static function () use ($row): void {
         if ($row['tags']) {
             echo '<ul class="seo-section__tags">';
@@ -79,12 +68,6 @@ $render_row = static function (array $row, string $after = '') use ($gallery_gro
         <div class="<?= esc_attr($classes); ?>">
           <div class="seo-section__content">
             <?php $head(); $text($row['text']); ?>
-            <?php if ($row['btn_text'] !== '') : ?>
-              <a class="seo-section__btn default-btn default-btn--brown" href="<?= esc_url($row['btn_url'] ?: '#modal'); ?>"><?= esc_html($row['btn_text']); ?></a>
-            <?php endif; ?>
-            <?php if ($after !== '') : ?>
-              <div class="seo-section__foot"><?= $after; ?></div>
-            <?php endif; ?>
           </div>
           <?php if ($image) : ?>
             <div class="seo-section__media">
@@ -138,9 +121,6 @@ $render_row = static function (array $row, string $after = '') use ($gallery_gro
         <?php $text($row['text']); ?>
       <?php endif; ?>
 
-      <?php if ($after !== '') : ?>
-        <div class="seo-section__foot"><?= $after; ?></div>
-      <?php endif; ?>
     </div>
     <?php
 };
@@ -159,19 +139,22 @@ $render_row = static function (array $row, string $after = '') use ($gallery_gro
       </div>
     <?php endif; ?>
 
-    <?php if ($lead_row) : ?>
-      <div class="seo-section__panel br-30 load-on-vissible--js"
+    <?php if ($rows) : ?>
+      <div class="seo-section__wrap load-on-vissible--js"
         data-module="./modules/seoSection.js"
         data-css="<?= THEME_PATH; ?>/assets/css/libs/fancybox.css">
-        <?php $render_row($lead_row, $more_button); ?>
-
-        <?php if ($rest_rows) : ?>
-          <div class="seo-section__rest" id="<?= esc_attr($rest_id); ?>" data-seo-rest>
-            <?php foreach ($rest_rows as $row) : ?>
+        <div class="seo-section__panel br-30">
+          <div class="seo-section__body" id="<?= esc_attr($body_id); ?>" data-seo-body>
+            <?php foreach ($rows as $row) : ?>
               <?php $render_row($row); ?>
             <?php endforeach; ?>
           </div>
-        <?php endif; ?>
+        </div>
+
+        <button type="button" class="seo-section__more" data-seo-more aria-expanded="false" aria-controls="<?= esc_attr($body_id); ?>">
+          <?= esc_html($more_text); ?>
+          <svg viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M11.25 6.25L7.94194 9.55806C7.69786 9.80214 7.30214 9.80214 7.05806 9.55806L3.75 6.25" stroke-linecap="round"/></svg>
+        </button>
       </div>
     <?php endif; ?>
   </div>
