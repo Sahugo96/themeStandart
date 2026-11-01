@@ -34,6 +34,8 @@ require_once get_template_directory() . '/inc/settings-i18n.php';
 // Язык для архивов, AJAX/REST и правил URL (Polylang)
 require_once get_template_directory() . '/inc/lang-helpers.php';
 require_once get_template_directory() . '/inc/seo-section.php';
+// Страница контактов: секции «Контакты», «Карты», «Реквизиты»
+require_once get_template_directory() . '/inc/contacts.php';
 require_once get_template_directory() . '/inc/block-defaults-admin.php';
 require_once get_template_directory() . '/inc/contact-data-admin.php';
 require_once get_template_directory() . '/inc/case-metabox.php';

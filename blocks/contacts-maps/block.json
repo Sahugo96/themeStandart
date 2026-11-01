@@ -1,0 +1,31 @@
+{
+  "apiVersion": 3,
+  "title": "Карты",
+  "name": "my-theme/contacts-maps",
+  "category": "tolstenko-general",
+  "icon": "location-alt",
+  "description": "Адреса-вкладки и карта (iframe Яндекс Карт / Google Maps)",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

@@ -1,0 +1,39 @@
+{
+  "apiVersion": 3,
+  "title": "Реквизиты",
+  "name": "my-theme/contacts-details",
+  "category": "tolstenko-general",
+  "icon": "id",
+  "description": "Реквизиты компании и форма обратной связи",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    },
+    "form_title": {
+      "type": "string",
+      "default": ""
+    },
+    "form_text": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}

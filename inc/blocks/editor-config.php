@@ -34,6 +34,109 @@ function theme_get_section_blocks_editor_config(): array
 
     return [
         [
+            'name'        => 'my-theme/contacts',
+            'title'       => 'Контакты',
+            'icon'        => 'location',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → Контакты. Номер для «Позвонить» и ссылка Telegram — из «Контактных данных»',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'contacts',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                ['attr' => 'call_text', 'label' => 'Кнопка звонка', 'type' => 'text'],
+                ['attr' => 'tg_text', 'label' => 'Кнопка Telegram', 'type' => 'text'],
+                [
+                    'attr'       => 'addresses',
+                    'label'      => 'Адреса (вкладки)',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить адрес',
+                    'itemLabel'  => 'Адрес',
+                    'itemFields' => [
+                        ['key' => 'address', 'label' => 'Название — подпись вкладки', 'type' => 'text'],
+                        [
+                            'key'        => 'items',
+                            'label'      => 'Контакты',
+                            'type'       => 'repeater',
+                            'addLabel'   => 'Добавить контакт',
+                            'itemLabel'  => 'Контакт',
+                            'itemFields' => [
+                                ['key' => 'title', 'label' => 'Заголовок (Телефон, Почта…)', 'type' => 'text'],
+                                ['key' => 'icon', 'label' => 'Иконка', 'type' => 'image'],
+                                [
+                                    'key'        => 'links',
+                                    'label'      => 'Строки',
+                                    'type'       => 'repeater',
+                                    'addLabel'   => 'Добавить строку',
+                                    'itemLabel'  => 'Строка',
+                                    'itemFields' => [
+                                        ['key' => 'text', 'label' => 'Текст', 'type' => 'text'],
+                                        ['key' => 'link', 'label' => 'Ссылка (tel:, mailto:, https://) — пусто: текст', 'type' => 'text'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                        [
+                            'key'        => 'gallery',
+                            'label'      => 'Фото офиса',
+                            'type'       => 'repeater',
+                            'addLabel'   => 'Добавить фото',
+                            'itemLabel'  => 'Фото',
+                            'itemFields' => [
+                                ['key' => 'image', 'label' => 'Фото', 'type' => 'image'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'name'        => 'my-theme/contacts-maps',
+            'title'       => 'Карты',
+            'icon'        => 'location-alt',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → Карты. Карта — iframe Яндекс Карт / Google Maps',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'contacts_maps',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                [
+                    'attr'       => 'items',
+                    'label'      => 'Адреса (вкладки)',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить адрес',
+                    'itemLabel'  => 'Адрес',
+                    'itemFields' => [
+                        ['key' => 'address', 'label' => 'Адрес — подпись вкладки', 'type' => 'text'],
+                        ['key' => 'map', 'label' => 'Код iframe карты (или ссылка)', 'type' => 'textarea'],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'name'        => 'my-theme/contacts-details',
+            'title'       => 'Реквизиты',
+            'icon'        => 'id',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → Реквизиты (там же шорткод формы)',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'contacts_details',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                [
+                    'attr'       => 'items',
+                    'label'      => 'Реквизиты',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить пункт',
+                    'itemLabel'  => 'Пункт',
+                    'itemFields' => [
+                        ['key' => 'text', 'label' => 'Текст (HTML: <p>, <strong>)', 'type' => 'textarea'],
+                    ],
+                ],
+                ['attr' => 'form_title', 'label' => 'Заголовок формы', 'type' => 'text'],
+                ['attr' => 'form_text', 'label' => 'Текст над формой', 'type' => 'text'],
+            ],
+        ],
+        [
             'name'        => 'my-theme/blog-tiles',
             'title'       => 'Плитка статей',
             'icon'        => 'grid-view',
