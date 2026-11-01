@@ -66,6 +66,7 @@ if ($title === '' && $text === '' && $items_html === '') {
 	data-card="blog_slider"
 	data-post-ids="<?= esc_attr(implode(',', $post_ids)); ?>"
 	data-btn-text="<?= esc_attr($btn_text); ?>"
+	data-lang="<?= esc_attr(theme_current_lang()); ?>"
 >
 	<div class="container">
 		<div class="blog-section__top section-top">

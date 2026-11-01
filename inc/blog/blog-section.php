@@ -62,7 +62,8 @@ function theme_render_blog_section_button( $text ) {
 /**
  * HTML карточек секции: 1-я карточка + .splide__track с остальными и кнопкой.
  *
- * @param array $args { term, posts_per_page, post_ids, exclude, btn_text }.
+ * @param array $args { term, posts_per_page, post_ids, exclude, btn_text, lang }.
+ *                    lang — язык статей для REST (там Polylang язык не определяет).
  * @return string
  */
 function theme_render_blog_section_items( array $args ) {
@@ -88,6 +89,11 @@ function theme_render_blog_section_items( array $args ) {
 
 	if ( ! empty( $args['exclude'] ) ) {
 		$query_args['post__not_in'] = tolstenko_sanitize_ids( $args['exclude'] );
+	}
+
+	$lang = theme_request_lang( $args['lang'] ?? '' );
+	if ( $lang !== '' ) {
+		$query_args['lang'] = $lang;
 	}
 
 	if ( $term !== '' ) {
@@ -153,7 +159,7 @@ function theme_get_blog_section_terms() {
 add_action( 'rest_api_init', 'theme_register_blog_section_rest_route' );
 
 /**
- * GET /wp-json/theme/v1/blog-section?term=&posts_per_page=&post_ids=&btn_text=
+ * GET /wp-json/theme/v1/blog-section?term=&posts_per_page=&post_ids=&btn_text=&lang=
  */
 function theme_register_blog_section_rest_route() {
 	register_rest_route(
@@ -171,6 +177,7 @@ function theme_register_blog_section_rest_route() {
 								'posts_per_page' => (int) $request->get_param( 'posts_per_page' ),
 								'post_ids'       => (string) $request->get_param( 'post_ids' ),
 								'btn_text'       => sanitize_text_field( (string) $request->get_param( 'btn_text' ) ),
+								'lang'           => (string) $request->get_param( 'lang' ),
 							)
 						),
 					)

@@ -6,7 +6,7 @@ function blog_section_ajax_data()
 {
     wp_add_inline_script('jquery', '
         window.blog_ajax = {
-            ajax_url: "' . admin_url('admin-ajax.php') . '"
+            ajax_url: "' . esc_url_raw(theme_ajax_url()) . '"
         };
     ', 'before');
 }

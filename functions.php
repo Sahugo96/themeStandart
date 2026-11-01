@@ -31,6 +31,8 @@ require_once __DIR__ . '/inc/blog-plugins-display.php';
 
 require_once get_template_directory() . '/inc/admin-menu/cpt.php';
 require_once get_template_directory() . '/inc/settings-i18n.php';
+// Язык для архивов, AJAX/REST и правил URL (Polylang)
+require_once get_template_directory() . '/inc/lang-helpers.php';
 require_once get_template_directory() . '/inc/seo-section.php';
 require_once get_template_directory() . '/inc/block-defaults-admin.php';
 require_once get_template_directory() . '/inc/contact-data-admin.php';

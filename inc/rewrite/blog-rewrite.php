@@ -50,29 +50,26 @@ function theme_blog_rewrite_rules()
         'top'
     );
 
-    $terms = get_terms([
-        'taxonomy'   => 'blog_cat',
-        'hide_empty' => false,
-    ]);
-
-    if (is_wp_error($terms) || empty($terms)) {
-        return;
-    }
-
-    foreach ($terms as $term) {
+    // Рубрики всех языков; для каждой — ещё и адрес с префиксом её языка (/en/blog/…):
+    // Polylang сам префиксует только правила с post_type=, а у рубрик его нет.
+    foreach (theme_get_terms_all_langs('blog_cat') as $term) {
         $slug = preg_quote($term->slug, '/');
 
-        add_rewrite_rule(
-            '^blog/' . $slug . '/?$',
-            'index.php?blog_cat=' . $term->slug,
-            'top'
-        );
+        foreach (theme_term_rewrite_prefixes($term) as $prefix) {
+            $lang = $prefix !== '' ? '&lang=' . rtrim($prefix, '/') : '';
 
-        add_rewrite_rule(
-            '^blog/' . $slug . '/page/([0-9]{1,})/?$',
-            'index.php?blog_cat=' . $term->slug . '&paged=$matches[1]',
-            'top'
-        );
+            add_rewrite_rule(
+                '^' . $prefix . 'blog/' . $slug . '/?$',
+                'index.php?blog_cat=' . $term->slug . $lang,
+                'top'
+            );
+
+            add_rewrite_rule(
+                '^' . $prefix . 'blog/' . $slug . '/page/([0-9]{1,})/?$',
+                'index.php?blog_cat=' . $term->slug . $lang . '&paged=$matches[1]',
+                'top'
+            );
+        }
     }
 }
 add_action('init', 'theme_blog_rewrite_rules', 20);
@@ -85,7 +82,8 @@ function theme_blog_term_link($termlink, $term, $taxonomy)
 
     return $termlink;
 }
-add_filter('term_link', 'theme_blog_term_link', 10, 3);
+// Раньше Polylang (10): он добавит к адресу язык рубрики.
+add_filter('term_link', 'theme_blog_term_link', 1, 3);
 
 function theme_blog_flush_rewrite_rules()
 {

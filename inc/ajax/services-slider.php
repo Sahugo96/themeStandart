@@ -71,7 +71,7 @@ function theme_enqueue_services_slider_section_assets(): void
     wp_add_inline_script(
         'theme-services-slider-filter',
         'window.services_slider_ajax = ' . wp_json_encode([
-            'ajax_url' => admin_url('admin-ajax.php'),
+            'ajax_url' => theme_ajax_url(),
         ]) . ';',
         'before'
     );

@@ -23,6 +23,7 @@ function loadTerm(section, term) {
   url.searchParams.set('posts_per_page', section.dataset.postsPerPage || '4');
   url.searchParams.set('post_ids', section.dataset.postIds || '');
   url.searchParams.set('btn_text', section.dataset.btnText || '');
+  url.searchParams.set('lang', section.dataset.lang || '');
 
   container.classList.add('loading');
 

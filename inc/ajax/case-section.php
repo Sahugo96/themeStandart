@@ -68,7 +68,7 @@ function theme_enqueue_cases_section_assets(): void
     wp_add_inline_script(
         'theme-cases-filter',
         'window.cases_ajax = ' . wp_json_encode([
-            'ajax_url' => admin_url('admin-ajax.php'),
+            'ajax_url' => theme_ajax_url(),
         ]) . ';',
         'before'
     );
