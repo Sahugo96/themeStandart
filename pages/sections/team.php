@@ -20,6 +20,12 @@ $defaults = [
 $overrides = get_query_var('team_data');
 $overrides = is_array($overrides) ? $overrides : [];
 
+// Блок передаёт надзаголовок как badge (как в табе), шаблон хранит его в subtitle.
+if (isset($overrides['badge'])) {
+    $overrides['subtitle'] = $overrides['badge'];
+    unset($overrides['badge']);
+}
+
 $data = theme_section_merge_defaults($defaults, $overrides);
 
 $teammates = get_posts([
