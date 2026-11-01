@@ -175,7 +175,8 @@ function register_review_cpt()
             'show_in_menu' => true,
             'menu_icon' => 'dashicons-testimonial',
             'menu_position' => -4,
-            'supports' => array('title', 'editor', 'thumbnail'),
+            // Без «Изображения записи»: карточка отзыва его не выводит.
+            'supports' => array('title', 'editor'),
             'has_archive' => true,
             'rewrite' => array('slug' => 'review'),
         )
