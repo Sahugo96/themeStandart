@@ -232,7 +232,7 @@ function tolstenko_render_blog_section_defaults_fields( $key, $data ) {
 }
 
 /* ==========================================================================
-   Хелперы для секций лендинга (why_us, result, compare, infra, about, guide, consult)
+   Хелперы для секций лендинга (why_us, result, compare, infra, about, consult)
    ========================================================================== */
 
 /**

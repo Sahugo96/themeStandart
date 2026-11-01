@@ -224,25 +224,6 @@ function theme_get_section_blocks_editor_config(): array
             ],
         ],
         [
-            'name'          => 'my-theme/guide',
-'defaultsKey'   => 'guide',
-            'title'         => 'Подробнее (статья)',
-            'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
-            'color'         => '#2271b1',
-            'fields'        => [
-                ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
-                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
-                [
-                    'attr'     => 'post_id',
-                    'label'    => 'Статья',
-                    'type'     => 'post',
-                    'postType' => 'blog',
-                    'help'     => 'Карточка собирается из статьи. Пусто — из настроек темы',
-                ],
-                ['attr' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text'],
-            ],
-        ],
-        [
             'name'          => 'my-theme/consult',
 'defaultsKey'   => 'consult',
             'title'         => 'Бесплатная консультация (CTA)',

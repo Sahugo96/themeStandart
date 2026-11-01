@@ -12,7 +12,7 @@
 | Простая секция (тексты + кнопка) | `infra`, `consult` |
 | Повторитель | `situations`, `banks` |
 | Вложенный повторитель | `flagship` (строки таблицы → преимущества), `quiz` (шаги → варианты) |
-| Выбор одной записи | `guide` |
+| Выбор одной записи | таб «Шаблон всех полей» (`field_template`, поле `single_post_id`) |
 | Слайдер (Splide) | `situations`, `cases`, `reviews` |
 | AJAX-фильтр | `cases`, `services-slider` |
 

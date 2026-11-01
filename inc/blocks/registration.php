@@ -45,7 +45,6 @@ function theme_get_block_category_map(): array
         'why-us'                 => 'tolstenko-general',
         'infra'                  => 'tolstenko-general',
         'about'                  => 'tolstenko-general',
-        'guide'                  => 'tolstenko-general',
         'consult'                => 'tolstenko-general',
         'hero-stats'             => 'tolstenko-general',
         'situations'             => 'tolstenko-general',

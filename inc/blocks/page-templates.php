@@ -91,7 +91,6 @@ function theme_get_front_page_block_template(): array
         ['my-theme/why-us'],
         ['my-theme/infra'],
         ['my-theme/about'],
-        ['my-theme/guide'],
         ['my-theme/consult'],
         ['my-theme/hero-stats'],
         ['my-theme/situations'],

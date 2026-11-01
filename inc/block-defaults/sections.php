@@ -51,7 +51,6 @@ function tolstenko_block_defaults_tab_groups() {
 				'why_us'     => 'Почему именно мы',
 				'infra'      => 'Для клиентов с капиталом и бизнесом',
 				'about'      => 'Кратко о нас',
-				'guide'      => 'Подробнее',
 				'consult'    => 'Начните с бесплатной консультации',
 				'documents'  => 'Документы',
 				'team'       => 'Команда',
