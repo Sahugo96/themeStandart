@@ -2,22 +2,6 @@
 $section = get_query_var('section');
 $reviews_data = get_query_var('reviews_data');
 
-// Вид: слайдеры (по умолчанию) или сетка для страницы отзывов (блок my-theme/reviews-grid):
-// в каждом табе видно $per_group карточек, остальные — по кнопке «Показать ещё».
-$is_grid = is_array($reviews_data) && ($reviews_data['layout'] ?? '') === 'grid';
-$per_group = $is_grid ? max(1, (int) ($reviews_data['per_page'] ?? 9)) : 0;
-$more_text = $is_grid ? (trim((string) ($reviews_data['more_text'] ?? '')) ?: 'Показать ещё') : '';
-
-// Класс карточки сверх лимита сетки и кнопка «Показать ещё» под списком таба.
-$grid_item_class = static function (int $index) use ($is_grid, $per_group): string {
-  return $is_grid && $index >= $per_group ? ' reviews__list-item--more' : '';
-};
-$grid_more_button = static function (int $count) use ($is_grid, $per_group, $more_text): void {
-  if ($is_grid && $count > $per_group) {
-    echo '<button type="button" class="reviews__more" data-reviews-more>' . esc_html($more_text) . '</button>';
-  }
-};
-
 if (is_array($reviews_data) && !empty($reviews_data)) {
   $title = $reviews_data['title'] ?? '';
   $reviews_list = $reviews_data['reviews_list'] ?? [];
@@ -119,16 +103,10 @@ $review_tabs = array(
 
 $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z"/></svg>';
 ?>
-<?php if ($is_grid) : ?>
-<section class="reviews reviews--grid section section--white load-on-vissible--js"
-  data-module="./modules/reviewsGrid.js,./modules/reviewsFancybox.js,./modules/reviewsVideoLightbox.js"
-  data-css="<?= THEME_PATH; ?>/assets/css/libs/fancybox.css">
-<?php else : ?>
 <section class="reviews section section--white load-on-vissible--js"
   aria-label="Splide direction"
   data-module="./libs/splide.min.js,./modules/reviewsSplideInit.js,./modules/reviewsFancybox.js,./modules/reviewsVideoLightbox.js"
   data-css="<?= THEME_PATH; ?>/assets/css/libs/splide-core.min.css,<?= THEME_PATH; ?>/assets/css/libs/fancybox.css">
-<?php endif; ?>
   <div class="container">
     <div class="reviews__inner">
       <div class="reviews__top section-top">
@@ -210,11 +188,10 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
           <div class="splide__track">
             <div class="reviews__list splide__list">
               <?php
-              $grid_index = 0;
               foreach ($grouped_reviews['Мессенджеры'] as $review) {
                 $image = $review_image((int) $review->ID, 'review_thenks');
               ?>
-                <div class="reviews__list-item splide__slide<?= $grid_item_class($grid_index++); ?>">
+                <div class="reviews__list-item splide__slide">
                   <div class="reviews__list-image">
                     <img src="<?= $image['url']; ?>" alt="<?= $image['alt']; ?>" data-fancybox="reviews-thenks">
                   </div>
@@ -224,8 +201,6 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
               ?>
             </div>
           </div>
-
-          <?php $grid_more_button($grid_index); ?>
 
           <div class="splide__bottom">
             <ul class="splide__pagination"></ul>
@@ -239,7 +214,6 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
           <div class="splide__track">
             <div class="reviews__list splide__list">
               <?php
-              $grid_index = 0;
               foreach ($grouped_reviews['Видео'] as $review) {
                 $video = html_entity_decode(trim((string) $review_field((int) $review->ID, 'review_video')), ENT_QUOTES, 'UTF-8');
 
@@ -267,7 +241,7 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
 
                 $logo = $review_image((int) $review->ID, 'review_logo');
               ?>
-                <div class="reviews__list-item reviews__list-item--video<?= $video_has_meta ? ' reviews__list-item--video-meta' : ''; ?> splide__slide<?= $grid_item_class($grid_index++); ?>">
+                <div class="reviews__list-item reviews__list-item--video<?= $video_has_meta ? ' reviews__list-item--video-meta' : ''; ?> splide__slide">
                   <button
                     type="button"
                     class="reviews__list-preview reviews__list-preview--embed"
@@ -321,8 +295,6 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
             </div>
           </div>
 
-          <?php $grid_more_button($grid_index); ?>
-
           <div class="splide__bottom">
             <ul class="splide__pagination"></ul>
           </div>
@@ -334,7 +306,6 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
         <div class="reviews__splide reviews__splide--text splide">
           <div class="splide__track">
             <div class="reviews__list splide__list">
-              <?php $grid_index = 0; ?>
               <?php foreach ($grouped_reviews['Текстовые'] as $review) {
                 $name = (string) $review_field((int) $review->ID, 'review_name');
                 $position = (string) $review_field((int) $review->ID, 'review_position');
@@ -353,7 +324,7 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
 
                 $photo = $review_image((int) $review->ID, 'review_photo');
               ?>
-                <div class="reviews__list-item reviews__list-item--text splide__slide<?= $grid_item_class($grid_index++); ?>">
+                <div class="reviews__list-item reviews__list-item--text splide__slide">
                   <div class="reviews__list-top">
                     <div class="reviews__list-photo">
                       <img src="<?= $photo['url']; ?>" alt="<?= $name; ?>">
@@ -393,8 +364,6 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
               ?>
             </div>
           </div>
-
-          <?php $grid_more_button($grid_index); ?>
 
           <div class="splide__bottom">
             <ul class="splide__pagination"></ul>

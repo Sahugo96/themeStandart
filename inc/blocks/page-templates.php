@@ -43,7 +43,7 @@ function theme_get_blog_single_block_template(): array
 function theme_get_reviews_page_block_template(): array
 {
     return [
-        ['my-theme/reviews-grid'],
+        ['my-theme/reviews-tiles'],
         ['my-theme/faq'],
     ];
 }

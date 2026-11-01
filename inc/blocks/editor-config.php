@@ -34,17 +34,15 @@ function theme_get_section_blocks_editor_config(): array
 
     return [
         [
-            'name'        => 'my-theme/reviews-grid',
-            'title'       => 'Сетка отзывов',
+            'name'        => 'my-theme/reviews-tiles',
+            'title'       => 'Плитка отзывов',
             'icon'        => 'grid-view',
-            'hint'        => 'Страница отзывов: все отзывы карточками с табами по типам. Заголовок, рейтинг и площадки — из админки: Дефолты блоков → Отзывы',
+            'hint'        => 'Секция «Отзывы» без слайдеров — для страницы отзывов. Если пусто — из админки: Дефолты блоков → Отзывы',
             'color'       => '#2271b1',
             'defaultsKey' => 'reviews',
             'fields'      => [
-                ['attr' => 'title', 'label' => 'Заголовок (пусто — из таба «Отзывы»)', 'type' => 'text'],
-                ['attr' => 'postIds', 'label' => 'Отзывы (пусто — все или выбранные в табе)', 'type' => 'posts', 'postType' => 'review'],
-                ['attr' => 'per_page', 'label' => 'Карточек в табе до «Показать ещё» (пусто — 9)', 'type' => 'number'],
-                ['attr' => 'more_text', 'label' => 'Текст кнопки (пусто — «Показать ещё»)', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                ['attr' => 'postIds', 'label' => 'Отзывы (пусто — выбранные в табе «Отзывы» или все)', 'type' => 'posts', 'postType' => 'review'],
             ],
         ],
         [
