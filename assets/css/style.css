@@ -14818,7 +14818,7 @@ body:has(> #wpadminbar) .header {
       -ms-flex-direction: column;
           flex-direction: column;
   width: 100%;
-  background-color: var(--super-dark-bg-color);
+  background-color: var(--dark-bg-plank-color);
   grid-gap: 4.134vw;
   padding: 4.134vw;
 }
