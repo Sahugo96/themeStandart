@@ -29,6 +29,40 @@ add_filter('wpcf7_form_elements', function ($content) {
 
     $content = str_replace('>Telegram<', '>' . $svg_tg . 'Telegram<', $content);
     $content = str_replace('>Позвонить<', '>' . $svg_tel . 'Позвонить<', $content);
+    $content = str_replace('>Call<', '>' . $svg_tel . 'Call<', $content);
 
     return $content;
 });
+
+/**
+ * Шорткод формы CF7 на текущем языке (Polylang).
+ * На неосновном языке ищется форма с названием «{название} ({язык})», например «Модалка (en)»;
+ * нет такой — выводится исходная форма.
+ *
+ * @param string $id    ID (хеш) исходной формы из шорткода.
+ * @param string $title Название исходной формы.
+ */
+function theme_cf7_shortcode(string $id, string $title): string
+{
+    $lang    = function_exists('pll_current_language') ? (string) pll_current_language('slug') : '';
+    $default = function_exists('pll_default_language') ? (string) pll_default_language('slug') : 'ru';
+
+    if ($lang !== '' && $lang !== $default && post_type_exists('wpcf7_contact_form')) {
+        $lang_title = $title . ' (' . $lang . ')';
+        $ids = get_posts([
+            'post_type'        => 'wpcf7_contact_form',
+            'post_status'      => 'publish',
+            'title'            => $lang_title,
+            'posts_per_page'   => 1,
+            'fields'           => 'ids',
+            'no_found_rows'    => true,
+            'suppress_filters' => true,
+        ]);
+
+        if ($ids) {
+            return sprintf('[contact-form-7 id="%d" title="%s"]', (int) $ids[0], esc_attr($lang_title));
+        }
+    }
+
+    return sprintf('[contact-form-7 id="%s" title="%s"]', esc_attr($id), esc_attr($title));
+}

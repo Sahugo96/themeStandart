@@ -109,7 +109,8 @@ if ($teammate_id > 0 && ($teammate_post = get_post($teammate_id))) {
         <?php endif; ?>
 
         <div class="faq__form form form--dark br-20">
-          <?php echo do_shortcode('[contact-form-7 id="11f8139" title="Телефон"]'); ?>
+          <?php // На английском — форма «Телефон (en)», если создана (theme_cf7_shortcode). ?>
+          <?php echo do_shortcode(theme_cf7_shortcode('11f8139', 'Телефон')); ?>
         </div>
 
         <?php if ($teammate_name !== '' || $faq_phone !== '' || $faq_tg_link !== '') : ?>
