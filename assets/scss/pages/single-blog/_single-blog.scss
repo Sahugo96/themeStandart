@@ -312,11 +312,10 @@
     &--table {
       overflow-x: auto;
       scrollbar-width: none;
+      padding: vw(50px, $mobile) vw(20px, $mobile);
       &::-webkit-scrollbar {
         display: none;
       }
-    
-      padding: vw(50px, $mobile) vw(20px, $mobile);
     
       @media (min-width: $desk) {
         padding: vw(50px, $desktop) vw(20px, $desktop);

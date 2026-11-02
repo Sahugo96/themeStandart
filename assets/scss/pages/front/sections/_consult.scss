@@ -1,12 +1,8 @@
 .consult {
-  // Цвета — из палитры темы.
-  --consult-gold: var(--accent-color);
-  --consult-dark: var(--main-text-color);
   --consult-text: var(--gray-50-color);
   --consult-border: var(--additional-gray-30-color);
   --consult-check: var(--additional-gray-color);
 
-  // Обёртка — как у «Кратко о нас» (about): светлая плашка br-30 с отступом от краёв экрана.
   margin: 0 vw(10px, $mobile);
   @media (min-width: $desk) {
     margin: 0 auto;
@@ -77,7 +73,7 @@
     margin-top: vw(16px, $mobile);
     font-size: vw(14px, $mobile);
     line-height: 1.55;
-    color: var(--consult-text);
+    color: var(--additional-gray-color);
     @media (min-width: $desk) {
       grid-gap: vw(10px, $desktop);
       margin-top: vw(20px, $desktop);
@@ -132,7 +128,7 @@
     border-radius: 999px;
     font-size: vw(14px, $mobile);
     line-height: 1.2;
-    color: var(--consult-dark);
+    color: var(--main-text-color);
     background-color: var(--white-color);
     outline: none;
     transition: border-color 0.3s linear;
@@ -140,7 +136,7 @@
       color: var(--consult-text);
     }
     &:focus {
-      border-color: var(--consult-gold);
+      border-color: var(--accent-color);
     }
     @media (min-width: $desk) {
       padding: vw(16px, $desktop) vw(20px, $desktop);
@@ -165,7 +161,7 @@
     text-transform: uppercase;
     white-space: nowrap;
     color: var(--white-color);
-    background-color: var(--consult-gold);
+    background-color: var(--accent-color);
     cursor: pointer;
     transition: all 0.3s linear;
     @media (min-width: $desk) {
@@ -180,7 +176,7 @@
     }
     @media (any-hover: hover) {
       &:hover {
-        background-color: var(--consult-dark);
+        background-color: var(--main-text-color);
       }
     }
   }
@@ -230,7 +226,7 @@
   }
 
   &__check-input:focus-visible + &__check-box {
-    outline: 2px solid var(--consult-gold);
+    outline: 2px solid var(--accent-color);
     outline-offset: 2px;
   }
 

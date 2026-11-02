@@ -70,7 +70,7 @@ $render_row = static function (array $row) use ($gallery_group): void {
             <?php $head(); $text($row['text']); ?>
           </div>
           <?php if ($image) : ?>
-            <div class="seo-section__media">
+            <div class="seo-section__media br-20">
               <img src="<?= esc_url($image['url']); ?>" alt="<?= esc_attr($image['alt'] ?: $row['title']); ?>" loading="lazy" decoding="async">
             </div>
           <?php endif; ?>

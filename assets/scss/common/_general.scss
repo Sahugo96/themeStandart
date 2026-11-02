@@ -16,6 +16,17 @@ body {
   @media (min-width: $desk_large) {
     font-size: vw(14px, $desktop_large);
   }
+  &:has( > #wpadminbar) {
+    padding-top: 32px;
+    .header {
+      top: 32px;
+      @media (max-width: calc($desk - 1px)) {
+        &.scroll {
+          top: 0;
+        }
+      }
+    }
+  }
 }
 
 body {

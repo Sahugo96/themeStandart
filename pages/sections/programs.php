@@ -52,7 +52,7 @@ $btn_url = (string) $data['btn_url'];
       <?php endif; ?>
     </div>
 
-    <div class="programs__table-wrap">
+    <div class="programs__table-wrap br-30">
       <table class="programs__table">
         <thead>
           <tr>

@@ -206,6 +206,12 @@
 .documents__item-text p + p,
 .consult__text-inner p + p {
   margin-top: vw(8px, $mobile);
+  @media (min-width: $desk) {
+    margin-top: vw(10px, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    margin-top: vw(10px, $desktop_large);
+  }
 }
 
 .process__item-inner em,
