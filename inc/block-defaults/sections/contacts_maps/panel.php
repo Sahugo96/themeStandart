@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $cm = $all['contacts_maps'] ?? array();
 ?>
-<div class="tolstenko-df-panel" data-panel="contacts_maps" data-group="landing">
+<div class="tolstenko-df-panel" data-panel="contacts_maps" data-group="contacts">
 	<div class="row"><input type="text" name="tolstenko_block_defaults[contacts_maps][badge]" value="<?php echo esc_attr( $cm['badge'] ?? '' ); ?>" style="width:100%" placeholder="Надзаголовок (бейдж)"></div>
 	<div class="row"><input type="text" name="tolstenko_block_defaults[contacts_maps][title]" value="<?php echo esc_attr( $cm['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок (HTML, акцент — <span>&hellip;</span>)"></div>
 

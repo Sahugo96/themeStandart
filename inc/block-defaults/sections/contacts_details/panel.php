@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $cdt = $all['contacts_details'] ?? array();
 ?>
-<div class="tolstenko-df-panel" data-panel="contacts_details" data-group="landing">
+<div class="tolstenko-df-panel" data-panel="contacts_details" data-group="contacts">
 	<div class="row"><input type="text" name="tolstenko_block_defaults[contacts_details][badge]" value="<?php echo esc_attr( $cdt['badge'] ?? '' ); ?>" style="width:100%" placeholder="Надзаголовок (бейдж)"></div>
 	<div class="row"><input type="text" name="tolstenko_block_defaults[contacts_details][title]" value="<?php echo esc_attr( $cdt['title'] ?? '' ); ?>" style="width:100%" placeholder="Заголовок (HTML, акцент — <span>&hellip;</span>)"></div>
 

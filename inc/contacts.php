@@ -14,6 +14,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Блоки страницы контактов: в редакторе доступны только на странице с шаблоном
+ * «Contacts page» (theme_allowed_block_types, assets/js/editor-contacts-blocks.js).
+ *
+ * @return string[]
+ */
+function theme_contacts_block_names(): array {
+	return array( 'my-theme/contacts', 'my-theme/contacts-maps', 'my-theme/contacts-details' );
+}
+
+/**
  * ID картинки: число (таб) или {id,url,alt} (блок).
  *
  * @param mixed $value Value.

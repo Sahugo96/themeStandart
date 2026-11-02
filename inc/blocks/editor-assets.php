@@ -135,6 +135,32 @@ function theme_enqueue_block_editor_assets_localized(): void
 add_action('enqueue_block_editor_assets', 'theme_enqueue_block_editor_assets');
 
 /**
+ * Блоки страницы контактов: живое ограничение по шаблону страницы (см. скрипт).
+ */
+function theme_enqueue_contacts_blocks_editor_script(): void
+{
+    $file = get_template_directory() . '/assets/js/editor-contacts-blocks.js';
+
+    if (!is_readable($file) || !function_exists('theme_contacts_block_names')) {
+        return;
+    }
+
+    wp_enqueue_script(
+        'my-theme-editor-contacts-blocks',
+        get_template_directory_uri() . '/assets/js/editor-contacts-blocks.js',
+        ['wp-data', 'wp-blocks', 'wp-editor', 'wp-block-editor'],
+        filemtime($file),
+        true
+    );
+
+    wp_localize_script('my-theme-editor-contacts-blocks', 'themeContactsBlocks', [
+        'names'    => theme_contacts_block_names(),
+        'template' => 'page-contacts.php',
+    ]);
+}
+add_action('enqueue_block_editor_assets', 'theme_enqueue_contacts_blocks_editor_script');
+
+/**
  * Стили превью холста редактора (внутрь iframe, не в админ-оболочку).
  */
 function theme_block_editor_canvas_styles(array $settings): array

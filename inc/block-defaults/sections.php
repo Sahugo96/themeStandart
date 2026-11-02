@@ -67,6 +67,12 @@ function tolstenko_block_defaults_tab_groups() {
 				'europe'     => 'ВНЖ в Европе',
 				'quiz'       => 'Квиз',
 				'seo_section' => 'SEO-наполнение',
+			),
+		),
+		// Секции страницы с шаблоном «Contacts page» (блоки доступны только на ней).
+		'contacts' => array(
+			'title' => 'Страница контактов',
+			'tabs'  => array(
 				'contacts'         => 'Контакты',
 				'contacts_maps'    => 'Карты',
 				'contacts_details' => 'Реквизиты',

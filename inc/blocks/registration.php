@@ -187,6 +187,13 @@ function theme_allowed_block_types($allowed_block_types, $editor_context)
     // Блоки тела статьи на других страницах не нужны.
     $allowed = array_diff($allowed, tolstenko_get_blog_content_block_names());
 
+    // Блоки страницы контактов — только на странице с шаблоном «Contacts page».
+    // При смене шаблона в редакторе список обновляет assets/js/editor-contacts-blocks.js.
+    $is_contacts_page = $post instanceof WP_Post && function_exists('theme_is_contacts_page') && theme_is_contacts_page($post);
+    if (!$is_contacts_page && function_exists('theme_contacts_block_names')) {
+        $allowed = array_diff($allowed, theme_contacts_block_names());
+    }
+
     return array_values(array_unique($allowed));
 }
 add_filter('allowed_block_types_all', 'theme_allowed_block_types', 10, 2);
