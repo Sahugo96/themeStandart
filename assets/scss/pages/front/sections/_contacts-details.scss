@@ -1,0 +1,97 @@
+// Секция «Реквизиты» (pages/sections/contacts-details.php) — страница с шаблоном «Contacts page».
+// Перенесено из tolstenko.marketing (pages/contacts/sections/_details.scss), вид — текущая тема:
+// слева карточка реквизитов (пункты в одну колонку), справа форма — как правая колонка FAQ.
+// Миксин contacts-fluid — из _contacts.scss (подключается раньше, assets/scss/style.scss).
+
+.contacts-details {
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    @include contacts-fluid(grid-gap, 16px, 20px);
+    @media (min-width: $desk) {
+      flex-direction: row;
+      align-items: stretch;
+    }
+  }
+
+  &__info {
+    flex: 1 1 auto;
+    min-width: 0;
+    background-color: var(--dark-bg-plank-color);
+    @include contacts-fluid(padding, 20px, 40px);
+  }
+
+  &__items {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    @include contacts-fluid(grid-gap, 12px, 16px);
+  }
+
+  &__item {
+    border-bottom: 1px solid var(--dark-bg-stoke-color);
+    color: var(--additional-gray-color);
+    @include contacts-fluid(padding-bottom, 12px, 16px);
+    @include contacts-fluid(font-size, 14px, 15px);
+    line-height: 1.5;
+
+    p {
+      margin: 0;
+    }
+    strong,
+    b {
+      display: block;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--light-bg-color);
+      @include contacts-fluid(font-size, 11px, 12px);
+      @include contacts-fluid(margin-bottom, 4px, 6px);
+    }
+    a:not([class]) {
+      color: var(--accent-color);
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--super-dark-bg-color);
+    @include contacts-fluid(grid-gap, 16px, 20px);
+    @include contacts-fluid(padding, 16px, 20px);
+    @media (min-width: $desk) {
+      flex: none;
+      width: vw(430px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      width: vw(430px, $desktop_large);
+    }
+  }
+
+  &__inner--single &__right,
+  &__inner--single &__info {
+    width: 100%;
+  }
+
+  &__right-top {
+    display: flex;
+    flex-direction: column;
+    @include contacts-fluid(grid-gap, 8px, 10px);
+    @include contacts-fluid(padding-top, 4px, 10px);
+    @include contacts-fluid(padding-inline, 4px, 10px);
+  }
+
+  &__form-title {
+    font-family: $Montserrat;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--light-bg-color);
+    @include contacts-fluid(font-size, 18px, 20px);
+  }
+
+  &__form-text {
+    color: var(--additional-gray-color);
+  }
+}

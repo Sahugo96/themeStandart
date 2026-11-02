@@ -13852,12 +13852,10 @@ body:has(> #wpadminbar) .header {
   }
 }
 
-.contacts [data-tab-panel][hidden],
-.contacts-maps [data-tab-panel][hidden] {
+.contacts [data-tab-panel][hidden] {
   display: none !important;
 }
-.contacts .filter__link input,
-.contacts-maps .filter__link input {
+.contacts .filter__link input {
   position: absolute;
   width: 0;
   height: 0;
@@ -13865,8 +13863,7 @@ body:has(> #wpadminbar) .header {
   pointer-events: none;
 }
 
-.contacts__tabs,
-.contacts-maps__tabs {
+.contacts__tabs {
   --filter-panel-bg: var(--super-dark-bg-color);
   --filter-border: var(--dark-bg-stoke-color);
   --filter-color: var(--additional-gray-color);
@@ -13874,20 +13871,17 @@ body:has(> #wpadminbar) .header {
   margin-bottom: 4.134vw;
 }
 @media (min-width: 992px) {
-  .contacts__tabs,
-  .contacts-maps__tabs {
+  .contacts__tabs {
     margin-bottom: 1.563vw;
   }
 }
 @media (min-width: 1441px) {
-  .contacts__tabs,
-  .contacts-maps__tabs {
+  .contacts__tabs {
     margin-bottom: 1.042vw;
   }
 }
 @media (min-width: 992px) {
-  .contacts__tabs,
-  .contacts-maps__tabs {
+  .contacts__tabs {
     width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;
@@ -14293,6 +14287,45 @@ body:has(> #wpadminbar) .header {
      object-fit: cover;
 }
 
+.contacts-maps [data-tab-panel][hidden] {
+  display: none !important;
+}
+.contacts-maps .filter__link input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contacts-maps__tabs {
+  --filter-panel-bg: var(--super-dark-bg-color);
+  --filter-border: var(--dark-bg-stoke-color);
+  --filter-color: var(--additional-gray-color);
+  --filter-active-color: var(--dark-bg-color);
+  margin-bottom: 4.134vw;
+}
+@media (min-width: 992px) {
+  .contacts-maps__tabs {
+    margin-bottom: 1.563vw;
+  }
+}
+@media (min-width: 1441px) {
+  .contacts-maps__tabs {
+    margin-bottom: 1.042vw;
+  }
+}
+@media (min-width: 992px) {
+  .contacts-maps__tabs {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
 .contacts-maps__item {
   overflow: hidden;
   background-color: var(--dark-bg-plank-color);
@@ -14380,11 +14413,6 @@ body:has(> #wpadminbar) .header {
 @media (min-width: 1441px) {
   .contacts-details__items {
     grid-gap: 0.833vw;
-  }
-}
-@media (min-width: 992px) {
-  .contacts-details__items {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 .contacts-details__item {

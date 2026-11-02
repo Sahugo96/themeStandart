@@ -1,7 +1,7 @@
-// Секции страницы контактов: «Контакты» (.contacts), «Карты» (.contacts-maps),
-// «Реквизиты» (.contacts-details) — pages/sections/contacts*.php.
-// Перенесено из tolstenko.marketing (pages/contacts/sections), вид — текущая тема:
-// тёмные карточки br-30, вкладки — общий .filter--tabs, кнопки — default-btn.
+// Секция «Контакты» (pages/sections/contacts.php) — страница с шаблоном «Contacts page».
+// Перенесено из tolstenko.marketing (pages/contacts/sections/_contacts.scss), вид — текущая тема:
+// тёмная карточка контактов br-30, вкладки адресов — общий .filter--tabs (тёмный вариант),
+// кнопки — default-btn, галерея — Splide (фото + миниатюры).
 
 // Размер: мобильный макет / десктоп (то же значение и на $desk_large).
 @mixin contacts-fluid($prop, $m, $d) {
@@ -14,9 +14,8 @@
   }
 }
 
-// Вкладки адресов (общие для «Контактов» и «Карт»).
-.contacts,
-.contacts-maps {
+// Вкладки адресов: панели [data-tab-panel], радио спрятаны (modules/contactsTabs.js).
+.contacts {
   [data-tab-panel][hidden] {
     display: none !important;
   }
@@ -30,8 +29,7 @@
   }
 }
 
-.contacts__tabs,
-.contacts-maps__tabs {
+.contacts__tabs {
   // Тёмные табы — как фильтр «Слайдера услуг».
   --filter-panel-bg: var(--super-dark-bg-color);
   --filter-border: var(--dark-bg-stoke-color);
@@ -46,7 +44,6 @@
   }
 }
 
-// ----- Контакты -----
 .contacts {
   &__panel {
     display: flex;
@@ -226,118 +223,5 @@
       height: 100%;
       object-fit: cover;
     }
-  }
-}
-
-// ----- Карты -----
-.contacts-maps {
-  &__item {
-    overflow: hidden;
-    background-color: var(--dark-bg-plank-color);
-    @include contacts-fluid(height, 320px, 480px);
-
-    iframe {
-      display: block;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-  }
-}
-
-// ----- Реквизиты + форма (форма — как правая колонка FAQ) -----
-.contacts-details {
-  &__inner {
-    display: flex;
-    flex-direction: column;
-    @include contacts-fluid(grid-gap, 16px, 20px);
-    @media (min-width: $desk) {
-      flex-direction: row;
-      align-items: stretch;
-    }
-  }
-
-  &__info {
-    flex: 1 1 auto;
-    min-width: 0;
-    background-color: var(--dark-bg-plank-color);
-    @include contacts-fluid(padding, 20px, 40px);
-  }
-
-  &__items {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    @include contacts-fluid(grid-gap, 12px, 16px);
-    @media (min-width: $desk) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  &__item {
-    border-bottom: 1px solid var(--dark-bg-stoke-color);
-    color: var(--additional-gray-color);
-    @include contacts-fluid(padding-bottom, 12px, 16px);
-    @include contacts-fluid(font-size, 14px, 15px);
-    line-height: 1.5;
-
-    p {
-      margin: 0;
-    }
-    strong,
-    b {
-      display: block;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--light-bg-color);
-      @include contacts-fluid(font-size, 11px, 12px);
-      @include contacts-fluid(margin-bottom, 4px, 6px);
-    }
-    a:not([class]) {
-      color: var(--accent-color);
-    }
-  }
-
-  &__right {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    background-color: var(--super-dark-bg-color);
-    @include contacts-fluid(grid-gap, 16px, 20px);
-    @include contacts-fluid(padding, 16px, 20px);
-    @media (min-width: $desk) {
-      flex: none;
-      width: vw(430px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      width: vw(430px, $desktop_large);
-    }
-  }
-
-  &__inner--single &__right,
-  &__inner--single &__info {
-    width: 100%;
-  }
-
-  &__right-top {
-    display: flex;
-    flex-direction: column;
-    @include contacts-fluid(grid-gap, 8px, 10px);
-    @include contacts-fluid(padding-top, 4px, 10px);
-    @include contacts-fluid(padding-inline, 4px, 10px);
-  }
-
-  &__form-title {
-    font-family: $Montserrat;
-    font-weight: 800;
-    line-height: 1.2;
-    color: var(--light-bg-color);
-    @include contacts-fluid(font-size, 18px, 20px);
-  }
-
-  &__form-text {
-    color: var(--additional-gray-color);
   }
 }
