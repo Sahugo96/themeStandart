@@ -206,7 +206,7 @@ $blog_query = new WP_Query($args);
 
 
   <?php get_template_part('pages/front/sections/faq'); ?>
-  <?php get_template_part('pages/front/sections/consultation-free'); ?>
+  <?php get_template_part('pages/sections/consult'); ?>
 </main>
 
 <?php get_footer(); ?>
