@@ -23,6 +23,7 @@ function theme_get_service_single_block_template(): array
         ['my-theme/documents'],
         ['my-theme/team'],
         ['my-theme/reviews-section'],
+        ['my-theme/seo-section'],
         ['my-theme/faq'],
         ['my-theme/consult'],
     ];
