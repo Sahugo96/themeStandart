@@ -149,6 +149,24 @@ function register_teammate_cpt()
     );
 }
 
+// Polylang показывает в настройках только публичные типы записей и таксономии.
+// «Команда» (teammate) не публичная (нет своих страниц), рубрики блога (blog_cat) регистрируются
+// вне темы — добавляем их в список «Языки → Настройки → Типы записей и таксономии»,
+// включать ли перевод — решается там галочкой ($is_settings = true).
+add_filter('pll_get_post_types', function ($post_types, $is_settings) {
+    if ($is_settings && post_type_exists('teammate')) {
+        $post_types['teammate'] = 'teammate';
+    }
+    return $post_types;
+}, 10, 2);
+
+add_filter('pll_get_taxonomies', function ($taxonomies, $is_settings) {
+    if ($is_settings && taxonomy_exists('blog_cat')) {
+        $taxonomies['blog_cat'] = 'blog_cat';
+    }
+    return $taxonomies;
+}, 10, 2);
+
 add_action('admin_init', function () {
     remove_meta_box('slugdiv', 'service', 'normal');
     remove_meta_box('slugdiv', 'blog', 'normal');
