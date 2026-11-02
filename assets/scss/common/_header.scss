@@ -678,6 +678,76 @@
     justify-content: space-between;
   }
 
+  // Вид мобильного меню под тему: тёмно-синяя карточка (перебиваем серый фон утилиты .br-30,
+  // она в CSS позже), группы разделены линиями, подпункты — с отступом и золотой линией.
+  .header__mobile-inner {
+    background-color: var(--dark-bg-plank-color);
+
+    .header__mobile-nav,
+    .header__mobile-menu {
+      padding-bottom: vw(20px, $mobile);
+      border-bottom: 1px solid var(--dark-bg-stoke-color);
+    }
+
+    .header__nav-list,
+    .header__menu-list {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .header__nav-list {
+      grid-gap: vw(16px, $mobile);
+    }
+
+    .menu-item > a {
+      transition: color 0.3s linear;
+      @media (any-hover: hover) {
+        &:hover {
+          color: var(--light-bg-color);
+        }
+      }
+    }
+
+    .header__menu-list > .menu-item > a {
+      color: var(--light-bg-color);
+    }
+
+    .sub-menu {
+      display: flex;
+      flex-direction: column;
+      grid-gap: vw(10px, $mobile);
+      margin: vw(10px, $mobile) 0 0;
+      padding: 0 0 0 vw(14px, $mobile);
+      border-left: 1px solid var(--accent-20-color);
+      list-style: none;
+
+      a {
+        font-family: $Montserrat;
+        font-size: vw(13px, $mobile);
+        font-weight: 400;
+        letter-spacing: 0;
+        text-transform: none;
+        color: var(--additional-gray-color);
+      }
+    }
+
+    .header__address {
+      flex-direction: column;
+      align-items: flex-start;
+      grid-gap: vw(4px, $mobile);
+      color: var(--additional-gray-color);
+    }
+
+    .header__mobile-bottom {
+      padding-top: vw(20px, $mobile);
+      border-top: 1px solid var(--dark-bg-stoke-color);
+    }
+  }
+
   // ----- Состояния -----
   &.active {
     .header__mobile {

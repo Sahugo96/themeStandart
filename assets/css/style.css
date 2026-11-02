@@ -1824,6 +1824,82 @@ body:has(> #wpadminbar) .header {
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
+.header .header__mobile-inner {
+  background-color: var(--dark-bg-plank-color);
+}
+.header .header__mobile-inner .header__mobile-nav,
+.header .header__mobile-inner .header__mobile-menu {
+  padding-bottom: 5.168vw;
+  border-bottom: 1px solid var(--dark-bg-stoke-color);
+}
+.header .header__mobile-inner .header__nav-list,
+.header .header__mobile-inner .header__menu-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.header .header__mobile-inner .header__nav-list {
+  grid-gap: 4.134vw;
+}
+.header .header__mobile-inner .menu-item > a {
+  -webkit-transition: color 0.3s linear;
+  transition: color 0.3s linear;
+}
+@media (any-hover: hover) {
+  .header .header__mobile-inner .menu-item > a:hover {
+    color: var(--light-bg-color);
+  }
+}
+.header .header__mobile-inner .header__menu-list > .menu-item > a {
+  color: var(--light-bg-color);
+}
+.header .header__mobile-inner .sub-menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  grid-gap: 2.584vw;
+  margin: 2.584vw 0 0;
+  padding: 0 0 0 3.618vw;
+  border-left: 1px solid var(--accent-20-color);
+  list-style: none;
+}
+.header .header__mobile-inner .sub-menu a {
+  font-family: "Montserrat";
+  font-size: 3.359vw;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--additional-gray-color);
+}
+.header .header__mobile-inner .header__address {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  grid-gap: 1.034vw;
+  color: var(--additional-gray-color);
+}
+.header .header__mobile-inner .header__mobile-bottom {
+  padding-top: 5.168vw;
+  border-top: 1px solid var(--dark-bg-stoke-color);
+}
 .header.active .header__mobile {
   opacity: 1;
   pointer-events: all;
