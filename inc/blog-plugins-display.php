@@ -6,7 +6,7 @@ add_action('wp', 'theme_disable_blog_auto_views_likes', 20);
 
 function theme_disable_blog_auto_views_likes(): void
 {
-    if (!is_singular('blog')) {
+    if (!(is_singular('blog') || (function_exists('theme_is_document_page') && is_page() && theme_is_document_page(get_queried_object_id())))) {
         return;
     }
 
@@ -18,7 +18,7 @@ add_filter('pvc_display_views_count', 'theme_hide_blog_post_views_auto_display')
 
 function theme_hide_blog_post_views_auto_display($display)
 {
-    if (is_singular('blog')) {
+    if ((is_singular('blog') || (function_exists('theme_is_document_page') && is_page() && theme_is_document_page(get_queried_object_id())))) {
         return false;
     }
 

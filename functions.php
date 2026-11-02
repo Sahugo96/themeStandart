@@ -36,6 +36,8 @@ require_once get_template_directory() . '/inc/lang-helpers.php';
 require_once get_template_directory() . '/inc/seo-section.php';
 // Страница контактов: секции «Контакты», «Карты», «Реквизиты»
 require_once get_template_directory() . '/inc/contacts.php';
+// «Страница документа»: страница как статья + секция «Это ещё не конец»
+require_once get_template_directory() . '/inc/document-page.php';
 require_once get_template_directory() . '/inc/block-defaults-admin.php';
 require_once get_template_directory() . '/inc/contact-data-admin.php';
 require_once get_template_directory() . '/inc/case-metabox.php';

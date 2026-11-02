@@ -50,6 +50,7 @@ function tolstenko_block_defaults_tab_groups() {
 				'europe'     => 'ВНЖ в Европе',
 				'quiz'       => 'Квиз',
 				'seo_section' => 'SEO-наполнение',
+				'comments_cta' => 'Это ещё не конец',
 			),
 		),
 		'post_sliders' => array(

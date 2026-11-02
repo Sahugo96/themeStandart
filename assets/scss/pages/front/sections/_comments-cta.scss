@@ -1,0 +1,145 @@
+// Секция «Это ещё не конец» (pages/sections/comments-cta.php) — плашка-приглашение
+// к комментариям на странице документа. Вид — текущая тема: тёмная карточка с золотой
+// рамкой; на десктопе в строку: иконка + заголовок | текст | декор | кнопка.
+
+// Размер: мобильный макет / десктоп (то же значение и на $desk_large).
+@mixin cta-fluid($prop, $m, $d) {
+  #{$prop}: vw($m, $mobile);
+  @media (min-width: $desk) {
+    #{$prop}: vw($d, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    #{$prop}: vw($d, $desktop_large);
+  }
+}
+
+.comments-cta {
+  &__card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--accent-20-color);
+    background-color: var(--dark-bg-plank-color);
+    @include cta-fluid(padding, 20px, 36px);
+    @include cta-fluid(grid-gap, 16px, 24px);
+    @media (min-width: $desk) {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto auto;
+      align-items: center;
+    }
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    @include cta-fluid(grid-gap, 14px, 24px);
+  }
+
+  &__icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--accent-color);
+    border-radius: 50%;
+    color: var(--accent-color);
+    background-color: var(--super-dark-bg-color);
+    @include cta-fluid(width, 52px, 64px);
+    @include cta-fluid(height, 52px, 64px);
+
+    svg {
+      fill: currentColor;
+      @include cta-fluid(width, 22px, 26px);
+      @include cta-fluid(height, 22px, 26px);
+    }
+  }
+
+  &__title {
+    font-family: $Montserrat;
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--light-bg-color);
+    @include cta-fluid(font-size, 17px, 18px);
+
+    span {
+      color: var(--accent-color);
+    }
+  }
+
+  &__text {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--additional-gray-color);
+    @include cta-fluid(font-size, 14px, 14px);
+  }
+
+  // Декор: два «аватара» и две «реплики» в шахматном порядке.
+  &__decor {
+    display: none;
+    @media (min-width: $desk) {
+      display: grid;
+      grid-template-columns: auto auto;
+      align-items: center;
+      grid-gap: vw(8px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(8px, $desktop_large);
+    }
+  }
+
+  &__avatar {
+    border: 2px solid var(--dark-bg-stoke-color);
+    border-radius: 50%;
+    @include cta-fluid(width, 44px, 40px);
+    @include cta-fluid(height, 44px, 40px);
+
+    &--1 {
+      justify-self: end;
+      background: linear-gradient(135deg, #2e4a63, #1b2d3d);
+    }
+    &--2 {
+      background: linear-gradient(135deg, var(--accent-color), #7a6440);
+    }
+  }
+
+  &__bubble {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--dark-bg-stoke-color);
+    background-color: var(--super-dark-bg-color);
+    @include cta-fluid(width, 110px, 92px);
+    @include cta-fluid(height, 46px, 40px);
+    @include cta-fluid(padding-inline, 14px, 14px);
+    @include cta-fluid(grid-gap, 6px, 7px);
+    @include cta-fluid(border-radius, 14px, 14px);
+
+    i {
+      display: block;
+      border-radius: 99px;
+      background-color: var(--dark-bg-stoke-color);
+      @include cta-fluid(height, 5px, 5px);
+
+      &:last-child {
+        width: 60%;
+      }
+    }
+  }
+
+  &__btn {
+    @media (min-width: $desk) {
+      width: auto;
+      white-space: nowrap;
+    }
+
+    svg {
+      flex: none;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      @include cta-fluid(width, 18px, 18px);
+      @include cta-fluid(height, 18px, 18px);
+    }
+  }
+}

@@ -13,7 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $post_id = (int) get_the_ID();
-if ( ! $post_id || get_post_type( $post_id ) !== 'blog' ) {
+// Статья или страница документа.
+$is_article_like = function_exists( 'theme_is_article_like' ) ? theme_is_article_like( $post_id ) : get_post_type( $post_id ) === 'blog';
+if ( ! $post_id || ! $is_article_like ) {
 	return;
 }
 

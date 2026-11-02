@@ -105,9 +105,11 @@ function tolstenko_comment_queue_is_valid_target( $post_id ) {
 	if ( ! $post_id ) {
 		return false;
 	}
-	$pt = get_post_type( $post_id );
-	// Кейсы без комментариев.
-	return in_array( (string) $pt, array( 'blog' ), true );
+	// Статьи и страницы документов (шаблон «Страница документа»); кейсы без комментариев.
+	if ( function_exists( 'theme_is_article_like' ) ) {
+		return theme_is_article_like( $post_id );
+	}
+	return get_post_type( $post_id ) === 'blog';
 }
 
 /**

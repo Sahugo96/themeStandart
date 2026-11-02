@@ -34,6 +34,20 @@ function theme_get_section_blocks_editor_config(): array
 
     return [
         [
+            'name'        => 'my-theme/comments-cta',
+            'title'       => 'Это ещё не конец',
+            'icon'        => 'format-chat',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → Это ещё не конец. Пустая ссылка — к комментариям (#comments)',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'comments_cta',
+            'fields'      => [
+                ['attr' => 'title', 'label' => 'Заголовок (HTML: <br>, <span> — золотая строка)', 'type' => 'textarea'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                ['attr' => 'btn_text', 'label' => 'Текст кнопки', 'type' => 'text'],
+                ['attr' => 'btn_url', 'label' => 'Ссылка кнопки (пусто = #comments)', 'type' => 'text'],
+            ],
+        ],
+        [
             'name'        => 'my-theme/contacts',
             'title'       => 'Контакты',
             'icon'        => 'location',

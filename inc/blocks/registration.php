@@ -93,6 +93,7 @@ function theme_get_block_category_map(): array
         'reviews-section'        => 'tolstenko-reviews',
         'reviews-tiles'          => 'tolstenko-reviews',
         'contacts'               => 'tolstenko-general',
+        'comments-cta'           => 'tolstenko-general',
         'contacts-maps'          => 'tolstenko-general',
         'contacts-details'       => 'tolstenko-general',
         'reviews-slider'         => 'tolstenko-reviews',
@@ -180,7 +181,8 @@ function theme_allowed_block_types($allowed_block_types, $editor_context)
     // В статье редактируется только тело: текст и блоки «Статья: …».
     $post = isset($editor_context->post) ? $editor_context->post : null;
 
-    if ($post instanceof WP_Post && $post->post_type === 'blog') {
+    // Так же — на странице документа (шаблон «Страница документа», inc/document-page.php).
+    if ($post instanceof WP_Post && ($post->post_type === 'blog' || (function_exists('theme_is_document_page') && theme_is_document_page($post)))) {
         return tolstenko_get_blog_content_inner_blocks();
     }
 
