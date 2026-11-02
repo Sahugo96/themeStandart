@@ -58,14 +58,13 @@ $has_tabs = count(array_filter($addresses, static function ($a) {
     <?php endif; ?>
 
     <?php if ($has_tabs) : ?>
-      <div class="contacts__tabs filter filter--tabs">
-        <div class="contacts__labels filter__form" role="tablist">
+      <div class="contacts__tabs filter filter--tabs filter--dark">
+        <div class="filter__form" role="tablist">
           <?php foreach ($addresses as $index => $addr) : ?>
             <?php if ($addr['address'] === '') continue; ?>
-            <label class="contacts__label filter__link">
-              <input type="radio" name="contacts-<?= (int) $uid; ?>" value="<?= (int) $index; ?>" data-tab-index="<?= (int) $index; ?>"<?= $index === 0 ? ' checked' : ''; ?>>
+            <button class="filter__link<?= $index === 0 ? ' active' : ''; ?>" type="button" role="tab" aria-selected="<?= $index === 0 ? 'true' : 'false'; ?>" data-tab-index="<?= (int) $index; ?>">
               <span class="filter__label"><?= esc_html($addr['address']); ?></span>
-            </label>
+            </button>
           <?php endforeach; ?>
         </div>
       </div>

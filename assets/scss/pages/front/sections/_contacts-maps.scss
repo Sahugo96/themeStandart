@@ -3,26 +3,15 @@
 // вкладки адресов — общий .filter--tabs (тёмный вариант), карта — iframe в тёмной карточке br-30.
 // Миксин contacts-fluid — из _contacts.scss (подключается раньше, assets/scss/style.scss).
 
-// Вкладки адресов: панели [data-tab-panel], радио спрятаны (modules/contactsTabs.js).
+// Вкладки адресов: кнопки .filter__link → панели [data-tab-panel] (modules/contactsTabs.js).
 .contacts-maps {
   [data-tab-panel][hidden] {
     display: none !important;
   }
-
-  .filter__link input {
-    position: absolute;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    pointer-events: none;
-  }
 }
 
 .contacts-maps__tabs {
-  // Тёмные табы — как фильтр «Слайдера услуг».
-  --filter-panel-bg: var(--super-dark-bg-color);
-  --filter-border: var(--dark-bg-stoke-color);
-  --filter-color: var(--additional-gray-color);
+  // Цвета — общий тёмный вариант .filter--tabs.filter--dark, как у фильтра «Слайдера услуг».
   --filter-active-color: var(--dark-bg-color);
   @include contacts-fluid(margin-bottom, 16px, 20px);
   @media (min-width: $desk) {

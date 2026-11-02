@@ -14183,18 +14183,8 @@ body:has(> #wpadminbar) .header {
 .contacts [data-tab-panel][hidden] {
   display: none !important;
 }
-.contacts .filter__link input {
-  position: absolute;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  pointer-events: none;
-}
 
 .contacts__tabs {
-  --filter-panel-bg: var(--super-dark-bg-color);
-  --filter-border: var(--dark-bg-stoke-color);
-  --filter-color: var(--additional-gray-color);
   --filter-active-color: var(--dark-bg-color);
   margin-bottom: 4.134vw;
 }
@@ -14618,18 +14608,8 @@ body:has(> #wpadminbar) .header {
 .contacts-maps [data-tab-panel][hidden] {
   display: none !important;
 }
-.contacts-maps .filter__link input {
-  position: absolute;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  pointer-events: none;
-}
 
 .contacts-maps__tabs {
-  --filter-panel-bg: var(--super-dark-bg-color);
-  --filter-border: var(--dark-bg-stoke-color);
-  --filter-color: var(--additional-gray-color);
   --filter-active-color: var(--dark-bg-color);
   margin-bottom: 4.134vw;
 }

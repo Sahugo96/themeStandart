@@ -53,13 +53,12 @@ $has_tabs = count($items) > 1;
     <?php endif; ?>
 
     <?php if ($has_tabs) : ?>
-      <div class="contacts-maps__tabs filter filter--tabs">
-        <div class="contacts-maps__labels filter__form" role="tablist">
+      <div class="contacts-maps__tabs filter filter--tabs filter--dark">
+        <div class="filter__form" role="tablist">
           <?php foreach ($items as $index => $item) : ?>
-            <label class="contacts-maps__label filter__link">
-              <input type="radio" name="contacts-maps-<?= (int) $uid; ?>" value="<?= (int) $index; ?>" data-tab-index="<?= (int) $index; ?>"<?= $index === 0 ? ' checked' : ''; ?>>
+            <button class="filter__link<?= $index === 0 ? ' active' : ''; ?>" type="button" role="tab" aria-selected="<?= $index === 0 ? 'true' : 'false'; ?>" data-tab-index="<?= (int) $index; ?>">
               <span class="filter__label"><?= esc_html($item['address'] !== '' ? $item['address'] : 'Адрес ' . ($index + 1)); ?></span>
-            </label>
+            </button>
           <?php endforeach; ?>
         </div>
       </div>

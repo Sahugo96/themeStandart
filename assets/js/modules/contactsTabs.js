@@ -1,5 +1,5 @@
 // Вкладки адресов секций «Контакты» и «Карты» (pages/sections/contacts*.php):
-// радио [data-tab-index] показывает панель [data-tab-panel] того же индекса.
+// кнопка .filter__link[data-tab-index] показывает панель [data-tab-panel] того же индекса.
 // В «Контактах» в панели — галерея Splide (фото + миниатюры), монтируется,
 // когда панель впервые становится видимой (в скрытой Splide не меряет размеры).
 
@@ -68,14 +68,20 @@ document.querySelectorAll('[data-contacts-tabs]').forEach((root) => {
     });
   };
 
-  root.querySelectorAll('input[data-tab-index]').forEach((radio) => {
-    radio.addEventListener('change', () => {
-      if (radio.checked) {
-        show(radio.dataset.tabIndex);
-      }
+  // Вкладки — кнопки .filter__link (как фильтр «Слайдера услуг»), активная — .active.
+  const tabs = root.querySelectorAll('.filter__link[data-tab-index]');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((other) => {
+        const active = other === tab;
+        other.classList.toggle('active', active);
+        other.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      show(tab.dataset.tabIndex);
     });
   });
 
-  const checked = root.querySelector('input[data-tab-index]:checked');
-  show(checked ? checked.dataset.tabIndex : (panels[0] ? panels[0].dataset.tabPanel : 0));
+  const current = root.querySelector('.filter__link.active[data-tab-index]');
+  show(current ? current.dataset.tabIndex : (panels[0] ? panels[0].dataset.tabPanel : 0));
 });
