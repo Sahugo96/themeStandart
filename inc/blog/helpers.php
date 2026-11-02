@@ -450,9 +450,9 @@ function tolstenko_append_blog_comment( $post_id, array $item, $parent_id = '' )
 }
 
 /**
- * Автор статьи для шапки и сайдбара.
- * Приоритет: выбранный в записи → главный автор (Настройки сайта → Авторы статей)
- * → ACF-опции director_* (как было в теме раньше).
+ * Автор статьи для шапки и сайдбара — член команды (inc/blog/authors-admin.php).
+ * Приоритет: выбранный в записи (blog_author_id) → автор по умолчанию (Настройки сайта →
+ * Авторы статей) → первый член команды по порядку.
  *
  * @param int $post_id Post ID.
  * @return array{photo:int,name:string,title:string,description:string,show_quest:bool}
@@ -462,15 +462,11 @@ function tolstenko_get_single_blog_director( $post_id = 0 ) {
 	$quest_raw  = get_post_meta( $post_id, 'single-blog_quest', true );
 	$show_quest = ( $quest_raw === '' || (string) $quest_raw === '1' );
 
-	$author = null;
-	$index  = get_post_meta( $post_id, 'blog_author', true );
-	if ( $index !== '' && $index !== false ) {
-		$author = tolstenko_get_blog_author_by_index( $index );
+	// Автор — член команды, выбранный в статье (blog_author_id), иначе автор по умолчанию.
+	$person = tolstenko_blog_teammate_to_person( (int) get_post_meta( $post_id, 'blog_author_id', true ) );
+	if ( ! $person ) {
+		$person = tolstenko_get_blog_default_author();
 	}
-
-	$person = is_array( $author )
-		? tolstenko_blog_author_to_person( $author )
-		: tolstenko_get_blog_default_author();
 
 	$person['show_quest'] = $show_quest;
 
@@ -478,42 +474,19 @@ function tolstenko_get_single_blog_director( $post_id = 0 ) {
 }
 
 /**
- * Строка автора из настроек → данные для вывода.
- *
- * @param array $author Author row.
- * @return array{photo:int,name:string,title:string,description:string}
- */
-function tolstenko_blog_author_to_person( array $author ) {
-	$title = trim( (string) ( $author['job_title'] ?? '' ) );
-	if ( $title === '' ) {
-		$title = trim( (string) ( $author['position'] ?? '' ) );
-	}
-
-	return array(
-		'photo'       => (int) ( $author['photo'] ?? 0 ),
-		'name'        => trim( (string) ( $author['name'] ?? '' ) ),
-		'title'       => $title,
-		'description' => trim( (string) ( $author['description'] ?? '' ) ),
-	);
-}
-
-/**
- * Автор по умолчанию (сетка статей, статьи без выбранного автора):
- * главный автор → «директор» из ACF-опций темы (как было раньше).
+ * Автор по умолчанию (сетка статей, статьи без выбранного автора): член команды из
+ * «Настройки сайта → Авторы статей», иначе первый член команды по порядку.
  *
  * @return array{photo:int,name:string,title:string,description:string}
  */
 function tolstenko_get_blog_default_author() {
-	$main = tolstenko_get_blog_main_author();
-	if ( is_array( $main ) ) {
-		return tolstenko_blog_author_to_person( $main );
-	}
+	$person = tolstenko_blog_teammate_to_person( tolstenko_get_blog_default_author_id() );
 
-	return array(
-		'photo'       => tolstenko_block_image_id( theme_get_field( 'director_photo', OPTION_ID ) ),
-		'name'        => trim( wp_strip_all_tags( (string) theme_get_field( 'director_name', OPTION_ID ) ) ),
+	return $person ? $person : array(
+		'photo'       => 0,
+		'name'        => '',
 		'title'       => '',
-		'description' => trim( (string) theme_get_field( 'director_text', OPTION_ID ) ),
+		'description' => '',
 	);
 }
 

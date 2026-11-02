@@ -142,16 +142,19 @@ function handle_blog_page_filter() {
           </article>
 
 
-          <?php if ($index) { 
-            $photo = theme_get_field('director_photo', OPTION_ID);
-            $photo = Image::get_image_attrs($photo);
+          <?php if ($index) {
+            // Автор — член команды по умолчанию (Настройки сайта → Авторы статей).
+            $author = tolstenko_get_blog_default_author();
+            $photo = $author['photo'] ? tolstenko_get_image_attrs($author['photo'], 'medium') : null;
             ?>
             <div class="blog-section__right-wrapper">
-              <img class="blog-section__right-photo lazyload--js" src="<?= $photo['url']; ?>" alt="<?= $photo['alt']; ?>">
+              <?php if ($photo) : ?>
+                <img class="blog-section__right-photo" src="<?= esc_url($photo['url']); ?>" alt="<?= esc_attr($photo['alt'] !== '' ? $photo['alt'] : $author['name']); ?>" loading="lazy" decoding="async">
+              <?php endif; ?>
 
-              <div class="blog-section__right-name line-caps-bold-13-15"><?= theme_get_field('director_name', OPTION_ID) ?></div>
+              <div class="blog-section__right-name line-caps-bold-13-15"><?= esc_html($author['name']); ?></div>
 
-              <div class="blog-section__right-text paragraph-15-25"><?= theme_get_field('director_text', OPTION_ID) ?></div>
+              <div class="blog-section__right-text paragraph-15-25"><?= esc_html($author['description']); ?></div>
 
               <?php get_template_part('modules/socials/socials-rgb'); ?>
 

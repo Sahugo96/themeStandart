@@ -74,7 +74,9 @@ function tolstenko_blog_article_render_metabox( $post ) {
 	$text      = (string) tolstenko_blog_meta( $post->ID, 'single-blog_text', '' );
 	$quest     = (string) tolstenko_blog_meta( $post->ID, 'single-blog_quest', '1' );
 	$quest     = ( $quest === '1' ) ? '1' : '0';
-	$author    = (string) tolstenko_blog_meta( $post->ID, 'blog_author', '' );
+	$author    = (int) get_post_meta( $post->ID, 'blog_author_id', true );
+	// Список членов команды — на языке записи (Polylang), без языка — все.
+	$author_lang = function_exists( 'pll_get_post_language' ) ? (string) pll_get_post_language( $post->ID, 'slug' ) : '';
 	$comments  = tolstenko_blog_ensure_post_comment_ids( $post->ID );
 	?>
 	<style>
@@ -121,12 +123,13 @@ function tolstenko_blog_article_render_metabox( $post ) {
 				tolstenko_render_blog_author_select(
 					'tolstenko_blog_author',
 					$author,
-					__( 'Главный автор (по умолчанию)', 'tolstenko-theme' ),
+					__( 'Автор по умолчанию', 'tolstenko-theme' ),
+					$author_lang,
 					'tolstenko_blog_author'
 				);
 				?>
 				<br><span class="description">
-					<?php esc_html_e( 'Список авторов:', 'tolstenko-theme' ); ?>
+					<?php esc_html_e( 'Авторы — члены команды. Автор по умолчанию:', 'tolstenko-theme' ); ?>
 					<a href="<?php echo esc_url( admin_url( 'admin.php?page=tolstenko-blog-authors' ) ); ?>">
 						<?php esc_html_e( 'Настройки сайта → Авторы статей', 'tolstenko-theme' ); ?>
 					</a>
@@ -358,9 +361,15 @@ function tolstenko_blog_article_save_metabox( $post_id, $post ) {
 	update_post_meta( $post_id, 'single-blog_quest', ! empty( $_POST['tolstenko_single_blog_quest'] ) ? '1' : '0' );
 
 	$author = isset( $_POST['tolstenko_blog_author'] )
-		? sanitize_text_field( wp_unslash( $_POST['tolstenko_blog_author'] ) )
-		: '';
-	update_post_meta( $post_id, 'blog_author', $author );
+		? absint( $_POST['tolstenko_blog_author'] )
+		: 0;
+	// Автор — ID члена команды (пусто — автор по умолчанию). Старый номер из прежнего
+	// списка авторов (blog_author) больше не используется.
+	if ( $author > 0 && get_post_type( $author ) === 'teammate' ) {
+		update_post_meta( $post_id, 'blog_author_id', $author );
+	} else {
+		delete_post_meta( $post_id, 'blog_author_id' );
+	}
 
 	$comments_raw = isset( $_POST['tolstenko_blog_comments'] ) && is_array( $_POST['tolstenko_blog_comments'] )
 		? wp_unslash( $_POST['tolstenko_blog_comments'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized below.
