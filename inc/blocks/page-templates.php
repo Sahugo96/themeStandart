@@ -43,8 +43,11 @@ function theme_get_blog_single_block_template(): array
 function theme_get_reviews_page_block_template(): array
 {
     return [
-        ['my-theme/reviews-section'],
-        ['my-theme/faq'],
+        ['my-theme/breadcrumbs'],
+        ['my-theme/main-hero'],
+        ['my-theme/reviews-tiles'],
+        ['my-theme/quiz'],
+        ['my-theme/consult'],
     ];
 }
 
@@ -53,6 +56,42 @@ function theme_is_reviews_page(WP_Post $post): bool
     return $post->post_type === 'page' && get_page_template_slug($post) === 'page-reviews.php';
 }
 
+
+/**
+ * Текстовая страница (шаблон «Text page», page-text.php).
+ */
+function theme_get_text_page_block_template(): array
+{
+    return [
+        ['my-theme/breadcrumbs'],
+        ['my-theme/main-hero'],
+        ['my-theme/seo-section'],
+        ['my-theme/consult'],
+    ];
+}
+
+function theme_is_text_page(WP_Post $post): bool
+{
+    return $post->post_type === 'page' && get_page_template_slug($post) === 'page-text.php';
+}
+
+/**
+ * Страница контактов (шаблон «Contacts page», page-contacts.php).
+ */
+function theme_get_contacts_page_block_template(): array
+{
+    return [
+        ['my-theme/breadcrumbs'],
+        ['my-theme/contacts'],
+        ['my-theme/contacts-maps'],
+        ['my-theme/contacts-details'],
+    ];
+}
+
+function theme_is_contacts_page(WP_Post $post): bool
+{
+    return $post->post_type === 'page' && get_page_template_slug($post) === 'page-contacts.php';
+}
 
 function theme_get_service_archive_block_template(): array
 {
@@ -73,8 +112,9 @@ function theme_is_service_archive_page(WP_Post $post): bool
 function theme_get_blog_archive_block_template(): array
 {
     return [
-        ['my-theme/blog-grid'],
-        ['my-theme/faq'],
+        ['my-theme/breadcrumbs'],
+        ['my-theme/main-hero'],
+        ['my-theme/blog-tiles'],
     ];
 }
 
@@ -171,6 +211,12 @@ function theme_filter_page_block_editor_settings(array $settings, $context): arr
         $settings['templateLock'] = false;
     } elseif (theme_is_reviews_page($post)) {
         $settings['template'] = theme_get_reviews_page_block_template();
+        $settings['templateLock'] = false;
+    } elseif (theme_is_text_page($post)) {
+        $settings['template'] = theme_get_text_page_block_template();
+        $settings['templateLock'] = false;
+    } elseif (theme_is_contacts_page($post)) {
+        $settings['template'] = theme_get_contacts_page_block_template();
         $settings['templateLock'] = false;
     }
 

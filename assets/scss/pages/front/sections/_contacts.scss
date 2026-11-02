@@ -1,0 +1,343 @@
+// Секции страницы контактов: «Контакты» (.contacts), «Карты» (.contacts-maps),
+// «Реквизиты» (.contacts-details) — pages/sections/contacts*.php.
+// Перенесено из tolstenko.marketing (pages/contacts/sections), вид — текущая тема:
+// тёмные карточки br-30, вкладки — общий .filter--tabs, кнопки — default-btn.
+
+// Размер: мобильный макет / десктоп (то же значение и на $desk_large).
+@mixin contacts-fluid($prop, $m, $d) {
+  #{$prop}: vw($m, $mobile);
+  @media (min-width: $desk) {
+    #{$prop}: vw($d, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    #{$prop}: vw($d, $desktop_large);
+  }
+}
+
+// Вкладки адресов (общие для «Контактов» и «Карт»).
+.contacts,
+.contacts-maps {
+  [data-tab-panel][hidden] {
+    display: none !important;
+  }
+
+  .filter__link input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.contacts__tabs,
+.contacts-maps__tabs {
+  // Тёмные табы — как фильтр «Слайдера услуг».
+  --filter-panel-bg: var(--super-dark-bg-color);
+  --filter-border: var(--dark-bg-stoke-color);
+  --filter-color: var(--additional-gray-color);
+  --filter-active-color: var(--dark-bg-color);
+  @include contacts-fluid(margin-bottom, 16px, 20px);
+  @media (min-width: $desk) {
+    width: fit-content;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+// ----- Контакты -----
+.contacts {
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    @include contacts-fluid(grid-gap, 16px, 20px);
+    @media (min-width: $desk) {
+      display: grid;
+      grid-template-columns: vw(480px, $desktop) minmax(0, 1fr);
+      align-items: stretch;
+    }
+    @media (min-width: $desk_large) {
+      grid-template-columns: vw(480px, $desktop_large) minmax(0, 1fr);
+    }
+  }
+
+  &__panel--no-media {
+    @media (min-width: $desk) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--dark-bg-plank-color);
+    @include contacts-fluid(padding, 20px, 40px);
+    @include contacts-fluid(grid-gap, 24px, 30px);
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--dark-bg-stoke-color);
+    @include contacts-fluid(grid-gap, 14px, 16px);
+    @include contacts-fluid(padding-block, 14px, 18px);
+
+    &:first-child {
+      padding-top: 0;
+    }
+    &:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+  }
+
+  &__item-icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--super-dark-bg-color);
+    @include contacts-fluid(width, 40px, 44px);
+    @include contacts-fluid(height, 40px, 44px);
+
+    img {
+      object-fit: contain;
+      @include contacts-fluid(width, 20px, 22px);
+      @include contacts-fluid(height, 20px, 22px);
+    }
+  }
+
+  &__item-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    @include contacts-fluid(grid-gap, 4px, 6px);
+  }
+
+  &__item-title {
+    font-weight: 600;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--additional-gray-color);
+    @include contacts-fluid(font-size, 11px, 12px);
+    @include contacts-fluid(margin-bottom, 2px, 2px);
+  }
+
+  &__item-link,
+  &__item-text {
+    font-family: $Montserrat;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--light-bg-color);
+    overflow-wrap: anywhere;
+    @include contacts-fluid(font-size, 15px, 17px);
+  }
+
+  &__item-link {
+    transition: color 0.3s linear;
+    @media (any-hover: hover) {
+      &:hover {
+        color: var(--accent-color);
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    @include contacts-fluid(grid-gap, 10px, 12px);
+  }
+
+  &__btn {
+    svg {
+      flex: none;
+      fill: currentColor;
+      @include contacts-fluid(width, 18px, 18px);
+      @include contacts-fluid(height, 18px, 18px);
+    }
+  }
+
+  // Галерея: фото + миниатюры (Splide).
+  &__gallery {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    @include contacts-fluid(grid-gap, 10px, 12px);
+  }
+
+  &__gallery-main {
+    flex: 1 1 auto;
+    min-height: 0;
+
+    .splide__track,
+    .splide__list {
+      height: 100%;
+    }
+  }
+
+  &__gallery-slide {
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background-color: var(--dark-bg-plank-color);
+    @media (min-width: $desk) {
+      aspect-ratio: auto;
+      height: 100%;
+      min-height: vw(460px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      min-height: vw(460px, $desktop_large);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__gallery-thumb {
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid transparent;
+    opacity: 0.55;
+    transition: opacity 0.3s linear, border-color 0.3s linear;
+    @include contacts-fluid(border-radius, 10px, 12px);
+
+    &.is-active {
+      border-color: var(--accent-color);
+      opacity: 1;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+// ----- Карты -----
+.contacts-maps {
+  &__item {
+    overflow: hidden;
+    background-color: var(--dark-bg-plank-color);
+    @include contacts-fluid(height, 320px, 480px);
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+}
+
+// ----- Реквизиты + форма (форма — как правая колонка FAQ) -----
+.contacts-details {
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    @include contacts-fluid(grid-gap, 16px, 20px);
+    @media (min-width: $desk) {
+      flex-direction: row;
+      align-items: stretch;
+    }
+  }
+
+  &__info {
+    flex: 1 1 auto;
+    min-width: 0;
+    background-color: var(--dark-bg-plank-color);
+    @include contacts-fluid(padding, 20px, 40px);
+  }
+
+  &__items {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    @include contacts-fluid(grid-gap, 12px, 16px);
+    @media (min-width: $desk) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__item {
+    border-bottom: 1px solid var(--dark-bg-stoke-color);
+    color: var(--additional-gray-color);
+    @include contacts-fluid(padding-bottom, 12px, 16px);
+    @include contacts-fluid(font-size, 14px, 15px);
+    line-height: 1.5;
+
+    p {
+      margin: 0;
+    }
+    strong,
+    b {
+      display: block;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--light-bg-color);
+      @include contacts-fluid(font-size, 11px, 12px);
+      @include contacts-fluid(margin-bottom, 4px, 6px);
+    }
+    a:not([class]) {
+      color: var(--accent-color);
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--super-dark-bg-color);
+    @include contacts-fluid(grid-gap, 16px, 20px);
+    @include contacts-fluid(padding, 16px, 20px);
+    @media (min-width: $desk) {
+      flex: none;
+      width: vw(430px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      width: vw(430px, $desktop_large);
+    }
+  }
+
+  &__inner--single &__right,
+  &__inner--single &__info {
+    width: 100%;
+  }
+
+  &__right-top {
+    display: flex;
+    flex-direction: column;
+    @include contacts-fluid(grid-gap, 8px, 10px);
+    @include contacts-fluid(padding-top, 4px, 10px);
+    @include contacts-fluid(padding-inline, 4px, 10px);
+  }
+
+  &__form-title {
+    font-family: $Montserrat;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--light-bg-color);
+    @include contacts-fluid(font-size, 18px, 20px);
+  }
+
+  &__form-text {
+    color: var(--additional-gray-color);
+  }
+}

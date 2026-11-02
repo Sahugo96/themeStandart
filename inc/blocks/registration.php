@@ -72,6 +72,7 @@ function theme_get_block_category_map(): array
         'single-blog'            => 'tolstenko-blog',
         'blog-related'           => 'tolstenko-blog',
         'blog-grid'              => 'tolstenko-blog',
+        'blog-tiles'             => 'tolstenko-blog',
         'blog-large-img'         => 'tolstenko-blog',
         'blog-video'             => 'tolstenko-blog',
         'blog-blockquote'        => 'tolstenko-blog',
@@ -90,6 +91,10 @@ function theme_get_block_category_map(): array
 
         // Отзывы
         'reviews-section'        => 'tolstenko-reviews',
+        'reviews-tiles'          => 'tolstenko-reviews',
+        'contacts'               => 'tolstenko-general',
+        'contacts-maps'          => 'tolstenko-general',
+        'contacts-details'       => 'tolstenko-general',
         'reviews-slider'         => 'tolstenko-reviews',
     ];
 }

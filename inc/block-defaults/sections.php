@@ -67,6 +67,9 @@ function tolstenko_block_defaults_tab_groups() {
 				'europe'     => 'ВНЖ в Европе',
 				'quiz'       => 'Квиз',
 				'seo_section' => 'SEO-наполнение',
+				'contacts'         => 'Контакты',
+				'contacts_maps'    => 'Карты',
+				'contacts_details' => 'Реквизиты',
 			),
 		),
 	);

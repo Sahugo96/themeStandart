@@ -72,6 +72,18 @@
     }
   }
 
+  // Заголовки — цели ссылок «Содержания статьи»: не прятать под фиксированной шапкой
+  // (её высота — отступ .main, common/_general.scss) + небольшой зазор.
+  &__content-contents :is(h2, h3)[id] {
+    scroll-margin-top: vw(120px, $mobile);
+    @media (min-width: $desk) {
+      scroll-margin-top: vw(180px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      scroll-margin-top: vw(180px, $desktop_large);
+    }
+  }
+
   // Оглавление: показываем первые пункты, остальное — по кнопке-стрелке.
   &__content-article {
     position: relative;

@@ -1,0 +1,95 @@
+// Секция «Плитка статей» (pages/sections/blog-tiles.php) — копия «Статей»
+// (_blog-section-slider.scss, общий data-card="blog_slider": шапка и карточка те же)
+// без слайдера: все карточки одинаковые — фото сверху, текст снизу —
+// в плитке .blog-section__tiles: 3 в ряд с переносом (на мобильных — 1), под ней пагинация.
+.blog-section.blog-tiles[data-card="blog_slider"] {
+  --blog-tiles-gap: #{vw(16px, $mobile)};
+  @media (min-width: $desk) {
+    --blog-tiles-gap: #{vw(20px, $desktop)};
+  }
+  @media (min-width: $desk_large) {
+    --blog-tiles-gap: #{vw(20px, $desktop_large)};
+  }
+
+  .blog-section__tiles {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: var(--blog-tiles-gap);
+  }
+
+  .blog-card {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    @media (min-width: $desk) {
+      flex-basis: calc((100% - 2 * var(--blog-tiles-gap)) / 3);
+      width: calc((100% - 2 * var(--blog-tiles-gap)) / 3);
+    }
+  }
+
+  .blog-card__link {
+    width: 100%;
+    flex-direction: column;
+    @media (min-width: $desk) {
+      flex-direction: column;
+      grid-gap: vw(16px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(16px, $desktop_large);
+    }
+  }
+
+  .blog-card__image {
+    @media (min-width: $desk) {
+      width: 100%;
+      max-width: none;
+      min-width: 0;
+      aspect-ratio: 16/10;
+      border-radius: vw(12px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      border-radius: vw(12px, $desktop_large);
+    }
+  }
+
+  // Статистика и дата — внизу карточки, карточки в ряду одной высоты.
+  .blog-card__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .blog-card__title {
+    font-size: vw(16px, $mobile);
+    @media (min-width: $desk) {
+      margin-bottom: vw(10px, $desktop);
+      font-size: vw(16px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-bottom: vw(10px, $desktop_large);
+      font-size: vw(16px, $desktop_large);
+    }
+  }
+
+  .blog-card__text {
+    @include line-camp(3);
+    @media (min-width: $desk) {
+      font-size: vw(13px, $desktop);
+      line-height: 1.5;
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(13px, $desktop_large);
+    }
+  }
+
+  .blog-section__pagination {
+    margin-top: vw(30px, $mobile);
+    @media (min-width: $desk) {
+      margin-top: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(40px, $desktop_large);
+    }
+  }
+}
