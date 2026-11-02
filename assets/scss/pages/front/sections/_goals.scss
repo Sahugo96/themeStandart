@@ -1,0 +1,118 @@
+// Секция «С какой целью нужен ВНЖ» (pages/sections/goals.php) — на основе «Почему именно мы».
+// Шапка слева: надзаголовок с золотой чертой, заголовок, текст. Ниже сетка 3 × N
+// с линиями между ячейками (рамка + 1px-зазоры на фоне линии), в ячейке иконка слева.
+
+// Размер: мобильный макет / десктоп (то же значение и на $desk_large).
+@mixin goals-fluid($prop, $m, $d) {
+  #{$prop}: vw($m, $mobile);
+  @media (min-width: $desk) {
+    #{$prop}: vw($d, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    #{$prop}: vw($d, $desktop_large);
+  }
+}
+
+.goals {
+  &__top {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    @include goals-fluid(grid-gap, 14px, 20px);
+    @include goals-fluid(margin-bottom, 28px, 50px);
+    @media (min-width: $desk) {
+      max-width: vw(720px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      max-width: vw(720px, $desktop_large);
+    }
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    @include goals-fluid(font-size, 11px, 13px);
+    @include goals-fluid(grid-gap, 12px, 18px);
+
+    &::before {
+      content: '';
+      flex: none;
+      height: 1px;
+      background-color: var(--accent-color);
+      @include goals-fluid(width, 30px, 42px);
+    }
+  }
+
+  &__title {
+    text-align: left;
+  }
+
+  &__text {
+    margin: 0;
+    line-height: 1.55;
+    color: var(--additional-gray-color);
+    @include goals-fluid(font-size, 15px, 18px);
+  }
+
+  // Сетка с линиями: фон списка — цвет линии, ячейки на фоне секции через 1px-зазоры.
+  &__items {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--dark-bg-stoke-color);
+    background-color: var(--dark-bg-stoke-color);
+    @media (min-width: $desk) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    background-color: var(--dark-bg-color);
+    @include goals-fluid(padding, 20px, 34px);
+    @include goals-fluid(grid-gap, 14px, 20px);
+  }
+
+  &__item-icon {
+    flex: none;
+    fill: none;
+    stroke: var(--accent-color);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    object-fit: contain;
+    @include goals-fluid(width, 26px, 30px);
+    @include goals-fluid(height, 26px, 30px);
+  }
+
+  &__item-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    @include goals-fluid(grid-gap, 8px, 10px);
+  }
+
+  &__item-title {
+    font-family: $Montserrat;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--light-bg-color);
+    @include goals-fluid(font-size, 16px, 18px);
+  }
+
+  &__item-text {
+    margin: 0;
+    line-height: 1.55;
+    color: var(--additional-gray-color);
+    @include goals-fluid(font-size, 14px, 15px);
+  }
+}

@@ -43,6 +43,7 @@ function theme_get_block_category_map(): array
         'result'                 => 'tolstenko-general',
         'compare'                => 'tolstenko-general',
         'why-us'                 => 'tolstenko-general',
+        'goals'                  => 'tolstenko-general',
         'infra'                  => 'tolstenko-general',
         'about'                  => 'tolstenko-general',
         'consult'                => 'tolstenko-general',

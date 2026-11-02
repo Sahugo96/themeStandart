@@ -317,6 +317,31 @@ function theme_get_section_blocks_editor_config(): array
             ],
         ],
         [
+            'name'        => 'my-theme/goals',
+            'title'       => 'С какой целью нужен ВНЖ',
+            'icon'        => 'flag',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → С какой целью нужен ВНЖ',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'goals',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                [
+                    'attr'       => 'items',
+                    'label'      => 'Цели',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить цель',
+                    'itemLabel'  => 'Цель',
+                    'itemFields' => [
+                        ['key' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                        ['key' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                        ['key' => 'icon', 'label' => 'Иконка (пусто — стандартная)', 'type' => 'image'],
+                    ],
+                ],
+            ],
+        ],
+        [
             'name'          => 'my-theme/infra',
 'defaultsKey'   => 'infra',
             'title'         => 'Инфраструктура за пределами РФ',

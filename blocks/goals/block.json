@@ -1,0 +1,35 @@
+{
+  "apiVersion": 3,
+  "title": "С какой целью нужен ВНЖ",
+  "name": "my-theme/goals",
+  "category": "tolstenko-general",
+  "icon": "flag",
+  "description": "Шапка слева и сетка целей: иконка, заголовок, текст (на основе «Почему именно мы»)",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

@@ -13,6 +13,7 @@ function theme_get_service_single_block_template(): array
         ['my-theme/main-hero'],
         ['my-theme/hero-stats'],
         ['my-theme/situations'],
+        ['my-theme/goals'],
         ['my-theme/flagship'],
         ['my-theme/programs'],
         ['my-theme/compare'],
