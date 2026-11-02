@@ -25,12 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function tolstenko_block_defaults_tab_groups() {
 	return array(
-		'main' => array(
-			'title' => 'Основные блоки',
-			'tabs'  => array(
-				'field_template' => 'Шаблон всех полей',
-			),
-		),
 		'post_sliders' => array(
 			'title' => 'Слайдера записей',
 			'tabs'  => array(
@@ -76,6 +70,13 @@ function tolstenko_block_defaults_tab_groups() {
 				'contacts'         => 'Контакты',
 				'contacts_maps'    => 'Карты',
 				'contacts_details' => 'Реквизиты',
+			),
+		),
+		// Служебная группа — внизу.
+		'main' => array(
+			'title' => 'Основные блоки',
+			'tabs'  => array(
+				'field_template' => 'Шаблон всех полей',
 			),
 		),
 	);
