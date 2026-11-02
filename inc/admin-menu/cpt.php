@@ -167,6 +167,21 @@ add_filter('pll_get_taxonomies', function ($taxonomies, $is_settings) {
     return $taxonomies;
 }, 10, 2);
 
+// «Команда» и Polylang: своих страниц у члена команды нет (тип не публичный — ссылок не будет),
+// а общие для всех языков поля синхронизируются между переводами.
+// $sync = false — создание перевода: копируем все поля как черновик (тексты потом переводятся);
+// $sync = true  — сохранение: в переводы переносятся только общие поля (фото, ссылки).
+add_filter('pll_copy_post_metas', function ($metas, $sync, $from, $to, $lang) {
+    if (get_post_type($from) !== 'teammate') {
+        return $metas;
+    }
+
+    $shared = ['teammate_image_id', 'teammate_btn_url', 'teammate_links'];
+    $texts  = ['teammate_name', 'teammate_description', 'teammate_list', 'teammate_btn_text'];
+
+    return array_values(array_unique(array_merge((array) $metas, $sync ? $shared : array_merge($shared, $texts))));
+}, 10, 5);
+
 add_action('admin_init', function () {
     remove_meta_box('slugdiv', 'service', 'normal');
     remove_meta_box('slugdiv', 'blog', 'normal');
