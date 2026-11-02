@@ -5,6 +5,7 @@
  *
  * Форма CF7: [contact-form-7 id="afee4fc" title="Комментарий"] (другую можно задать
  * константой THEME_BLOG_COMMENT_CF7_ID или фильтром tolstenko_blog_comment_cf7_id).
+ * На других языках — форма CF7 с названием языка (tolstenko_blog_comment_cf7_titles(): en — «Comment»).
  * Письма авторам при одобрении — inc/blog/comment-mail.php.
  * Поля формы: имя (your-name), email (your-email / email-*), текст (your-message / textarea-*).
  *
@@ -50,7 +51,47 @@ function tolstenko_is_blog_comment_cf7( $contact_form ) {
 	}
 
 	$title = method_exists( $contact_form, 'title' ) ? (string) $contact_form->title() : '';
-	return $title === TOLSTENKO_BLOG_COMMENT_CF7_TITLE;
+	return in_array( $title, tolstenko_blog_comment_cf7_titles(), true );
+}
+
+/**
+ * Названия форм комментариев по языкам (Polylang): на странице выводится форма своего языка.
+ * Английская форма — CF7 с названием «Comment» (тот же набор полей, ссылки {privacy_link_en}).
+ *
+ * @return array<string,string> slug языка => название формы CF7.
+ */
+function tolstenko_blog_comment_cf7_titles() {
+	return (array) apply_filters(
+		'tolstenko_blog_comment_cf7_titles',
+		array(
+			'ru' => TOLSTENKO_BLOG_COMMENT_CF7_TITLE,
+			'en' => 'Comment',
+		)
+	);
+}
+
+/**
+ * ID формы CF7 по точному названию (0 — нет такой).
+ *
+ * @param string $title Название формы.
+ * @return int
+ */
+function tolstenko_blog_comment_cf7_id_by_title( $title ) {
+	if ( $title === '' || ! post_type_exists( 'wpcf7_contact_form' ) ) {
+		return 0;
+	}
+	$ids = get_posts(
+		array(
+			'post_type'        => 'wpcf7_contact_form',
+			'post_status'      => 'publish',
+			'title'            => $title,
+			'posts_per_page'   => 1,
+			'fields'           => 'ids',
+			'no_found_rows'    => true,
+			'suppress_filters' => true,
+		)
+	);
+	return $ids ? (int) $ids[0] : 0;
 }
 
 /**
@@ -59,6 +100,16 @@ function tolstenko_is_blog_comment_cf7( $contact_form ) {
  * @return string
  */
 function tolstenko_blog_comment_form_shortcode() {
+	// Не русский язык (Polylang) и есть форма с названием этого языка — выводим её.
+	$lang   = function_exists( 'pll_current_language' ) ? (string) pll_current_language( 'slug' ) : '';
+	$titles = tolstenko_blog_comment_cf7_titles();
+	if ( $lang !== '' && isset( $titles[ $lang ] ) && $titles[ $lang ] !== TOLSTENKO_BLOG_COMMENT_CF7_TITLE ) {
+		$lang_form_id = tolstenko_blog_comment_cf7_id_by_title( $titles[ $lang ] );
+		if ( $lang_form_id > 0 ) {
+			return sprintf( '[contact-form-7 id="%d" title="%s"]', $lang_form_id, esc_attr( $titles[ $lang ] ) );
+		}
+	}
+
 	return sprintf(
 		'[contact-form-7 id="%s" title="%s"]',
 		esc_attr( tolstenko_blog_comment_cf7_id() ),
