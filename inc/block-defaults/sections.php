@@ -25,17 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function tolstenko_block_defaults_tab_groups() {
 	return array(
-		'post_sliders' => array(
-			'title' => 'Слайдера записей',
-			'tabs'  => array(
-				'case_section'            => 'Кейсы',
-				'reviews'                 => 'Отзывы',
-				'service_section'         => 'Слайдер услуг',
-				'service_section_filters' => 'Слайдер услуг (фильтры)',
-				'blog_section'            => 'Слайдер статей',
-				'blog_section_filters'    => 'Статьи',
-			),
-		),
 		'landing' => array(
 			'title' => 'Секции лендинга',
 			'tabs'  => array(
@@ -61,6 +50,17 @@ function tolstenko_block_defaults_tab_groups() {
 				'europe'     => 'ВНЖ в Европе',
 				'quiz'       => 'Квиз',
 				'seo_section' => 'SEO-наполнение',
+			),
+		),
+		'post_sliders' => array(
+			'title' => 'Слайдера записей',
+			'tabs'  => array(
+				'case_section'            => 'Кейсы',
+				'reviews'                 => 'Отзывы',
+				'service_section'         => 'Слайдер услуг',
+				'service_section_filters' => 'Слайдер услуг (фильтры)',
+				'blog_section'            => 'Слайдер статей',
+				'blog_section_filters'    => 'Статьи',
 			),
 		),
 		// Секции страницы с шаблоном «Contacts page» (блоки доступны только на ней).
