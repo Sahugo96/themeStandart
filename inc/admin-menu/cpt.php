@@ -119,7 +119,8 @@ function register_case_cpt()
     );
 }
 
-// Члены команды: без собственной страницы, только поля.
+// Члены команды: свои страницы есть (/teammate/<slug>/ — нужны Polylang для связи переводов),
+// но тема нигде не ставит на них ссылок: нет в меню, поиске и карте сайта.
 add_action('init', 'register_teammate_cpt');
 function register_teammate_cpt()
 {
@@ -134,32 +135,32 @@ function register_teammate_cpt()
                 'edit_item' => 'Редактировать',
                 'all_items' => 'Все члены команды',
             ),
-            'public' => false,
-            'publicly_queryable' => false,
+            'public' => true,
+            'publicly_queryable' => true,
             'exclude_from_search' => true,
             'show_ui' => true,
             'show_in_menu' => true,
+            'show_in_nav_menus' => false,
             'menu_icon' => 'dashicons-groups',
             'menu_position' => -4,
             'supports' => array('title'),
             'show_in_rest' => true,
             'has_archive' => false,
-            'rewrite' => false,
+            'rewrite' => array('slug' => 'teammate', 'with_front' => false),
         )
     );
 }
 
-// Polylang показывает в настройках только публичные типы записей и таксономии.
-// «Команда» (teammate) не публичная (нет своих страниц), рубрики блога (blog_cat) регистрируются
-// вне темы — добавляем их в список «Языки → Настройки → Типы записей и таксономии»,
-// включать ли перевод — решается там галочкой ($is_settings = true).
-add_filter('pll_get_post_types', function ($post_types, $is_settings) {
-    if ($is_settings && post_type_exists('teammate')) {
-        $post_types['teammate'] = 'teammate';
-    }
+// Страниц членов команды нет в карте сайта WordPress (ссылок на них нигде нет).
+add_filter('wp_sitemaps_post_types', function ($post_types) {
+    unset($post_types['teammate']);
     return $post_types;
-}, 10, 2);
+});
 
+// Polylang показывает в настройках только публичные таксономии. Рубрики блога (blog_cat)
+// регистрируются вне темы — добавляем их в список «Языки → Настройки → Типы записей и таксономии»,
+// включать ли перевод — решается там галочкой ($is_settings = true).
+// «Команда» теперь публичная — в этом списке она есть сама.
 add_filter('pll_get_taxonomies', function ($taxonomies, $is_settings) {
     if ($is_settings && taxonomy_exists('blog_cat')) {
         $taxonomies['blog_cat'] = 'blog_cat';
@@ -167,8 +168,8 @@ add_filter('pll_get_taxonomies', function ($taxonomies, $is_settings) {
     return $taxonomies;
 }, 10, 2);
 
-// «Команда» и Polylang: своих страниц у члена команды нет (тип не публичный — ссылок не будет),
-// а общие для всех языков поля синхронизируются между переводами.
+// «Команда» и Polylang (после включения перевода в настройках плагина): общие для всех языков
+// поля синхронизируются между переводами.
 // $sync = false — создание перевода: копируем все поля как черновик (тексты потом переводятся);
 // $sync = true  — сохранение: в переводы переносятся только общие поля (фото, ссылки).
 add_filter('pll_copy_post_metas', function ($metas, $sync, $from, $to, $lang) {
@@ -222,11 +223,11 @@ function register_review_cpt()
     );
 }
 
-// Один раз сбросить правила URL после отключения архива отзывов (/review/…).
+// Один раз сбросить правила URL после смены типов записей (архив отзывов, страницы «Команды» /teammate/…).
 add_action('init', function () {
-    if (get_option('theme_review_cpt_rewrite') !== '2') {
+    if (get_option('theme_review_cpt_rewrite') !== '3') {
         flush_rewrite_rules(false);
-        update_option('theme_review_cpt_rewrite', '2', false);
+        update_option('theme_review_cpt_rewrite', '3', false);
     }
 }, 99);
 

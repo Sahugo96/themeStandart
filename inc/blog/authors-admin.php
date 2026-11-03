@@ -7,7 +7,8 @@
  * (мета blog_author_id; пусто — автор по умолчанию).
  * Данные автора: фото — teammate_image_id, имя — teammate_name (или заголовок записи),
  * подпись — первая строка «Списка» (teammate_list), описание — teammate_description.
- * На других языках подставляется перевод члена команды (Polylang).
+ * На других языках подставляется перевод члена команды (Polylang, если перевод «Команды» включён),
+ * без перевода — первый член команды этого языка.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,42 +20,18 @@ define( 'TOLSTENKO_BLOG_DEFAULT_AUTHOR_OPTION', 'tolstenko_blog_default_teammate
 add_action( 'admin_menu', 'tolstenko_register_blog_authors_admin_page', 21 );
 
 /**
- * ID члена команды на текущем языке (перевод Polylang, если есть).
- *
- * @param int $teammate_id ID записи teammate.
- * @return int 0 — нет такой опубликованной записи.
- */
-function tolstenko_blog_author_teammate_id( $teammate_id ) {
-	$teammate_id = (int) $teammate_id;
-	if ( $teammate_id <= 0 ) {
-		return 0;
-	}
-	if ( function_exists( 'pll_get_post' ) ) {
-		$translated = (int) pll_get_post( $teammate_id );
-		if ( $translated > 0 ) {
-			$teammate_id = $translated;
-		}
-	}
-	$post = get_post( $teammate_id );
-	return ( $post instanceof WP_Post && $post->post_type === 'teammate' && $post->post_status === 'publish' ) ? $teammate_id : 0;
-}
-
-/**
  * Член команды → данные автора для вывода.
  *
  * @param int $teammate_id ID записи teammate.
  * @return array{photo:int,name:string,title:string,description:string}|null
  */
 function tolstenko_blog_teammate_to_person( $teammate_id ) {
-	$teammate_id = tolstenko_blog_author_teammate_id( $teammate_id );
+	$teammate_id = theme_teammate_id_for_lang( (int) $teammate_id );
 	if ( ! $teammate_id ) {
 		return null;
 	}
 
-	$name = trim( (string) get_post_meta( $teammate_id, 'teammate_name', true ) );
-	if ( $name === '' ) {
-		$name = trim( wp_strip_all_tags( get_the_title( $teammate_id ) ) );
-	}
+	$name = theme_teammate_name( $teammate_id );
 
 	$lines = preg_split( '/\r\n|\r|\n/', (string) get_post_meta( $teammate_id, 'teammate_list', true ) );
 	$lines = array_values( array_filter( array_map( 'trim', (array) $lines ), 'strlen' ) );
@@ -68,54 +45,13 @@ function tolstenko_blog_teammate_to_person( $teammate_id ) {
 }
 
 /**
- * ID автора по умолчанию: выбранный в «Авторы статей», иначе первый член команды по порядку.
+ * ID автора по умолчанию на текущем языке: выбранный в «Авторы статей» (его перевод),
+ * иначе первый член команды по порядку.
  *
  * @return int
  */
 function tolstenko_get_blog_default_author_id() {
-	$id = (int) get_option( TOLSTENKO_BLOG_DEFAULT_AUTHOR_OPTION, 0 );
-	if ( tolstenko_blog_author_teammate_id( $id ) ) {
-		return $id;
-	}
-
-	$first = get_posts(
-		array(
-			'post_type'      => 'teammate',
-			'post_status'    => 'publish',
-			'posts_per_page' => 1,
-			'orderby'        => array( 'menu_order' => 'ASC', 'date' => 'ASC' ),
-			'fields'         => 'ids',
-			'no_found_rows'  => true,
-		)
-	);
-	return $first ? (int) $first[0] : 0;
-}
-
-/**
- * Члены команды для выбора (на языке $lang, '' — все / без Polylang).
- *
- * @param string $lang Slug языка Polylang.
- * @return array<int,string> ID => подпись.
- */
-function tolstenko_get_blog_author_choices( $lang = '' ) {
-	$args = array(
-		'post_type'        => 'teammate',
-		'post_status'      => 'publish',
-		'posts_per_page'   => -1,
-		'orderby'          => array( 'menu_order' => 'ASC', 'title' => 'ASC' ),
-		'no_found_rows'    => true,
-		'suppress_filters' => false,
-	);
-	if ( function_exists( 'pll_languages_list' ) ) {
-		$args['lang'] = (string) $lang;
-	}
-
-	$out = array();
-	foreach ( get_posts( $args ) as $teammate ) {
-		$name = trim( (string) get_post_meta( $teammate->ID, 'teammate_name', true ) );
-		$out[ (int) $teammate->ID ] = $name !== '' ? $name : get_the_title( $teammate );
-	}
-	return $out;
+	return theme_teammate_resolve( (int) get_option( TOLSTENKO_BLOG_DEFAULT_AUTHOR_OPTION, 0 ) );
 }
 
 /**
@@ -128,7 +64,7 @@ function tolstenko_get_blog_author_choices( $lang = '' ) {
  * @param string $select_id   id.
  */
 function tolstenko_render_blog_author_select( $field_name, $selected, $empty_label, $lang = '', $select_id = '' ) {
-	$choices = tolstenko_get_blog_author_choices( $lang );
+	$choices = theme_teammate_choices( (string) $lang );
 	?>
 	<select<?php echo $select_id !== '' ? ' id="' . esc_attr( $select_id ) . '"' : ''; ?> name="<?php echo esc_attr( $field_name ); ?>" style="width:100%;max-width:420px;box-sizing:border-box">
 		<?php if ( $empty_label !== '' ) : ?>
@@ -171,9 +107,9 @@ function tolstenko_render_blog_authors_admin_page() {
 		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Сохранено.', 'tolstenko-theme' ) . '</p></div>';
 	}
 
-	$default_lang = function_exists( 'pll_default_language' ) ? (string) pll_default_language( 'slug' ) : '';
+	$default_lang = theme_teammate_default_lang();
 	$selected     = (int) get_option( TOLSTENKO_BLOG_DEFAULT_AUTHOR_OPTION, 0 );
-	$has_team     = (bool) tolstenko_get_blog_author_choices( $default_lang );
+	$has_team     = (bool) theme_teammate_choices( $default_lang );
 	?>
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Авторы статей', 'tolstenko-theme' ); ?></h1>

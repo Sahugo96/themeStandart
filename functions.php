@@ -5,6 +5,8 @@ require_once(dirname(__FILE__) . '/inc/consts.php');
 require_once(dirname(__FILE__) . '/inc/acf-fallback.php');
 // Мета-поля члена команды (CPT teammate) без ACF
 require_once(dirname(__FILE__) . '/inc/teammate-meta-boxes.php');
+// «Команда»: выборки и выбор члена команды с учётом языка Polylang
+require_once(dirname(__FILE__) . '/inc/teammate.php');
 //Подключение стиоей и скриптов
 require_once(dirname(__FILE__) . '/inc/enqueue.php');
 //Базовые настройки

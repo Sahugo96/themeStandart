@@ -28,12 +28,8 @@ if (isset($overrides['badge'])) {
 
 $data = theme_section_merge_defaults($defaults, $overrides);
 
-$teammates = get_posts([
-    'post_type'      => 'teammate',
-    'post_status'    => 'publish',
-    'posts_per_page' => -1,
-    'orderby'        => ['menu_order' => 'ASC', 'date' => 'ASC'],
-]);
+// Члены команды на языке страницы (если перевод «Команды» включён в Polylang).
+$teammates = theme_teammate_query();
 
 if (empty($teammates) && trim((string) $data['title']) === '') {
     return;
@@ -75,11 +71,7 @@ $split_lines = static function ($value): array {
 
             <?php foreach ($teammates as $teammate) :
               $teammate_id = (int) $teammate->ID;
-              $name = trim((string) get_post_meta($teammate_id, 'teammate_name', true));
-
-              if ($name === '') {
-                  $name = get_the_title($teammate);
-              }
+              $name = theme_teammate_name($teammate_id);
 
               $image_id = (int) get_post_meta($teammate_id, 'teammate_image_id', true);
               $image = tolstenko_contact_get_image_attrs($image_id);

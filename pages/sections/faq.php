@@ -35,25 +35,11 @@ $teammate_name = '';
 $teammate_image = ['url' => '', 'srcset' => '', 'sizes' => '', 'alt' => ''];
 $teammate_tags = [];
 
-// Сотрудник не выбран — первый из «Команды».
-if ($teammate_id <= 0) {
-  $teammate_first = get_posts([
-    'post_type'      => 'teammate',
-    'post_status'    => 'publish',
-    'posts_per_page' => 1,
-    'orderby'        => 'menu_order date',
-    'order'          => 'ASC',
-    'fields'         => 'ids',
-  ]);
-  $teammate_id = (int) ($teammate_first[0] ?? 0);
-}
+// Член команды на языке страницы (перевод выбранного), не выбран / нет перевода — первый из «Команды».
+$teammate_id = theme_teammate_resolve($teammate_id);
 
-if ($teammate_id > 0 && ($teammate_post = get_post($teammate_id))) {
-    $teammate_name = trim((string) get_post_meta($teammate_id, 'teammate_name', true));
-
-    if ($teammate_name === '') {
-        $teammate_name = get_the_title($teammate_post);
-    }
+if ($teammate_id > 0) {
+    $teammate_name = theme_teammate_name($teammate_id);
 
     $teammate_image = tolstenko_contact_get_image_attrs((int) get_post_meta($teammate_id, 'teammate_image_id', true));
 
