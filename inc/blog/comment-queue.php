@@ -51,7 +51,9 @@ function tolstenko_is_blog_comment_cf7( $contact_form ) {
 	}
 
 	$title = method_exists( $contact_form, 'title' ) ? (string) $contact_form->title() : '';
-	return in_array( $title, tolstenko_blog_comment_cf7_titles(), true );
+	// Названия из списка языков или «Комментарий (xx)» — форма любого добавленного языка.
+	return in_array( $title, tolstenko_blog_comment_cf7_titles(), true )
+		|| strpos( $title, TOLSTENKO_BLOG_COMMENT_CF7_TITLE . ' (' ) === 0;
 }
 
 /**
@@ -101,12 +103,16 @@ function tolstenko_blog_comment_cf7_id_by_title( $title ) {
  */
 function tolstenko_blog_comment_form_shortcode() {
 	// Не русский язык (Polylang) и есть форма с названием этого языка — выводим её.
+	// Для языков без своего названия в списке — форма «Комментарий (xx)», как у других форм (theme_cf7_shortcode).
 	$lang   = function_exists( 'pll_current_language' ) ? (string) pll_current_language( 'slug' ) : '';
 	$titles = tolstenko_blog_comment_cf7_titles();
-	if ( $lang !== '' && isset( $titles[ $lang ] ) && $titles[ $lang ] !== TOLSTENKO_BLOG_COMMENT_CF7_TITLE ) {
-		$lang_form_id = tolstenko_blog_comment_cf7_id_by_title( $titles[ $lang ] );
-		if ( $lang_form_id > 0 ) {
-			return sprintf( '[contact-form-7 id="%d" title="%s"]', $lang_form_id, esc_attr( $titles[ $lang ] ) );
+	if ( $lang !== '' && ( $titles[ $lang ] ?? '' ) !== TOLSTENKO_BLOG_COMMENT_CF7_TITLE ) {
+		$candidates = array_filter( array( $titles[ $lang ] ?? '', TOLSTENKO_BLOG_COMMENT_CF7_TITLE . ' (' . $lang . ')' ) );
+		foreach ( $candidates as $lang_title ) {
+			$lang_form_id = tolstenko_blog_comment_cf7_id_by_title( $lang_title );
+			if ( $lang_form_id > 0 ) {
+				return sprintf( '[contact-form-7 id="%d" title="%s"]', $lang_form_id, esc_attr( $lang_title ) );
+			}
 		}
 	}
 
