@@ -10,7 +10,8 @@
 defined('ABSPATH') || exit;
 
 $cd = tolstenko_get_contact_data();
-$logo_img = tolstenko_contact_get_image_attrs($cd['logo_header']);
+// Логотип — картинка из «Контактных данных → Шапка» (пусто — логотип футера).
+$logo_img = tolstenko_contact_get_image_attrs($cd['logo_header'] ?: $cd['logo_footer']);
 $theme_uri = get_template_directory_uri();
 
 // Меню — из областей «Шапка — верхняя строка» / «Шапка — плашка» (свои на каждом языке, inc/base.php).
@@ -116,11 +117,9 @@ $render_phones = static function (array $phones, ?array $main_phone, string $tit
 <div class="header__bottom">
     <div class="container">
         <div class="header__bar">
-            <a class="header__logo logo" href="<?= esc_url(home_url('/')); ?>">
+            <a class="header__logo logo" href="<?= esc_url(theme_lang_home_url()); ?>" aria-label="<?= esc_attr(get_bloginfo('name')); ?>">
                 <?php if ($logo_img['url'] !== '') : ?>
                     <img class="logo__img" src="<?= esc_url($logo_img['url']); ?>" <?php if ($logo_img['srcset']) echo 'srcset="' . esc_attr($logo_img['srcset']) . '"'; ?> alt="<?= esc_attr($logo_img['alt'] ?: get_bloginfo('name')); ?>">
-                <?php else : ?>
-                    <span class="header__logo-text">Relocate<br>World</span>
                 <?php endif; ?>
             </a>
 

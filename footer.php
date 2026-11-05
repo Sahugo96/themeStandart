@@ -4,7 +4,8 @@
  * «Социальные сети»), меню колонок — области «Футер — колонка 1 / 2» (свои на каждом языке).
  */
 $cd = tolstenko_get_contact_data();
-$footer_logo = tolstenko_contact_get_image_attrs($cd['logo_footer']);
+// Логотип — картинка из «Контактных данных → Футер» (пусто — логотип шапки).
+$footer_logo = tolstenko_contact_get_image_attrs($cd['logo_footer'] ?: $cd['logo_header']);
 $footer_links = is_array($cd['footer_links']) ? $cd['footer_links'] : [];
 $footer_menus = [
   [
@@ -48,11 +49,9 @@ if (function_exists('pll_the_languages')) {
   <div class="container">
     <div class="footer__body">
       <div class="footer__about">
-        <a class="footer__logo" href="<?= esc_url(theme_lang_home_url()); ?>">
+        <a class="footer__logo" href="<?= esc_url(theme_lang_home_url()); ?>" aria-label="<?= esc_attr(get_bloginfo('name')); ?>">
           <?php if ($footer_logo['url'] !== '') : ?>
-            <img class="footer__logo-img" src="<?= esc_url($footer_logo['url']); ?>" alt="<?= esc_attr(get_bloginfo('name')); ?>" loading="lazy">
-          <?php else : ?>
-            Relocate<br>World
+            <img class="footer__logo-img" src="<?= esc_url($footer_logo['url']); ?>" alt="<?= esc_attr($footer_logo['alt'] ?: get_bloginfo('name')); ?>" loading="lazy">
           <?php endif; ?>
         </a>
 
