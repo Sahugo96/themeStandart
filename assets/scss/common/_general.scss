@@ -74,13 +74,13 @@ body {
 .main {
   flex: 1 1 auto;
   // Отступ под фиксированную шапку (верхняя строка + плашка, common/_header.scss).
-  padding-top: vw(100px, $mobile);
+  padding-top: vw(90px, $mobile);
   background-color: var(--dark-bg-color);
   @media (min-width: $desk) {
-    padding-top: vw(160px, $desktop);
+    padding-top: vw(130px, $desktop);
   }
   @media (min-width: $desk_large) {
-    padding-top: vw(160px, $desktop_large);
+    padding-top: vw(130px, $desktop_large);
   }
 }
 
@@ -104,6 +104,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  &__img {
+    display: block;
+    width: auto;
+  }
   img {
     width: 100%;
     height: 100%;

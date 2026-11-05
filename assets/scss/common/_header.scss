@@ -85,34 +85,10 @@
     @media (min-width: $desk) {
       margin-left: auto;
     }
-    .socials {
-      display: flex;
-      align-items: center;
-      grid-gap: vw(12px, $mobile);
-      @media (min-width: $desk) {
-        grid-gap: vw(12px, $desktop);
-      }
-      @media (min-width: $desk_large) {
-        grid-gap: vw(12px, $desktop_large);
-      }
-    }
     .socials__link {
-      display: flex;
       svg,
       img {
-        display: block;
-        width: vw(20px, $mobile);
-        height: vw(20px, $mobile);
         fill: var(--gray-50-color);
-        transition: fill 0.3s linear;
-        @media (min-width: $desk) {
-          width: vw(18px, $desktop);
-          height: vw(18px, $desktop);
-        }
-        @media (min-width: $desk_large) {
-          width: vw(18px, $desktop_large);
-          height: vw(18px, $desktop_large);
-        }
       }
       @media (any-hover: hover) {
         &:hover svg {
@@ -298,37 +274,14 @@
   &__logo {
     flex: none;
     margin-right: auto;
+    height: vw(34px, $mobile);
     @media (min-width: $desk) {
+      height: vw(40px, $desktop);
       margin-right: vw(10px, $desktop);
     }
     @media (min-width: $desk_large) {
+      height: vw(40px, $desktop_large);
       margin-right: vw(10px, $desktop_large);
-    }
-    .logo__img {
-      display: block;
-      width: auto;
-      height: vw(34px, $mobile);
-      @media (min-width: $desk) {
-        height: vw(40px, $desktop);
-      }
-      @media (min-width: $desk_large) {
-        height: vw(40px, $desktop_large);
-      }
-    }
-  }
-
-  &__logo-text {
-    display: block;
-    font-family: $Unbounded;
-    font-weight: 800;
-    font-size: vw(18px, $mobile);
-    line-height: 0.9;
-    color: var(--accent-color);
-    @media (min-width: $desk) {
-      font-size: vw(22px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      font-size: vw(22px, $desktop_large);
     }
   }
 

@@ -44,17 +44,18 @@ get_header();
     theme_render_front_section('cost'); // +
     theme_render_front_section('cases'); // +
 
-
-
+    
+    
     theme_render_front_section('team'); // +
     theme_render_front_section('reviews-section');
+    // «ВНЖ в Европе» теперь таблица внутри «Флагманских программ»; отдельный блок europe
+    // остаётся для других страниц.
+    theme_render_front_section('blog-section');
     theme_render_front_section('seo-section');
     theme_render_front_section('faq');
     theme_render_front_section('blog-more');
     theme_render_front_section('consult');
-    // «ВНЖ в Европе» теперь таблица внутри «Флагманских программ»; отдельный блок europe
-    // остаётся для других страниц.
-    theme_render_front_section('blog-section');
+    
     ?>
 
 </main>
