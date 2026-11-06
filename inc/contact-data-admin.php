@@ -907,7 +907,7 @@ function tolstenko_render_contact_data_admin_page() {
 			<div class="tolstenko-cd-card">
 				<h2 style="margin-top:0;"><?php esc_html_e( 'Шапка', 'tolstenko-theme' ); ?></h2>
 				<p class="description"><?php esc_html_e( 'Меню верхней строки и меню в плашке — Внешний вид → Меню → «Управление областями» (свои для каждого языка). Иконки соцсетей — из блока «Социальные сети».', 'tolstenko-theme' ); ?></p>
-				<?php tolstenko_render_contact_image_field( 'logo_header', __( 'Логотип в шапке — изображение (пусто — логотип футера)', 'tolstenko-theme' ), $data['logo_header'] ); ?>
+				<?php tolstenko_render_contact_image_field( 'logo_header', __( 'Логотип (пусто — текст «Relocate World»)', 'tolstenko-theme' ), $data['logo_header'] ); ?>
 				<div class="row">
 					<label for="tolstenko-cd-header-address"><?php esc_html_e( 'Адрес', 'tolstenko-theme' ); ?></label>
 					<input type="text" id="tolstenko-cd-header-address" name="tolstenko_contact_data[header_address]" value="<?php echo esc_attr( $data['header_address'] ); ?>" placeholder="502, Al Hawai Tower, DIFC, Dubai">
@@ -953,7 +953,7 @@ function tolstenko_render_contact_data_admin_page() {
 			<div class="tolstenko-cd-card">
 				<h2 style="margin-top:0;"><?php esc_html_e( 'Футер', 'tolstenko-theme' ); ?></h2>
 				<p class="description"><?php esc_html_e( 'Меню колонок — Внешний вид → Меню → «Управление областями»: «Футер — колонка 1» и «Футер — колонка 2» (свои для каждого языка). Телефон, почта и соцсети — из блоков «Контакты» и «Социальные сети».', 'tolstenko-theme' ); ?></p>
-				<?php tolstenko_render_contact_image_field( 'logo_footer', __( 'Логотип в футере — изображение (пусто — логотип шапки)', 'tolstenko-theme' ), $data['logo_footer'] ); ?>
+				<?php tolstenko_render_contact_image_field( 'logo_footer', __( 'Логотип (пусто — текст «Relocate World»)', 'tolstenko-theme' ), $data['logo_footer'] ); ?>
 				<div class="row">
 					<label for="tolstenko-cd-footer-address"><?php esc_html_e( 'Адрес (реквизиты, каждая строка — с новой строки)', 'tolstenko-theme' ); ?></label>
 					<textarea id="tolstenko-cd-footer-address" name="tolstenko_contact_data[footer_address]" rows="3" placeholder="© ООО / Starcompany Consultancies FZE&#10;License 6502 · Free Zone Establishment&#10;502, Al Hawai Tower, DIFC, Dubai, UAE"><?php echo esc_textarea( $data['footer_address'] ); ?></textarea>
