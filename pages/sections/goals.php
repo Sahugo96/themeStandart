@@ -4,8 +4,8 @@ defined('ABSPATH') || exit;
 
 /**
  * Секция «С какой целью нужен ВНЖ» (goals) — на основе «Почему именно мы» (why-us).
- * Шапка слева (надзаголовок с чертой, заголовок, текст), ниже сетка целей 3 × N
- * с линиями между ячейками: иконка + заголовок + текст.
+ * Шапка — общая section-top (надзаголовок, заголовок, текст), ниже карточки целей 3 × N
+ * в виде «Почему именно мы»: иконка + заголовок, под чертой текст.
  *
  * Дефолты — tolstenko_get_block_defaults('goals') (таб «Секции лендинга → С какой целью нужен ВНЖ»),
  * атрибуты блока my-theme/goals имеют приоритет. Иконка пункта — выбранная или стандартная по номеру.
@@ -46,31 +46,31 @@ if (!$items) {
 <section class="goals section">
   <div class="container">
     <?php if ($badge !== '' || $title !== '' || $text !== '') : ?>
-      <div class="goals__top">
+      <div class="goals__top section-top">
         <?php if ($badge !== '') : ?>
-          <span class="goals__badge"><?= esc_html($badge); ?></span>
+          <span class="goals__badge section-subtitle"><?= esc_html($badge); ?></span>
         <?php endif; ?>
         <?php if ($title !== '') : ?>
           <h2 class="goals__title section-title"><?= tolstenko_kses_html($title); ?></h2>
         <?php endif; ?>
         <?php if ($text !== '') : ?>
-          <p class="goals__text"><?= tolstenko_kses_html($text); ?></p>
+          <div class="goals__text section-text"><?= tolstenko_kses_html($text); ?></div>
         <?php endif; ?>
       </div>
     <?php endif; ?>
 
-    <ul class="goals__items">
+    <ul class="goals__items br-30">
       <?php foreach ($items as $index => $item) : ?>
-        <li class="goals__item">
-          <?= tolstenko_landing_icon('goals', $index, $item['icon'], 'goals__item-icon'); ?>
-          <div class="goals__item-body">
+        <li class="goals__item br-15">
+          <div class="goals__item-head">
+            <?= tolstenko_landing_icon('goals', $index, $item['icon'], 'goals__item-icon'); ?>
             <?php if ($item['title'] !== '') : ?>
-              <h3 class="goals__item-title"><?= tolstenko_kses_html($item['title']); ?></h3>
-            <?php endif; ?>
-            <?php if ($item['text'] !== '') : ?>
-              <p class="goals__item-text"><?= tolstenko_kses_html($item['text']); ?></p>
+              <h3 class="goals__item-title h4"><?= tolstenko_kses_html($item['title']); ?></h3>
             <?php endif; ?>
           </div>
+          <?php if ($item['text'] !== '') : ?>
+            <p class="goals__item-text reg-par-14-20"><?= tolstenko_kses_html($item['text']); ?></p>
+          <?php endif; ?>
         </li>
       <?php endforeach; ?>
     </ul>
