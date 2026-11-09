@@ -177,6 +177,10 @@ function theme_allowed_block_types($allowed_block_types, $editor_context)
         'core/list-item',
         'core/quote',
         'core/html',
+        // Паттерны: без core/block в меню «⋮» нет пункта «Создать паттерн»
+        // и сохранённые паттерны нельзя вставить; core/pattern — вставка из библиотеки паттернов.
+        'core/block',
+        'core/pattern',
     ]);
 
     // В статье редактируется только тело: текст и блоки «Статья: …».
