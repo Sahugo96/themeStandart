@@ -39,8 +39,8 @@
       width: 19%;
     }
     &--accent {
-      font-weight: 700;
-      color: var(--programs-dark);
+      // font-weight: 700;
+      // color: var(--programs-dark);
     }
     @media (min-width: $desk) {
       padding: vw(28px, $desktop) vw(30px, $desktop);
@@ -104,8 +104,8 @@
   &__cell {
     color: var(--programs-text);
     &--accent {
-      font-weight: 700;
-      color: var(--programs-dark);
+      // font-weight: 700;
+      // color: var(--programs-dark);
     }
   }
 

@@ -10217,10 +10217,6 @@ body:has(> #wpadminbar) .header {
 .programs__th:nth-child(2), .programs__th:nth-child(3), .programs__th:nth-child(4) {
   width: 19%;
 }
-.programs__th--accent {
-  font-weight: 700;
-  color: var(--programs-dark);
-}
 @media (min-width: 992px) {
   .programs__th {
     padding: 2.188vw 2.344vw;
@@ -10285,10 +10281,6 @@ body:has(> #wpadminbar) .header {
 }
 .programs__cell {
   color: var(--programs-text);
-}
-.programs__cell--accent {
-  font-weight: 700;
-  color: var(--programs-dark);
 }
 .programs__foot {
   display: -webkit-box;
