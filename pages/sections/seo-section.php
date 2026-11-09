@@ -12,6 +12,7 @@ defined('ABSPATH') || exit;
  * Как в tolstenko.marketing: всё содержимое в карточке, свёрнутой по высоте с затемнением
  * снизу; кнопка из поля «Кнопка раскрытия» (more_text) — по центру под карточкой,
  * по клику секция раскрывается целиком, кнопка скрывается (modules/seoSection.js).
+ * На шаблоне «Текстовая страница» секция сразу раскрыта и без кнопки.
  * Фото галереи открываются в Fancybox.
  *
  * Перенесено из tolstenko.marketing («SEO продвижение»).
@@ -32,6 +33,11 @@ $more_text = trim((string) ($data['more_text'] ?? '')) ?: 'Читать полн
 if (!$rows && $title === '') {
     return;
 }
+
+// На странице с шаблоном «Текстовая страница» (page-text.php) текст — основное содержимое:
+// выводим раскрытым, без обрезки по высоте и кнопки.
+$queried_post = get_queried_object();
+$is_expanded  = $queried_post instanceof WP_Post && function_exists('theme_is_text_page') && theme_is_text_page($queried_post);
 
 $section_uid   = wp_unique_id();
 $body_id       = 'seo-body-' . $section_uid;
@@ -140,7 +146,7 @@ $render_row = static function (array $row) use ($gallery_group): void {
     <?php endif; ?>
 
     <?php if ($rows) : ?>
-      <div class="seo-section__wrap load-on-vissible--js"
+      <div class="seo-section__wrap<?= $is_expanded ? ' is-expanded' : ''; ?> load-on-vissible--js"
         data-module="./modules/seoSection.js"
         data-css="<?= THEME_PATH; ?>/assets/css/libs/fancybox.css">
         <div class="seo-section__panel br-30">
@@ -151,10 +157,12 @@ $render_row = static function (array $row) use ($gallery_group): void {
           </div>
         </div>
 
-        <button type="button" class="seo-section__more" data-seo-more aria-expanded="false" aria-controls="<?= esc_attr($body_id); ?>">
-          <?= esc_html($more_text); ?>
-          <svg viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M11.25 6.25L7.94194 9.55806C7.69786 9.80214 7.30214 9.80214 7.05806 9.55806L3.75 6.25" stroke-linecap="round"/></svg>
-        </button>
+        <?php if (!$is_expanded) : ?>
+          <button type="button" class="seo-section__more" data-seo-more aria-expanded="false" aria-controls="<?= esc_attr($body_id); ?>">
+            <?= esc_html($more_text); ?>
+            <svg viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M11.25 6.25L7.94194 9.55806C7.69786 9.80214 7.30214 9.80214 7.05806 9.55806L3.75 6.25" stroke-linecap="round"/></svg>
+          </button>
+        <?php endif; ?>
       </div>
     <?php endif; ?>
   </div>
