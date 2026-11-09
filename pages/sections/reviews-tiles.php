@@ -314,14 +314,7 @@ $star_svg = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.
                 $redactor = (string) $review_field((int) $review->ID, 'review_redactor');
                 $icon = $review_image((int) $review->ID, 'review_platform_icon');
                 $platform_name = (string) $review_field((int) $review->ID, 'review_platform_name');
-                $publish_date = '';
-                if ( $pub_time = get_post_time('U', false, $review->ID) ) {
-                    $day = date('j', $pub_time);
-                    $month = date('M', $pub_time);
-                    $year = date('Y', $pub_time);
-                    $months = array('Jan'=>'янв','Feb'=>'фев','Mar'=>'мар','Apr'=>'апр','May'=>'май','Jun'=>'июн','Jul'=>'июл','Aug'=>'авг','Sep'=>'сен','Oct'=>'окт','Nov'=>'ноя','Dec'=>'дек');
-                    $publish_date = sprintf( '%s %s. %s', $day, empty($months[$month]) ? $month : $months[$month], $year );
-                }
+                $publish_date = tolstenko_format_date_label((int) get_post_time('U', true, $review->ID), true);
 
                 $photo = $review_image((int) $review->ID, 'review_photo');
               ?>

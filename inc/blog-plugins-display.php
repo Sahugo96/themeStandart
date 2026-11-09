@@ -24,3 +24,27 @@ function theme_hide_blog_post_views_auto_display($display)
 
     return $display;
 }
+
+/**
+ * Число просмотров записи (Post Views Counter) — без подписи «Post Views:» и разметки плагина.
+ *
+ * @param int $post_id Post ID (0 — текущая запись).
+ * @return int
+ */
+function theme_get_post_views_count(int $post_id = 0): int
+{
+    $post_id = $post_id ?: (int) get_the_ID();
+
+    if ($post_id <= 0) {
+        return 0;
+    }
+
+    if (function_exists('pvc_get_post_views')) {
+        return (int) pvc_get_post_views($post_id);
+    }
+
+    // Запасной вариант: из вывода шорткода берём только цифры.
+    $html = wp_strip_all_tags((string) do_shortcode('[post-views id="' . $post_id . '"]'));
+
+    return preg_match('/(\d[\d\s.,]*)/u', $html, $matches) ? (int) preg_replace('/\D/', '', $matches[1]) : 0;
+}

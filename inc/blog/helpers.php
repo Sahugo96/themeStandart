@@ -590,33 +590,54 @@ function tolstenko_prepare_blog_toc( $html ) {
 }
 
 /**
- * Дата публикации в формате «5 марта, 2026».
+ * Язык, на котором выводятся даты: язык страницы (Polylang), иначе язык сайта.
+ *
+ * @return string Двухбуквенный код (ru, en, …).
+ */
+function tolstenko_get_date_lang() {
+	$lang = function_exists( 'theme_settings_lang' ) ? (string) theme_settings_lang() : '';
+	if ( $lang === '' ) {
+		$lang = substr( (string) determine_locale(), 0, 2 );
+	}
+	return strtolower( $lang );
+}
+
+/**
+ * Дата под язык страницы: «5 марта, 2026» / «5 мар. 2026» на русском,
+ * «March 5, 2026» / «Mar 5, 2026» на других языках (названия месяцев — из перевода WordPress).
+ *
+ * @param int  $timestamp Unix-время.
+ * @param bool $short     Короткое название месяца.
+ * @return string
+ */
+function tolstenko_format_date_label( $timestamp, $short = false ) {
+	$timestamp = (int) $timestamp;
+	if ( $timestamp <= 0 ) {
+		return '';
+	}
+
+	if ( tolstenko_get_date_lang() === 'ru' ) {
+		$months = $short
+			? array( 1 => 'янв.', 'фев.', 'мар.', 'апр.', 'мая', 'июн.', 'июл.', 'авг.', 'сен.', 'окт.', 'ноя.', 'дек.' )
+			: array( 1 => 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' );
+		$month  = $months[ (int) wp_date( 'n', $timestamp ) ];
+		$day    = wp_date( 'j', $timestamp );
+		$year   = wp_date( 'Y', $timestamp );
+
+		return $short ? $day . ' ' . $month . ' ' . $year : $day . ' ' . $month . ', ' . $year;
+	}
+
+	return (string) wp_date( $short ? 'M j, Y' : 'F j, Y', $timestamp );
+}
+
+/**
+ * Дата публикации записи под язык страницы («5 марта, 2026» / «March 5, 2026»).
  *
  * @param int $post_id Post ID.
  * @return string
  */
 function tolstenko_get_blog_date_label( $post_id = 0 ) {
-	$months = array(
-		1  => 'января',
-		2  => 'февраля',
-		3  => 'марта',
-		4  => 'апреля',
-		5  => 'мая',
-		6  => 'июня',
-		7  => 'июля',
-		8  => 'августа',
-		9  => 'сентября',
-		10 => 'октября',
-		11 => 'ноября',
-		12 => 'декабря',
-	);
-
-	$parts = explode( ' ', (string) get_the_date( 'j n Y', $post_id ?: null ) );
-	if ( count( $parts ) !== 3 || empty( $months[ (int) $parts[1] ] ) ) {
-		return (string) get_the_date( '', $post_id ?: null );
-	}
-
-	return $parts[0] . ' ' . $months[ (int) $parts[1] ] . ', ' . $parts[2];
+	return tolstenko_format_date_label( (int) get_post_timestamp( $post_id ?: null ) );
 }
 
 /**

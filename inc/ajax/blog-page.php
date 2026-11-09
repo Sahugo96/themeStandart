@@ -26,22 +26,7 @@ function handle_blog_page_filter() {
 
     $blog_query = new WP_Query($args);
     
-    $months = [
-        1 => 'января',
-        2 => 'февраля',
-        3 => 'марта',
-        4 => 'апреля',
-        5 => 'мая',
-        6 => 'июня',
-        7 => 'июля',
-        8 => 'августа',
-        9 => 'сентября',
-        10 => 'октября',
-        11 => 'ноября',
-        12 => 'декабря'
-    ];
-
-    ob_start();
+ob_start();
     
     if ($blog_query->have_posts()) :
         $index = 1;
@@ -97,28 +82,7 @@ function handle_blog_page_filter() {
                       <?php endforeach; ?>
 
                       <?php if ($index) {
-                        $months = [
-                          1 => 'января',
-                          2 => 'февраля',
-                          3 => 'марта',
-                          4 => 'апреля',
-                          5 => 'мая',
-                          6 => 'июня',
-                          7 => 'июля',
-                          8 => 'августа',
-                          9 => 'сентября',
-                          10 => 'октября',
-                          11 => 'ноября',
-                          12 => 'декабря'
-                        ];
-
-                        $post_date = get_the_date('j n Y');
-                        $date_parts = explode(' ', $post_date);
-                        $day = $date_parts[0];
-                        $month_num = (int)$date_parts[1];
-                        $year = $date_parts[2];
-
-                        $datee = $day . ' ' . $months[$month_num] . ', ' . $year;
+                        $datee = esc_html(tolstenko_get_blog_date_label(get_the_ID()));
                       ?>
                         <span class="blog-card__tag blog-card__tag--date">
                           <?= $datee; ?>

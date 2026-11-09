@@ -11,29 +11,7 @@ $post_id = get_the_ID();
 $modifier = isset($args['modifier']) ? sanitize_key((string) $args['modifier']) : '';
 $is_same = $modifier === 'same';
 
-$months = [
-    1  => 'января',
-    2  => 'февраля',
-    3  => 'марта',
-    4  => 'апреля',
-    5  => 'мая',
-    6  => 'июня',
-    7  => 'июля',
-    8  => 'августа',
-    9  => 'сентября',
-    10 => 'октября',
-    11 => 'ноября',
-    12 => 'декабря',
-];
-
-$post_date = get_the_date('j n Y', $post_id);
-$date_parts = explode(' ', $post_date);
-$day = $date_parts[0] ?? '';
-$month_num = isset($date_parts[1]) ? (int) $date_parts[1] : 0;
-$year = $date_parts[2] ?? '';
-$formatted_date = ($day && $month_num && $year)
-    ? $day . ' ' . ($months[$month_num] ?? '') . ', ' . $year
-    : get_the_date('', $post_id);
+$formatted_date = tolstenko_get_blog_date_label($post_id);
 
 $tags = get_the_terms($post_id, 'blog_cat');
 $card_text = theme_get_field('single-blog_text', $post_id);
