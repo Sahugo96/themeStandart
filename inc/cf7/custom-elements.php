@@ -36,7 +36,7 @@ add_filter('wpcf7_form_elements', function ($content) {
 
 /**
  * Шорткод формы CF7 на текущем языке (Polylang).
- * На неосновном языке ищется форма с названием «{название} ({язык})», например «Модалка (en)»;
+ * На языке, отличном от основного языка настроек, ищется форма с названием «{название} ({язык})», например «Модалка (en)»;
  * нет такой — выводится исходная форма.
  *
  * @param string $id    ID (хеш) исходной формы из шорткода.
@@ -45,7 +45,8 @@ add_filter('wpcf7_form_elements', function ($content) {
 function theme_cf7_shortcode(string $id, string $title): string
 {
     $lang    = function_exists('pll_current_language') ? (string) pll_current_language('slug') : '';
-    $default = function_exists('pll_default_language') ? (string) pll_default_language('slug') : 'ru';
+    // Исходные формы — на основном языке настроек (не зависит от языка по умолчанию Polylang).
+    $default = function_exists('theme_settings_default_lang') ? theme_settings_default_lang() : (function_exists('pll_default_language') ? (string) pll_default_language('slug') : 'ru');
 
     if ($lang !== '' && $lang !== $default && post_type_exists('wpcf7_contact_form')) {
         $lang_title = $title . ' (' . $lang . ')';

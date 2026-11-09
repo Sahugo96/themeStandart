@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 const THEME_SETTINGS_FULL_MARK = '__theme_full';
 
 /**
- * Языки сайта (slug), основной — первым. Пусто, если Polylang не активен.
+ * Языки сайта (slug), основной язык настроек — первым. Пусто, если Polylang не активен.
  *
  * @return string[]
  */
@@ -41,15 +41,57 @@ function theme_settings_languages() {
 }
 
 /**
- * Основной язык (slug) или '' без Polylang.
+ * Основной язык настроек (slug) или '' без Polylang: на нём хранятся общие опции
+ * (tolstenko_block_defaults, tolstenko_contact_data), остальные языки — копии с суффиксом.
+ *
+ * Не зависит от «языка по умолчанию» Polylang: смена его в настройках Polylang не должна
+ * менять местами сохранённые переводы. Запоминается в опции theme_settings_main_lang;
+ * при первом вызове определяется как язык, у которого нет копий настроек (иначе ru).
  *
  * @return string
  */
 function theme_settings_default_lang() {
-	if ( ! function_exists( 'pll_default_language' ) ) {
+	static $main = null;
+
+	if ( ! function_exists( 'pll_languages_list' ) ) {
 		return '';
 	}
-	return (string) pll_default_language( 'slug' );
+	if ( $main !== null ) {
+		return $main;
+	}
+
+	$languages = array_values( array_filter( (array) pll_languages_list( array( 'fields' => 'slug' ) ) ) );
+	if ( ! $languages ) {
+		return '';
+	}
+
+	$stored = (string) get_option( 'theme_settings_main_lang', '' );
+	if ( $stored !== '' && in_array( $stored, $languages, true ) ) {
+		return $main = $stored;
+	}
+
+	// Язык без копий «…_<язык>» — тот, что хранится в общих опциях.
+	$without_copies = array_values(
+		array_filter(
+			$languages,
+			static function ( $lang ) {
+				return get_option( 'tolstenko_block_defaults_' . $lang, null ) === null
+					&& get_option( 'tolstenko_contact_data_' . $lang, null ) === null;
+			}
+		)
+	);
+
+	if ( count( $without_copies ) === 1 ) {
+		$main = $without_copies[0];
+	} elseif ( in_array( 'ru', $languages, true ) ) {
+		$main = 'ru';
+	} else {
+		$main = function_exists( 'pll_default_language' ) ? (string) pll_default_language( 'slug' ) : $languages[0];
+	}
+
+	update_option( 'theme_settings_main_lang', $main, true );
+
+	return $main;
 }
 
 /**

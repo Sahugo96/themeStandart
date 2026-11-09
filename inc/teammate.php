@@ -125,10 +125,15 @@ function theme_teammate_choices(string $lang = ''): array
 }
 
 /**
- * Язык основного языка Polylang ('' без Polylang) — для общих (не переводимых) выборов в табах.
+ * Основной язык настроек ('' без Polylang) — для общих (не переводимых) выборов в табах.
+ * Совпадает с языком общих опций (inc/settings-i18n.php), а не с языком по умолчанию Polylang.
  */
 function theme_teammate_default_lang(): string
 {
+    if (function_exists('theme_settings_default_lang')) {
+        return theme_settings_default_lang();
+    }
+
     return function_exists('pll_default_language') ? (string) pll_default_language('slug') : '';
 }
 
