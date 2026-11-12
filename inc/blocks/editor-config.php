@@ -941,6 +941,19 @@ function theme_get_section_blocks_editor_config(): array
             ],
         ],
         [
+            'name'   => 'my-theme/blog-seo',
+            'title'  => 'Статья: SEO / CTA',
+            'icon'   => 'megaphone',
+            'hint'   => 'Плашка с заголовком и кнопкой. Пусто — из «Блоки для статей → SEO / CTA»',
+            'color'  => '#2271b1',
+            'defaultsKey' => 'blog_seo',
+            'fields' => [
+                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'textarea'],
+                ['attr' => 'btn', 'label' => 'Текст кнопки', 'type' => 'text'],
+                ['attr' => 'btn_url', 'label' => 'Ссылка кнопки (пусто = #modal)', 'type' => 'text'],
+            ],
+        ],
+        [
             'name'          => 'my-theme/blog-content',
             'title'         => 'Контент статьи',
             'hint'          => 'Текст статьи и сайдбар из ACF текущей записи',

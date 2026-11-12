@@ -78,6 +78,7 @@ function theme_get_block_category_map(): array
         'blog-video'             => 'tolstenko-blog',
         'blog-blockquote'        => 'tolstenko-blog',
         'blog-warning'           => 'tolstenko-blog',
+        'blog-seo'               => 'tolstenko-blog',
         'blog-pros-cons'         => 'tolstenko-blog',
         'blog-definition'        => 'tolstenko-blog',
 

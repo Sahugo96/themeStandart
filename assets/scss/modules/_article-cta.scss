@@ -1,0 +1,81 @@
+// Статья: SEO / CTA (blocks/blog-seo) — плашка с заголовком и кнопкой в теле статьи.
+// Перенесено из tolstenko.marketing (modules/_article-cta.scss), вид — под текущую тему:
+// тёмная плашка с золотой обводкой, кнопка — общий default-btn default-btn--brown.
+
+@mixin article-cta-cards($ns) {
+  &__cta {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: vw(16px, $mobile);
+    margin: 0;
+    padding: vw(20px, $mobile);
+    border: 1px solid var(--accent-20-color);
+    border-radius: vw(20px, $mobile);
+    background-color: var(--dark-bg-plank-color);
+    @media (min-width: $desk) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: vw(32px, $desktop);
+      padding: vw(24px, $desktop) vw(30px, $desktop);
+      border-radius: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      gap: vw(32px, $desktop_large);
+      padding: vw(24px, $desktop_large) vw(30px, $desktop_large);
+      border-radius: vw(20px, $desktop_large);
+    }
+  }
+
+  // Внутри .redactor у заголовков и абзацев свои отступы — сбрасываем.
+  &__cta-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0 !important;
+    font-family: $Montserrat;
+    font-weight: 700;
+    font-size: vw(18px, $mobile) !important;
+    line-height: 1.25 !important;
+    color: var(--light-bg-color) !important;
+    @media (min-width: $desk) {
+      font-size: vw(20px, $desktop) !important;
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(20px, $desktop_large) !important;
+    }
+    span {
+      color: var(--accent-color);
+    }
+  }
+
+  &__cta-btn {
+    flex-shrink: 0;
+    text-align: center;
+    text-decoration: none !important;
+    @media (min-width: $desk) {
+      width: auto;
+    }
+
+    svg.#{$ns}__cta-arrow {
+      fill: none;
+    }
+  }
+
+  // Ссылки в .redactor красятся своим цветом (.redactor a) — возвращаем цвета default-btn--brown.
+  &__cta &__cta-btn.default-btn {
+    color: var(--light-bg-color);
+    @media (any-hover: hover) {
+      &:hover {
+        color: var(--btn-hover-color, var(--main-text-color));
+      }
+    }
+  }
+
+  &__cta-arrow {
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}

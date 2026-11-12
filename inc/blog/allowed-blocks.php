@@ -79,6 +79,7 @@ function tolstenko_get_blog_theme_blocks_catalog() {
 		'my-theme/blog-warning'     => __( 'Предупреждения', 'tolstenko-theme' ),
 		'my-theme/blog-pros-cons'   => __( 'Плюсы и минусы', 'tolstenko-theme' ),
 		'my-theme/blog-definition'  => __( 'Определение', 'tolstenko-theme' ),
+		'my-theme/blog-seo'         => __( 'SEO / CTA', 'tolstenko-theme' ),
 	);
 
 	return apply_filters( 'tolstenko_blog_theme_blocks_catalog', $catalog );
@@ -246,6 +247,11 @@ function tolstenko_blog_content_defaults_schema() {
 			'title'  => 'Семантическое ядро',
 			'text'   => 'Набор поисковых запросов, по которым пользователи ищут ваш продукт.',
 		),
+		'blog_seo' => array(
+			'title'   => 'Нужна помощь с открытием счёта или ВНЖ в ОАЭ?',
+			'btn'     => 'Получить консультацию',
+			'btn_url' => '',
+		),
 	);
 }
 
@@ -366,6 +372,7 @@ function tolstenko_render_blog_content_defaults_admin_page() {
 	$wn   = $all['blog_warning'];
 	$pc   = $all['blog_pros_cons'];
 	$dfn  = $all['blog_definition'];
+	$seo  = $all['blog_seo'];
 
 	$wn_items = ! empty( $wn['items'] ) && is_array( $wn['items'] ) ? $wn['items'] : array( array( 'type' => 'warn', 'text' => '', 'icon' => 0 ) );
 	$pc_pros  = ! empty( $pc['pros'] ) && is_array( $pc['pros'] ) ? $pc['pros'] : array( '' );
@@ -412,6 +419,7 @@ function tolstenko_render_blog_content_defaults_admin_page() {
 					'blog_warning'           => __( 'Предупреждения', 'tolstenko-theme' ),
 					'blog_pros_cons'         => __( 'Плюсы и минусы', 'tolstenko-theme' ),
 					'blog_definition'        => __( 'Определение', 'tolstenko-theme' ),
+					'blog_seo'               => __( 'SEO / CTA', 'tolstenko-theme' ),
 					'blog_large_img'         => __( 'Крупное фото', 'tolstenko-theme' ),
 					'blog_video'             => __( 'Видео', 'tolstenko-theme' ),
 				);
@@ -585,6 +593,29 @@ function tolstenko_render_blog_content_defaults_admin_page() {
 							<textarea name="tolstenko_block_defaults[blog_definition][text]" rows="3" placeholder="<?php esc_attr_e( 'Набор поисковых запросов…', 'tolstenko-theme' ); ?>"><?php echo esc_textarea( (string) ( $dfn['text'] ?? '' ) ); ?></textarea>
 						</label>
 					</div>
+				</div>
+			</div>
+
+			<div class="tolstenko-bcd-panel" data-bcd-panel="blog_seo" hidden>
+				<h2><?php esc_html_e( 'SEO / CTA', 'tolstenko-theme' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'Плашка с заголовком и кнопкой в теле статьи. Пустые поля блока берутся отсюда.', 'tolstenko-theme' ); ?></p>
+				<div class="row">
+					<label>
+						<?php esc_html_e( 'Заголовок', 'tolstenko-theme' ); ?><br>
+						<textarea name="tolstenko_block_defaults[blog_seo][title]" rows="2" placeholder="<?php esc_attr_e( 'Нужна помощь с открытием счёта или ВНЖ в ОАЭ?', 'tolstenko-theme' ); ?>"><?php echo esc_textarea( (string) ( $seo['title'] ?? '' ) ); ?></textarea>
+					</label>
+				</div>
+				<div class="row">
+					<label>
+						<?php esc_html_e( 'Текст кнопки', 'tolstenko-theme' ); ?><br>
+						<input type="text" name="tolstenko_block_defaults[blog_seo][btn]" value="<?php echo esc_attr( (string) ( $seo['btn'] ?? '' ) ); ?>" placeholder="<?php esc_attr_e( 'Получить консультацию', 'tolstenko-theme' ); ?>">
+					</label>
+				</div>
+				<div class="row">
+					<label>
+						<?php esc_html_e( 'Ссылка кнопки (пусто = #modal)', 'tolstenko-theme' ); ?><br>
+						<input type="text" name="tolstenko_block_defaults[blog_seo][btn_url]" value="<?php echo esc_attr( (string) ( $seo['btn_url'] ?? '' ) ); ?>" placeholder="#modal">
+					</label>
 				</div>
 			</div>
 
@@ -912,6 +943,14 @@ function tolstenko_save_blog_content_defaults_from_request() {
 		'suffix' => isset( $dfn_raw['suffix'] ) ? sanitize_textarea_field( (string) $dfn_raw['suffix'] ) : '',
 		'title'  => isset( $dfn_raw['title'] ) ? sanitize_text_field( (string) $dfn_raw['title'] ) : '',
 		'text'   => isset( $dfn_raw['text'] ) ? sanitize_textarea_field( (string) $dfn_raw['text'] ) : '',
+	);
+
+	$seo_raw = isset( $raw_all['blog_seo'] ) && is_array( $raw_all['blog_seo'] ) ? $raw_all['blog_seo'] : array();
+	$seo_url = trim( (string) ( $seo_raw['btn_url'] ?? '' ) );
+	$saved['blog_seo'] = array(
+		'title'   => tolstenko_kses_html( (string) ( $seo_raw['title'] ?? '' ) ),
+		'btn'     => sanitize_text_field( (string) ( $seo_raw['btn'] ?? '' ) ),
+		'btn_url' => $seo_url === '' || $seo_url === '#modal' ? '' : esc_url_raw( $seo_url ),
 	);
 
 	update_option( 'tolstenko_block_defaults', $saved, false );

@@ -73,14 +73,13 @@ body {
 
 .main {
   flex: 1 1 auto;
-  // Отступ под фиксированную шапку (верхняя строка + плашка, common/_header.scss).
-  padding-top: vw(90px, $mobile);
+  padding-top: vw(85px, $mobile);
   background-color: var(--dark-bg-color);
   @media (min-width: $desk) {
-    padding-top: vw(130px, $desktop);
+    padding-top: vw(170px, $desktop);
   }
   @media (min-width: $desk_large) {
-    padding-top: vw(130px, $desktop_large);
+    padding-top: vw(170px, $desktop_large);
   }
 }
 

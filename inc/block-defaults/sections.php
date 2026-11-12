@@ -98,6 +98,7 @@ function tolstenko_block_defaults_schema_only_keys() {
 		'blog_warning',
 		'blog_pros_cons',
 		'blog_definition',
+		'blog_seo',
 		'strategy',
 		'author',
 		'pricing',
