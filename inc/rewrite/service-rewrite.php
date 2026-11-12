@@ -96,14 +96,19 @@ add_action('edited_service_cat', 'theme_service_flush_rewrite_rules');
 add_action('delete_service_cat', 'theme_service_flush_rewrite_rules');
 add_action('after_switch_theme', 'theme_service_flush_rewrite_rules');
 
+// Услуг на странице архива и рубрик («Плитка услуг», pages/sections/services-tiles.php, пагинация).
+if (!defined('THEME_SERVICE_ARCHIVE_PER_PAGE')) {
+    define('THEME_SERVICE_ARCHIVE_PER_PAGE', 30);
+}
+
 function theme_service_posts_per_page($query)
 {
     if (is_admin() || !$query->is_main_query()) {
         return;
     }
 
-    if (is_post_type_archive('service') || is_tax('service_cat')) {
-        $query->set('posts_per_page', 2);
+    if ($query->is_post_type_archive('service') || $query->is_tax('service_cat')) {
+        $query->set('posts_per_page', THEME_SERVICE_ARCHIVE_PER_PAGE);
     }
 }
 add_action('pre_get_posts', 'theme_service_posts_per_page');
@@ -149,4 +154,26 @@ function theme_get_service_pagination_args($total_pages, $current_page)
     }
 
     return $args;
+}
+
+/**
+ * HTML пагинации «Плитки услуг» (пусто, если страница одна). Вид — как у «Плитки статей».
+ */
+function theme_render_service_pagination(int $total, int $current): string
+{
+    $args         = theme_get_service_pagination_args($total, $current);
+    $args['type'] = 'plain';
+    $links        = paginate_links($args);
+
+    if (!$links) {
+        return '';
+    }
+
+    $links = str_replace(
+        ['class="prev page-numbers"', 'class="next page-numbers"'],
+        ['class="prev page-numbers" aria-label="Предыдущая страница"', 'class="next page-numbers" aria-label="Следующая страница"'],
+        $links
+    );
+
+    return '<nav class="services__pagination pagination-page" aria-label="Страницы услуг"><div class="pagination">' . $links . '</div></nav>';
 }

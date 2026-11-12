@@ -12,8 +12,9 @@ defined('ABSPATH') || exit;
  *
  * Карточка — та же, что в «Слайдере услуг» (services services--slider):
  * pages/sections/partials/services-card.php. Табы рубрик — ссылки на страницы рубрик
- * (.filter--tabs), активный — текущая рубрика. Карточки сверх «Сколько видно сразу»
- * скрыты до нажатия «Показать ещё» (без JS: checkbox + CSS).
+ * (.filter--tabs), активный — текущая рубрика. Внизу — пагинация,
+ * THEME_SERVICE_ARCHIVE_PER_PAGE (30) услуг на странице. В архиве услуг и рубриках —
+ * основной запрос (рубрика, номер страницы), на других страницах — свой запрос.
  */
 
 $admin = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('services_tiles') : [];
@@ -24,8 +25,6 @@ $defaults = [
     'text'          => $admin['text'] ?? '',
     'show_filter'   => !empty($admin['show_filter']),
     'all_label'     => $admin['all_label'] ?? '',
-    'visible_count' => (int) ($admin['visible_count'] ?? 6),
-    'more_text'     => $admin['more_text'] ?? '',
     'card_more'     => $admin['card_more'] ?? '',
     'card_consult'  => $admin['card_consult'] ?? '',
     'card_price'    => $admin['card_price'] ?? '',
@@ -42,29 +41,20 @@ $post_type = 'service';
 $subtitle      = trim((string) $data['subtitle']);
 $title         = trim((string) $data['title']);
 $text          = trim((string) $data['text']);
-$visible_count = max(0, (int) $data['visible_count']);
+
+global $wp_query;
 
 $current_term = is_tax($taxonomy) ? get_queried_object() : null;
 $current_term = $current_term instanceof WP_Term ? $current_term : null;
+$is_archive   = (is_post_type_archive($post_type) || $current_term) && $wp_query instanceof WP_Query;
+$paged        = theme_get_service_paged();
 
-$query_args = [
+$section_query = $is_archive ? $wp_query : new WP_Query([
     'post_type'      => $post_type,
     'post_status'    => 'publish',
-    'posts_per_page' => -1,
-    'no_found_rows'  => true,
-];
-
-if ($current_term) {
-    $query_args['tax_query'] = [
-        [
-            'taxonomy' => $taxonomy,
-            'field'    => 'term_id',
-            'terms'    => $current_term->term_id,
-        ],
-    ];
-}
-
-$section_query = new WP_Query($query_args);
+    'posts_per_page' => THEME_SERVICE_ARCHIVE_PER_PAGE,
+    'paged'          => $paged,
+]);
 
 if (!$section_query->have_posts() && $title === '' && $text === '') {
     return;
@@ -81,8 +71,6 @@ if (!empty($data['show_filter'])) {
 }
 
 $archive_link = get_post_type_archive_link($post_type);
-$toggle_id    = 'services_tiles_' . wp_unique_id() . '_toggle';
-$has_more     = $visible_count > 0 && $section_query->post_count > $visible_count;
 
 $card_args = [
     'class'        => 'services__tile',
@@ -130,36 +118,23 @@ $card_args = [
     <?php endif; ?>
 
     <?php if ($section_query->have_posts()) : ?>
-      <?php if ($has_more) : ?>
-        <input type="checkbox" class="services__toggle" id="<?= esc_attr($toggle_id); ?>" hidden>
-      <?php endif; ?>
-
       <div class="services__tiles">
         <?php
-        $index = 0;
         while ($section_query->have_posts()) :
             $section_query->the_post();
-            $index++;
-            $item_args = $card_args;
-
-            if ($has_more && $index > $visible_count) {
-                $item_args['class'] .= ' is-hidden';
-            }
-
-            get_template_part('pages/sections/partials/services-card', null, $item_args);
+            get_template_part('pages/sections/partials/services-card', null, $card_args);
         endwhile;
         ?>
       </div>
 
-      <?php if ($has_more) : ?>
-        <label class="services__more default-btn default-btn--transparent" for="<?= esc_attr($toggle_id); ?>">
-          <span><?= esc_html((string) $data['more_text']); ?></span>
-          <svg class="services__more-arrow" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 9l6 6 6-6"/>
-          </svg>
-        </label>
-      <?php endif; ?>
+      <?= theme_render_service_pagination((int) $section_query->max_num_pages, $paged); ?>
     <?php endif; ?>
-    <?php wp_reset_postdata(); ?>
+    <?php
+    if ($is_archive) {
+        rewind_posts();
+    } else {
+        wp_reset_postdata();
+    }
+    ?>
   </div>
 </section>
