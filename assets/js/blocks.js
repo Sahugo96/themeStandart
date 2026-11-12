@@ -31,47 +31,6 @@
   }
 
 
-  registerBlockType('my-theme/service-section', {
-    apiVersion: 3,
-    edit: function (props) {
-      var attributes = props.attributes;
-      var setAttributes = props.setAttributes;
-      var serviceDefaults = getDefaults('serviceSection');
-      var blockProps = useBlockProps({
-        className: 'theme-block theme-block--service-section',
-        style: controls.blockShell(colors.accent),
-      });
-
-      return el(
-        'div',
-        blockProps,
-        controls.blockTitle('Архив услуг', colors.accent),
-        controls.textField({
-          label: 'Заголовок',
-          help: 'Если пусто — из настроек темы',
-          value: attributes.title,
-          placeholder: serviceDefaults.title || '',
-          onChange: function (value) {
-            setAttributes({ title: value });
-          },
-        }),
-        controls.textareaField({
-          label: 'Текст',
-          help: 'Если пусто — из настроек темы',
-          value: attributes.text,
-          placeholder: serviceDefaults.text || '',
-          onChange: function (value) {
-            setAttributes({ text: value });
-          },
-        }),
-        controls.blockHint('Выводятся все услуги. Фильтр по категориям — ссылки на архив и рубрики')
-      );
-    },
-    save: function () {
-      return null;
-    },
-  });
-
   registerBlockType('my-theme/services-slider', {
     apiVersion: 3,
     edit: function (props) {

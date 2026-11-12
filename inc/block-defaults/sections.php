@@ -63,6 +63,8 @@ function tolstenko_block_defaults_tab_groups() {
 				'service_section_filters' => 'Слайдер услуг (фильтры)',
 				'blog_section'            => 'Слайдер статей',
 				'blog_section_filters'    => 'Статьи',
+				'services_tiles'          => 'Плитка услуг',
+				'blog_tiles'              => 'Плитка статей',
 			),
 		),
 		// Секции страницы с шаблоном «Contacts page» (блоки доступны только на ней).

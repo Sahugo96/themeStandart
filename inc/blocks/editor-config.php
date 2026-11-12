@@ -154,9 +154,9 @@ function theme_get_section_blocks_editor_config(): array
             'name'        => 'my-theme/blog-tiles',
             'title'       => 'Плитка статей',
             'icon'        => 'grid-view',
-            'hint'        => 'Архив блога: все статьи по 3 в ряд и пагинация (12 на странице). Если пусто — из админки: Дефолты блоков → Статьи',
+            'hint'        => 'Архив блога: все статьи по 3 в ряд и пагинация (12 на странице). Если пусто — из админки: Дефолты блоков → Плитка статей',
             'color'       => '#2271b1',
-            'defaultsKey' => 'blog_section_filters',
+            'defaultsKey' => 'blog_tiles',
             'fields'      => [
                 ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
                 ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
@@ -765,12 +765,19 @@ function theme_get_section_blocks_editor_config(): array
                 ['attr' => 'btn_text', 'label' => 'Кнопка под таблицей', 'type' => 'text'],
                 ['attr' => 'btn_url', 'label' => 'Ссылка кнопки', 'type' => 'text'],
             ],
-        ],        [
-            'name'          => 'my-theme/service-section',
-            'title'         => 'Архив услуг',
-            'hint'          => 'Заголовок и текст — из блока или настроек темы. Выводятся все услуги',
-            'color'         => '#2271b1',
-            'hasTextFields' => false,
+        ],
+        [
+            'name'        => 'my-theme/service-section',
+            'title'       => 'Плитка услуг',
+            'icon'        => 'grid-view',
+            'hint'        => 'Все услуги по 3 в ряд, карточки как в «Слайдере услуг». Если пусто — из админки: Дефолты блоков → Плитка услуг',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'services_tiles',
+            'fields'      => [
+                ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+            ],
         ],
         [
             'name'          => 'my-theme/services-slider',

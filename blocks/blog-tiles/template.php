@@ -3,8 +3,8 @@
 defined('ABSPATH') || exit;
 
 /**
- * Блок «Плитка статей» (my-theme/blog-tiles). Пустые атрибуты — из таба «Статьи»
- * (tolstenko_get_block_defaults('blog_section_filters')), см. pages/sections/blog-tiles.php.
+ * Блок «Плитка статей» (my-theme/blog-tiles). Пустые атрибуты — из таба «Плитка статей»
+ * (tolstenko_get_block_defaults('blog_tiles')), см. pages/sections/blog-tiles.php.
  */
 
 $blog_tiles_data = [];

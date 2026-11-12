@@ -10,13 +10,13 @@ defined('ABSPATH') || exit;
  * в плитке .blog-section__tiles — 3 в ряд с переносом, внизу пагинация
  * (THEME_BLOG_ARCHIVE_PER_PAGE статей на странице).
  *
- * Шапка — из админки: tolstenko_get_block_defaults('blog_section_filters')
- * (таб «Дефолты блоков → Слайдера записей → Статьи»), атрибуты блока my-theme/blog-tiles
+ * Шапка — из админки: tolstenko_get_block_defaults('blog_tiles')
+ * (таб «Дефолты блоков → Слайдера записей → Плитка статей»), атрибуты блока my-theme/blog-tiles
  * имеют приоритет. Статьи: в архиве блога и рубриках — основной запрос (рубрика, страница),
  * на других страницах — свой запрос.
  */
 
-$admin = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('blog_section_filters') : [];
+$admin = function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('blog_tiles') : [];
 
 $defaults = [
     'badge' => $admin['badge'] ?? '',
