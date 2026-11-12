@@ -10,7 +10,7 @@
 @import './common/footer'; // + -
 
 //Модули
-// @import './modules/breadcrumb'; // + +
+@import './modules/breadcrumb'; // + +
 // @import './modules/socials'; // + +
 @import './modules/border-card'; // + +
 @import './modules/modal'; // + +
@@ -61,6 +61,7 @@
 @import './pages/front/sections/result'; // + +
 @import './pages/front/sections/compare'; // - -
 @import './pages/front/sections/why-us'; // + +
+@import './pages/front/sections/goals';
 @import './pages/front/sections/infra'; // + +
 @import './pages/front/sections/documents'; // + +
 @import './pages/front/sections/cost'; // + +
@@ -75,8 +76,15 @@
 @import './pages/front/sections/flagship'; // + +
 @import './pages/front/sections/europe'; // + +
 @import './pages/front/sections/blog-section'; // + +
+@import './pages/front/sections/blog-section-slider';
+@import './pages/front/sections/blog-tiles';
+@import './pages/front/sections/seo-section';
+@import './pages/front/sections/contacts';
+@import './pages/front/sections/contacts-maps';
+@import './pages/front/sections/contacts-details';
+@import './pages/front/sections/comments-cta';
 @import './pages/front/sections/services-slider'; // + +
-@import './pages/front/sections/guide'; // + -
+@import './pages/front/sections/services-tiles';
 @import './pages/front/sections/consult'; // + -
 @import './pages/front/sections/team'; // + +
 @import './pages/front/sections/quiz';
@@ -87,7 +95,7 @@
 @import './pages/front/sections/partners'; // + -
 @import './pages/front/sections/faq'; // + -
 @import './pages/front/sections/reviews'; // + -
-@import './pages/front/sections/consultation-free'; // + -
+@import './pages/front/sections/reviews-tiles';
 
 
 

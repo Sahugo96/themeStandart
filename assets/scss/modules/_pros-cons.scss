@@ -18,10 +18,10 @@
   }
 
   &__pros-cons-item {
-    --pros-cons-title: var(--white-color);
-    --pros-cons-icon-bg: var(--gray-25-color);
-    --pros-cons-bg: var(--gray-12-color);
-    --pros-cons-border: var(--gray-25-color);
+    --pros-cons-title: var(--light-bg-color);
+    --pros-cons-icon-bg: var(--dark-bg-stoke-color);
+    --pros-cons-bg: var(--dark-bg-plank-color);
+    --pros-cons-border: var(--dark-bg-stoke-color);
 
     display: flex;
     align-items: flex-start;
@@ -31,7 +31,7 @@
     border: 1px solid var(--pros-cons-border);
     border-radius: vw(16px, $mobile);
     background-color: var(--pros-cons-bg);
-    color: var(--gray-70-color);
+    color: var(--additional-gray-color);
     @media (min-width: $desk) {
       gap: vw(14px, $desktop);
       padding: vw(18px, $desktop) vw(20px, $desktop);
@@ -44,17 +44,17 @@
     }
 
     &--pro {
-      --pros-cons-title: #7EE2A0;
-      --pros-cons-icon-bg: #7EE2A0;
-      --pros-cons-bg: #15251A;
-      --pros-cons-border: #2A4A35;
+      --pros-cons-title: var(--accent-color);
+      --pros-cons-icon-bg: var(--accent-color);
+      --pros-cons-bg: var(--dark-bg-plank-color);
+      --pros-cons-border: var(--accent-20-color);
     }
 
     &--con {
-      --pros-cons-title: #E88898;
-      --pros-cons-icon-bg: #E07080;
-      --pros-cons-bg: #241416;
-      --pros-cons-border: #5A2A32;
+      --pros-cons-title: var(--brand-accent-red-m-color);
+      --pros-cons-icon-bg: var(--brand-accent-red-m-color);
+      --pros-cons-bg: var(--dark-bg-plank-color);
+      --pros-cons-border: var(--dark-bg-stoke-color);
     }
   }
 
@@ -68,7 +68,7 @@
     margin-top: vw(1px, $mobile);
     border-radius: 50%;
     background-color: var(--pros-cons-icon-bg);
-    color: #122016;
+    color: var(--dark-bg-color);
     line-height: 0;
     @media (min-width: $desk) {
       width: vw(28px, $desktop);
@@ -155,7 +155,7 @@
       font-size: vw(14px, $mobile);
       font-weight: 400;
       line-height: 1.45;
-      color: var(--gray-70-color);
+      color: var(--additional-gray-color);
       @media (min-width: $desk) {
         font-size: vw(14px, $desktop);
       }

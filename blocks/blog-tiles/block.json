@@ -1,0 +1,31 @@
+{
+  "apiVersion": 3,
+  "title": "Плитка статей",
+  "name": "my-theme/blog-tiles",
+  "category": "tolstenko-blog",
+  "icon": "grid-view",
+  "description": "Все статьи одинаковыми карточками: 3 в ряд с переносом и пагинация (12 на странице) — для архива блога",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render": "file:./template.php"
+}

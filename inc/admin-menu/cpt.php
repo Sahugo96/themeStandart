@@ -93,7 +93,8 @@ function register_case_cpt()
             'show_in_menu' => true,
             'menu_icon' => 'dashicons-awards',
             'menu_position' => -4,
-            'supports' => array('title', 'thumbnail'),
+            // Без «Изображения записи»: карточка кейса выводит только текст и иконки фактов.
+            'supports' => array('title'),
             'show_in_rest' => true,
             'has_archive' => false,
             'rewrite' => array('slug' => 'cases'),
@@ -118,7 +119,8 @@ function register_case_cpt()
     );
 }
 
-// Члены команды: без собственной страницы, только поля.
+// Члены команды: свои страницы есть (/teammate/<slug>/ — нужны Polylang для связи переводов),
+// но тема нигде не ставит на них ссылок: нет в меню, поиске и карте сайта.
 add_action('init', 'register_teammate_cpt');
 function register_teammate_cpt()
 {
@@ -133,20 +135,53 @@ function register_teammate_cpt()
                 'edit_item' => 'Редактировать',
                 'all_items' => 'Все члены команды',
             ),
-            'public' => false,
-            'publicly_queryable' => false,
+            'public' => true,
+            'publicly_queryable' => true,
             'exclude_from_search' => true,
             'show_ui' => true,
             'show_in_menu' => true,
+            'show_in_nav_menus' => false,
             'menu_icon' => 'dashicons-groups',
             'menu_position' => -4,
             'supports' => array('title'),
             'show_in_rest' => true,
             'has_archive' => false,
-            'rewrite' => false,
+            'rewrite' => array('slug' => 'teammate', 'with_front' => false),
         )
     );
 }
+
+// Страниц членов команды нет в карте сайта WordPress (ссылок на них нигде нет).
+add_filter('wp_sitemaps_post_types', function ($post_types) {
+    unset($post_types['teammate']);
+    return $post_types;
+});
+
+// Polylang показывает в настройках только публичные таксономии. Рубрики блога (blog_cat)
+// регистрируются вне темы — добавляем их в список «Языки → Настройки → Типы записей и таксономии»,
+// включать ли перевод — решается там галочкой ($is_settings = true).
+// «Команда» теперь публичная — в этом списке она есть сама.
+add_filter('pll_get_taxonomies', function ($taxonomies, $is_settings) {
+    if ($is_settings && taxonomy_exists('blog_cat')) {
+        $taxonomies['blog_cat'] = 'blog_cat';
+    }
+    return $taxonomies;
+}, 10, 2);
+
+// «Команда» и Polylang (после включения перевода в настройках плагина): общие для всех языков
+// поля синхронизируются между переводами.
+// $sync = false — создание перевода: копируем все поля как черновик (тексты потом переводятся);
+// $sync = true  — сохранение: в переводы переносятся только общие поля (фото, ссылки).
+add_filter('pll_copy_post_metas', function ($metas, $sync, $from, $to, $lang) {
+    if (get_post_type($from) !== 'teammate') {
+        return $metas;
+    }
+
+    $shared = ['teammate_image_id', 'teammate_btn_url', 'teammate_links'];
+    $texts  = ['teammate_name', 'teammate_description', 'teammate_list', 'teammate_btn_text'];
+
+    return array_values(array_unique(array_merge((array) $metas, $sync ? $shared : array_merge($shared, $texts))));
+}, 10, 5);
 
 add_action('admin_init', function () {
     remove_meta_box('slugdiv', 'service', 'normal');
@@ -169,17 +204,52 @@ function register_review_cpt()
                 'edit_item' => 'Редактировать',
                 'all_items' => 'Все отзывы',
             ),
+            // Отзывы выводятся карточками на странице с шаблоном «Reviews page» и в секциях:
+            // своих страниц и архива у них нет (иначе /review/… — пустые индексируемые URL).
+            // public оставлен: по нему Polylang предлагает переводить тип записей.
             'public' => true,
+            'publicly_queryable' => false,
+            'exclude_from_search' => true,
+            'show_in_nav_menus' => false,
             'show_ui' => true,
             'show_in_menu' => true,
             'menu_icon' => 'dashicons-testimonial',
             'menu_position' => -4,
-            'supports' => array('title', 'editor', 'thumbnail'),
-            'has_archive' => true,
-            'rewrite' => array('slug' => 'review'),
+            // Без «Изображения записи»: карточка отзыва его не выводит.
+            'supports' => array('title', 'editor'),
+            'has_archive' => false,
+            'rewrite' => false,
         )
     );
 }
+
+// Один раз сбросить правила URL после смены типов записей (архив отзывов, страницы «Команды» /teammate/…).
+add_action('init', function () {
+    if (get_option('theme_review_cpt_rewrite') !== '3') {
+        flush_rewrite_rules(false);
+        update_option('theme_review_cpt_rewrite', '3', false);
+    }
+}, 99);
+
+// Старые адреса /review/ и /review/<отзыв>/ → страница отзывов (301), если она есть.
+add_action('template_redirect', function () {
+    if (!is_404()) {
+        return;
+    }
+
+    $path = trim((string) wp_parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH), '/');
+
+    if (!preg_match('#(^|/)review(/|$)#', $path)) {
+        return;
+    }
+
+    $page_id = function_exists('theme_get_template_page_id') ? theme_get_template_page_id('page-reviews.php') : 0;
+
+    if ($page_id) {
+        wp_safe_redirect((string) get_permalink($page_id), 301);
+        exit;
+    }
+});
 
 
 

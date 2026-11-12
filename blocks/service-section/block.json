@@ -1,9 +1,10 @@
 {
   "apiVersion": 3,
-  "title": "Архив услуг",
+  "title": "Плитка услуг",
   "name": "my-theme/service-section",
   "category": "tolstenko-services",
-  "icon": "admin-page",
+  "icon": "grid-view",
+  "description": "Все услуги карточками по 3 в ряд (как в «Слайдере услуг») с табами рубрик — для страницы с шаблоном «Archive service». Пустые поля — из таба «Плитка услуг».",
   "supports": {
     "html": false,
     "align": [
@@ -13,6 +14,10 @@
     "multiple": false
   },
   "attributes": {
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
     "title": {
       "type": "string",
       "default": ""

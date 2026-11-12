@@ -1,0 +1,344 @@
+// Секция «SEO-наполнение» (pages/sections/seo-section.php).
+// Шапка — общие section-subtitle / section-title по центру. Карточка (br-30) со строками
+// свёрнута по высоте с затемнением снизу; кнопка-раскрывашка по центру под карточкой
+// (как в tolstenko.marketing): .is-expanded снимает обрезку и прячет кнопку,
+// .is-short — содержимое помещается, обрезки и кнопки нет (modules/seoSection.js).
+
+// Размер: мобильный макет / десктоп (то же значение и на $desk_large).
+@mixin seo-fluid($prop, $m, $d) {
+  #{$prop}: vw($m, $mobile);
+  @media (min-width: $desk) {
+    #{$prop}: vw($d, $desktop);
+  }
+  @media (min-width: $desk_large) {
+    #{$prop}: vw($d, $desktop_large);
+  }
+}
+
+.seo-section {
+  &__panel {
+    @include seo-fluid(padding, 10px, 20px);
+    background-color: var(--dark-bg-plank-color);
+  }
+
+  // ----- Свёрнутое тело -----
+  &__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    @include seo-fluid(max-height, 480px, 560px);
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(180deg, rgba(22, 34, 45, 0) 0%, var(--dark-bg-plank-color) 100%);
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      @include seo-fluid(height, 120px, 120px);
+    }
+  }
+
+  &__wrap.is-expanded &__body,
+  &__wrap.is-short &__body {
+    max-height: none;
+
+    &::after {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  // Строки разделены линией.
+  &__body > &__row + &__row {
+    border-top: 1px solid var(--dark-bg-stoke-color);
+    @include seo-fluid(margin-top, 10px, 20px);
+  }
+
+  // ----- Строки -----
+  &__row {
+    @include seo-fluid(padding, 10px, 20px);
+  }
+
+  // Фото + текст / Текст + фото: текст слева, фото справа (reverse — наоборот).
+  &__row--media {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    @include seo-fluid(grid-gap, 10px, 20px);
+    @media (min-width: $desk) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) vw(560px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-template-columns: minmax(0, 1fr) vw(560px, $desktop_large);
+    }
+  }
+
+  &__row--reverse {
+    @media (min-width: $desk) {
+      grid-template-columns: vw(560px, $desktop) minmax(0, 1fr);
+    }
+    @media (min-width: $desk_large) {
+      grid-template-columns: vw(560px, $desktop_large) minmax(0, 1fr);
+    }
+  }
+
+  &__row--no-media {
+    @media (min-width: $desk) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    @include seo-fluid(padding, 10px, 20px);
+  }
+
+  // На мобильных фото над текстом, на десктопе — по высоте строки.
+  &__media {
+    position: relative;
+    order: -1;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    @media (min-width: $desk) {
+      order: 0;
+      aspect-ratio: auto;
+      min-height: vw(500px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      min-height: vw(500px, $desktop_large);
+    }
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__row--reverse &__media {
+    @media (min-width: $desk) {
+      order: -1;
+    }
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    @include seo-fluid(grid-gap, 8px, 10px);
+    @include seo-fluid(margin-bottom, 20px, 40px);
+  }
+
+  &__tag {
+    border: 1px solid var(--additional-gray-30-color);
+    border-radius: 999px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--additional-gray-color);
+    @include seo-fluid(padding, 4px, 4px);
+    @include seo-fluid(padding-inline, 8px, 8px);
+    @include seo-fluid(font-size, 10px, 10px);
+  }
+
+  &__row-title {
+    font-family: $Montserrat;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--light-bg-color);
+    @include seo-fluid(font-size, 18px, 20px);
+    @include seo-fluid(margin-bottom, 12px, 20px);
+  }
+
+  // Текст: серый, заголовки светлые, ссылки и маркеры — золотые.
+  .redactor {
+    color: var(--additional-gray-color);
+    @include seo-fluid(font-size, 14px, 14px);
+    @include seo-fluid(line-height, 24px, 25px);
+
+    > * {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    > * + * {
+      @include seo-fluid(margin-top, 10px, 10px);
+    }
+
+    h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--light-bg-color);
+    }
+    strong, b {
+      color: var(--light-bg-color);
+    }
+    a:not([class]) {
+      color: var(--accent-color);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+      @media (any-hover: hover) {
+        &:hover {
+          color: var(--light-bg-color);
+        }
+      }
+    }
+    ul li::before {
+      background-color: var(--accent-color);
+    }
+    ol li::marker {
+      color: var(--accent-color);
+    }
+  }
+
+  // ----- Кнопка-раскрывашка: по центру под карточкой (как .more-btn в tolstenko.marketing) -----
+  &__more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid var(--dark-bg-stoke-color);
+    border-radius: 999px;
+    font-family: $Montserrat;
+    font-weight: 600;
+    line-height: 1.15;
+    text-transform: uppercase;
+    color: var(--additional-gray-color);
+    background-color: transparent;
+    cursor: pointer;
+    transition: border-color 0.3s linear, color 0.3s linear;
+    @include seo-fluid(height, 45px, 45px);
+    @include seo-fluid(margin-top, 24px, 30px);
+    @include seo-fluid(padding-inline, 25px, 25px);
+    @include seo-fluid(grid-gap, 6px, 6px);
+    @include seo-fluid(font-size, 13px, 13px);
+
+    svg {
+      flex-shrink: 0;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      @include seo-fluid(width, 15px, 15px);
+      @include seo-fluid(height, 15px, 15px);
+    }
+
+    @media (any-hover: hover) {
+      &:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+      }
+    }
+  }
+
+  &__wrap.is-expanded &__more,
+  &__wrap.is-short &__more {
+    display: none;
+  }
+
+  // Две колонки + пункты-карточки.
+  &__columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-gap: vw(16px, $mobile);
+    @media (min-width: $desk) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-gap: vw(50px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(50px, $desktop_large);
+    }
+  }
+
+  &__items {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-gap: vw(10px, $mobile);
+    margin: vw(20px, $mobile) 0 0;
+    padding: 0;
+    list-style: none;
+    @media (min-width: $desk) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-gap: vw(12px, $desktop);
+      margin-top: vw(30px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(12px, $desktop_large);
+      margin-top: vw(30px, $desktop_large);
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    grid-gap: vw(8px, $mobile);
+    padding: vw(16px, $mobile);
+    border: 1px solid var(--dark-bg-stoke-color);
+    background-color: var(--dark-bg-plank-color);
+    @media (min-width: $desk) {
+      grid-gap: vw(10px, $desktop);
+      padding: vw(20px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(10px, $desktop_large);
+      padding: vw(20px, $desktop_large);
+    }
+  }
+
+  &__item-title {
+    font-weight: 700;
+    font-size: vw(15px, $mobile);
+    line-height: 1.25;
+    color: var(--accent-color);
+    @media (min-width: $desk) {
+      font-size: vw(16px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      font-size: vw(16px, $desktop_large);
+    }
+  }
+
+  // Галерея.
+  &__gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-gap: vw(8px, $mobile);
+    @media (min-width: $desk) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-gap: vw(12px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      grid-gap: vw(12px, $desktop_large);
+    }
+  }
+
+  &__gallery-item {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s linear;
+    }
+    @media (any-hover: hover) {
+      &:hover img {
+        transform: scale(1.04);
+      }
+    }
+  }
+}

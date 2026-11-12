@@ -6,8 +6,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="tolstenko-df-panel" data-panel="service_section_filters" data-group="post_sliders">
 			<?php
 			$filters_data = $all['service_section_filters'] ?? array();
-			if ( ! array_key_exists( 'service_section_filters', $saved ) && ! empty( $all['service_section'] ) && is_array( $all['service_section'] ) ) {
-				$filters_data = array_replace_recursive( $filters_data, $all['service_section'] );
+			// Не сохранён — показываем то же, что выводит сайт (tolstenko_get_block_defaults_raw):
+			// схема + сохранённый «Слайдер услуг», пустые поля которого схему не затирают.
+			if ( ! array_key_exists( 'service_section_filters', $saved ) && isset( $saved['service_section'] ) && is_array( $saved['service_section'] ) ) {
+				$filters_data = tolstenko_merge_block_defaults_data( $filters_data, $saved['service_section'] );
 			}
 			tolstenko_render_service_section_defaults_fields( 'service_section_filters', $filters_data );
 			?>

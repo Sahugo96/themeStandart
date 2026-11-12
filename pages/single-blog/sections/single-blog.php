@@ -110,7 +110,7 @@ if ($actions_field) {
               </div>
 
               <?php if ($director['show_quest']) : ?>
-                <a class="single-blog__director-btn default-btn" href="#comments">Задать вопрос</a>
+                <a class="single-blog__director-btn default-btn default-btn--transparent" href="#comments">Задать вопрос</a>
               <?php endif; ?>
             </div>
           <?php endif; ?>
@@ -176,9 +176,9 @@ if ($actions_field) {
 
             <?php get_template_part('modules/socials/socials-rgb'); ?>
 
-            <a class="single-blog__right-btn default-btn default-btn--red" href="#modal">Бесплатный аудит</a>
+            <a class="single-blog__right-btn default-btn default-btn--brown" href="#modal">Бесплатный аудит</a>
 
-            <a class="single-blog__right-btn default-btn" href="#comments">Задать вопрос</a>
+            <a class="single-blog__right-btn default-btn default-btn--transparent" href="#comments">Задать вопрос</a>
           </div>
 
           <?php if ($actions_query && $actions_query->have_posts()) : ?>

@@ -5,10 +5,10 @@
  * Как устроено:
  * 1. Основной язык хранится в прежней опции (tolstenko_block_defaults / tolstenko_contact_data),
  *    остальные — в копиях с суффиксом языка: tolstenko_block_defaults_en и т.п.
- * 2. В копии лежат только отличия от основного языка: при сохранении значения, совпадающие
- *    с основным языком, отбрасываются (theme_settings_diff), при чтении — подставляются из него
- *    (theme_settings_merge). Пустая строка в переводе тоже берётся из основного языка.
- *    Число пунктов в повторителях следует основному языку.
+ * 2. Перевод сохраняется целиком (theme_settings_save_translation): после сохранения вкладки
+ *    языка его значения не меняются от правок основного языка. Из основного языка берётся
+ *    только пустое / отсутствующее (theme_settings_overlay) и всё — пока язык ни разу не сохраняли.
+ *    Старые переводы «только отличия» (theme_settings_diff/merge) читаются до следующего сохранения.
  * 3. На странице настроек — вкладки языков (параметр settings_lang).
  * 4. Поля-выборы записей (post_id, ids…) общие: хранятся только в основном языке, на чтении
  *    заменяются переводом записи (pll_get_post), если он есть.
@@ -20,8 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Метка опции перевода «сохранён целиком» (theme_settings_save_translation / theme_settings_get_saved).
+const THEME_SETTINGS_FULL_MARK = '__theme_full';
+
 /**
- * Языки сайта (slug), основной — первым. Пусто, если Polylang не активен.
+ * Языки сайта (slug), основной язык настроек — первым. Пусто, если Polylang не активен.
  *
  * @return string[]
  */
@@ -38,15 +41,57 @@ function theme_settings_languages() {
 }
 
 /**
- * Основной язык (slug) или '' без Polylang.
+ * Основной язык настроек (slug) или '' без Polylang: на нём хранятся общие опции
+ * (tolstenko_block_defaults, tolstenko_contact_data), остальные языки — копии с суффиксом.
+ *
+ * Не зависит от «языка по умолчанию» Polylang: смена его в настройках Polylang не должна
+ * менять местами сохранённые переводы. Запоминается в опции theme_settings_main_lang;
+ * при первом вызове определяется как язык, у которого нет копий настроек (иначе ru).
  *
  * @return string
  */
 function theme_settings_default_lang() {
-	if ( ! function_exists( 'pll_default_language' ) ) {
+	static $main = null;
+
+	if ( ! function_exists( 'pll_languages_list' ) ) {
 		return '';
 	}
-	return (string) pll_default_language( 'slug' );
+	if ( $main !== null ) {
+		return $main;
+	}
+
+	$languages = array_values( array_filter( (array) pll_languages_list( array( 'fields' => 'slug' ) ) ) );
+	if ( ! $languages ) {
+		return '';
+	}
+
+	$stored = (string) get_option( 'theme_settings_main_lang', '' );
+	if ( $stored !== '' && in_array( $stored, $languages, true ) ) {
+		return $main = $stored;
+	}
+
+	// Язык без копий «…_<язык>» — тот, что хранится в общих опциях.
+	$without_copies = array_values(
+		array_filter(
+			$languages,
+			static function ( $lang ) {
+				return get_option( 'tolstenko_block_defaults_' . $lang, null ) === null
+					&& get_option( 'tolstenko_contact_data_' . $lang, null ) === null;
+			}
+		)
+	);
+
+	if ( count( $without_copies ) === 1 ) {
+		$main = $without_copies[0];
+	} elseif ( in_array( 'ru', $languages, true ) ) {
+		$main = 'ru';
+	} else {
+		$main = function_exists( 'pll_default_language' ) ? (string) pll_default_language( 'slug' ) : $languages[0];
+	}
+
+	update_option( 'theme_settings_main_lang', $main, true );
+
+	return $main;
 }
 
 /**
@@ -288,8 +333,56 @@ function theme_settings_get_saved( $base_option, $lang ) {
 	if ( ! theme_settings_is_translation( $lang ) ) {
 		return $saved;
 	}
-	$diff = get_option( theme_settings_option_name( $base_option, $lang ), array() );
-	return is_array( $diff ) && $diff ? (array) theme_settings_merge( $saved, $diff ) : $saved;
+	$stored = get_option( theme_settings_option_name( $base_option, $lang ), array() );
+	if ( ! is_array( $stored ) || ! $stored ) {
+		// Язык ещё не сохраняли — показываем основной.
+		return $saved;
+	}
+	// Новый формат: перевод сохранён целиком, основной язык — только для пустого / отсутствующего.
+	if ( ! empty( $stored[ THEME_SETTINGS_FULL_MARK ] ) ) {
+		unset( $stored[ THEME_SETTINGS_FULL_MARK ] );
+		return (array) theme_settings_overlay( $saved, $stored );
+	}
+	// Старый формат (только отличия) — читается как раньше до следующего сохранения вкладки.
+	return (array) theme_settings_merge( $saved, $stored );
+}
+
+/**
+ * Перевод, сохранённый целиком, поверх основного языка.
+ * Из основного языка берётся только то, чего в переводе нет или что пусто
+ * (пустая строка, пустой список); повторители перевода — свой состав пунктов.
+ *
+ * @param mixed $base Значение основного языка.
+ * @param mixed $full Значение перевода.
+ * @return mixed
+ */
+function theme_settings_overlay( $base, $full ) {
+	if ( $full === null ) {
+		return $base;
+	}
+	if ( $full === '' && is_string( $base ) ) {
+		return $base;
+	}
+	if ( is_array( $full ) && theme_settings_is_list( $full ) ) {
+		if ( $full === array() ) {
+			return $base !== null ? $base : $full;
+		}
+		$base = is_array( $base ) && theme_settings_is_list( $base ) ? $base : array();
+		$out  = array();
+		foreach ( $full as $i => $item ) {
+			// Пункт перевода дополняется общими полями (выборы записей) пункта основного языка.
+			$out[] = is_array( $item ) && ! theme_settings_is_list( $item ) ? theme_settings_overlay( $base[ $i ] ?? null, $item ) : $item;
+		}
+		return $out;
+	}
+	if ( is_array( $full ) ) {
+		$out = is_array( $base ) && ! theme_settings_is_list( $base ) ? $base : array();
+		foreach ( $full as $key => $item ) {
+			$out[ $key ] = theme_settings_overlay( $out[ $key ] ?? null, $item );
+		}
+		return $out;
+	}
+	return $full;
 }
 
 /**
@@ -301,10 +394,11 @@ function theme_settings_get_saved( $base_option, $lang ) {
  * @param string[] $shared_keys Общие для языков ключи.
  */
 function theme_settings_save_translation( $base_option, $lang, $data, $shared_keys ) {
-	$base = get_option( $base_option, array() );
-	$base = is_array( $base ) ? $base : array();
-	$diff = theme_settings_diff( theme_settings_strip_keys( $base, $shared_keys ), theme_settings_strip_keys( $data, $shared_keys ) );
-	update_option( theme_settings_option_name( $base_option, $lang ), is_array( $diff ) ? $diff : array(), false );
+	// Перевод хранится целиком (кроме общих для языков ключей): после сохранения вкладки языка
+	// его значения больше не зависят от правок основного языка.
+	$full = theme_settings_strip_keys( is_array( $data ) ? $data : array(), $shared_keys );
+	$full[ THEME_SETTINGS_FULL_MARK ] = 1;
+	update_option( theme_settings_option_name( $base_option, $lang ), $full, false );
 }
 
 /**
@@ -339,7 +433,7 @@ function theme_settings_render_lang_tabs( $page_url, $shared_labels = array() ) 
 			echo esc_html(
 				sprintf(
 					/* translators: %s: основной язык. */
-					__( 'Перевод. Заполняйте только то, что отличается: пустые поля и значения, совпадающие с языком «%s», берутся из него и обновляются вместе с ним.', 'tolstenko-theme' ),
+					__( 'Перевод. После сохранения значения этого языка не зависят от языка «%s»; пустые поля берутся из него. Пока язык ни разу не сохраняли, показываются значения «%1$s».', 'tolstenko-theme' ),
 					$names[ theme_settings_default_lang() ] ?? theme_settings_default_lang()
 				)
 			);

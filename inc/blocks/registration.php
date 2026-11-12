@@ -38,13 +38,14 @@ function theme_get_block_category_map(): array
 {
     return [
         // Главная / общие секции
+        'breadcrumbs'            => 'tolstenko-general',
         'main-hero'              => 'tolstenko-general',
         'result'                 => 'tolstenko-general',
         'compare'                => 'tolstenko-general',
         'why-us'                 => 'tolstenko-general',
+        'goals'                  => 'tolstenko-general',
         'infra'                  => 'tolstenko-general',
         'about'                  => 'tolstenko-general',
-        'guide'                  => 'tolstenko-general',
         'consult'                => 'tolstenko-general',
         'hero-stats'             => 'tolstenko-general',
         'situations'             => 'tolstenko-general',
@@ -62,6 +63,7 @@ function theme_get_block_category_map(): array
         'faq'                    => 'tolstenko-general',
         'field-template'         => 'tolstenko-general',
         'hidden-block'           => 'tolstenko-general',
+        'seo-section'            => 'tolstenko-general',
 
         // Блог
         'blog-archive'           => 'tolstenko-blog',
@@ -71,14 +73,14 @@ function theme_get_block_category_map(): array
         'single-blog'            => 'tolstenko-blog',
         'blog-related'           => 'tolstenko-blog',
         'blog-grid'              => 'tolstenko-blog',
+        'blog-tiles'             => 'tolstenko-blog',
         'blog-large-img'         => 'tolstenko-blog',
         'blog-video'             => 'tolstenko-blog',
         'blog-blockquote'        => 'tolstenko-blog',
-        'blog-number-list'       => 'tolstenko-blog',
         'blog-warning'           => 'tolstenko-blog',
+        'blog-seo'               => 'tolstenko-blog',
         'blog-pros-cons'         => 'tolstenko-blog',
         'blog-definition'        => 'tolstenko-blog',
-        'blog-seo'               => 'tolstenko-blog',
 
         // Услуги / кейсы
         'services-hero'          => 'tolstenko-services',
@@ -91,6 +93,11 @@ function theme_get_block_category_map(): array
 
         // Отзывы
         'reviews-section'        => 'tolstenko-reviews',
+        'reviews-tiles'          => 'tolstenko-reviews',
+        'contacts'               => 'tolstenko-general',
+        'comments-cta'           => 'tolstenko-general',
+        'contacts-maps'          => 'tolstenko-general',
+        'contacts-details'       => 'tolstenko-general',
         'reviews-slider'         => 'tolstenko-reviews',
     ];
 }
@@ -171,17 +178,29 @@ function theme_allowed_block_types($allowed_block_types, $editor_context)
         'core/list-item',
         'core/quote',
         'core/html',
+        // Паттерны: без core/block в меню «⋮» нет пункта «Создать паттерн»
+        // и сохранённые паттерны нельзя вставить; core/pattern — вставка из библиотеки паттернов.
+        'core/block',
+        'core/pattern',
     ]);
 
     // В статье редактируется только тело: текст и блоки «Статья: …».
     $post = isset($editor_context->post) ? $editor_context->post : null;
 
-    if ($post instanceof WP_Post && $post->post_type === 'blog') {
+    // Так же — на странице документа (шаблон «Страница документа», inc/document-page.php).
+    if ($post instanceof WP_Post && ($post->post_type === 'blog' || (function_exists('theme_is_document_page') && theme_is_document_page($post)))) {
         return tolstenko_get_blog_content_inner_blocks();
     }
 
     // Блоки тела статьи на других страницах не нужны.
     $allowed = array_diff($allowed, tolstenko_get_blog_content_block_names());
+
+    // Блоки страницы контактов — только на странице с шаблоном «Contacts page».
+    // При смене шаблона в редакторе список обновляет assets/js/editor-contacts-blocks.js.
+    $is_contacts_page = $post instanceof WP_Post && function_exists('theme_is_contacts_page') && theme_is_contacts_page($post);
+    if (!$is_contacts_page && function_exists('theme_contacts_block_names')) {
+        $allowed = array_diff($allowed, theme_contacts_block_names());
+    }
 
     return array_values(array_unique($allowed));
 }

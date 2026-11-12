@@ -74,7 +74,7 @@ $btn_url  = trim((string) ($data['btn_url'] ?? ''));
             ?>
               <article class="banks__card br-20 fade-in-element splide__slide">
                 <?php if (trim((string) ($item['title'] ?? '')) !== '') : ?>
-                  <h3 class="banks__card-title"><?= $item['title']; ?></h3>
+                  <h3 class="banks__card-title h4-16-20"><?= $item['title']; ?></h3>
                 <?php endif; ?>
 
                 <?php if ($logo['url'] !== '') : ?>
@@ -94,14 +94,14 @@ $btn_url  = trim((string) ($data['btn_url'] ?? ''));
                   <ul class="banks__facts br-20">
                     <?php if ($fact_1_label !== '' || $fact_1_value !== '') : ?>
                       <li class="banks__fact">
-                        <span class="banks__fact-label"><?= esc_html($fact_1_label); ?></span>
-                        <span class="banks__fact-value"><?= esc_html($fact_1_value); ?></span>
+                        <span class="banks__fact-label tag-10-10"><?= esc_html($fact_1_label); ?></span>
+                        <span class="banks__fact-value h5-14-15"><?= esc_html($fact_1_value); ?></span>
                       </li>
                     <?php endif; ?>
                     <?php if ($fact_2_label !== '' || $fact_2_value !== '') : ?>
                       <li class="banks__fact">
-                        <span class="banks__fact-label"><?= esc_html($fact_2_label); ?></span>
-                        <span class="banks__fact-value"><?= esc_html($fact_2_value); ?></span>
+                        <span class="banks__fact-label tag-10-10"><?= esc_html($fact_2_label); ?></span>
+                        <span class="banks__fact-value h5-14-15"><?= esc_html($fact_2_value); ?></span>
                       </li>
                     <?php endif; ?>
                   </ul>

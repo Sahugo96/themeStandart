@@ -1,0 +1,39 @@
+{
+  "apiVersion": 3,
+  "title": "Контакты",
+  "name": "my-theme/contacts",
+  "category": "tolstenko-general",
+  "icon": "location",
+  "description": "Адреса-вкладки: контакты, кнопки «Позвонить» / «Telegram» и галерея фото офиса",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "call_text": {
+      "type": "string",
+      "default": ""
+    },
+    "tg_text": {
+      "type": "string",
+      "default": ""
+    },
+    "addresses": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

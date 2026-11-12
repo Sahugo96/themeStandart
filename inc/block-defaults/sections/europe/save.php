@@ -18,6 +18,10 @@ if ( isset( $raw['europe']['columns'] ) && is_array( $raw['europe']['columns'] )
 	foreach ( $raw['europe']['columns'] as $col ) {
 		$out['europe']['columns'][] = tolstenko_kses_html( $col );
 	}
+	// Все заголовки пустые — не сохраняем: на сайте останутся заголовки по умолчанию.
+	if ( '' === trim( implode( '', $out['europe']['columns'] ) ) ) {
+		$out['europe']['columns'] = array();
+	}
 }
 
 if ( isset( $raw['europe']['rows'] ) && is_array( $raw['europe']['rows'] ) ) {

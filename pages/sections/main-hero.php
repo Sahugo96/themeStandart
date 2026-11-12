@@ -63,7 +63,7 @@ if (trim((string) $data['title']) === '' && !$image_id) {
 }
 ?>
 <section class="main-hero section">
-  <div class="main-hero__box br-30">
+  <div class="container">
     <div class="main-hero__inner<?= $image_id ? ' main-hero__inner--media' : ''; ?>">
       <div class="main-hero__head">
         <?php if (trim((string) $data['badge']) !== '') : ?>

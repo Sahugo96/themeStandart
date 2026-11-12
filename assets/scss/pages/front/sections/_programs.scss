@@ -1,24 +1,13 @@
 .programs {
   --programs-soft: var(--beige-light-color, #f8f7f3);
   --programs-row-even: #fdfcfa;
-  --programs-gold: var(--gold-color, #b89a68);
   --programs-dark: var(--dark-color, #1a2027);
   --programs-text: var(--gray-60-color, #6f7479);
   --programs-muted: var(--gray-50-color, #9a9da0);
-  --programs-line: var(--beige-line-color, #ebe8e1);
-  --programs-border: var(--gray-30-color, #dcd7cd);
 
-  // На мобильных таблица скроллится внутри своего блока
   &__table-wrap {
     overflow-x: auto;
-    border-radius: vw(24px, $mobile);
-    background-color: var(--programs-soft);
-    @media (min-width: $desk) {
-      border-radius: vw(32px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      border-radius: vw(32px, $desktop_large);
-    }
+    background-color: var(--white-opa-50-color);
   }
 
   &__table {
@@ -34,7 +23,7 @@
 
   &__th {
     padding: vw(20px, $mobile) vw(16px, $mobile);
-    border-bottom: 1px solid var(--programs-line);
+    border-bottom: 1px solid var(--light-stroke-color);
     font-weight: 400;
     font-size: vw(10px, $mobile);
     line-height: 1.2;
@@ -50,8 +39,8 @@
       width: 19%;
     }
     &--accent {
-      font-weight: 700;
-      color: var(--programs-dark);
+      // font-weight: 700;
+      // color: var(--programs-dark);
     }
     @media (min-width: $desk) {
       padding: vw(28px, $desktop) vw(30px, $desktop);
@@ -81,13 +70,13 @@
 
   &__row {
     &:nth-child(odd) {
-      background-color: var(--programs-soft);
+      background-color: var(--white-opa-50-color);
     }
     &:nth-child(even) {
       background-color: var(--programs-row-even);
     }
     & + & {
-      border-top: 1px solid var(--programs-line);
+      border-top: 1px solid var(--light-stroke-color);
     }
   }
 
@@ -115,8 +104,8 @@
   &__cell {
     color: var(--programs-text);
     &--accent {
-      font-weight: 700;
-      color: var(--programs-dark);
+      // font-weight: 700;
+      // color: var(--programs-dark);
     }
   }
 

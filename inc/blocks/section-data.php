@@ -253,6 +253,28 @@ function theme_block_link_attr(array $attrs, string $key, string $option_key): a
     return theme_normalize_block_link(theme_get_field($option_key, OPTION_ID));
 }
 
+/**
+ * Отзывы для секции: только опубликованные записи «Отзыв». Принимает WP_Post или ID
+ * (ACF-поле с отзывами может возвращать ID) и отбрасывает удалённые / черновики.
+ *
+ * @param mixed $items Записи или ID.
+ * @return WP_Post[]
+ */
+function theme_normalize_review_posts($items): array
+{
+    $posts = [];
+
+    foreach ((array) $items as $item) {
+        $post = $item instanceof WP_Post ? $item : (is_numeric($item) ? get_post((int) $item) : null);
+
+        if ($post instanceof WP_Post && $post->post_type === 'review' && $post->post_status === 'publish') {
+            $posts[] = $post;
+        }
+    }
+
+    return $posts;
+}
+
 function theme_get_reviews_section_data(array $attrs, $section = null): array
 {
     if ($section && $section !== true && !empty($section['reviews_rewrite'])) {
@@ -298,6 +320,28 @@ function theme_get_reviews_section_data(array $attrs, $section = null): array
                 'orderby'        => $tab_ids ? 'post__in' : 'menu_order date',
                 'order'          => $tab_ids ? 'ASC' : 'DESC',
             ]);
+        }
+    }
+
+    $reviews = theme_normalize_review_posts($reviews);
+
+    // В старом ACF-поле могли остаться удалённые отзывы — тогда берём отзывы из таба / все.
+    // Polylang: если на текущем языке отзывов нет (например, отзывам не назначен язык),
+    // берём отзывы без фильтра по языку, чтобы секция не пропадала.
+    if (empty($reviews) && empty($post_ids)) {
+        $tab_ids = $tab_ids ?? [];
+        $query = [
+            'post_type'      => 'review',
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+            'post__in'       => $tab_ids,
+            'orderby'        => $tab_ids ? 'post__in' : 'menu_order date',
+            'order'          => $tab_ids ? 'ASC' : 'DESC',
+        ];
+        $reviews = theme_normalize_review_posts(get_posts($query));
+
+        if (empty($reviews) && function_exists('pll_current_language')) {
+            $reviews = theme_normalize_review_posts(get_posts($query + ['lang' => '']));
         }
     }
 

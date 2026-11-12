@@ -7,7 +7,8 @@ defined('ABSPATH') || exit;
  *
  * Дефолты — из админки: tolstenko_get_block_defaults('consult')
  * (таб «Секции лендинга → Начните с бесплатной консультации»).
- * Атрибуты блока имеют приоритет.
+ * Атрибуты блока имеют приоритет. Форма — CF7 из поля «Шорткод формы» таба
+ * (по умолчанию «Бесплатная консультация», d0819d8), оформление — светлый .form--dark.
  */
 
 $admin = function_exists('tolstenko_get_block_defaults')
@@ -20,9 +21,7 @@ $defaults = [
     'text'              => $admin['text'] ?? '',
     'contact_label'     => $admin['contact_label'] ?? '',
     'phone'             => $admin['phone'] ?? '',
-    'input_placeholder' => $admin['input_placeholder'] ?? '',
-    'btn_text'          => $admin['btn_text'] ?? '',
-    'consents'          => is_array($admin['consents'] ?? null) ? $admin['consents'] : [],
+    'form_shortcode'    => $admin['form_shortcode'] ?? '',
     'image'             => $admin['image'] ?? 0,
 ];
 
@@ -31,7 +30,9 @@ $overrides = is_array($overrides) ? $overrides : [];
 
 $data = theme_section_merge_defaults($defaults, $overrides);
 
-$consents = isset($data['consents']) && is_array($data['consents']) ? $data['consents'] : [];
+// Форма — CF7 из таба (поля, кнопка и согласия задаются в самой форме).
+$form_shortcode = trim((string) ($data['form_shortcode'] ?? ''));
+$form_html      = $form_shortcode !== '' ? trim((string) do_shortcode($form_shortcode)) : '';
 $phone = trim((string) ($data['phone'] ?? ''));
 $phone_href = preg_replace('/[^0-9+]/', '', $phone);
 $image = tolstenko_contact_get_image_attrs($data['image'] ?? null);
@@ -60,22 +61,11 @@ $text = theme_section_text_html($data['text'] ?? '');
             </div>
           <?php endif; ?>
 
-          <form class="consult__form" action="" method="post">
-            <div class="consult__field">
-              <input class="consult__input" type="text" name="contact" placeholder="<?= esc_attr($data['input_placeholder']); ?>" autocomplete="tel" required>
-              <button class="consult__submit" type="submit"><?= esc_html($data['btn_text']); ?></button>
+          <?php if ($form_html !== '') : ?>
+            <div class="consult__form form form--dark">
+              <?= $form_html; ?>
             </div>
-
-            <?php foreach ($consents as $consent_index => $consent) :
-                $consent = is_array($consent) ? $consent : [];
-            ?>
-              <label class="consult__check">
-                <input class="consult__check-input" type="checkbox" name="agree_<?= (int) $consent_index; ?>" <?= $consent_index === 0 ? 'checked' : ''; ?> required>
-                <span class="consult__check-box"></span>
-                <span class="consult__check-text"><?= $consent['text'] ?? ''; ?> <a href="<?= esc_url($consent['link_url'] ?? ''); ?>" target="_blank" rel="noopener"><?= esc_html($consent['link_text'] ?? ''); ?></a></span>
-              </label>
-            <?php endforeach; ?>
-          </form>
+          <?php endif; ?>
         </div>
 
         <?php if ($image['url'] !== '') : ?>

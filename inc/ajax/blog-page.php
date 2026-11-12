@@ -26,22 +26,7 @@ function handle_blog_page_filter() {
 
     $blog_query = new WP_Query($args);
     
-    $months = [
-        1 => 'января',
-        2 => 'февраля',
-        3 => 'марта',
-        4 => 'апреля',
-        5 => 'мая',
-        6 => 'июня',
-        7 => 'июля',
-        8 => 'августа',
-        9 => 'сентября',
-        10 => 'октября',
-        11 => 'ноября',
-        12 => 'декабря'
-    ];
-
-    ob_start();
+ob_start();
     
     if ($blog_query->have_posts()) :
         $index = 1;
@@ -97,28 +82,7 @@ function handle_blog_page_filter() {
                       <?php endforeach; ?>
 
                       <?php if ($index) {
-                        $months = [
-                          1 => 'января',
-                          2 => 'февраля',
-                          3 => 'марта',
-                          4 => 'апреля',
-                          5 => 'мая',
-                          6 => 'июня',
-                          7 => 'июля',
-                          8 => 'августа',
-                          9 => 'сентября',
-                          10 => 'октября',
-                          11 => 'ноября',
-                          12 => 'декабря'
-                        ];
-
-                        $post_date = get_the_date('j n Y');
-                        $date_parts = explode(' ', $post_date);
-                        $day = $date_parts[0];
-                        $month_num = (int)$date_parts[1];
-                        $year = $date_parts[2];
-
-                        $datee = $day . ' ' . $months[$month_num] . ', ' . $year;
+                        $datee = esc_html(tolstenko_get_blog_date_label(get_the_ID()));
                       ?>
                         <span class="blog-card__tag blog-card__tag--date">
                           <?= $datee; ?>
@@ -142,16 +106,19 @@ function handle_blog_page_filter() {
           </article>
 
 
-          <?php if ($index) { 
-            $photo = theme_get_field('director_photo', OPTION_ID);
-            $photo = Image::get_image_attrs($photo);
+          <?php if ($index) {
+            // Автор — член команды по умолчанию (Настройки сайта → Авторы статей).
+            $author = tolstenko_get_blog_default_author();
+            $photo = $author['photo'] ? tolstenko_get_image_attrs($author['photo'], 'medium') : null;
             ?>
             <div class="blog-section__right-wrapper">
-              <img class="blog-section__right-photo lazyload--js" src="<?= $photo['url']; ?>" alt="<?= $photo['alt']; ?>">
+              <?php if ($photo) : ?>
+                <img class="blog-section__right-photo" src="<?= esc_url($photo['url']); ?>" alt="<?= esc_attr($photo['alt'] !== '' ? $photo['alt'] : $author['name']); ?>" loading="lazy" decoding="async">
+              <?php endif; ?>
 
-              <div class="blog-section__right-name line-caps-bold-13-15"><?= theme_get_field('director_name', OPTION_ID) ?></div>
+              <div class="blog-section__right-name line-caps-bold-13-15"><?= esc_html($author['name']); ?></div>
 
-              <div class="blog-section__right-text paragraph-15-25"><?= theme_get_field('director_text', OPTION_ID) ?></div>
+              <div class="blog-section__right-text paragraph-15-25"><?= esc_html($author['description']); ?></div>
 
               <?php get_template_part('modules/socials/socials-rgb'); ?>
 

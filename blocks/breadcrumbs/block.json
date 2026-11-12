@@ -1,0 +1,18 @@
+{
+  "apiVersion": 3,
+  "title": "Хлебные крошки",
+  "name": "my-theme/breadcrumbs",
+  "category": "tolstenko-general",
+  "icon": "admin-links",
+  "description": "Путь до текущей страницы: Главная → раздел → страница, справа «Назад»",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {},
+  "render": "file:./template.php"
+}

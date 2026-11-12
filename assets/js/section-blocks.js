@@ -35,6 +35,26 @@
   }
 
   /**
+   * showIf: { key, values } — поле видно, только если значение поля key входит в values
+   * (например, поля строки «SEO-наполнения» по выбранному виду). Пустое значение
+   * select считается его первым вариантом — так же, как на сайте.
+   */
+  function isItemFieldVisible(itemField, item, itemFields) {
+    var cond = itemField.showIf;
+    if (!cond || !cond.key || !Array.isArray(cond.values)) {
+      return true;
+    }
+
+    var current = item[cond.key];
+    if (!current) {
+      var source = itemFields.filter(function (f) { return f.key === cond.key; })[0];
+      current = source && source.options && source.options.length ? source.options[0].value : '';
+    }
+
+    return cond.values.indexOf(current) !== -1;
+  }
+
+  /**
    * Повторитель; поле пункта с type: 'repeater' рисуется вложенным повторителем
    * (например, преимущества внутри строки таблицы).
    */
@@ -64,6 +84,10 @@
           'div',
           null,
           itemFields.map(function (itemField) {
+            if (!isItemFieldVisible(itemField, item, itemFields)) {
+              return null;
+            }
+
             if (itemField.type === 'repeater') {
               return el(
                 'div',
