@@ -23,4 +23,15 @@
   .services__tile {
     height: 100%;
   }
+
+  // Отступ над пагинацией — как у «Плитки статей» (.blog-section__pagination в _blog-tiles.scss).
+  .services__pagination {
+    margin-top: vw(30px, $mobile);
+    @media (min-width: $desk) {
+      margin-top: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(40px, $desktop_large);
+    }
+  }
 }
