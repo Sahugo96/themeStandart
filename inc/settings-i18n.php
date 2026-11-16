@@ -479,3 +479,153 @@ function theme_settings_render_shared_fields_script( $form_selector, $keys, $exa
 	</script>
 	<?php
 }
+
+/*
+ * ---------------------------------------------------------------------------
+ * Русский — основной язык настроек (и сайта без Polylang).
+ *
+ * Раньше основным языком настроек мог стать английский (язык по умолчанию Polylang):
+ * тогда общие опции хранили английские значения, а русские — копии «…_ru». Без Polylang
+ * тема читает только общие опции, и на сайте появлялись английские тексты и чужие дефолты.
+ * Разово меняем местами: общие опции ← русский (с общими полями), «…_<старый язык>» ← прежние
+ * значения. Выборы записей переводятся на русские версии (по связям Polylang в базе —
+ * работает и с выключенным плагином).
+ * ---------------------------------------------------------------------------
+ */
+
+/**
+ * ID русского перевода записи по связям Polylang (без самого плагина — напрямую из базы).
+ *
+ * @param int $post_id ID записи.
+ * @return int ID перевода или исходный ID.
+ */
+function theme_settings_ru_post_id( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return $post_id;
+	}
+	if ( function_exists( 'pll_get_post' ) ) {
+		$translated = (int) pll_get_post( $post_id, 'ru' );
+		return $translated > 0 ? $translated : $post_id;
+	}
+
+	global $wpdb;
+	$description = $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT tt.description FROM {$wpdb->term_relationships} tr
+			INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
+			WHERE tr.object_id = %d AND tt.taxonomy = 'post_translations' LIMIT 1",
+			$post_id
+		)
+	);
+	$translations = $description ? maybe_unserialize( $description ) : array();
+	$translated   = is_array( $translations ) ? (int) ( $translations['ru'] ?? 0 ) : 0;
+
+	return $translated > 0 ? $translated : $post_id;
+}
+
+/**
+ * Выборы записей (общие ключи) → русские версии записей.
+ *
+ * @param mixed $data Данные.
+ * @return mixed
+ */
+function theme_settings_ru_post_ids( $data ) {
+	if ( ! is_array( $data ) ) {
+		return $data;
+	}
+	foreach ( $data as $key => $value ) {
+		if ( is_string( $key ) && in_array( $key, theme_settings_post_id_keys(), true ) ) {
+			$data[ $key ] = is_array( $value )
+				? array_map( 'theme_settings_ru_post_id', $value )
+				: ( is_numeric( $value ) ? theme_settings_ru_post_id( $value ) : $value );
+			continue;
+		}
+		$data[ $key ] = theme_settings_ru_post_ids( $value );
+	}
+	return $data;
+}
+
+add_action( 'init', 'theme_settings_make_ru_main', 20 );
+function theme_settings_make_ru_main() {
+	$main = (string) get_option( 'theme_settings_main_lang', '' );
+	if ( $main === '' || $main === 'ru' ) {
+		return;
+	}
+
+	$options = array(
+		'tolstenko_block_defaults' => theme_settings_post_id_keys(),
+		'tolstenko_contact_data'   => function_exists( 'tolstenko_contact_data_shared_keys' ) ? tolstenko_contact_data_shared_keys() : array(),
+	);
+
+	// Русских копий нет — менять нечего (русский язык настроек не заводили).
+	$has_ru = false;
+	foreach ( array_keys( $options ) as $base_option ) {
+		if ( get_option( $base_option . '_ru', null ) !== null ) {
+			$has_ru = true;
+		}
+	}
+	if ( ! $has_ru ) {
+		return;
+	}
+
+	foreach ( $options as $base_option => $shared_keys ) {
+		$base = get_option( $base_option, null );
+		$ru   = get_option( $base_option . '_ru', null );
+		$base = is_array( $base ) ? $base : array();
+
+		// Русский целиком: сохранённый перевод поверх прежнего основного (общие поля — из него).
+		if ( is_array( $ru ) && $ru ) {
+			if ( ! empty( $ru[ THEME_SETTINGS_FULL_MARK ] ) ) {
+				unset( $ru[ THEME_SETTINGS_FULL_MARK ] );
+				$new_base = (array) theme_settings_overlay( $base, $ru );
+			} else {
+				$new_base = (array) theme_settings_merge( $base, $ru );
+			}
+		} else {
+			$new_base = $base;
+		}
+		$new_base = theme_settings_ru_post_ids( $new_base );
+
+		// Прежний основной язык — копией, как обычный перевод (без общих полей).
+		if ( $base ) {
+			$old            = theme_settings_strip_keys( $base, $shared_keys );
+			$old[ THEME_SETTINGS_FULL_MARK ] = 1;
+			update_option( $base_option . '_' . $main, $old, false );
+		}
+
+		update_option( $base_option, $new_base, false );
+		delete_option( $base_option . '_ru' );
+	}
+
+	// Автор статей по умолчанию — русская версия члена команды.
+	$author = (int) get_option( 'tolstenko_blog_default_teammate', 0 );
+	if ( $author > 0 ) {
+		update_option( 'tolstenko_blog_default_teammate', theme_settings_ru_post_id( $author ), false );
+	}
+
+	update_option( 'theme_settings_main_lang', 'ru', true );
+}
+
+/**
+ * Без Polylang: меню областей — русские (Polylang хранит меню языков в своей опции,
+ * а в настройках темы остаются меню языка по умолчанию плагина).
+ */
+add_filter( 'theme_mod_nav_menu_locations', 'theme_settings_ru_menu_locations' );
+function theme_settings_ru_menu_locations( $locations ) {
+	if ( function_exists( 'pll_languages_list' ) ) {
+		return $locations;
+	}
+	$polylang = get_option( 'polylang', array() );
+	$menus    = is_array( $polylang ) ? ( $polylang['nav_menus'][ get_stylesheet() ] ?? array() ) : array();
+	if ( ! is_array( $menus ) || ! $menus ) {
+		return $locations;
+	}
+	$locations = is_array( $locations ) ? $locations : array();
+	foreach ( $menus as $location => $by_lang ) {
+		if ( is_array( $by_lang ) && ! empty( $by_lang['ru'] ) ) {
+			$locations[ $location ] = (int) $by_lang['ru'];
+		}
+	}
+	return $locations;
+}
