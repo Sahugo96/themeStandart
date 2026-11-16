@@ -35,8 +35,11 @@
 
   &__top-menu {
     margin-left: vw(95px, $desktop);
+    @media (min-width: $desk) {
+      margin-left: vw(80px, $desktop);
+    }
     @media (min-width: $desk_large) {
-      margin-left: vw(95px, $desktop_large);
+      margin-left: vw(80px, $desktop_large);
     }
   }
 
