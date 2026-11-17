@@ -142,7 +142,14 @@
 				var directItems = list.querySelectorAll(':scope > [data-repeater-item]');
 				var idx = directItems.length;
 				var html = '';
-				if (key === 'reviews-cards-list') {
+				// Общий способ: разметка пункта — в <template data-repeater-template="<ключ>"> таба,
+				// __prefix__ — префикс имён из data-name-prefix списка, __i__ — уникальный индекс.
+				var rowTpl = panel.querySelector && panel.querySelector('template[data-repeater-template="' + key + '"]');
+				if (rowTpl) {
+					html = rowTpl.innerHTML
+						.replace(/__prefix__/g, list.getAttribute('data-name-prefix') || '')
+						.replace(/__i__/g, String(Date.now() + idx));
+				} else if (key === 'reviews-cards-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[reviews][cards][' + idx + '][title]" placeholder="Название (Яндекс, 2ГИС…)" style="flex:1"><input type="url" name="tolstenko_block_defaults[reviews][cards][' + idx + '][url]" placeholder="Ссылка" style="flex:1"><input type="number" min="0" max="5" step="0.1" name="tolstenko_block_defaults[reviews][cards][' + idx + '][rating]" value="5.0" style="width:80px" title="Рейтинг (4.9)"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[reviews][cards][' + idx + '][icon]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Иконка</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview" style="margin-top:8px;"></div></div>';
 				} else if (key === 'documents-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[documents][items][' + idx + '][title]" placeholder="Заглавие"><input type="hidden" class="tolstenko-defaults-icon-id" name="tolstenko_block_defaults[documents][items][' + idx + '][image]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Выбрать изображение</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row"><textarea name="tolstenko_block_defaults[documents][items][' + idx + '][text]" rows="2" placeholder="Описание"></textarea></div><div class="row"><textarea name="tolstenko_block_defaults[documents][items][' + idx + '][attributes]" rows="2" placeholder="Атрибуты (по одному в строке)"></textarea></div><div class="icon-preview cert-preview" style="margin-top:8px;"></div></div>';
@@ -168,6 +175,19 @@
 					var rk = Date.now() + idx;
 					var rp = 'tolstenko_block_defaults[flagship][rows][' + rk + ']';
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="' + rp + '[name]" placeholder="Название (подпись — в &lt;span&gt;)" style="flex:1"><input type="hidden" class="tolstenko-defaults-icon-id" name="' + rp + '[flag]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Флаг</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview" style="margin-top:8px;"></div><div class="cols"><input type="text" name="' + rp + '[price]" placeholder="Стоимость"><input type="text" name="' + rp + '[term]" placeholder="Срок оформления"><input type="text" name="' + rp + '[link]" placeholder="Ссылка кнопки (пусто = #modal)"></div><div class="muted">Преимущества</div><div data-repeater-list="flagship-benefits-list" data-name-prefix="' + rp + '[benefits]"></div><div class="actions"><button type="button" class="button" data-add-item="flagship-benefits-list">Добавить преимущество</button></div></div>';
+				} else if (key === 'seo-rows-list') {
+					// Разметка строки — из <template> (theme_seo_section_render_admin_row в inc/seo-section.php).
+					var seoTpl = document.getElementById('seo-row-template');
+					if (seoTpl) html = seoTpl.innerHTML.replace(/__i__/g, String(Date.now() + idx));
+				} else if (key === 'seo-items-list') {
+					var sip = list.getAttribute('data-name-prefix') || '';
+					if (!sip) return;
+					var sik = Date.now() + idx;
+					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="' + sip + '[' + sik + '][title]" placeholder="Заголовок пункта" style="flex:1"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row"><textarea name="' + sip + '[' + sik + '][text]" rows="2" placeholder="Текст пункта (HTML)"></textarea></div></div>';
+				} else if (key === 'seo-gallery-list') {
+					var sgp = list.getAttribute('data-name-prefix') || '';
+					if (!sgp) return;
+					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="hidden" class="tolstenko-defaults-icon-id" name="' + sgp + '[' + (Date.now() + idx) + '][image]" value="0"><button type="button" class="button tolstenko-defaults-pick-icon">Фото</button><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="icon-preview" style="margin-top:8px;"></div></div>';
 				} else if (key === 'quiz-stats-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[quiz][stats][' + idx + '][value]" placeholder="Значение (1 мин)"><input type="text" name="tolstenko_block_defaults[quiz][stats][' + idx + '][label]" placeholder="Подпись (на прохождение)" style="flex:1"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
 				} else if (key === 'quiz-steps-list') {
@@ -215,9 +235,6 @@
 				} else if (key === 'about-stats-list') {
 					var k = Date.now() + idx;
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[about][stats][' + k + '][num]" placeholder="Число"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row"><textarea name="tolstenko_block_defaults[about][stats][' + k + '][label]" rows="2" placeholder="Подпись (перенос строки = новая строка)"></textarea></div></div>';
-				} else if (key === 'consult-consents-list') {
-					var k = Date.now() + idx;
-					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[consult][consents][' + k + '][text]" placeholder="Текст перед ссылкой"><input type="text" name="tolstenko_block_defaults[consult][consents][' + k + '][link_text]" placeholder="Текст ссылки"><input type="text" name="tolstenko_block_defaults[consult][consents][' + k + '][link_url]" placeholder="URL ссылки"><button type="button" class="button move-btn" data-move-up title="Вверх">↑</button><button type="button" class="button move-btn" data-move-down title="Вниз">↓</button><button type="button" class="button" data-remove-item>Удалить</button></div></div>';
 				} else if (key === 'main-hero-list') {
 					html = '<div class="repeater-item" data-repeater-item><div class="cols"><input type="text" name="tolstenko_block_defaults[main_hero][items][' + idx + '][title]" placeholder="Акцент (золотым)" style="flex:1"><button type="button" class="button move-btn" data-move-up title="Вверх">&uarr;</button><button type="button" class="button move-btn" data-move-down title="Вниз">&darr;</button><button type="button" class="button" data-remove-item>Удалить</button></div><div class="row"><textarea name="tolstenko_block_defaults[main_hero][items][' + idx + '][text]" rows="2" placeholder="Текст пункта"></textarea></div></div>';
 				} else if (key === 'field-template-list') {
@@ -305,6 +322,22 @@
 			});
 		}
 		bindIconPicker(document);
+
+		// «SEO-наполнение»: в строке видны только поля выбранного вида (data-seo-show).
+		function syncSeoRow(row){
+			var select = row.querySelector('[data-seo-layout]');
+			if (!select) return;
+			row.querySelectorAll('[data-seo-show]').forEach(function(box){
+				if (box.closest('[data-seo-row]') !== row) return;
+				box.hidden = box.getAttribute('data-seo-show').split(' ').indexOf(select.value) === -1;
+			});
+		}
+		document.querySelectorAll('[data-seo-row]').forEach(syncSeoRow);
+		document.addEventListener('change', function(e){
+			if (e.target.matches && e.target.matches('[data-seo-layout]')) {
+				syncSeoRow(e.target.closest('[data-seo-row]'));
+			}
+		});
 		document.addEventListener('click', function(e){
 			var btn = e.target;
 			if (btn.matches && btn.matches('[data-add-item]')) {

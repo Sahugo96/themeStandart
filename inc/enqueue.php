@@ -39,7 +39,7 @@ add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');
 // Локализация данных для JS
 function output_localized_data() {
     $localized_data = [
-        'ajax_url' => admin_url('admin-ajax.php'),
+        'ajax_url' => theme_ajax_url(),
     ];
 
     echo '<script>';

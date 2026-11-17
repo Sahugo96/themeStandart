@@ -37,19 +37,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="row">
 				<div class="muted"><?php esc_html_e( 'Контактная карточка — член команды', 'tolstenko-theme' ); ?></div>
 				<?php
-				$faq_teammates = get_posts( array(
-					'post_type'      => 'teammate',
-					'posts_per_page' => -1,
-					'post_status'    => 'publish',
-					'orderby'        => 'title',
-					'order'          => 'ASC',
-				) );
+				// Выбор общий для языков: список — основного языка, на других языках выводится перевод.
+				$faq_teammates = theme_teammate_choices( theme_teammate_default_lang() );
 				$faq_teammate_id = isset( $faq['teammate_id'] ) ? (int) $faq['teammate_id'] : 0;
 				?>
 				<select name="tolstenko_block_defaults[faq][teammate_id]" style="min-width:320px;max-width:100%">
-					<option value="0"><?php esc_html_e( '— Не выбрано —', 'tolstenko-theme' ); ?></option>
-					<?php foreach ( $faq_teammates as $faq_teammate ) : ?>
-						<option value="<?php echo (int) $faq_teammate->ID; ?>" <?php selected( $faq_teammate_id, (int) $faq_teammate->ID ); ?>><?php echo esc_html( get_the_title( $faq_teammate ) ); ?></option>
+					<option value="0"><?php esc_html_e( '— Первый член команды по порядку —', 'tolstenko-theme' ); ?></option>
+					<?php foreach ( $faq_teammates as $faq_teammate_option_id => $faq_teammate_label ) : ?>
+						<option value="<?php echo (int) $faq_teammate_option_id; ?>" <?php selected( $faq_teammate_id, (int) $faq_teammate_option_id ); ?>><?php echo esc_html( $faq_teammate_label ); ?></option>
 					<?php endforeach; ?>
 				</select>
 				<?php if ( empty( $faq_teammates ) ) : ?>

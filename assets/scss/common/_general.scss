@@ -16,6 +16,17 @@ body {
   @media (min-width: $desk_large) {
     font-size: vw(14px, $desktop_large);
   }
+  &:has( > #wpadminbar) {
+    padding-top: 32px;
+    .header {
+      top: 32px;
+      @media (max-width: calc($desk - 1px)) {
+        &.scroll {
+          top: 0;
+        }
+      }
+    }
+  }
 }
 
 body {
@@ -62,13 +73,13 @@ body {
 
 .main {
   flex: 1 1 auto;
-  // Отступ под фиксированную шапку (верхняя строка + плашка, common/_header.scss).
-  padding-top: vw(100px, $mobile);
+  padding-top: vw(85px, $mobile);
+  background-color: var(--dark-bg-color);
   @media (min-width: $desk) {
-    padding-top: vw(160px, $desktop);
+    padding-top: vw(170px, $desktop);
   }
   @media (min-width: $desk_large) {
-    padding-top: vw(160px, $desktop_large);
+    padding-top: vw(170px, $desktop_large);
   }
 }
 
@@ -92,6 +103,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  &__img {
+    display: block;
+    width: auto;
+  }
   img {
     width: 100%;
     height: 100%;

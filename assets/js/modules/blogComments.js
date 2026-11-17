@@ -3,11 +3,10 @@
 // Перенесено из tolstenko.marketing (assets/js/script.js).
 
 const section = document.getElementById('comments');
-const formWrap = section ? section.querySelector('.comments__form') : null;
+// Карточка с формой: подсказка «Ответ для…» и форма CF7.
+const formWrap = section ? section.querySelector('.comments__right') : null;
 
 if (section && formWrap) {
-  const titleEl = formWrap.querySelector('[data-comments-form-title]');
-  const defaultTitle = titleEl ? (titleEl.getAttribute('data-default-title') || titleEl.textContent || '') : '';
   const hint = formWrap.querySelector('[data-comments-reply-hint]');
   const hintText = formWrap.querySelector('[data-comments-reply-hint-text]');
   const cancel = formWrap.querySelector('[data-comments-reply-cancel]');
@@ -38,10 +37,6 @@ if (section && formWrap) {
 
     if (input) {
       input.value = id || '';
-    }
-
-    if (titleEl) {
-      titleEl.textContent = id ? 'ОТВЕТИТЬ' : defaultTitle;
     }
 
     formWrap.classList.toggle('is-reply', !!id);

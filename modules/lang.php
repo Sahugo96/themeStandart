@@ -51,7 +51,7 @@ if (empty($lang_items)) {
 
 $lang_class = trim('lang ' . (string) ($args['class'] ?? ''));
 ?>
-<div class="<?= esc_attr($lang_class); ?>">
+<!-- <div class="<?= esc_attr($lang_class); ?>">
     <?php foreach ($lang_items as $lang_item) : ?>
         <?php if ($lang_item['current'] || $lang_item['url'] === '') : ?>
             <span class="lang__item<?= $lang_item['current'] ? ' is-current' : ''; ?>" aria-current="<?= $lang_item['current'] ? 'true' : 'false'; ?>"><?= esc_html($lang_item['label']); ?></span>
@@ -59,4 +59,4 @@ $lang_class = trim('lang ' . (string) ($args['class'] ?? ''));
             <a class="lang__item" href="<?= esc_url($lang_item['url']); ?>" hreflang="<?= esc_attr(str_replace('_', '-', $lang_item['locale'])); ?>"><?= esc_html($lang_item['label']); ?></a>
         <?php endif; ?>
     <?php endforeach; ?>
-</div>
+</div> -->

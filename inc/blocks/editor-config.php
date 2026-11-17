@@ -26,7 +26,225 @@ function theme_get_posts_for_block_editor(string $post_type): array
 
 function theme_get_section_blocks_editor_config(): array
 {
+    // «SEO-наполнение»: поле строки видно только для своих видов (общая карта с табом).
+    $seo_fields = theme_seo_section_field_layouts();
+    $seo_show = static function (string $field) use ($seo_fields): array {
+        return ['key' => 'layout', 'values' => $seo_fields[$field]];
+    };
+
     return [
+        [
+            'name'        => 'my-theme/comments-cta',
+            'title'       => 'Это ещё не конец',
+            'icon'        => 'format-chat',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → Это ещё не конец. Пустая ссылка — к комментариям (#comments)',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'comments_cta',
+            'fields'      => [
+                ['attr' => 'title', 'label' => 'Заголовок (HTML: <br>, <span> — золотая строка)', 'type' => 'textarea'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                ['attr' => 'btn_text', 'label' => 'Текст кнопки', 'type' => 'text'],
+                ['attr' => 'btn_url', 'label' => 'Ссылка кнопки (пусто = #comments)', 'type' => 'text'],
+            ],
+        ],
+        [
+            'name'        => 'my-theme/contacts',
+            'title'       => 'Контакты',
+            'icon'        => 'location',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → Контакты. Номер для «Позвонить» и ссылка Telegram — из «Контактных данных»',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'contacts',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                ['attr' => 'call_text', 'label' => 'Кнопка звонка', 'type' => 'text'],
+                ['attr' => 'tg_text', 'label' => 'Кнопка Telegram', 'type' => 'text'],
+                [
+                    'attr'       => 'addresses',
+                    'label'      => 'Адреса (вкладки)',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить адрес',
+                    'itemLabel'  => 'Адрес',
+                    'itemFields' => [
+                        ['key' => 'address', 'label' => 'Название — подпись вкладки', 'type' => 'text'],
+                        [
+                            'key'        => 'items',
+                            'label'      => 'Контакты',
+                            'type'       => 'repeater',
+                            'addLabel'   => 'Добавить контакт',
+                            'itemLabel'  => 'Контакт',
+                            'itemFields' => [
+                                ['key' => 'title', 'label' => 'Заголовок (Телефон, Почта…)', 'type' => 'text'],
+                                ['key' => 'icon', 'label' => 'Иконка', 'type' => 'image'],
+                                [
+                                    'key'        => 'links',
+                                    'label'      => 'Строки',
+                                    'type'       => 'repeater',
+                                    'addLabel'   => 'Добавить строку',
+                                    'itemLabel'  => 'Строка',
+                                    'itemFields' => [
+                                        ['key' => 'text', 'label' => 'Текст', 'type' => 'text'],
+                                        ['key' => 'link', 'label' => 'Ссылка (tel:, mailto:, https://) — пусто: текст', 'type' => 'text'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                        [
+                            'key'        => 'gallery',
+                            'label'      => 'Фото офиса',
+                            'type'       => 'repeater',
+                            'addLabel'   => 'Добавить фото',
+                            'itemLabel'  => 'Фото',
+                            'itemFields' => [
+                                ['key' => 'image', 'label' => 'Фото', 'type' => 'image'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'name'        => 'my-theme/contacts-maps',
+            'title'       => 'Карты',
+            'icon'        => 'location-alt',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → Карты. Карта — iframe Яндекс Карт / Google Maps',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'contacts_maps',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                [
+                    'attr'       => 'items',
+                    'label'      => 'Адреса (вкладки)',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить адрес',
+                    'itemLabel'  => 'Адрес',
+                    'itemFields' => [
+                        ['key' => 'address', 'label' => 'Адрес — подпись вкладки', 'type' => 'text'],
+                        ['key' => 'map', 'label' => 'Код iframe карты (или ссылка)', 'type' => 'textarea'],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'name'        => 'my-theme/contacts-details',
+            'title'       => 'Реквизиты',
+            'icon'        => 'id',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → Реквизиты (там же шорткод формы)',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'contacts_details',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                [
+                    'attr'       => 'items',
+                    'label'      => 'Реквизиты',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить пункт',
+                    'itemLabel'  => 'Пункт',
+                    'itemFields' => [
+                        ['key' => 'text', 'label' => 'Текст (HTML: <p>, <strong>)', 'type' => 'textarea'],
+                    ],
+                ],
+                ['attr' => 'form_title', 'label' => 'Заголовок формы', 'type' => 'text'],
+                ['attr' => 'form_text', 'label' => 'Текст над формой', 'type' => 'text'],
+            ],
+        ],
+        [
+            'name'        => 'my-theme/blog-tiles',
+            'title'       => 'Плитка статей',
+            'icon'        => 'grid-view',
+            'hint'        => 'Архив блога: все статьи по 3 в ряд и пагинация (12 на странице). Если пусто — из админки: Дефолты блоков → Плитка статей',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'blog_tiles',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+            ],
+        ],
+        [
+            'name'        => 'my-theme/reviews-tiles',
+            'title'       => 'Плитка отзывов',
+            'icon'        => 'grid-view',
+            'hint'        => 'Секция «Отзывы» без слайдеров — для страницы отзывов. Если пусто — из админки: Дефолты блоков → Отзывы',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'reviews',
+            'fields'      => [
+                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                ['attr' => 'postIds', 'label' => 'Отзывы (пусто — выбранные в табе «Отзывы» или все)', 'type' => 'posts', 'postType' => 'review'],
+            ],
+        ],
+        [
+            'name'        => 'my-theme/seo-section',
+            'title'       => 'SEO-наполнение',
+            'icon'        => 'text-page',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → SEO-наполнение. Тексты — HTML. На сайте содержимое свёрнуто по высоте, раскрывается кнопкой',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'seo_section',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                ['attr' => 'more_text', 'label' => 'Кнопка раскрытия', 'type' => 'text'],
+                [
+                    'attr'       => 'rows',
+                    'label'      => 'Содержимое',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить блок',
+                    'itemLabel'  => 'Блок',
+                    'itemFields' => [
+                        [
+                            'key'     => 'layout',
+                            'label'   => 'Вид',
+                            'type'    => 'select',
+                            'options' => [
+                                ['value' => 'text', 'label' => 'Текст'],
+                                ['value' => 'image_text', 'label' => 'Фото + текст'],
+                                ['value' => 'text_image', 'label' => 'Текст + фото'],
+                                ['value' => 'two_columns', 'label' => 'Две колонки'],
+                                ['value' => 'gallery', 'label' => 'Галерея'],
+                            ],
+                        ],
+                        ['key' => 'title', 'label' => 'Заголовок блока', 'type' => 'text'],
+                        ['key' => 'tags', 'label' => 'Теги через запятую (Счета, ОАЭ)', 'type' => 'text'],
+                        ['key' => 'image', 'label' => 'Фото', 'type' => 'image', 'showIf' => $seo_show('image')],
+                        ['key' => 'text', 'label' => 'Текст (HTML; в «Двух колонках» — левая колонка)', 'type' => 'textarea', 'showIf' => $seo_show('text')],
+                        ['key' => 'text_2', 'label' => 'Правая колонка (HTML)', 'type' => 'textarea', 'showIf' => $seo_show('text_2')],
+                        [
+                            'key'        => 'items',
+                            'label'      => 'Пункты под колонками',
+                            'type'       => 'repeater',
+                            'addLabel'   => 'Добавить пункт',
+                            'itemLabel'  => 'Пункт',
+                            'showIf'     => $seo_show('items'),
+                            'itemFields' => [
+                                ['key' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                                ['key' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                            ],
+                        ],
+                        [
+                            'key'        => 'gallery',
+                            'label'      => 'Фото галереи',
+                            'type'       => 'repeater',
+                            'addLabel'   => 'Добавить фото',
+                            'itemLabel'  => 'Фото',
+                            'showIf'     => $seo_show('gallery'),
+                            'itemFields' => [
+                                ['key' => 'image', 'label' => 'Фото', 'type' => 'image'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'name'          => 'my-theme/breadcrumbs',
+            'title'         => 'Хлебные крошки',
+            'icon'          => 'admin-links',
+            'hint'          => 'Путь до страницы строится автоматически: Главная → раздел → текущая страница',
+            'color'         => '#2271b1',
+            'hasTextFields' => false,
+        ],
         [
             'name'          => 'my-theme/result',
 'defaultsKey'   => 'result',
@@ -99,6 +317,31 @@ function theme_get_section_blocks_editor_config(): array
             ],
         ],
         [
+            'name'        => 'my-theme/goals',
+            'title'       => 'С какой целью нужен ВНЖ',
+            'icon'        => 'flag',
+            'hint'        => 'Если пусто — из админки: Дефолты блоков → С какой целью нужен ВНЖ',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'goals',
+            'fields'      => [
+                ['attr' => 'badge', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                [
+                    'attr'       => 'items',
+                    'label'      => 'Цели',
+                    'type'       => 'repeater',
+                    'addLabel'   => 'Добавить цель',
+                    'itemLabel'  => 'Цель',
+                    'itemFields' => [
+                        ['key' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
+                        ['key' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+                        ['key' => 'icon', 'label' => 'Иконка (пусто — стандартная)', 'type' => 'image'],
+                    ],
+                ],
+            ],
+        ],
+        [
             'name'          => 'my-theme/infra',
 'defaultsKey'   => 'infra',
             'title'         => 'Инфраструктура за пределами РФ',
@@ -146,25 +389,6 @@ function theme_get_section_blocks_editor_config(): array
             ],
         ],
         [
-            'name'          => 'my-theme/guide',
-'defaultsKey'   => 'guide',
-            'title'         => 'Подробнее (статья)',
-            'hint'          => 'Если пусто — из админки: Дефолты блоков → Секции лендинга',
-            'color'         => '#2271b1',
-            'fields'        => [
-                ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
-                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'text'],
-                [
-                    'attr'     => 'post_id',
-                    'label'    => 'Статья',
-                    'type'     => 'post',
-                    'postType' => 'blog',
-                    'help'     => 'Карточка собирается из статьи. Пусто — из настроек темы',
-                ],
-                ['attr' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text'],
-            ],
-        ],
-        [
             'name'          => 'my-theme/consult',
 'defaultsKey'   => 'consult',
             'title'         => 'Бесплатная консультация (CTA)',
@@ -176,20 +400,6 @@ function theme_get_section_blocks_editor_config(): array
                 ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
                 ['attr' => 'contact_label', 'label' => 'Подпись перед телефоном', 'type' => 'text'],
                 ['attr' => 'phone', 'label' => 'Телефон', 'type' => 'text'],
-                ['attr' => 'input_placeholder', 'label' => 'Плейсхолдер поля', 'type' => 'text'],
-                ['attr' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text'],
-                [
-                    'attr'       => 'consents',
-                    'label'      => 'Согласия',
-                    'type'       => 'repeater',
-                    'addLabel'   => 'Добавить согласие',
-                    'itemLabel'  => 'Согласие',
-                    'itemFields' => [
-                        ['key' => 'text', 'label' => 'Текст перед ссылкой', 'type' => 'text'],
-                        ['key' => 'link_text', 'label' => 'Текст ссылки', 'type' => 'text'],
-                        ['key' => 'link_url', 'label' => 'URL ссылки', 'type' => 'text'],
-                    ],
-                ],
                 ['attr' => 'image', 'label' => 'Изображение', 'type' => 'image'],
             ],
         ],
@@ -555,12 +765,19 @@ function theme_get_section_blocks_editor_config(): array
                 ['attr' => 'btn_text', 'label' => 'Кнопка под таблицей', 'type' => 'text'],
                 ['attr' => 'btn_url', 'label' => 'Ссылка кнопки', 'type' => 'text'],
             ],
-        ],        [
-            'name'          => 'my-theme/service-section',
-            'title'         => 'Архив услуг',
-            'hint'          => 'Заголовок и текст — из блока или настроек темы. Выводятся все услуги',
-            'color'         => '#2271b1',
-            'hasTextFields' => false,
+        ],
+        [
+            'name'        => 'my-theme/service-section',
+            'title'       => 'Плитка услуг',
+            'icon'        => 'grid-view',
+            'hint'        => 'Все услуги по 3 в ряд, карточки как в «Слайдере услуг». Если пусто — из админки: Дефолты блоков → Плитка услуг',
+            'color'       => '#2271b1',
+            'defaultsKey' => 'services_tiles',
+            'fields'      => [
+                ['attr' => 'subtitle', 'label' => 'Надзаголовок', 'type' => 'text'],
+                ['attr' => 'title', 'label' => 'Заголовок (HTML, акцент — <span>)', 'type' => 'text'],
+                ['attr' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
+            ],
         ],
         [
             'name'          => 'my-theme/services-slider',
@@ -641,25 +858,6 @@ function theme_get_section_blocks_editor_config(): array
                 ['attr' => 'author_under', 'label' => 'Подпись под автором', 'type' => 'text', 'help' => ' '],
                 ['attr' => 'btn_text', 'label' => 'Кнопка', 'type' => 'text', 'help' => ' '],
                 ['attr' => 'btn_url', 'label' => 'Ссылка кнопки', 'type' => 'text', 'help' => 'Пусто — открывает форму (#modal)'],
-            ],
-        ],
-        [
-            'name'   => 'my-theme/blog-number-list',
-            'title'  => 'Статья: нумерованный список',
-            'icon'   => 'editor-ol',
-            'hint'   => 'Пункты нумеруются автоматически',
-            'color'  => '#2271b1',
-            'fields' => [
-                [
-                    'attr'       => 'items',
-                    'label'      => 'Пункты',
-                    'type'       => 'repeater',
-                    'addLabel'   => 'Добавить пункт',
-                    'itemLabel'  => 'Пункт',
-                    'itemFields' => [
-                        ['key' => 'text', 'label' => 'Текст', 'type' => 'textarea'],
-                    ],
-                ],
             ],
         ],
         [
@@ -753,12 +951,13 @@ function theme_get_section_blocks_editor_config(): array
             'name'   => 'my-theme/blog-seo',
             'title'  => 'Статья: SEO / CTA',
             'icon'   => 'megaphone',
-            'hint'   => 'Плашка с призывом и кнопкой. Пустые поля — из «Настройки сайта → Блоки для статей»',
+            'hint'   => 'Плашка с заголовком и кнопкой. Пусто — из «Блоки для статей → SEO / CTA»',
             'color'  => '#2271b1',
+            'defaultsKey' => 'blog_seo',
             'fields' => [
-                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'textarea', 'help' => ' '],
-                ['attr' => 'btn', 'label' => 'Кнопка', 'type' => 'text', 'help' => ' '],
-                ['attr' => 'btn_url', 'label' => 'Ссылка кнопки', 'type' => 'text', 'help' => 'Пусто — открывает форму (#modal)'],
+                ['attr' => 'title', 'label' => 'Заголовок', 'type' => 'textarea'],
+                ['attr' => 'btn', 'label' => 'Текст кнопки', 'type' => 'text'],
+                ['attr' => 'btn_url', 'label' => 'Ссылка кнопки (пусто = #modal)', 'type' => 'text'],
             ],
         ],
         [

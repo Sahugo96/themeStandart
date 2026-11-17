@@ -1,0 +1,27 @@
+{
+  "apiVersion": 3,
+  "title": "Плитка отзывов",
+  "name": "my-theme/reviews-tiles",
+  "category": "tolstenko-reviews",
+  "icon": "grid-view",
+  "description": "Секция «Отзывы» без слайдеров: карточки плиткой с переносом строк — для страницы с шаблоном «Reviews page»",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "postIds": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

@@ -104,7 +104,7 @@ $compare_lead = theme_section_text_html($data['text'] ?? '');
         <?php if ($foot_text !== '' || $btn_text !== '') : ?>
             <div class="compare__foot">
                 <?php if ($foot_text !== '') : ?>
-                    <p class="compare__foot-text"><?= $foot_text; ?></p>
+                    <p class="compare__foot-text lead-16-25"><?= $foot_text; ?></p>
                 <?php endif; ?>
 
                 <?php if ($btn_text !== '') : ?>

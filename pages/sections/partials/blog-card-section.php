@@ -50,7 +50,7 @@ $tags     = ($tags && !is_wp_error($tags)) ? array_slice($tags, 0, 2) : [];
         <?php get_template_part('modules/stats/stats', null, ['show_likes' => false]); ?>
 
         <span class="blog-card__date">
-          <time datetime="<?= esc_attr(get_the_date('Y-m-d')); ?>"><?= esc_html(get_the_date('j F Y')); ?></time>
+          <time datetime="<?= esc_attr(get_the_date('Y-m-d')); ?>"><?= esc_html(tolstenko_get_blog_date_label(get_the_ID())); ?></time>
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
         </span>
       </div>

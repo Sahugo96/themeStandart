@@ -2,9 +2,9 @@
 
 @mixin article-define-cards($ns) {
   &__define {
-    --define-title: #E8C84A;
-    --define-border: var(--gray-25-color);
-    --define-bg: var(--gray-12-color);
+    --define-title: var(--accent-color);
+    --define-border: var(--dark-bg-stoke-color);
+    --define-bg: var(--dark-bg-plank-color);
 
     display: flex;
     flex-direction: column;
@@ -26,13 +26,13 @@
     }
 
     &--term {
-      --define-border: #C9A227;
-      --define-bg: #1A160E;
+      --define-border: var(--accent-20-color);
+      --define-bg: var(--dark-bg-plank-color);
     }
 
     &--note {
-      --define-border: #2A2A2A;
-      --define-bg: #161616;
+      --define-border: var(--dark-bg-stoke-color);
+      --define-bg: var(--dark-bg-color);
     }
   }
 
@@ -93,7 +93,7 @@
     font-size: vw(15px, $mobile);
     font-weight: 400;
     line-height: 1.45;
-    color: var(--gray-70-color);
+    color: var(--additional-gray-color);
     @media (min-width: $desk) {
       font-size: vw(16px, $desktop);
     }
@@ -104,12 +104,12 @@
 
   &__define-term {
     font-weight: 700;
-    color: var(--gray-90-color, #f2f2f2);
+    color: var(--light-bg-color);
   }
 
   &__define-fixed {
     font-weight: 400;
-    color: var(--gray-70-color);
+    color: var(--additional-gray-color);
   }
 
   &__define-title {
@@ -130,7 +130,7 @@
     font-size: vw(14px, $mobile);
     font-weight: 400;
     line-height: 1.45;
-    color: var(--gray-70-color);
+    color: var(--additional-gray-color);
     @media (min-width: $desk) {
       font-size: vw(14px, $desktop);
     }

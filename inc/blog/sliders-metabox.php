@@ -92,7 +92,7 @@ function tolstenko_blog_sliders_render_metabox( $post ) {
 	</style>
 
 	<div class="tolstenko-blog-sliders">
-		<p class="description"><?php esc_html_e( 'Выводятся под статьёй после FAQ. Пустые поля — из общих настроек секций.', 'tolstenko-theme' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Выводятся под статьёй после FAQ теми же секциями, что на главной («Статьи» и «Услуги»). Пустые поля — из «Дефолтов блоков».', 'tolstenko-theme' ); ?></p>
 
 		<div class="tolstenko-bs-block">
 			<h3><?php esc_html_e( 'Похожие статьи', 'tolstenko-theme' ); ?></h3>
@@ -104,8 +104,8 @@ function tolstenko_blog_sliders_render_metabox( $post ) {
 				</label>
 			</p>
 			<p class="tolstenko-bs-field">
-				<label for="tolstenko_blog_related_title"><strong><?php esc_html_e( 'Заголовок', 'tolstenko-theme' ); ?></strong></label><br>
-				<input type="text" id="tolstenko_blog_related_title" name="tolstenko_blog_related_title" value="<?php echo esc_attr( $rel_title ); ?>" placeholder="<?php esc_attr_e( 'Пусто = «Похожие статьи»', 'tolstenko-theme' ); ?>">
+				<label for="tolstenko_blog_related_title"><strong><?php esc_html_e( 'Заголовок (HTML, акцент — <span>)', 'tolstenko-theme' ); ?></strong></label><br>
+				<input type="text" id="tolstenko_blog_related_title" name="tolstenko_blog_related_title" value="<?php echo esc_attr( $rel_title ); ?>" placeholder="<?php esc_attr_e( 'Пусто = «Похожие <span>статьи</span>»', 'tolstenko-theme' ); ?>">
 			</p>
 			<div class="tolstenko-bs-field">
 				<strong><?php esc_html_e( 'Статьи', 'tolstenko-theme' ); ?></strong>
@@ -132,7 +132,7 @@ function tolstenko_blog_sliders_render_metabox( $post ) {
 				</label>
 			</p>
 			<p class="tolstenko-bs-field">
-				<label for="tolstenko_blog_services_title"><strong><?php esc_html_e( 'Заголовок', 'tolstenko-theme' ); ?></strong></label><br>
+				<label for="tolstenko_blog_services_title"><strong><?php esc_html_e( 'Заголовок (HTML, акцент — <span>)', 'tolstenko-theme' ); ?></strong></label><br>
 				<input type="text" id="tolstenko_blog_services_title" name="tolstenko_blog_services_title" value="<?php echo esc_attr( $svc_title ); ?>" placeholder="<?php esc_attr_e( 'Пусто = из общих настроек', 'tolstenko-theme' ); ?>">
 			</p>
 			<p class="tolstenko-bs-field">
@@ -141,7 +141,7 @@ function tolstenko_blog_sliders_render_metabox( $post ) {
 			</p>
 			<div class="tolstenko-bs-field">
 				<strong><?php esc_html_e( 'Услуги', 'tolstenko-theme' ); ?></strong>
-				<p class="description" style="margin:4px 0 8px;"><?php esc_html_e( 'Пусто — услуги из общих настроек.', 'tolstenko-theme' ); ?></p>
+				<p class="description" style="margin:4px 0 8px;"><?php esc_html_e( 'Пусто — услуги из «Дефолты блоков → Слайдер услуг (фильтры)».', 'tolstenko-theme' ); ?></p>
 				<?php tolstenko_render_post_select( 'tolstenko_blog_services_ids', $svc_ids, 'service' ); ?>
 			</div>
 		</div>
@@ -165,12 +165,12 @@ function tolstenko_blog_sliders_save_metabox( $post_id, $post ) {
 	}
 
 	update_post_meta( $post_id, 'blog_related_hidden', ! empty( $_POST['tolstenko_blog_related_hidden'] ) ? '1' : '0' );
-	update_post_meta( $post_id, 'blog_related_title', isset( $_POST['tolstenko_blog_related_title'] ) ? sanitize_text_field( wp_unslash( $_POST['tolstenko_blog_related_title'] ) ) : '' );
+	update_post_meta( $post_id, 'blog_related_title', isset( $_POST['tolstenko_blog_related_title'] ) ? tolstenko_kses_html( wp_unslash( $_POST['tolstenko_blog_related_title'] ) ) : '' );
 	$rel_ids = tolstenko_sanitize_ids( isset( $_POST['tolstenko_blog_related_ids'] ) ? wp_unslash( $_POST['tolstenko_blog_related_ids'] ) : array() ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	update_post_meta( $post_id, 'blog_related_ids', array_values( array_diff( $rel_ids, array( (int) $post_id ) ) ) );
 
 	update_post_meta( $post_id, 'blog_services_hidden', ! empty( $_POST['tolstenko_blog_services_hidden'] ) ? '1' : '0' );
-	update_post_meta( $post_id, 'blog_services_title', isset( $_POST['tolstenko_blog_services_title'] ) ? sanitize_text_field( wp_unslash( $_POST['tolstenko_blog_services_title'] ) ) : '' );
+	update_post_meta( $post_id, 'blog_services_title', isset( $_POST['tolstenko_blog_services_title'] ) ? tolstenko_kses_html( wp_unslash( $_POST['tolstenko_blog_services_title'] ) ) : '' );
 	update_post_meta( $post_id, 'blog_services_text', isset( $_POST['tolstenko_blog_services_text'] ) ? sanitize_textarea_field( wp_unslash( $_POST['tolstenko_blog_services_text'] ) ) : '' );
 	update_post_meta( $post_id, 'blog_services_ids', tolstenko_sanitize_ids( isset( $_POST['tolstenko_blog_services_ids'] ) ? wp_unslash( $_POST['tolstenko_blog_services_ids'] ) : array() ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 }

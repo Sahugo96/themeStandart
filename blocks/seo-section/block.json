@@ -1,0 +1,35 @@
+{
+  "apiVersion": 3,
+  "title": "SEO-наполнение",
+  "name": "my-theme/seo-section",
+  "category": "tolstenko-general",
+  "icon": "text-page",
+  "description": "SEO-текст секциями (текст, фото + текст, две колонки, галерея); свёрнут, раскрывается кнопкой «Читать далее»",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": true
+  },
+  "attributes": {
+    "badge": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "more_text": {
+      "type": "string",
+      "default": ""
+    },
+    "rows": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render": "file:./template.php"
+}

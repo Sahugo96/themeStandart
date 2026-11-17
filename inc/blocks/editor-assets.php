@@ -17,6 +17,22 @@ function theme_enqueue_block_editor_assets(): void
 }
 
 /**
+ * Члены команды для редактора — на языке редактируемой страницы.
+ *
+ * @return array<int,array{id:int,label:string}>
+ */
+function theme_get_teammates_for_block_editor(): array
+{
+    $items = [];
+
+    foreach (theme_teammate_choices((string) (theme_get_editor_post_lang() ?? theme_teammate_default_lang())) as $id => $label) {
+        $items[] = ['id' => $id, 'label' => $label];
+    }
+
+    return $items;
+}
+
+/**
  * Язык редактируемой записи (Polylang): существующая запись или новая (?new_lang=).
  *
  * @return string|null Slug или null — язык по умолчанию.
@@ -112,10 +128,6 @@ function theme_enqueue_block_editor_assets_localized(): void
             'title'   => $acf_get ? ($acf_get('reviews_title', OPTION_ID) ?: 'Отзывы') : 'Отзывы',
             'postIds' => [],
         ],
-        'serviceSection' => [
-            'title' => $acf_get ? ($acf_get('service_section_title', OPTION_ID) ?: '') : '',
-            'text'  => $acf_get ? ($acf_get('service_section_text', OPTION_ID) ?: '') : '',
-        ],
         'servicesSlider' => function_exists('tolstenko_get_block_defaults') ? tolstenko_get_block_defaults('service_section_filters') : [],
         'servicesSliderSimple' => [
             'title'   => $acf_get ? ($acf_get('service_section_title', OPTION_ID) ?: '') : '',
@@ -128,11 +140,38 @@ function theme_enqueue_block_editor_assets_localized(): void
             'service' => theme_get_posts_for_block_editor('service'),
             'blog'    => theme_get_posts_for_block_editor('blog'),
             'case'    => theme_get_posts_for_block_editor('case'),
-            'teammate' => theme_get_posts_for_block_editor('teammate'),
+            // Члены команды — на языке редактируемой страницы.
+            'teammate' => theme_get_teammates_for_block_editor(),
         ],
     ]);
 }
 add_action('enqueue_block_editor_assets', 'theme_enqueue_block_editor_assets');
+
+/**
+ * Блоки страницы контактов: живое ограничение по шаблону страницы (см. скрипт).
+ */
+function theme_enqueue_contacts_blocks_editor_script(): void
+{
+    $file = get_template_directory() . '/assets/js/editor-contacts-blocks.js';
+
+    if (!is_readable($file) || !function_exists('theme_contacts_block_names')) {
+        return;
+    }
+
+    wp_enqueue_script(
+        'my-theme-editor-contacts-blocks',
+        get_template_directory_uri() . '/assets/js/editor-contacts-blocks.js',
+        ['wp-data', 'wp-blocks', 'wp-editor', 'wp-block-editor'],
+        filemtime($file),
+        true
+    );
+
+    wp_localize_script('my-theme-editor-contacts-blocks', 'themeContactsBlocks', [
+        'names'    => theme_contacts_block_names(),
+        'template' => 'page-contacts.php',
+    ]);
+}
+add_action('enqueue_block_editor_assets', 'theme_enqueue_contacts_blocks_editor_script');
 
 /**
  * Стили превью холста редактора (внутрь iframe, не в админ-оболочку).

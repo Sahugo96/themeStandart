@@ -6,6 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="tolstenko-df-panel" data-panel="europe" data-group="landing">
 			<?php $eur = $all['europe'] ?? array(); ?>
 			<div class="row"><textarea name="tolstenko_block_defaults[europe][title]" rows="2" style="width:100%" placeholder="Заголовок (HTML, акцент — <span>&hellip;</span>)"><?php echo esc_textarea( $eur['title'] ?? '' ); ?></textarea></div>
+			<div class="muted"><?php esc_html_e( 'Заголовки столбцов таблицы', 'tolstenko-theme' ); ?></div>
+			<div class="cols">
+				<?php
+				$eur_cols = array_pad( array_values( (array) ( $eur['columns'] ?? array() ) ), 5, '' );
+				$eur_hint = array( 'Страна', 'Стоимость', 'Срок оформления', 'Преимущества', 'Действие' );
+				foreach ( array_slice( $eur_cols, 0, 5 ) as $c_idx => $c_text ) :
+					?>
+					<input type="text" name="tolstenko_block_defaults[europe][columns][<?php echo (int) $c_idx; ?>]" value="<?php echo esc_attr( $c_text ); ?>" placeholder="<?php echo esc_attr( $eur_hint[ $c_idx ] ); ?>" style="flex:1">
+				<?php endforeach; ?>
+			</div>
 			<div class="muted"><?php esc_html_e( 'Страны (таблица)', 'tolstenko-theme' ); ?></div>
 			<div data-repeater-list="europe-rows-list">
 				<?php foreach ( (array) ( $eur['rows'] ?? array() ) as $idx => $it ) : ?>

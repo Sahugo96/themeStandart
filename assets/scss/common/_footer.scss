@@ -1,4 +1,3 @@
-// Футер (footer.php) — статичная вёрстка по макету.
 .footer {
   padding: vw(50px, $mobile) 0 vw(30px, $mobile);
   background-color: var(--dark-bg-color);
@@ -26,7 +25,6 @@
     }
   }
 
-  // ----- Логотип и реквизиты -----
   &__about {
     grid-column: 1 / -1;
     display: flex;
@@ -34,32 +32,25 @@
     align-items: flex-start;
     @media (min-width: $desk) {
       grid-column: auto;
+      padding-right: vw(100px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      padding-right: vw(100px, $desktop_large);
     }
   }
 
   &__logo-img {
     display: block;
     width: auto;
+  }
+
+  &__logo {
     height: vw(40px, $mobile);
     @media (min-width: $desk) {
       height: vw(40px, $desktop);
     }
     @media (min-width: $desk_large) {
       height: vw(40px, $desktop_large);
-    }
-  }
-
-  &__logo {
-    font-family: $Unbounded;
-    font-weight: 800;
-    font-size: vw(22px, $mobile);
-    line-height: 0.9;
-    color: var(--accent-color);
-    @media (min-width: $desk) {
-      font-size: vw(22px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      font-size: vw(22px, $desktop_large);
     }
   }
 
@@ -97,7 +88,6 @@
     }
   }
 
-  // ----- Меню -----
   &__menu-title {
     font-family: $Unbounded;
     font-weight: 700;
@@ -130,7 +120,6 @@
     }
   }
 
-  // Пункты меню (wp_nav_menu: ul.footer__menu-list > li > a).
   &__menu-list a {
     font-family: $Montserrat;
     font-size: vw(14px, $mobile);
@@ -150,7 +139,6 @@
     }
   }
 
-  // ----- Контакты -----
   &__contacts {
     grid-column: 1 / -1;
     display: flex;
@@ -238,29 +226,11 @@
     }
   }
 
-  // Иконки — модуль modules/socials/socials.php (блок «Социальные сети» в контактных данных).
-  &__socials .socials {
-    display: flex;
-    align-items: center;
-    grid-gap: inherit;
-  }
-
   &__socials .socials__link {
-    display: flex;
     svg,
     img {
-      width: vw(26px, $mobile);
-      height: vw(26px, $mobile);
       fill: var(--gray-30-color);
       transition: fill 0.3s linear;
-      @media (min-width: $desk) {
-        width: vw(26px, $desktop);
-        height: vw(26px, $desktop);
-      }
-      @media (min-width: $desk_large) {
-        width: vw(26px, $desktop_large);
-        height: vw(26px, $desktop_large);
-      }
     }
     @media (any-hover: hover) {
       &:hover svg {

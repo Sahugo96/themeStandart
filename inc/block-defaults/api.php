@@ -126,6 +126,21 @@ function tolstenko_get_block_defaults( $block ) {
  * @param string $block Ключ блока.
  * @return array
  */
+/**
+ * Таб «Плитка статей» ещё не сохранён: раньше плитка брала шапку из таба «Статьи» —
+ * берём оттуда надзаголовок и заголовок, чтобы вид не поменялся.
+ *
+ * @param array $base Схема blog_tiles.
+ * @param array $bsf  Сохранённый таб blog_section_filters.
+ * @return array
+ */
+function tolstenko_blog_tiles_legacy_defaults( $base, $bsf ) {
+	return tolstenko_merge_block_defaults_data(
+		$base,
+		array_intersect_key( $bsf, array( 'badge' => true, 'title' => true ) )
+	);
+}
+
 function tolstenko_get_block_defaults_raw( $block ) {
 	$schema = tolstenko_block_defaults_schema();
 	$base = isset( $schema[ $block ] ) ? $schema[ $block ] : array();
@@ -135,6 +150,9 @@ function tolstenko_get_block_defaults_raw( $block ) {
 			$data = tolstenko_merge_block_defaults_data( $base, $saved['service_section'] );
 			$data['ids'] = tolstenko_sanitize_service_section_ids( $data['ids'] ?? array() );
 			return $data;
+		}
+		if ( $block === 'blog_tiles' && is_array( $saved ) && isset( $saved['blog_section_filters'] ) && is_array( $saved['blog_section_filters'] ) ) {
+			return tolstenko_blog_tiles_legacy_defaults( $base, $saved['blog_section_filters'] );
 		}
 		return $base;
 	}

@@ -69,6 +69,13 @@ add_filter('post_type_link', 'theme_filter_primary_term_permalink', 10, 2);
 
 function theme_primary_term_post_rewrite_rules(): void
 {
+    // Без префикса и, с Polylang, с префиксом каждого языка (/ru/service/…, /en/service/…):
+    // Polylang не добавляет язык к правилам, заданным через add_rewrite_rule, —
+    // без этого /ru/service/{рубрика}/{запись}/ отдавал 404.
+    $languages = function_exists('pll_languages_list')
+        ? array_values(array_filter((array) pll_languages_list(['fields' => 'slug'])))
+        : [];
+
     foreach (theme_get_primary_term_post_configs() as $post_type => $config) {
         $base = preg_quote($config['base'], '/');
 
@@ -77,6 +84,14 @@ function theme_primary_term_post_rewrite_rules(): void
             'index.php?post_type=' . $post_type . '&name=$matches[2]',
             'top'
         );
+
+        foreach ($languages as $lang) {
+            add_rewrite_rule(
+                '^' . preg_quote($lang, '/') . '/' . $base . '/([^/]+)/([^/]+)/?$',
+                'index.php?post_type=' . $post_type . '&name=$matches[2]&lang=' . $lang,
+                'top'
+            );
+        }
     }
 }
 add_action('init', 'theme_primary_term_post_rewrite_rules', 21);
@@ -99,3 +114,20 @@ function theme_primary_term_flush_rewrite_rules(): void
     flush_rewrite_rules();
 }
 add_action('after_switch_theme', 'theme_primary_term_flush_rewrite_rules');
+
+/**
+ * Одноразовый сброс правил URL после изменения правил темы (не нужно вручную
+ * пересохранять «Постоянные ссылки»). При следующем изменении правил — увеличить версию.
+ */
+function theme_maybe_flush_rewrite_rules(): void
+{
+    $version = '2026-11-lang-post-rules';
+
+    if (get_option('theme_rewrite_rules_version') === $version) {
+        return;
+    }
+
+    flush_rewrite_rules(false);
+    update_option('theme_rewrite_rules_version', $version, true);
+}
+add_action('init', 'theme_maybe_flush_rewrite_rules', 99);

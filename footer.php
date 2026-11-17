@@ -48,7 +48,7 @@ if (function_exists('pll_the_languages')) {
   <div class="container">
     <div class="footer__body">
       <div class="footer__about">
-        <a class="footer__logo" href="<?= esc_url(home_url('/')); ?>">
+        <a class="footer__logo" href="<?= esc_url(theme_lang_home_url()); ?>">
           <?php if ($footer_logo['url'] !== '') : ?>
             <img class="footer__logo-img" src="<?= esc_url($footer_logo['url']); ?>" alt="<?= esc_attr(get_bloginfo('name')); ?>" loading="lazy">
           <?php else : ?>

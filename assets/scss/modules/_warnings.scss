@@ -2,11 +2,11 @@
 
 @mixin article-warnings-cards($ns) {
   &__warnings-item {
-    --warnings-accent: var(--gray-70-color);
-    --warnings-icon-bg: var(--gray-25-color);
-    --warnings-title: var(--white-color);
-    --warnings-bg: var(--gray-12-color);
-    --warnings-border: var(--gray-25-color);
+    --warnings-accent: var(--accent-color);
+    --warnings-icon-bg: var(--accent-color);
+    --warnings-title: var(--light-bg-color);
+    --warnings-bg: var(--dark-bg-plank-color);
+    --warnings-border: var(--dark-bg-stoke-color);
 
     display: flex;
     align-items: flex-start;
@@ -15,7 +15,7 @@
     border: 1px solid var(--warnings-border);
     border-radius: vw(16px, $mobile);
     background-color: var(--warnings-bg);
-    color: var(--gray-70-color);
+    color: var(--additional-gray-color);
     @media (min-width: $desk) {
       align-items: flex-start;
       gap: vw(14px, $desktop);
@@ -29,44 +29,44 @@
     }
 
     &--warn {
-      --warnings-accent: #7EE2A0;
-      --warnings-icon-bg: #7EE2A0;
-      --warnings-title: #7EE2A0;
-      --warnings-bg: #15251A;
-      --warnings-border: #2A4A35;
+      --warnings-accent: var(--accent-color);
+      --warnings-icon-bg: var(--accent-color);
+      --warnings-title: var(--accent-color);
+      --warnings-bg: var(--dark-bg-plank-color);
+      --warnings-border: var(--accent-20-color);
     }
 
     &--pin {
-      --warnings-accent: #E8C84A;
-      --warnings-icon-bg: #E8C84A;
-      --warnings-title: #E8C84A;
-      --warnings-bg: #1C1A12;
-      --warnings-border: #4A3F1A;
+      --warnings-accent: var(--light-bg-color);
+      --warnings-icon-bg: var(--light-bg-color);
+      --warnings-title: var(--light-bg-color);
+      --warnings-bg: var(--dark-bg-plank-color);
+      --warnings-border: var(--dark-bg-stoke-color);
     }
 
     &--ide {
-      --warnings-accent: #5EC8D4;
-      --warnings-icon-bg: #5EC8D4;
-      --warnings-title: #5EC8D4;
-      --warnings-bg: #121A1C;
-      --warnings-border: #1E4A50;
+      --warnings-accent: var(--additional-gray-color);
+      --warnings-icon-bg: var(--additional-gray-color);
+      --warnings-title: var(--light-bg-color);
+      --warnings-bg: var(--dark-bg-plank-color);
+      --warnings-border: var(--dark-bg-stoke-color);
     }
 
     &--err {
-      --warnings-accent: #E88898;
-      --warnings-icon-bg: #E07080;
-      --warnings-title: #E88898;
-      --warnings-bg: #241416;
-      --warnings-border: #5A2A32;
+      --warnings-accent: var(--brand-accent-red-m-color);
+      --warnings-icon-bg: var(--brand-accent-red-m-color);
+      --warnings-title: var(--brand-accent-red-m-color);
+      --warnings-bg: var(--dark-bg-plank-color);
+      --warnings-border: var(--brand-accent-red-color);
     }
 
     &--custom {
-      --warnings-accent: var(--gray-90-color);
-      --warnings-icon-bg: var(--gray-20-color);
-      --warnings-title: var(--gray-90-color);
-      --warnings-bg: var(--gray-15-color);
-      --warnings-border: var(--gray-25-color);
-      color: var(--gray-90-color);
+      --warnings-accent: var(--light-bg-color);
+      --warnings-icon-bg: var(--dark-bg-stoke-color);
+      --warnings-title: var(--light-bg-color);
+      --warnings-bg: var(--dark-bg-plank-color);
+      --warnings-border: var(--dark-bg-stoke-color);
+      color: var(--additional-gray-color);
 
       .#{$ns}__warnings-text,
       .#{$ns}__warnings-text p,
@@ -80,7 +80,7 @@
       }
 
       .#{$ns}__warnings-text a {
-        color: var(--brand-accent-yellow-color);
+        color: var(--accent-color);
       }
 
       .#{$ns}__warnings-icon {
@@ -132,7 +132,7 @@
     margin-top: vw(2px, $mobile);
     border-radius: 50%;
     background-color: var(--warnings-icon-bg);
-    color: #122016;
+    color: var(--dark-bg-color);
     line-height: 0;
     @media (min-width: $desk) {
       width: vw(28px, $desktop);
@@ -201,7 +201,7 @@
   }
 
   &__warnings-text {
-    color: var(--gray-70-color);
+    color: var(--additional-gray-color);
   }
 
   &__warnings-text {
@@ -225,7 +225,7 @@
   }
 
   &__warnings-item--custom {
-    color: var(--gray-90-color);
+    color: var(--light-bg-color);
 
     .#{$ns}__warnings-text,
     .#{$ns}__warnings-text p,
@@ -235,11 +235,11 @@
     .#{$ns}__warnings-text b,
     .#{$ns}__warnings-text em,
     .#{$ns}__warnings-text i {
-      color: var(--gray-90-color);
+      color: var(--light-bg-color);
     }
 
     .#{$ns}__warnings-text a {
-      color: var(--brand-accent-yellow-color);
+      color: var(--accent-color);
     }
   }
 }

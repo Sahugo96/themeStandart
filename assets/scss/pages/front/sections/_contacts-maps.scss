@@ -1,0 +1,38 @@
+// Секция «Карты» (pages/sections/contacts-maps.php) — страница с шаблоном «Contacts page».
+// Перенесено из tolstenko.marketing (pages/contacts/sections/_maps.scss), вид — текущая тема:
+// вкладки адресов — общий .filter--tabs (тёмный вариант), карта — iframe в тёмной карточке br-30.
+// Миксин contacts-fluid — из _contacts.scss (подключается раньше, assets/scss/style.scss).
+
+// Вкладки адресов: кнопки .filter__link → панели [data-tab-panel] (modules/contactsTabs.js).
+.contacts-maps {
+  [data-tab-panel][hidden] {
+    display: none !important;
+  }
+}
+
+.contacts-maps__tabs {
+  // Цвета — общий тёмный вариант .filter--tabs.filter--dark, как у фильтра «Слайдера услуг».
+  --filter-active-color: var(--dark-bg-color);
+  @include contacts-fluid(margin-bottom, 16px, 20px);
+  @media (min-width: $desk) {
+    width: fit-content;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+.contacts-maps {
+  &__item {
+    overflow: hidden;
+    background-color: var(--dark-bg-plank-color);
+    @include contacts-fluid(height, 320px, 480px);
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+}

@@ -25,23 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function tolstenko_block_defaults_tab_groups() {
 	return array(
-		'main' => array(
-			'title' => 'Основные блоки',
-			'tabs'  => array(
-				'field_template' => 'Шаблон всех полей',
-			),
-		),
-		'post_sliders' => array(
-			'title' => 'Слайдера записей',
-			'tabs'  => array(
-				'case_section'            => 'Кейсы',
-				'reviews'                 => 'Отзывы',
-				'service_section'         => 'Слайдер услуг',
-				'service_section_filters' => 'Слайдер услуг (фильтры)',
-				'blog_section'            => 'Слайдер статей',
-				'blog_section_filters'    => 'Статьи',
-			),
-		),
 		'landing' => array(
 			'title' => 'Секции лендинга',
 			'tabs'  => array(
@@ -49,9 +32,9 @@ function tolstenko_block_defaults_tab_groups() {
 				'result'     => 'Результат',
 				'compare'    => 'Сравнение',
 				'why_us'     => 'Почему именно мы',
+				'goals'      => 'С какой целью нужен ВНЖ',
 				'infra'      => 'Для клиентов с капиталом и бизнесом',
 				'about'      => 'Кратко о нас',
-				'guide'      => 'Подробнее',
 				'consult'    => 'Начните с бесплатной консультации',
 				'documents'  => 'Документы',
 				'team'       => 'Команда',
@@ -67,6 +50,37 @@ function tolstenko_block_defaults_tab_groups() {
 				'flagship'   => 'Флагманские программы',
 				'europe'     => 'ВНЖ в Европе',
 				'quiz'       => 'Квиз',
+				'seo_section' => 'SEO-наполнение',
+				'comments_cta' => 'Это ещё не конец',
+			),
+		),
+		'post_sliders' => array(
+			'title' => 'Слайдера записей',
+			'tabs'  => array(
+				'case_section'            => 'Кейсы',
+				'reviews'                 => 'Отзывы',
+				'service_section'         => 'Слайдер услуг',
+				'service_section_filters' => 'Слайдер услуг (фильтры)',
+				'blog_section'            => 'Слайдер статей',
+				'blog_section_filters'    => 'Статьи',
+				'services_tiles'          => 'Плитка услуг',
+				'blog_tiles'              => 'Плитка статей',
+			),
+		),
+		// Секции страницы с шаблоном «Contacts page» (блоки доступны только на ней).
+		'contacts' => array(
+			'title' => 'Страница контактов',
+			'tabs'  => array(
+				'contacts'         => 'Контакты',
+				'contacts_maps'    => 'Карты',
+				'contacts_details' => 'Реквизиты',
+			),
+		),
+		// Служебная группа — внизу.
+		'main' => array(
+			'title' => 'Основные блоки',
+			'tabs'  => array(
+				'field_template' => 'Шаблон всех полей',
 			),
 		),
 	);
@@ -83,7 +97,6 @@ function tolstenko_block_defaults_schema_only_keys() {
 		'blog_large_img',
 		'blog_video',
 		'blog_blockquote',
-		'blog_number_list',
 		'blog_warning',
 		'blog_pros_cons',
 		'blog_definition',

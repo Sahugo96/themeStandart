@@ -1,0 +1,37 @@
+// Секция «Плитка услуг» (pages/sections/services-tiles.php).
+// Шапка, фильтр и карточка — общие с «Слайдером услуг» (_services-slider.scss):
+// здесь только плитка 3 в ряд; пагинация — общая .pagination-page (_pagination.scss).
+.services--tiles {
+  --services-tiles-gap: #{vw(16px, $mobile)};
+  @media (min-width: $desk) {
+    --services-tiles-gap: #{vw(20px, $desktop)};
+  }
+  @media (min-width: $desk_large) {
+    --services-tiles-gap: #{vw(20px, $desktop_large)};
+  }
+
+  .services__tiles {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    gap: var(--services-tiles-gap);
+    @media (min-width: $desk) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .services__tile {
+    height: 100%;
+  }
+
+  // Отступ над пагинацией — как у «Плитки статей» (.blog-section__pagination в _blog-tiles.scss).
+  .services__pagination {
+    margin-top: vw(30px, $mobile);
+    @media (min-width: $desk) {
+      margin-top: vw(40px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      margin-top: vw(40px, $desktop_large);
+    }
+  }
+}

@@ -1,29 +1,15 @@
 .banks {
-  // Цвета — из палитры темы. Фон, бейдж, заголовок и текст секции — section--white
-  // и общие section-subtitle / section-title / section-text.
-  --banks-soft: var(--light-bg-50-color);
-  --banks-facts: var(--light-bg-50-color);
-  --banks-gold: var(--accent-color);
-  --banks-dark: var(--main-text-color);
-  --banks-text: var(--gray-50-color);
-  --banks-muted: var(--additional-gray-color);
-  --banks-line: var(--light-bg-color);
-  --banks-border: var(--additional-gray-30-color);
-  --banks-green: var(--button-accent-color);
 
-  // Контекст для стрелок, которые стоят на краях контейнера
   &__stage {
     position: relative;
   }
 
-  // Трек не обрезаем на десктопе: карточки уходят вправо до края экрана
   &__splide .splide__track {
     @media (min-width: $desk) {
       overflow: visible;
     }
   }
 
-  // ----- Карточка банка (ширину задаёт CSS: в Splide включён autoWidth) -----
   &__card {
     display: flex;
     flex-direction: column;
@@ -46,17 +32,12 @@
     justify-content: center;
     min-height: vw(36px, $mobile);
     text-align: center;
-    font-weight: 800;
-    font-size: vw(16px, $mobile);
-    line-height: 1.1;
-    color: var(--banks-dark);
+    color: var(--main-text-color);
     @media (min-width: $desk) {
       min-height: vw(36px, $desktop);
-      font-size: vw(16px, $desktop);
     }
     @media (min-width: $desk_large) {
       min-height: vw(36px, $desktop_large);
-      font-size: vw(16px, $desktop_large);
     }
   }
 
@@ -66,6 +47,8 @@
     justify-content: center;
     height: vw(80px, $mobile);
     margin: vw(16px, $mobile) 0;
+    filter: grayscale(1);
+    transition: filter .35s ease;
     @media (min-width: $desk) {
       height: vw(100px, $desktop);
       margin: vw(20px, $desktop) 0;
@@ -79,6 +62,11 @@
       max-height: 100%;
       object-fit: contain;
     }
+    @media (any-hover: hover) {
+      &:hover {
+        filter: grayscale(0);
+      }
+    }
   }
 
   &__type {
@@ -87,7 +75,7 @@
     justify-content: space-between;
     grid-gap: vw(10px, $mobile);
     padding: vw(8px, $mobile) vw(13px, $mobile) vw(8px, $mobile) vw(10px, $mobile);
-    background-color: var(--banks-soft);
+    background-color: var(--additional-gray-20-color);
     @media (min-width: $desk) {
       grid-gap: vw(10px, $desktop);
       padding: vw(8px, $desktop) vw(15px, $desktop) vw(8px, $desktop) vw(10px, $desktop);
@@ -134,7 +122,7 @@
   &__facts {
     margin-top: vw(10px, $mobile);
     padding: vw(4px, $mobile) vw(20px, $mobile);
-    background-color: var(--banks-facts);
+    background-color: var(--additional-gray-20-color);
     @media (min-width: $desk) {
       margin-top: vw(10px, $desktop);
       padding: vw(4px, $desktop) vw(20px, $desktop);
@@ -157,34 +145,17 @@
       padding: vw(9px, $desktop_large) 0;
     }
     & + & {
-      border-top: 1px solid var(--banks-line);
+      border-top: 1px solid var(--additional-gray-20-color);
     }
   }
 
   &__fact-label {
-    font-size: vw(10px, $mobile);
-    line-height: 1.2;
     text-transform: uppercase;
-    color: var(--banks-muted);
-    @media (min-width: $desk) {
-      font-size: vw(10px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      font-size: vw(10px, $desktop_large);
-    }
+    color: var(--additional-gray-color);
   }
 
   &__fact-value {
-    font-weight: 700;
-    font-size: vw(13px, $mobile);
-    line-height: 1.2;
-    color: var(--banks-dark);
-    @media (min-width: $desk) {
-      font-size: vw(14px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      font-size: vw(14px, $desktop_large);
-    }
+    color: var(--main-text-color);
   }
 
   &__link {
@@ -199,7 +170,7 @@
     line-height: 1.2;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--banks-gold);
+    color: var(--accent-color);
     transition: all 0.3s linear;
     @media (min-width: $desk) {
       grid-gap: vw(10px, $desktop);
@@ -213,7 +184,7 @@
     }
     @media (any-hover: hover) {
       &:hover {
-        color: var(--banks-dark);
+        color: var(--main-text-color);
       }
     }
   }
@@ -249,7 +220,7 @@
     width: vw(48px, $desktop);
     height: vw(48px, $desktop);
     padding: 0;
-    border: 1px solid var(--banks-line);
+    border: 1px solid var(--additional-gray-20-color);
     border-radius: 50%;
     background-color: var(--white-color);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
@@ -263,7 +234,7 @@
       width: vw(20px, $desktop);
       height: auto;
       aspect-ratio: 1/1;
-      stroke: var(--banks-gold);
+      stroke: var(--accent-color);
       @media (min-width: $desk_large) {
         width: vw(20px, $desktop_large);
       }
@@ -285,63 +256,10 @@
     }
     @media (any-hover: hover) {
       &:hover {
-        background-color: var(--banks-gold);
+        background-color: var(--accent-color);
         svg {
           stroke: var(--white-color);
         }
-      }
-    }
-  }
-
-  // ----- Пагинация -----
-  .splide__bottom {
-    display: flex;
-    justify-content: center;
-    margin-top: vw(24px, $mobile);
-    @media (min-width: $desk) {
-      margin-top: vw(40px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      margin-top: vw(40px, $desktop_large);
-    }
-  }
-
-  .splide__pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    grid-gap: vw(8px, $mobile);
-    @media (min-width: $desk) {
-      grid-gap: vw(8px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      grid-gap: vw(8px, $desktop_large);
-    }
-  }
-
-  .splide__pagination__page {
-    width: vw(5px, $mobile);
-    height: vw(5px, $mobile);
-    padding: 0;
-    border: 0;
-    border-radius: 999px;
-    background-color: var(--banks-gold);
-    transition: all 0.3s linear;
-    @media (min-width: $desk) {
-      width: vw(5px, $desktop);
-      height: vw(5px, $desktop);
-    }
-    @media (min-width: $desk_large) {
-      width: vw(5px, $desktop_large);
-      height: vw(5px, $desktop_large);
-    }
-    &.is-active {
-      width: vw(25px, $mobile);
-      @media (min-width: $desk) {
-        width: vw(25px, $desktop);
-      }
-      @media (min-width: $desk_large) {
-        width: vw(25px, $desktop_large);
       }
     }
   }
@@ -359,7 +277,6 @@
     }
   }
 
-  // Кнопка — общий default-btn default-btn--brown (как в «infra»): здесь только ширина и стрелка.
   &__btn {
     @media (min-width: $desk) {
       width: auto;

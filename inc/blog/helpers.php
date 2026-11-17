@@ -450,9 +450,9 @@ function tolstenko_append_blog_comment( $post_id, array $item, $parent_id = '' )
 }
 
 /**
- * Автор статьи для шапки и сайдбара.
- * Приоритет: выбранный в записи → главный автор (Настройки сайта → Авторы статей)
- * → ACF-опции director_* (как было в теме раньше).
+ * Автор статьи для шапки и сайдбара — член команды (inc/blog/authors-admin.php).
+ * Приоритет: выбранный в записи (blog_author_id) → автор по умолчанию (Настройки сайта →
+ * Авторы статей) → первый член команды по порядку.
  *
  * @param int $post_id Post ID.
  * @return array{photo:int,name:string,title:string,description:string,show_quest:bool}
@@ -462,15 +462,11 @@ function tolstenko_get_single_blog_director( $post_id = 0 ) {
 	$quest_raw  = get_post_meta( $post_id, 'single-blog_quest', true );
 	$show_quest = ( $quest_raw === '' || (string) $quest_raw === '1' );
 
-	$author = null;
-	$index  = get_post_meta( $post_id, 'blog_author', true );
-	if ( $index !== '' && $index !== false ) {
-		$author = tolstenko_get_blog_author_by_index( $index );
+	// Автор — член команды, выбранный в статье (blog_author_id), иначе автор по умолчанию.
+	$person = tolstenko_blog_teammate_to_person( (int) get_post_meta( $post_id, 'blog_author_id', true ) );
+	if ( ! $person ) {
+		$person = tolstenko_get_blog_default_author();
 	}
-
-	$person = is_array( $author )
-		? tolstenko_blog_author_to_person( $author )
-		: tolstenko_get_blog_default_author();
 
 	$person['show_quest'] = $show_quest;
 
@@ -478,42 +474,19 @@ function tolstenko_get_single_blog_director( $post_id = 0 ) {
 }
 
 /**
- * Строка автора из настроек → данные для вывода.
- *
- * @param array $author Author row.
- * @return array{photo:int,name:string,title:string,description:string}
- */
-function tolstenko_blog_author_to_person( array $author ) {
-	$title = trim( (string) ( $author['job_title'] ?? '' ) );
-	if ( $title === '' ) {
-		$title = trim( (string) ( $author['position'] ?? '' ) );
-	}
-
-	return array(
-		'photo'       => (int) ( $author['photo'] ?? 0 ),
-		'name'        => trim( (string) ( $author['name'] ?? '' ) ),
-		'title'       => $title,
-		'description' => trim( (string) ( $author['description'] ?? '' ) ),
-	);
-}
-
-/**
- * Автор по умолчанию (сетка статей, статьи без выбранного автора):
- * главный автор → «директор» из ACF-опций темы (как было раньше).
+ * Автор по умолчанию (сетка статей, статьи без выбранного автора): член команды из
+ * «Настройки сайта → Авторы статей», иначе первый член команды по порядку.
  *
  * @return array{photo:int,name:string,title:string,description:string}
  */
 function tolstenko_get_blog_default_author() {
-	$main = tolstenko_get_blog_main_author();
-	if ( is_array( $main ) ) {
-		return tolstenko_blog_author_to_person( $main );
-	}
+	$person = tolstenko_blog_teammate_to_person( tolstenko_get_blog_default_author_id() );
 
-	return array(
-		'photo'       => tolstenko_block_image_id( theme_get_field( 'director_photo', OPTION_ID ) ),
-		'name'        => trim( wp_strip_all_tags( (string) theme_get_field( 'director_name', OPTION_ID ) ) ),
+	return $person ? $person : array(
+		'photo'       => 0,
+		'name'        => '',
 		'title'       => '',
-		'description' => trim( (string) theme_get_field( 'director_text', OPTION_ID ) ),
+		'description' => '',
 	);
 }
 
@@ -576,8 +549,7 @@ function tolstenko_prepare_blog_toc( $html ) {
 			$body  = (string) $matches[3];
 			$text  = trim( wp_strip_all_tags( $body ) );
 
-			// Заголовки внутри плашек статьи (CTA и т.п.) в оглавление не попадают.
-			if ( $text === '' || preg_match( '/class=(["\'])[^"\']*article-cta__title/i', $attrs ) ) {
+			if ( $text === '' ) {
 				return $matches[0];
 			}
 
@@ -618,33 +590,54 @@ function tolstenko_prepare_blog_toc( $html ) {
 }
 
 /**
- * Дата публикации в формате «5 марта, 2026».
+ * Язык, на котором выводятся даты: язык страницы (Polylang), иначе язык сайта.
+ *
+ * @return string Двухбуквенный код (ru, en, …).
+ */
+function tolstenko_get_date_lang() {
+	$lang = function_exists( 'theme_settings_lang' ) ? (string) theme_settings_lang() : '';
+	if ( $lang === '' ) {
+		$lang = substr( (string) determine_locale(), 0, 2 );
+	}
+	return strtolower( $lang );
+}
+
+/**
+ * Дата под язык страницы: «5 марта, 2026» / «5 мар. 2026» на русском,
+ * «March 5, 2026» / «Mar 5, 2026» на других языках (названия месяцев — из перевода WordPress).
+ *
+ * @param int  $timestamp Unix-время.
+ * @param bool $short     Короткое название месяца.
+ * @return string
+ */
+function tolstenko_format_date_label( $timestamp, $short = false ) {
+	$timestamp = (int) $timestamp;
+	if ( $timestamp <= 0 ) {
+		return '';
+	}
+
+	if ( tolstenko_get_date_lang() === 'ru' ) {
+		$months = $short
+			? array( 1 => 'янв.', 'фев.', 'мар.', 'апр.', 'мая', 'июн.', 'июл.', 'авг.', 'сен.', 'окт.', 'ноя.', 'дек.' )
+			: array( 1 => 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' );
+		$month  = $months[ (int) wp_date( 'n', $timestamp ) ];
+		$day    = wp_date( 'j', $timestamp );
+		$year   = wp_date( 'Y', $timestamp );
+
+		return $short ? $day . ' ' . $month . ' ' . $year : $day . ' ' . $month . ', ' . $year;
+	}
+
+	return (string) wp_date( $short ? 'M j, Y' : 'F j, Y', $timestamp );
+}
+
+/**
+ * Дата публикации записи под язык страницы («5 марта, 2026» / «March 5, 2026»).
  *
  * @param int $post_id Post ID.
  * @return string
  */
 function tolstenko_get_blog_date_label( $post_id = 0 ) {
-	$months = array(
-		1  => 'января',
-		2  => 'февраля',
-		3  => 'марта',
-		4  => 'апреля',
-		5  => 'мая',
-		6  => 'июня',
-		7  => 'июля',
-		8  => 'августа',
-		9  => 'сентября',
-		10 => 'октября',
-		11 => 'ноября',
-		12 => 'декабря',
-	);
-
-	$parts = explode( ' ', (string) get_the_date( 'j n Y', $post_id ?: null ) );
-	if ( count( $parts ) !== 3 || empty( $months[ (int) $parts[1] ] ) ) {
-		return (string) get_the_date( '', $post_id ?: null );
-	}
-
-	return $parts[0] . ' ' . $months[ (int) $parts[1] ] . ', ' . $parts[2];
+	return tolstenko_format_date_label( (int) get_post_timestamp( $post_id ?: null ) );
 }
 
 /**

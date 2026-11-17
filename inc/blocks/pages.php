@@ -6,21 +6,10 @@ function theme_get_service_page_id(): int
 {
     static $page_id = null;
 
-    if ($page_id !== null) {
-        return $page_id;
+    if ($page_id === null) {
+        // Страница с шаблоном «Archive service» на текущем языке (656 — запасная).
+        $page_id = theme_get_template_page_id('archive-service.php', 656);
     }
-
-    $pages = get_posts([
-        'post_type'      => 'page',
-        'post_status'    => 'publish',
-        'meta_key'       => '_wp_page_template',
-        'meta_value'     => 'archive-service.php',
-        'posts_per_page' => 1,
-        'fields'         => 'ids',
-        'no_found_rows'  => true,
-    ]);
-
-    $page_id = $pages ? (int) $pages[0] : 656;
 
     return $page_id;
 }
@@ -29,21 +18,10 @@ function theme_get_blog_page_id(): int
 {
     static $page_id = null;
 
-    if ($page_id !== null) {
-        return $page_id;
+    if ($page_id === null) {
+        // Страница с шаблоном «Archive blog» на текущем языке.
+        $page_id = theme_get_template_page_id('archive-blog.php');
     }
-
-    $pages = get_posts([
-        'post_type'      => 'page',
-        'post_status'    => 'publish',
-        'meta_key'       => '_wp_page_template',
-        'meta_value'     => 'archive-blog.php',
-        'posts_per_page' => 1,
-        'fields'         => 'ids',
-        'no_found_rows'  => true,
-    ]);
-
-    $page_id = $pages ? (int) $pages[0] : 0;
 
     return $page_id;
 }

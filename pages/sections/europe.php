@@ -69,8 +69,9 @@ $btn_url = trim((string) $data['btn_url']);
             $benefits = array_values(array_filter(array_map('trim', (array) $benefits_raw), static function ($line) {
                 return $line !== '';
             }));
-            $row_link = trim((string) ($row['link_url'] ?? ''));
-            $row_link_text = trim((string) ($row['link_text'] ?? ''));
+            // Пустая ссылка строки — «ссылка по умолчанию» секции (таб/блок).
+            $row_link = trim((string) ($row['link_url'] ?? '')) ?: $link_url;
+            $row_link_text = trim((string) ($row['link_text'] ?? '')) ?: $link_text;
           ?>
             <tr class="europe__row">
               <td class="europe__cell europe__cell--country">

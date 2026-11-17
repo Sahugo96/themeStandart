@@ -1,0 +1,73 @@
+// Секция «Плитка отзывов» (pages/sections/reviews-tiles.php) — копия «Отзывов»
+// (_reviews.scss) без слайдеров: контейнер слайдера .reviews__splide заменён на
+// .reviews__tiles — карточки flex-плиткой с переносом. Колонки — как perPage
+// слайдеров (modules/reviewsSplideInit.js): текстовые и видео по 3, мессенджеры по 5;
+// на мобильных — 1, 1 и 2. Остальные стили карточек — общие из .reviews.
+.reviews-tiles {
+  --reviews-tiles-gap: #{vw(16px, $mobile)};
+  @media (min-width: $desk) {
+    --reviews-tiles-gap: #{vw(20px, $desktop)};
+  }
+  @media (min-width: $desk_large) {
+    --reviews-tiles-gap: #{vw(20px, $desktop_large)};
+  }
+
+  // Табы переключают плитки (как слайдеры в «Отзывах»).
+  .reviews__tiles {
+    display: none;
+  }
+  &:has(.reviews__label > input[value='thenks']:checked) .reviews__tiles--thenks,
+  &:has(.reviews__label > input[value='video']:checked) .reviews__tiles--video,
+  &:has(.reviews__label > input[value='text']:checked) .reviews__tiles--text {
+    display: block;
+  }
+
+  .reviews__tiles .reviews__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--reviews-tiles-gap);
+  }
+
+  .reviews__tiles .reviews__list-item {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .reviews__tiles--text .reviews__list-item,
+  .reviews__tiles--video .reviews__list-item {
+    @media (min-width: $desk) {
+      flex-basis: calc((100% - 2 * var(--reviews-tiles-gap)) / 3);
+      width: calc((100% - 2 * var(--reviews-tiles-gap)) / 3);
+    }
+  }
+
+  .reviews__tiles--thenks .reviews__list-item {
+    flex-basis: calc((100% - var(--reviews-tiles-gap)) / 2);
+    width: calc((100% - var(--reviews-tiles-gap)) / 2);
+    @media (min-width: $desk) {
+      flex-basis: calc((100% - 4 * var(--reviews-tiles-gap)) / 5);
+      width: calc((100% - 4 * var(--reviews-tiles-gap)) / 5);
+    }
+  }
+
+  // Карточка видео — как в слайдере (.reviews__splide--video … .splide__slide).
+  .reviews__tiles--video .reviews__list-item {
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: vw(15px, $mobile);
+    background-color: var(--gray-12-color);
+    @media (min-width: $desk) {
+      border-radius: vw(15px, $desktop);
+    }
+    @media (min-width: $desk_large) {
+      border-radius: vw(15px, $desktop_large);
+    }
+  }
+}

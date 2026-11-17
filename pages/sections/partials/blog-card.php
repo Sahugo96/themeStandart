@@ -30,13 +30,7 @@ $post_id = get_the_ID();
 
       if ($tags && !is_wp_error($tags)) :
         $tags = array_slice($tags, 0, 2);
-        $months = [
-          1 => 'января', 2 => 'февраля', 3 => 'марта', 4 => 'апреля',
-          5 => 'мая', 6 => 'июня', 7 => 'июля', 8 => 'августа',
-          9 => 'сентября', 10 => 'октября', 11 => 'ноября', 12 => 'декабря',
-        ];
-        $date_parts = explode(' ', get_the_date('j n Y'));
-        $date_label = $date_parts[0] . ' ' . $months[(int) $date_parts[1]] . ', ' . $date_parts[2];
+        $date_label = tolstenko_get_blog_date_label(get_the_ID());
       ?>
         <div class="blog-card__tags">
           <?php foreach ($tags as $tag) : ?>

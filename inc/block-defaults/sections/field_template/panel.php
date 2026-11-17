@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			)
 		);
 ?>
-<div class="tolstenko-df-panel" data-panel="field_template">
+<div class="tolstenko-df-panel" data-panel="field_template" data-group="main">
 			<p class="description"><?php esc_html_e( 'Эталонная панель со всеми типами полей: чекбокс, текстовое поле, текстовая область, визуальный редактор, изображение, повторитель, множественный выбор записей и выбор одной записи. Ключ панели (field_template) совпадает с ключом блока my-theme/field-template.', 'tolstenko-theme' ); ?></p>
 			<div class="muted"><?php esc_html_e( '0. Чекбокс', 'tolstenko-theme' ); ?></div>
 			<div class="row">
