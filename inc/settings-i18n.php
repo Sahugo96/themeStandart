@@ -546,65 +546,114 @@ function theme_settings_ru_post_ids( $data ) {
 	return $data;
 }
 
+/**
+ * Доля кириллицы среди букв в текстах настроек (теги, ссылки и почта не считаются).
+ *
+ * @param mixed $data Данные опции.
+ * @return float|null null — текста слишком мало, чтобы судить.
+ */
+function theme_settings_cyrillic_share( $data ) {
+	$text = '';
+	array_walk_recursive(
+		$data,
+		static function ( $value ) use ( &$text ) {
+			if ( is_string( $value ) ) {
+				$text .= ' ' . $value;
+			}
+		}
+	);
+	$text = wp_strip_all_tags( $text );
+	$text = preg_replace( '~(https?://|www\.)\S+|\S+@\S+~iu', ' ', $text );
+
+	$cyr = preg_match_all( '/\p{Cyrillic}/u', (string) $text );
+	$lat = preg_match_all( '/[a-z]/i', (string) $text );
+
+	if ( $cyr + $lat < 40 ) {
+		return null;
+	}
+
+	return $cyr / ( $cyr + $lat );
+}
+
+/**
+ * Общая опция хранит другой язык, а русский — в копии «…_ru»?
+ * Либо так записано в theme_settings_main_lang, либо это видно по самим текстам:
+ * если английский удалить в Polylang, основным языком настроек становится «ru»,
+ * хотя общие опции всё ещё английские (раньше из-за этого миграция не запускалась).
+ *
+ * @param array $base Общая опция.
+ * @param array $ru   Копия «…_ru».
+ * @param string $main theme_settings_main_lang.
+ * @return bool
+ */
+function theme_settings_base_is_foreign( $base, $ru, $main ) {
+	if ( $main !== '' && $main !== 'ru' ) {
+		return true;
+	}
+
+	$base_share = theme_settings_cyrillic_share( $base );
+	$ru_share   = theme_settings_cyrillic_share( $ru );
+
+	return $base_share !== null && $ru_share !== null && $base_share < 0.5 && $ru_share >= 0.5;
+}
+
 add_action( 'init', 'theme_settings_make_ru_main', 20 );
 function theme_settings_make_ru_main() {
 	$main = (string) get_option( 'theme_settings_main_lang', '' );
-	if ( $main === '' || $main === 'ru' ) {
-		return;
-	}
+	// Язык, под которым сохранить прежние общие опции.
+	$old_lang = ( $main !== '' && $main !== 'ru' ) ? $main : 'en';
 
 	$options = array(
 		'tolstenko_block_defaults' => theme_settings_post_id_keys(),
 		'tolstenko_contact_data'   => function_exists( 'tolstenko_contact_data_shared_keys' ) ? tolstenko_contact_data_shared_keys() : array(),
 	);
 
-	// Русских копий нет — менять нечего (русский язык настроек не заводили).
-	$has_ru = false;
-	foreach ( array_keys( $options ) as $base_option ) {
-		if ( get_option( $base_option . '_ru', null ) !== null ) {
-			$has_ru = true;
-		}
-	}
-	if ( ! $has_ru ) {
-		return;
-	}
+	$changed = false;
 
 	foreach ( $options as $base_option => $shared_keys ) {
+		// Русской копии нет — менять нечего (русский язык настроек не заводили).
+		$ru = get_option( $base_option . '_ru', null );
+		if ( ! is_array( $ru ) || ! $ru ) {
+			continue;
+		}
+
 		$base = get_option( $base_option, null );
-		$ru   = get_option( $base_option . '_ru', null );
 		$base = is_array( $base ) ? $base : array();
 
-		// Русский целиком: сохранённый перевод поверх прежнего основного (общие поля — из него).
-		if ( is_array( $ru ) && $ru ) {
-			if ( ! empty( $ru[ THEME_SETTINGS_FULL_MARK ] ) ) {
-				unset( $ru[ THEME_SETTINGS_FULL_MARK ] );
-				$new_base = (array) theme_settings_overlay( $base, $ru );
-			} else {
-				$new_base = (array) theme_settings_merge( $base, $ru );
-			}
-		} else {
-			$new_base = $base;
+		$ru_full = ! empty( $ru[ THEME_SETTINGS_FULL_MARK ] );
+		unset( $ru[ THEME_SETTINGS_FULL_MARK ] );
+
+		if ( ! theme_settings_base_is_foreign( $base, $ru, $main ) ) {
+			continue;
 		}
+
+		// Русский целиком: сохранённый перевод поверх прежнего основного (общие поля — из него).
+		$new_base = $ru_full
+			? (array) theme_settings_overlay( $base, $ru )
+			: (array) theme_settings_merge( $base, $ru );
 		$new_base = theme_settings_ru_post_ids( $new_base );
 
 		// Прежний основной язык — копией, как обычный перевод (без общих полей).
 		if ( $base ) {
-			$old            = theme_settings_strip_keys( $base, $shared_keys );
+			$old = theme_settings_strip_keys( $base, $shared_keys );
 			$old[ THEME_SETTINGS_FULL_MARK ] = 1;
-			update_option( $base_option . '_' . $main, $old, false );
+			update_option( $base_option . '_' . $old_lang, $old, false );
 		}
 
 		update_option( $base_option, $new_base, false );
 		delete_option( $base_option . '_ru' );
+		$changed = true;
 	}
 
-	// Автор статей по умолчанию — русская версия члена команды.
-	$author = (int) get_option( 'tolstenko_blog_default_teammate', 0 );
-	if ( $author > 0 ) {
-		update_option( 'tolstenko_blog_default_teammate', theme_settings_ru_post_id( $author ), false );
-	}
+	if ( $changed ) {
+		// Автор статей по умолчанию — русская версия члена команды.
+		$author = (int) get_option( 'tolstenko_blog_default_teammate', 0 );
+		if ( $author > 0 ) {
+			update_option( 'tolstenko_blog_default_teammate', theme_settings_ru_post_id( $author ), false );
+		}
 
-	update_option( 'theme_settings_main_lang', 'ru', true );
+		update_option( 'theme_settings_main_lang', 'ru', true );
+	}
 }
 
 /**
